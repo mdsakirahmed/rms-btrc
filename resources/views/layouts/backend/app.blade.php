@@ -3,6 +3,7 @@
 
 <head>
     @include('layouts.backend.partials.head')
+    @livewireStyles
 </head>
 
 <body class="skin-default fixed-layout">
@@ -79,6 +80,7 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     @include('layouts.backend.partials.foot')
+    @livewireScripts
 </body>
 
 </html>

@@ -22,7 +22,7 @@
         <!-- CONTENT END -->
 
         <!-- FOOTER START -->
-        @include('layouts.frontend.partials.footer')
+        {{-- @include('layouts.frontend.partials.footer') --}}
         <!-- FOOTER END -->
 
 

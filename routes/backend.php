@@ -10,3 +10,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
+
+Route::get('permission-management', function(){
+    return view('backend.permission.index');
+})->middleware(['auth'])->name('permission-management');

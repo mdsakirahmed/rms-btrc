@@ -32,14 +32,10 @@
             <ul id="sidebarnav">
                 <li class="nav-small-cap">--- Crypto</li>
                 <li> <a class="waves-effect waves-dark" href="{{ route('dashboard') }}" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
-                <li> <a class="waves-effect waves-dark" href="{{ route('permission-management') }}" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Permission</span></a></li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Parent</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li><a href="#">General </a></li>
-                        <li><a href="#">Trading</a></li>
-                    </ul>
-                </li>
-               <li> <a class="waves-effect waves-dark" href="#" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Item</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('user-permission.index') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Role & Permission</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('role.index') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Role Management</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('role.create') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Create new Role</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('product.index') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Product</span></a></li>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

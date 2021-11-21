@@ -20,7 +20,7 @@ class RoleAndPermissionSeeder extends Seeder
         $user_role  = Role::create(['name' => 'user']);
 
         //Permission
-        $permission = Permission::create(['name' => 'role and permission management']);
+        $permission = Permission::create(['name' => 'manage user permission']);
         $permission->assignRole($admin_role);
         $permission = Permission::create(['name' => 'user management']);
         $permission->assignRole($admin_role);

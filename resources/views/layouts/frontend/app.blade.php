@@ -29,7 +29,7 @@
         <!-- BUTTON TOP START -->
         <button class="scroltop"><span class=" iconmoon-house relative" id="btn-vibrate"></span>Top</button>
 
-        @include('layouts.frontend.partials.modal')
+        {{-- @include('layouts.frontend.partials.modal') --}}
 
     </div>
 
@@ -49,7 +49,7 @@
 @include('layouts.frontend.partials.foot')
 
 <!-- STYLE SWITCHER  ======= -->
-@include('layouts.frontend.partials.styleswitcher')
+{{-- @include('layouts.frontend.partials.styleswitcher') --}}
 <!-- STYLE SWITCHER END ==== -->
 
 </body>

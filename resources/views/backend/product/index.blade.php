@@ -21,7 +21,9 @@
             <div class="card-body text-center">
                 <form method="POST" action="{{ route('product.import') }}" class="input-form" enctype="multipart/form-data">
                     @csrf
-                    <label class="control-label mt-3">For perfect import you are requested to <a href="{{ asset('sample/sample-products.xlsx') }}" download>download</a> the sample. or <a href="{{ route('product.export') }}">Export All Data</a> the sample</label>
+                    <label class="control-label mt-3">@can('product import') For perfect import you are requested to <a href="{{ asset('sample/sample-products.xlsx') }}" download>download</a> the sample. or @endcan @can('product export')
+                    <a href="{{ route('product.export') }}">Export All Data</a> @endcan </label>
+                    @can('product import')
                     <div class="row">
                         <div class="col-lg-3"></div>
                         <div class="col-lg-6">
@@ -38,6 +40,7 @@
                             @enderror
                         </div>
                     </div>
+                    @endcan
                 </form>
             </div>
         </div>

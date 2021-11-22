@@ -30,12 +30,15 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <li class="nav-small-cap">--- Crypto</li>
+                <li class="nav-small-cap">--- BTRC</li>
                 <li> <a class="waves-effect waves-dark" href="{{ route('dashboard') }}" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
+                @can('manage user permission')
                 <li> <a class="waves-effect waves-dark" href="{{ route('user-permission.index') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Role & Permission</span></a></li>
                 <li> <a class="waves-effect waves-dark" href="{{ route('role.index') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Role Management</span></a></li>
-                <li> <a class="waves-effect waves-dark" href="{{ route('role.create') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Create new Role</span></a></li>
+                @endcan
+                @can('product list')
                 <li> <a class="waves-effect waves-dark" href="{{ route('product.index') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Product</span></a></li>
+                @endcan  
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

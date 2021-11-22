@@ -25,6 +25,6 @@ Route::post('/role/create', [RoleController::class, 'store'])->name('role.store'
 Route::get('/role/edit/{id}', [RoleController::class, 'edit'])->name('role.edit')->middleware(['permission:manage user permission']);
 Route::patch('/role/edit/{id}', [RoleController::class, 'update'])->name('role.update')->middleware(['permission:manage user permission']);
 Route::delete('/role/{id}', [RoleController::class, 'destroy'])->name('role.destroy')->middleware(['permission:manage user permission']);
-Route::get('product', [ProductController::class, 'index'])->middleware(['auth'])->name('product.index');
-Route::get('product-export', [ProductController::class, 'export'])->middleware(['auth'])->name('product.export');
-Route::post('product-import', [ProductController::class, 'import'])->middleware(['auth'])->name('product.import');
+Route::get('product', [ProductController::class, 'index'])->middleware(['auth'])->name('product.index')->middleware(['permission:product list']);
+Route::get('product-export', [ProductController::class, 'export'])->middleware(['auth'])->name('product.export')->middleware(['permission:product export']);
+Route::post('product-import', [ProductController::class, 'import'])->middleware(['auth'])->name('product.import')->middleware(['permission:product import']);

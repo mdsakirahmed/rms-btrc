@@ -42,6 +42,9 @@
                 @can('user')
                 <li> <a class="waves-effect waves-dark" href="{{ route('user') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">User</span></a></li>
                 @endcan  
+                @can('document')
+                <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
+                @endcan  
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

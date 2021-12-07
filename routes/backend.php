@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserPermissionController;
+use App\Http\Livewire\Document;
 use App\Http\Livewire\User;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 | Backend Web Routes
 |--------------------------------------------------------------------------
 */
+Route::middleware('auth')->group(function () {
+    
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
@@ -32,3 +35,6 @@ Route::post('product-import', [ProductController::class, 'import'])->middleware(
 
 // Livewire
 Route::get('user', User::class)->name('user');
+Route::get('document', Document::class)->name('document');
+
+});

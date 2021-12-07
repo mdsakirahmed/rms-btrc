@@ -9,43 +9,65 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item active">User Page</li>
                 </ol>
-                <button type="button" class="btn btn-dark d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>
+                <button type="button" class="btn btn-dark d-none d-lg-block m-l-15" wire:click="showForm"><i class="fa fa-plus-circle"></i>
                     Create New</button>
             </div>
         </div>
     </div>
 
     <div class="row">
+        @if ($form)
         <div class="col-12">
             <div class="card">
-                <div class="card-body text-center">
-                    <form method="POST" class="input-form" enctype="multipart/form-data">
-                        <label class="control-label mt-3">@can('product import') For perfect import you are requested to
-                            <a href="{{ asset('sample/sample-products.xlsx') }}" download>download</a> the sample. or
-                            @endcan @can('product export')
-                            <a href="{{ route('product.export') }}">Export All Data</a> @endcan </label>
-                        @can('product import')
-                        <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-lg-6">
-                                <div class="input-group mb-3">
-                                    <input type="file" class="form-control" name="file" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-info text-white" type="submit">Import Now!</button>
-                                    </div>
-                                </div>
-                                @error('file')
+                <div class="card-body">
+                    <form wire:submit.prevent="submit">
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Mr. Example Name" wire:model="name">
+                                @error('name')
                                 <div class="alert alert-danger" role="alert">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
+                          <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="example@email.com" wire:model="email">
+                            @error('email')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password" wire:model="password">
+                            @error('password')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
                         </div>
-                        @endcan
-                    </form>
+                        @foreach ($roles as $role)
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="role" id="role-{{ $role->id }}" value="{{ $role->id }}" wire:model="role">
+                            <label class="form-check-label" for="role-{{ $role->id }}">{{ $role->name }}</label>
+                        </div>
+                        @endforeach
+                        @error('role')
+                        <div class="alert alert-danger" role="role">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                        <br>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                      </form>
                 </div>
             </div>
         </div>
+        @endif
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -55,8 +77,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,8 +86,8 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->price }}</td>
-                                    <td>{{ $user->quantity }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->roles()->first()->name ?? '_' }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

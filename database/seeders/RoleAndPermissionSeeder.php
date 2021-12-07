@@ -24,5 +24,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'product list'])->assignRole($admin_role);
         Permission::create(['name' => 'product export'])->assignRole($admin_role);
         Permission::create(['name' => 'product import'])->assignRole($admin_role);
+        Permission::create(['name' => 'user'])->assignRole($admin_role);
+        Permission::create(['name' => 'document'])->assignRole($admin_role);
     }
 }

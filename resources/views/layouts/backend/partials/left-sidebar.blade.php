@@ -39,6 +39,9 @@
                 @can('product list')
                 <li> <a class="waves-effect waves-dark" href="{{ route('product.index') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Product</span></a></li>
                 @endcan  
+                @can('user')
+                <li> <a class="waves-effect waves-dark" href="{{ route('user') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">User</span></a></li>
+                @endcan  
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

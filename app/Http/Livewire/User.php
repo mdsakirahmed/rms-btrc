@@ -11,7 +11,7 @@ class User extends Component
     public $form = null;
 
     public $users, $roles;
-    public $name, $email, $password, $role;
+    public $name, $email, $password, $role, $selected_user_id;
 
     public function showForm()
     {
@@ -22,46 +22,42 @@ class User extends Component
     {
         $this->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email,'.$this->selected_user_id,
             'password' => 'required|string|min:4',
             'role' => 'required',
         ]);
-        $user = ModelsUser::create([
+        $user = ModelsUser::updateOrCreate([
+            'id' => $this->selected_user_id
+        ], [
             'name' => $this->name,
             'email' => $this->email,
             'password' => bcrypt($this->password),
         ]);
-        $user->assignRole($this->role);
-        $this->name = $this->email = $this->password = $this->role = $this->form = null;
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'User Created Successfully!']);
+        $user->syncRoles($this->role);
+        $this->name = $this->email = $this->password = $this->role = $this->form = $this->selected_user_id = null;
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'User Successfully Done!']);
     }
 
-    public function alertSuccess()
-    {
-        $this->dispatchBrowserEvent('alert', 
-                ['type' => 'success',  'message' => 'User Created Successfully!']);
+    public function selectForEdit(ModelsUser $user){
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->role = $user->roles()->first()->id ?? null;
+        $this->form = true;
+        $this->selected_user_id = $user->id;
     }
-  
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function alertError()
-    {
-        $this->dispatchBrowserEvent('alert', 
-                ['type' => 'error',  'message' => 'Something is Wrong!']);
+
+    public function selectForDelete(ModelsUser $user){
+        $this->selected_user_id = $user->id;
     }
-  
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function alertInfo()
-    {
-        $this->dispatchBrowserEvent('alert', 
-                ['type' => 'info',  'message' => 'Going Well!']);
+
+    public function destroy(){
+        if($this->selected_user_id == auth()->user()->id){
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'You can\'t delete your self!']);
+        }else{
+            ModelsUser::find($this->selected_user_id)->delete();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);
+        }
+        $this->selected_user_id = null;
     }
     
     public function mount(){

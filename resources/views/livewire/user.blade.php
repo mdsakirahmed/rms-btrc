@@ -79,6 +79,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,6 +89,10 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->roles()->first()->name ?? '_' }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $user->id }})">Edit</button>
+                                        <button type="button" class="btn btn-danger text-white" wire:click="selectForDelete({{ $user->id }})" onclick="openModal()"> Delete </button>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -97,4 +102,25 @@
             </div>
         </div>
     </div>
+
+  <!-- Modal -->
+  <div wire:ignore.self class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+         <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt="Delete"> <br>
+         <button type="button" class="btn btn-danger text-white" wire:click="destroy" onclick="closeModal()"> Confirm Delete </button>
+         <button type="button" class="btn btn-secondary close-btn" onclick="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    function openModal() {
+        $('#delete_modal').modal('show');
+    }
+    function closeModal() {
+        $('#delete_modal').modal('hide');
+    } 
+</script>
 </div>

@@ -4,10 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Document as ModelsDocument;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Document extends Component
 {
-    public $documents, $form;
+    use WithFileUploads;
+    
+    public $documents, $form, $selected_document_id, $name, $file;
 
     public function showForm()
     {
@@ -18,26 +21,21 @@ class Document extends Component
     {
         $this->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:documents,email,'.$this->selected_document_id,
-            'password' => 'required|string|min:4',
-            'role' => 'required',
+            'file' => 'required',
         ]);
         $document = ModelsDocument::updateOrCreate([
             'id' => $this->selected_document_id
         ], [
             'name' => $this->name,
-            'email' => $this->email,
-            'password' => bcrypt($this->password),
+            'file' => 'storage/'.$this->file->store('documents', 'public'),
         ]);
-        $document->syncRoles($this->role);
-        $this->name = $this->email = $this->password = $this->role = $this->form = $this->selected_document_id = null;
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'document Successfully Done!']);
+        $this->name = $this->file = $this->form = $this->selected_document_id = null;
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Document Successfully Done!']);
     }
 
     public function selectForEdit(ModelsDocument $document){
         $this->name = $document->name;
-        $this->email = $document->email;
-        $this->role = $document->roles()->first()->id ?? null;
+        $this->file = $document->file;
         $this->form = true;
         $this->selected_document_id = $document->id;
     }
@@ -58,6 +56,7 @@ class Document extends Component
 
     public function render()
     {
+        $this->documents = ModelsDocument::latest()->get();
         return view('livewire.document')->layout('layouts.backend.app');
     }
 }

@@ -32,18 +32,9 @@
                                 @enderror
                             </div>
                           <div class="form-group col-md-6">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="example@email.com" wire:model="email">
-                            @error('email')
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password" wire:model="password">
-                            @error('password')
+                            <label for="file">File</label>
+                            <input type="file" class="form-control" id="file" wire:model="file">
+                            @error('file')
                             <div class="alert alert-danger" role="alert">
                                 {{ $message }}
                             </div>
@@ -51,7 +42,7 @@
                           </div>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
                       </form>
                 </div>
             </div>
@@ -66,8 +57,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
+                                    <th>File</th>
+                                    <th>Upload at</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -76,8 +67,14 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $document->name }}</td>
-                                    <td>{{ $document->email }}</td>
-                                    <td>{{ $document->created_at->format('d/m/Y h:i A') }}</td>
+                                    <td>
+                                        @if (file_exists($document->file))
+                                            <a href="{{ asset($document->file) }}" download class="text-success">Download</a>
+                                        @else
+                                            <p class="text-danger">File Deleted</p>
+                                        @endif
+                                    </td>
+                                    <td title="{{ $document->created_at->format('d/m/Y h:i A') }}">{{ $document->created_at->diffForHumans() }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $document->id }})">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="selectForDelete({{ $document->id }})" onclick="openModal()"> Delete </button>

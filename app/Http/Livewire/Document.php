@@ -15,27 +15,33 @@ class Document extends Component
     public function showForm()
     {
         $this->form = true;
+        $this->name = $this->file = $this->selected_user_id = null;
     }
 
     public function submit()
     {
         $this->validate([
             'name' => 'required|string',
-            'file' => 'required',
+            'file' => 'nullable|file',
         ]);
-        $document = ModelsDocument::updateOrCreate([
-            'id' => $this->selected_document_id
-        ], [
-            'name' => $this->name,
-            'file' => 'storage/'.$this->file->store('documents', 'public'),
-        ]);
+        if($this->selected_document_id){
+            $document_model = ModelsDocument::find($this->selected_document_id);
+        }else{
+            $document_model = new ModelsDocument;
+        }
+        $document_model->name =  $this->name;
+        if($this->file){
+            $document_model->file = 'storage/'.$this->file->store('documents', 'public');
+        }
+        $document_model->save();
         $this->name = $this->file = $this->form = $this->selected_document_id = null;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Document Successfully Done!']);
     }
 
     public function selectForEdit(ModelsDocument $document){
         $this->name = $document->name;
-        $this->file = $document->file;
+        // $this->file = $document->file;
+        $this->file = null;
         $this->form = true;
         $this->selected_document_id = $document->id;
     }

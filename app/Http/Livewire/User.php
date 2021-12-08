@@ -16,6 +16,7 @@ class User extends Component
     public function showForm()
     {
         $this->form = true;
+        $this->name = $this->email = $this->password = $this->role = $this->selected_user_id = null;
     }
 
     public function submit()

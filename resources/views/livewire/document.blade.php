@@ -24,7 +24,7 @@
                         <div class="form-row row">
                             <div class="form-group col-md-6">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Mr. Example Name" wire:model="name">
+                                <input type="text" class="form-control" id="name" placeholder="Example Document" wire:model="name">
                                 @error('name')
                                 <div class="alert alert-danger" role="alert">
                                     {{ $message }}

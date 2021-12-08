@@ -20,13 +20,17 @@ class Document extends Component
 
     public function submit()
     {
-        $this->validate([
-            'name' => 'required|string',
-            'file' => 'nullable|file',
-        ]);
         if($this->selected_document_id){
+            $this->validate([
+                'name' => 'required|string',
+                'file' => 'nullable|file',
+            ]);
             $document_model = ModelsDocument::find($this->selected_document_id);
         }else{
+            $this->validate([
+                'name' => 'required|string',
+                'file' => 'required|file',
+            ]);
             $document_model = new ModelsDocument;
         }
         $document_model->name =  $this->name;

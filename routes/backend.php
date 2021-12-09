@@ -5,6 +5,9 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserPermissionController;
 use App\Http\Livewire\Document;
+use App\Http\Livewire\LicenseCategory;
+use App\Http\Livewire\LicenseSubCategory;
+use App\Http\Livewire\Operator;
 use App\Http\Livewire\User;
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +39,8 @@ Route::post('product-import', [ProductController::class, 'import'])->middleware(
 // Livewire
 Route::get('user', User::class)->name('user');
 Route::get('document', Document::class)->name('document');
+Route::get('license-category', LicenseCategory::class)->name('licenseCategory');
+Route::get('license-sub-category', LicenseSubCategory::class)->name('licenseSubCategory');
+Route::get('operator', Operator::class)->name('operator');
 
 });

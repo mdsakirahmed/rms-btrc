@@ -45,6 +45,15 @@
                 @can('document')
                 <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
                 @endcan  
+                @can('license category')
+                <li> <a class="waves-effect waves-dark" href="{{ route('licenseCategory') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">License Category</span></a></li>
+                @endcan  
+                @can('license sub category')
+                <li> <a class="waves-effect waves-dark" href="{{ route('licenseSubCategory') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">License Sub Category</span></a></li>
+                @endcan  
+                @can('operator')
+                <li> <a class="waves-effect waves-dark" href="{{ route('operator') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Operator</span></a></li>
+                @endcan  
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

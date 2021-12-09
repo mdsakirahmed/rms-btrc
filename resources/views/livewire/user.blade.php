@@ -49,6 +49,15 @@
                             </div>
                             @enderror
                           </div>
+                          <div class="form-group col-md-6">
+                            <label for="password_confirmation">Password</label>
+                            <input type="password" class="form-control" id="password_confirmation" placeholder="Confirm Password" wire:model="password_confirmation">
+                            @error('password_confirmation')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
                         </div>
                         @foreach ($roles as $role)
                         <div class="form-check form-check-inline">

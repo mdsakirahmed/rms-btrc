@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Wildside\Userstamps\Userstamps;
 
-class StaticOption extends Model
+class LicenseSubCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, Userstamps;
     
     protected $fillable = [
-        'option_name',
-        'option_value'
+        'name'
     ];
 }

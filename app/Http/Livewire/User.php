@@ -11,7 +11,7 @@ class User extends Component
     public $form = null;
 
     public $users, $roles;
-    public $name, $email, $password, $role, $selected_user_id;
+    public $name, $email, $password, $role, $selected_user_id, $password_confirmation;
 
     public function showForm()
     {
@@ -24,7 +24,8 @@ class User extends Component
         $this->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email,'.$this->selected_user_id,
-            'password' => 'required|string|min:4',
+            'password' => 'required|string|min:4|confirmed',
+            'password_confirmation' => 'required',
             'role' => 'required',
         ]);
         $user = ModelsUser::updateOrCreate([

@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Operator as ModelsOperator;
+use App\Models\PaymentReceive as ModelsPaymentReceive;
 use Livewire\Component;
 
-class Operator extends Component
+class PaymentReceive extends Component
 {
-    public $operators, $form, $selected_id;
+    public $paymentReceives, $form, $selected_id;
 
     public function showForm()
     {
@@ -21,9 +21,9 @@ class Operator extends Component
             'name' => 'required|string',
         ]);
         if($this->selected_id){
-            $model = ModelsOperator::find($this->selected_id);
+            $model = ModelsPaymentReceive::find($this->selected_id);
         }else{
-            $model = new ModelsOperator;
+            $model = new ModelsPaymentReceive;
         }
         $model->name =  $this->name;
         $model->save();
@@ -31,29 +31,29 @@ class Operator extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Done!']);
     }
 
-    public function selectForEdit(ModelsOperator $operator){
-        $this->name = $operator->name;
+    public function selectForEdit(ModelsPaymentReceive $paymentReceive){
+        $this->name = $paymentReceive->name;
         $this->form = true;
-        $this->selected_id = $operator->id;
+        $this->selected_id = $paymentReceive->id;
     }
 
-    public function selectForDelete(ModelsOperator $operator){
-        $this->selected_id = $operator->id;
+    public function selectForDelete(ModelsPaymentReceive $paymentReceive){
+        $this->selected_id = $paymentReceive->id;
     }
 
     public function destroy(){
-        ModelsOperator::find($this->selected_id)->delete();
+        ModelsPaymentReceive::find($this->selected_id)->delete();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);
         $this->selected_id = null;
     }
     
     public function mount(){
-        $this->operators = ModelsOperator::latest()->get();
+        $this->paymentReceives = ModelsPaymentReceive::latest()->get();
     }
 
     public function render()
     {
-        $this->operators = ModelsOperator::latest()->get();
-        return view('livewire.operator')->layout('layouts.backend.app');
+        $this->paymentReceives = ModelsPaymentReceive::latest()->get();
+        return view('livewire.payment-receive')->layout('layouts.backend.app');
     }
 }

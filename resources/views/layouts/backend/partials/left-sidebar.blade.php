@@ -54,6 +54,9 @@
                 @can('operator')
                 <li> <a class="waves-effect waves-dark" href="{{ route('operator') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Operator</span></a></li>
                 @endcan  
+                @can('payment receive')
+                <li> <a class="waves-effect waves-dark" href="{{ route('paymentReceive') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
+                @endcan  
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

@@ -14,6 +14,6 @@ class PermissionManagement extends Component
     }
     public function render()
     {
-        return view('livewire.permission-management');
+        return view('livewire.permission-management')->layout('layouts.backend.app');
     }
 }

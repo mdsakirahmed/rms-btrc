@@ -9,6 +9,8 @@ use App\Http\Livewire\LicenseCategory;
 use App\Http\Livewire\LicenseSubCategory;
 use App\Http\Livewire\Operator;
 use App\Http\Livewire\PaymentReceive;
+use App\Http\Livewire\ReceiveFee;
+use App\Http\Livewire\ReceivePeriod;
 use App\Http\Livewire\User;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +45,8 @@ Route::get('document', Document::class)->name('document');
 Route::get('license-category', LicenseCategory::class)->name('licenseCategory');
 Route::get('license-sub-category', LicenseSubCategory::class)->name('licenseSubCategory');
 Route::get('operator', Operator::class)->name('operator');
+Route::get('receiver-fee', ReceiveFee::class)->name('receiver-fee');
+Route::get('receiver-period', ReceivePeriod::class)->name('receiver-period');
 Route::get('payment-receive', PaymentReceive::class)->name('paymentReceive');
 
 });

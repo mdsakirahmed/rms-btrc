@@ -72,31 +72,31 @@
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label">Receivable Amount</label>
-                                            <input wire:model="receivable_amount" type="text" id="" class="form-control form-control-danger" placeholder="">
+                                            <input wire:model="receivable_amount" type="number" id="" class="form-control form-control-danger" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label">Receive Date</label>
-                                            <input wire:model="receive_date" type="text" id="" class="form-control form-control-danger" placeholder="">
+                                            <input wire:model="receive_date" type="date" id="" class="form-control form-control-danger" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label">Receive Amount</label>
-                                            <input wire:model="receive_amount" type="text" id="" class="form-control form-control-danger" placeholder="">
+                                            <input wire:model="receive_amount" type="number" id="" class="form-control form-control-danger" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label">Receive VAT</label>
-                                            <input wire:model="receive_vat" type="text" id="" class="form-control form-control-danger" placeholder="">
+                                            <input wire:model="receive_vat" type="number" id="" class="form-control form-control-danger" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label">Late Fee</label>
-                                            <input wire:model="receive_let_fee" type="text" id="" class="form-control form-control-danger" placeholder="">
+                                            <input wire:model="receive_let_fee" type="number" id="" class="form-control form-control-danger" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-center">

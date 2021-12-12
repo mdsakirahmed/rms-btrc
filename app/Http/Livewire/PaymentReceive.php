@@ -2,39 +2,61 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\LicenseCategory;
+use App\Models\LicenseSubCategory;
+use App\Models\Operator;
 use App\Models\PaymentReceive as ModelsPaymentReceive;
 use Livewire\Component;
 
 class PaymentReceive extends Component
 {
     public $paymentReceives, $form, $selected_id;
+    public $licenseCategories, $licenseSubCategories, $operators,
+    $license_category_id, $license_sub_category_id, $operator_id, $receivable_amount,
+    $receive_date, $receive_amount, $receive_vat, $receive_let_fee;
 
     public function showForm()
     {
         $this->form = true;
-        $this->name = $this->file = $this->selected_id = null;
+        $this->selected_id = null;
     }
 
     public function submit()
     {
-        $this->validate([
-            'name' => 'required|string',
+        $validate_data = $this->validate([
+            'license_category_id' => 'required',
+            'license_sub_category_id' => 'required',
+            'operator_id' => 'required',
+            'receivable_amount' => 'required',
+            'receive_date' => 'required',
+            'receive_amount' => 'required',
+            'receive_vat' => 'required',
+            'receive_let_fee' => 'required',
         ]);
+        // dd($validate_data);
         if($this->selected_id){
-            $model = ModelsPaymentReceive::find($this->selected_id);
+            ModelsPaymentReceive::find($this->selected_id)->update($validate_data);
         }else{
-            $model = new ModelsPaymentReceive;
+            ModelsPaymentReceive::create($validate_data);
         }
-        $model->name =  $this->name;
-        $model->save();
-        $this->name = $this->form = $this->selected_id = null;
+        $this->form = $this->selected_id = null;
+        $this->license_category_id = $this->license_sub_category_id = $this->operator_id = $this->receivable_amount
+        = $this->receive_date = $this->receive_amount = $this->receive_vat = $this->receive_let_fee = null;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Done!']);
     }
 
     public function selectForEdit(ModelsPaymentReceive $paymentReceive){
-        $this->name = $paymentReceive->name;
+        // $this->name = $paymentReceive->name;
         $this->form = true;
         $this->selected_id = $paymentReceive->id;
+        $this->license_category_id = $paymentReceive->license_category_id;
+        $this->license_sub_category_id = $paymentReceive->license_sub_category_id;
+        $this->operator_id = $paymentReceive->operator_id;
+        $this->receivable_amount = $paymentReceive->receivable_amount;
+        $this->receive_date = $paymentReceive->receive_date;
+        $this->receive_amount = $paymentReceive->receive_amount;
+        $this->receive_vat = $paymentReceive->receive_vat;
+        $this->receive_let_fee = $paymentReceive->receive_let_fee;;
     }
 
     public function selectForDelete(ModelsPaymentReceive $paymentReceive){
@@ -49,6 +71,9 @@ class PaymentReceive extends Component
     
     public function mount(){
         $this->paymentReceives = ModelsPaymentReceive::latest()->get();
+        $this->licenseCategories = LicenseCategory::latest()->get();
+        $this->licenseSubCategories = LicenseSubCategory::latest()->get();
+        $this->operators = Operator::latest()->get();
     }
 
     public function render()

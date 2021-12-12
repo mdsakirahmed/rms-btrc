@@ -18,7 +18,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header bg-info">
-                        <h4 class="mb-0 text-white">Other Sample form</h4>
+                        <h4 class="mb-0 text-white">Operator details</h4>
                     </div>
                     <form wire:submit.prevent="submit">
                         <div class="form-body">
@@ -61,9 +61,31 @@
                                         <div class="form-group has-success">
                                             <label class="form-label">Operator</label>
                                             <select wire:model="operator_id" class="form-control form-select">
-                                                <option value="">Chose loperator</option>
+                                                <option value="">Chose operator</option>
                                                 @foreach ($operators as $operator)
                                                 <option value="{{ $operator->id }}">{{ $operator->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group has-success">
+                                            <label class="form-label">Receive fee</label>
+                                            <select wire:model="receive_fee_id" class="form-control form-select">
+                                                <option value="">Chose receive fee</option>
+                                                @foreach ($receive_fees as $receive_fee)
+                                                <option value="{{$receive_fee->id }}">{{ $receive_fee->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group has-success">
+                                            <label class="form-label">Receive period</label>
+                                            <select wire:model="receive_period_id" class="form-control form-select">
+                                                <option value="">Chose receive period</option>
+                                                @foreach ($receive_periods as $receive_period)
+                                                <option value="{{ $receive_period->id }}">{{ $receive_period->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -134,8 +156,8 @@
                                 @foreach ($paymentReceives as $paymentReceive)
                                 <tr>
                         
-                                    <td>{{ '@' }}</td>
-                                    <td>{{ '@' }}</td>
+                                    <td>{{ $paymentReceive->receiveFee->name ?? '-' }}</td>
+                                    <td>{{ $paymentReceive->receivePeriod->name ?? '-' }}</td>
                                     <td>{{ $paymentReceive->receive_amount }}</td>
                                     <td>{{ '@' }}</td>
                                     <td>{{ $paymentReceive->receive_date }}</td>

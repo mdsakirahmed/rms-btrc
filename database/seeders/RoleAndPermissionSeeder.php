@@ -32,5 +32,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'receiver-fee'])->assignRole($admin_role);
         Permission::create(['name' => 'receiver-period'])->assignRole($admin_role);
         Permission::create(['name' => 'payment receive'])->assignRole($admin_role);
+        Permission::create(['name' => 'license'])->assignRole($admin_role);
+        Permission::create(['name' => 'report'])->assignRole($admin_role);
     }
 }

@@ -85,7 +85,7 @@
                             </div>
                             @enderror
                           </div>
-                          <div class="form-group col-md-6">
+                          <div class="form-group col-md-4">
                             <label for="license_category_id">License category</label>
                             <select wire:model="license_category_id" id="license_category_id" class="form-control form-select">
                                 <option value="">Chose license category</option>
@@ -99,7 +99,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="license_sub_category_id">License sub category</label>
                             <select wire:model="license_sub_category_id" id="license_sub_category_id" class="form-control form-select">
                                 <option value="">Chose license sub category</option>
@@ -113,6 +113,15 @@
                             </div>
                             @enderror
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="expire_date">Expire date</label>
+                            <input type="month" class="form-control" id="expire_date" placeholder="" wire:model="expire_date">
+                            @error('expire_date')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Save</button>

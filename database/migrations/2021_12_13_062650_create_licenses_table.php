@@ -24,6 +24,7 @@ class CreateLicensesTable extends Migration
             $table->string('address');
             $table->double('fee');
             $table->integer('instalment');
+            $table->string('expire_date');
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

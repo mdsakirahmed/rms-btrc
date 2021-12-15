@@ -20,5 +20,6 @@ class License extends Model
         'address',
         'fee',
         'instalment',
+        'expire_date',
     ];
 }

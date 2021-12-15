@@ -10,7 +10,7 @@ use Livewire\Component;
 class License extends Component
 {
     public $licenses, $licenseCategories, $licenseSubCategories, $selected_id;
-    public $form = null, $name, $email, $phone, $address, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id;
+    public $form = null, $name, $email, $phone, $address, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id, $expire_date;
 
     public function showForm(){
         $this->form = true;
@@ -28,6 +28,7 @@ class License extends Component
             'instalment' => 'required',
             'license_category_id' => 'required',
             'license_sub_category_id' => 'required',
+            'expire_date' => 'required',
         ]);
 
         if($this->selected_id){
@@ -35,7 +36,7 @@ class License extends Component
         }else{
             ModelsLicense::create($valivate_data);
         }
-        $this->form = $this->name = $this->email = $this->phone = $this->address = $this->license_number = $this->fee = $this->instalment = $this->license_category = $this->license_sub_category = null ;
+        $this->form = $this->name = $this->email = $this->phone = $this->address = $this->license_number = $this->fee = $this->instalment = $this->license_category = $this->license_sub_category = $this->expire_date = null ;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'User Successfully Done!']);
     }
 

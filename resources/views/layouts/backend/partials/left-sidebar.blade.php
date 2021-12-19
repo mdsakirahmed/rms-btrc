@@ -47,7 +47,7 @@
                 @endcan
 
                 @can('payment receive')
-                <li> <a class="waves-effect waves-dark" href="{{ route('paymentReceive') }}" aria-expanded="false"><i
+                <li> <a class="waves-effect waves-dark" href="{{ route('payment-receive') }}" aria-expanded="false"><i
                             class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
                 @endcan
                 @can('license')
@@ -65,11 +65,11 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
                             class="ti-layout-media-right-alt"></i><span class="hide-menu">Setting</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        @can('license category')
-                        <li> <a href="{{ route('licenseCategory') }}">License Category</a></li>
+                        @can('license-category')
+                        <li> <a href="{{ route('license-category') }}">License Category</a></li>
                         @endcan
                         @can('license sub category')
-                        <li> <a href="{{ route('licenseSubCategory') }}">License Sub Category</a></li>
+                        <li> <a href="{{ route('license-sub-sategory') }}">License Sub Category</a></li>
                         @endcan
                         @can('operator')
                         <li> <a href="{{ route('operator') }}">Operator</a></li>

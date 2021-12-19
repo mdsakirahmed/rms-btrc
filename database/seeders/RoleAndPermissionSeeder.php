@@ -20,14 +20,14 @@ class RoleAndPermissionSeeder extends Seeder
         $user_role  = Role::create(['name' => 'user']);
 
         //Permission
-        Permission::create(['name' => 'dashboard'])->assignRole($admin_role);
+        Permission::create(['name' => 'my-dashboard'])->assignRole($admin_role);
         Permission::create(['name' => 'permission-management'])->assignRole($admin_role);
         Permission::create(['name' => 'product list'])->assignRole($admin_role);
         Permission::create(['name' => 'product export'])->assignRole($admin_role);
         Permission::create(['name' => 'product import'])->assignRole($admin_role);
         Permission::create(['name' => 'user'])->assignRole($admin_role);
         Permission::create(['name' => 'document'])->assignRole($admin_role);
-        Permission::create(['name' => 'license category'])->assignRole($admin_role);
+        Permission::create(['name' => 'license-category'])->assignRole($admin_role);
         Permission::create(['name' => 'license sub category'])->assignRole($admin_role);
         Permission::create(['name' => 'operator'])->assignRole($admin_role);
         Permission::create(['name' => 'receiver-fee'])->assignRole($admin_role);

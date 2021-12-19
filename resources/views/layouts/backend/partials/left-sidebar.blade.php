@@ -54,21 +54,14 @@
                 <li> <a class="waves-effect waves-dark" href="{{ route('license') }}" aria-expanded="false"><i
                             class="far fa-circle text-info"></i><span class="hide-menu">License</span></a></li>
                 @endcan
+                @can('permission-management')
+                <li> <a class="waves-effect waves-dark" href="{{ route('permission-management') }}" aria-expanded="false"><i
+                            class="far fa-circle text-info"></i><span class="hide-menu">Permission</span></a></li>
+                @endcan
                 @can('report')
                 <li> <a class="waves-effect waves-dark" href="{{ route('report') }}" aria-expanded="false"><i
                             class="far fa-circle text-info"></i><span class="hide-menu">Report</span></a></li>
                 @endcan
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-layout-media-right-alt"></i><span class="hide-menu">Permission</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        @can('manage user permission')
-                        <li> <a href="{{ route('user-permission.index') }}">Permission</a></li>
-                        @endcan
-                        @can('product list')
-                        <li> <a href="{{ route('role.index') }}">Role</a></li>
-                        @endcan
-                    </ul>
-                </li>
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
                             class="ti-layout-media-right-alt"></i><span class="hide-menu">Setting</span></a>
                     <ul aria-expanded="false" class="collapse">

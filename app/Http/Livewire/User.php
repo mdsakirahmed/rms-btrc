@@ -8,15 +8,12 @@ use Spatie\Permission\Models\Role;
 
 class User extends Component
 {
-    public $form = null;
-
     public $users, $roles;
     public $name, $email, $password, $role, $selected_user_id, $password_confirmation;
 
-    public function showForm()
+    public function create()
     {
-        $this->form = true;
-        $this->name = $this->email = $this->password = $this->role = $this->selected_user_id = null;
+        $this->name = $this->email = $this->password = $this->password_confirmation = $this->role = $this->selected_user_id = null;
     }
 
     public function submit()
@@ -36,7 +33,7 @@ class User extends Component
             'password' => bcrypt($this->password),
         ]);
         $user->syncRoles($this->role);
-        $this->name = $this->email = $this->password = $this->role = $this->form = $this->selected_user_id = null;
+        $this->create();//Ready for new create
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'User Successfully Done!']);
     }
 
@@ -61,12 +58,12 @@ class User extends Component
         }
         $this->selected_user_id = null;
     }
-    
+
     public function mount(){
         $this->users =  ModelsUser::latest()->get();
         $this->roles =  Role::latest()->get();
     }
-    
+
     public function render()
     {
         $this->users =  ModelsUser::latest()->get();

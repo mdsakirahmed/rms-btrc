@@ -18,31 +18,45 @@ class User extends Component
 
     public function submit()
     {
-        $this->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email,'.$this->selected_user_id,
-            'password' => 'required|string|min:4|confirmed',
-            'password_confirmation' => 'required',
-            'role' => 'required',
-        ]);
-        $user = ModelsUser::updateOrCreate([
-            'id' => $this->selected_user_id
-        ], [
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => bcrypt($this->password),
-        ]);
+        if($this->selected_user_id){
+            //Update code
+            $this->validate([
+                'name' => 'required|string',
+                'email' => 'required|email|unique:users,email,'.$this->selected_user_id,
+                'password' => 'nullable|string|min:4|confirmed',
+                'password_confirmation' => 'nullable',
+                'role' => 'required',
+            ]);
+            $user = ModelsUser::find($this->selected_user_id);
+            $user->update([
+                'name' => $this->name,
+                'email' => $this->email,
+            ]);
+        }else{
+            //New create code
+            $this->validate([
+                'name' => 'required|string',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:4|confirmed',
+                'password_confirmation' => 'required',
+                'role' => 'required',
+            ]);
+            $user = ModelsUser::create([
+                'name' => $this->name,
+                'email' => $this->email,
+                'password' => bcrypt($this->password),
+            ]);
+        }
         $user->syncRoles($this->role);
         $this->create();//Ready for new create
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'User Successfully Done!']);
     }
 
     public function selectForEdit(ModelsUser $user){
+        $this->selected_user_id = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
         $this->role = $user->roles()->first()->id ?? null;
-        $this->form = true;
-        $this->selected_user_id = $user->id;
     }
 
     public function selectForDelete(ModelsUser $user){

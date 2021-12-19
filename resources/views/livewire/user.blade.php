@@ -38,7 +38,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->roles()->first()->name ?? '_' }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $user->id }})">Edit</button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#user-modal" wire:click="selectForEdit({{ $user->id }})">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="selectForDelete({{ $user->id }})" data-bs-toggle="modal" data-bs-target="#delete-modal"> Delete </button>
                                     </td>
                                 </tr>

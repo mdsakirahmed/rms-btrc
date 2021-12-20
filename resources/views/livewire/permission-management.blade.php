@@ -29,7 +29,7 @@
                             <div class="p-20">
                                 <div class="button-group">
                                     <button type="button" class="btn waves-effect waves-light btn-success" data-bs-toggle="modal" data-bs-target="#role-modal" wire:click="createRole">Add new role</button>
-                                 </div>
+                                </div>
                                 <table class="table">
                                     <thead class="thead-dark">
                                         <tr>
@@ -99,28 +99,31 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
-                    <form  wire:submit.prevent="submitRole">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="tb-fname" placeholder="Enter role here" wire:model="role_name">
-                            <label for="tb-fname">Role Name</label>
+                    <form wire:submit.prevent="submitRole">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Enter role here" wire:model="role_name">
+                            <div class="input-group-append">
+                                <button class="btn btn-info" type="submit">Save</button>
+                            </div>
                         </div>
                         @error('role_name')
                         <div class="alert alert-danger" role="alert">
                             {{ $message }}
                         </div>
                         @enderror
-                        @foreach ($permissions as $permission)
-                        <label class="badge bg-success btn m-1" for="permission_no_{{ $permission->id }}">
-                            <input type="checkbox" class="form-check-input" id="permission_no_{{ $permission->id }}" value="{{ $permission->id }}" wire:model="selected_permissions.{{ $permission->id }}"> {{ $permission->name }}
-                        </label>
-                        @endforeach
-                        @error('selected_permissions.*')
-                        <div class="alert alert-danger" role="alert">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                        <button type="submit" class="btn waves-effect waves-light btn-danger col-12">SUBMIT</button>
                     </form>
+                    @if($selected_role)
+                    @foreach ($permissions as $permission)
+                    <label class="badge bg-success btn m-1" for="permission_no_{{ $permission->id }}">
+                        <input type="checkbox" class="form-check-input" id="permission_no_{{ $permission->id }}" value="{{ $permission->id }}" wire:model="selected_permissions.{{ $permission->id }}" wire:click="checkPermission('{{ $permission->name }}')"> {{ $loop->iteration }}) {{ $permission->name }}
+                    </label>
+                    @endforeach
+                    @error('selected_permissions.*')
+                    <div class="alert alert-danger" role="alert">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info waves-effect text-white" data-bs-dismiss="modal">Close</button>

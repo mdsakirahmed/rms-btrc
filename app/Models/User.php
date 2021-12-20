@@ -44,6 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //Relational function
+    public function licenes(){
+        return $this->hasMany(License::class, 'user_id', 'id');
+    }
+
     /**
      * Auto boot
      *

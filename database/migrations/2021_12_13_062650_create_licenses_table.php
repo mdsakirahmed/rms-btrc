@@ -15,13 +15,10 @@ class CreateLicensesTable extends Migration
     {
         Schema::create('licenses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
             $table->foreignId('license_sub_category_id');
             $table->foreignId('license_category_id');
             $table->string('license_number')->unique();
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('address');
             $table->double('fee');
             $table->integer('instalment');
             $table->string('expire_date');

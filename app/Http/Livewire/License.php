@@ -5,12 +5,13 @@ namespace App\Http\Livewire;
 use App\Models\License as ModelsLicense;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
+use App\Models\User;
 use Livewire\Component;
 
 class License extends Component
 {
     public $licenses, $licenseCategories, $licenseSubCategories, $selected_id;
-    public $form = null, $name, $email, $phone, $address, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id, $expire_date;
+    public $form = null, $users, $user_id, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id, $expire_date;
 
     public function showForm(){
         $this->form = true;
@@ -19,13 +20,10 @@ class License extends Component
 
     public function submit(){
         $valivate_data = $this->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
             'license_number' => 'required',
             'fee' => 'required',
             'instalment' => 'required',
+            'user_id' => 'required',
             'license_category_id' => 'required',
             'license_sub_category_id' => 'required',
             'expire_date' => 'required',
@@ -36,7 +34,7 @@ class License extends Component
         }else{
             ModelsLicense::create($valivate_data);
         }
-        $this->form = $this->name = $this->email = $this->phone = $this->address = $this->license_number = $this->fee = $this->instalment = $this->license_category = $this->license_sub_category = $this->expire_date = null ;
+        $this->form = $this->user_id = $this->license_number = $this->fee = $this->instalment = $this->license_category = $this->license_sub_category = $this->expire_date = null ;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'User Successfully Done!']);
     }
 
@@ -51,13 +49,14 @@ class License extends Component
         $this->selected_id = null;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);
     }
-    
+
     public function mount(){
         $this->licenses =  ModelsLicense::latest()->get();
+        $this->users =  User::latest()->get();
         $this->licenseCategories =  LicenseCategory::latest()->get();
         $this->licenseSubCategories =  LicenseSubCategory::latest()->get();
     }
-    
+
     public function render(){
         $this->licenses =  ModelsLicense::latest()->get();
         return view('livewire.license')->layout('layouts.backend.app');

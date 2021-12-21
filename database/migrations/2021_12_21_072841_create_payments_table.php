@@ -15,6 +15,11 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('license_id');
+            $table->double('amount')->default(0);
+            $table->date('last_date_of_payment');
+            $table->date('payment_date')->nullable();
+            $table->boolean('paid')->default(false);
             $table->timestamps();
         });
     }

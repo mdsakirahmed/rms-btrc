@@ -169,7 +169,7 @@
                 <div class="modal-body">
                     <div class="row align-items-center">
                         <div class="col-md-4 col-lg-3 text-center">
-                            <a href="app-contact-detail.html"><img src="../assets/images/users/1.jpg" width="90" alt="user" class="img-circle img-fluid"></a>
+                            <a href="app-contact-detail.html"><img src="{{ asset($license_holder['image'] ?? '/assets/images/users/1.jpg' ) }}" width="90" alt="user" class="img-circle img-fluid"></a>
                         </div>
                         <div class="col-md-8 col-lg-9">
                             <h3 class="box-title m-b-0">{{ $license_holder['name'] ?? null }}</h3>

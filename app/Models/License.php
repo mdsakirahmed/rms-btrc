@@ -22,6 +22,6 @@ class License extends Model
 
         //Relational function
         public function user(){
-            return $this->belongsTo(License::class, 'user_id', 'id');
+            return $this->belongsTo(User::class, 'user_id', 'id');
         }
 }

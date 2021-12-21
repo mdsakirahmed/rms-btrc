@@ -12,6 +12,7 @@ class License extends Component
 {
     public $licenses, $licenseCategories, $licenseSubCategories, $selected_id;
     public $form = null, $users, $user_id, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id, $expire_date;
+    public $license_holder = [];
 
     public function showForm(){
         $this->form = true;
@@ -40,14 +41,30 @@ class License extends Component
 
     public function select(ModelsLicense $license, $form = null){
         $this->selected_id = $license->id;
-        if($form)
-        $this->form = true;
+        if($form){
+            $this->form = true;
+            $this->license_number = $license->license_number;
+            $this->fee = $license->fee;
+            $this->instalment = $license->instalment;
+            $this->user_id = $license->user_id;
+            $this->license_category_id = $license->license_category_id;
+            $this->license_sub_category_id = $license->license_sub_category_id;
+            $this->expire_date = $license->expire_date;
+        }
     }
 
     public function destroy(){
         ModelsLicense::find($this->selected_id)->delete();
         $this->selected_id = null;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);
+    }
+
+    public function licenseHolder(ModelsLicense $license){
+        $this->license_holder = [
+            'name' => $license->user->name ?? null,
+            'email' => $license->user->email ?? null,
+            'phone' => $license->user->phone ?? null,
+        ];
     }
 
     public function mount(){

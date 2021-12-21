@@ -46,7 +46,7 @@
                             class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
                 @endcan
 
-                @can('payment receive')
+                @can('payment-receive')
                 <li> <a class="waves-effect waves-dark" href="{{ route('payment-receive') }}" aria-expanded="false"><i
                             class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
                 @endcan

@@ -131,6 +131,7 @@
                                     <td>{{ $license->expire_date }}</td>
                                     <td>{{ $license->fee}}/{{ $license->instalment }}</td>
                                     <td>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#user-modal" wire:click="licenseHolder({{ $license->id }})">User</button>
                                         <button type="button" class="btn btn-primary" wire:click="select({{ $license->id }}, 'true')">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="select({{ $license->id }})" onclick="openModal()"> Delete </button>
                                     </td>
@@ -144,7 +145,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Delete Modal -->
     <div wire:ignore.self class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -156,6 +157,38 @@
             </div>
         </div>
     </div>
+    <!--/. Delete Modal -->
+     <!-- User modal content -->
+     <div wire:ignore.self class="modal bs-example-modal-lg" id="user-modal" tabindex="-1" aria-labelledby="" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title text-white" id="">License owner</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-4 col-lg-3 text-center">
+                            <a href="app-contact-detail.html"><img src="../assets/images/users/1.jpg" width="90" alt="user" class="img-circle img-fluid"></a>
+                        </div>
+                        <div class="col-md-8 col-lg-9">
+                            <h3 class="box-title m-b-0">{{ $license_holder['name'] ?? null }}</h3>
+                            <address>
+                                Email: {{ $license_holder['email'] ?? null }}<br>
+                                Phone: {{ $license_holder['phone'] ?? null }}
+                            </address>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
     <script type="text/javascript">
         function openModal() {
             $('#delete_modal').modal('show');

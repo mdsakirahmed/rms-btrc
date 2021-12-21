@@ -20,8 +20,12 @@ class License extends Model
         'expire_date',
     ];
 
-        //Relational function
-        public function user(){
-            return $this->belongsTo(User::class, 'user_id', 'id');
-        }
+    //Relational function
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function payments(){
+        return $this->hasMany(Payment::class, 'license_id', 'id');
+    }
 }

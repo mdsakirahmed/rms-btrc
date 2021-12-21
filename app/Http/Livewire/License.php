@@ -14,7 +14,7 @@ class License extends Component
 {
     public $licenses, $licenseCategories, $licenseSubCategories, $selected_id;
     public $form = null, $users, $user_id, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id, $expire_date;
-    public $license_holder = [];
+    public $license_holder = [], $payments = null;
 
     public function showForm()
     {
@@ -83,6 +83,8 @@ class License extends Component
             'email' => $license->user->email ?? null,
             'phone' => $license->user->phone ?? null,
         ];
+
+        $this->payments = $license->payments;
     }
 
     public function mount()

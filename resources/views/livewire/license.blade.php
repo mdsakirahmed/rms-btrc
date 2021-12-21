@@ -158,11 +158,11 @@
         </div>
     </div>
     <!--/. Delete Modal -->
-     <!-- User modal content -->
-     <div wire:ignore.self class="modal bs-example-modal-lg" id="user-modal" tabindex="-1" aria-labelledby="" style="display: none;" aria-hidden="true">
+    <!-- User modal content -->
+    <div wire:ignore.self class="modal bs-example-modal-lg" id="user-modal" tabindex="-1" aria-labelledby="" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-success">
                     <h4 class="modal-title text-white" id="">License owner</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
@@ -179,6 +179,38 @@
                             </address>
                         </div>
                     </div>
+                </div>
+                <div class="modal-body">
+                    @if($payments)
+                    <div class="table-responsive">
+                        <table class="table color-bordered-table primary-bordered-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Amount</th>
+                                    <th>Last date of pay</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($payments as $payment)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $payment->amount }}</td>
+                                    <td>{{ $payment->last_date_of_payment }}</td>
+                                    <td>
+                                        @if($payment->paid)
+                                        <span class="badge bg-success">PAID</span>
+                                        @else
+                                        <span class="badge bg-danger">DUE</span>
+                                        @endif
+                                     </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>

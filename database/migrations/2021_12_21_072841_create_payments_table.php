@@ -20,6 +20,9 @@ class CreatePaymentsTable extends Migration
             $table->date('last_date_of_payment');
             $table->date('payment_date')->nullable();
             $table->boolean('paid')->default(false);
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
+            $table->foreignId('deleted_by')->nullable();
             $table->timestamps();
         });
     }

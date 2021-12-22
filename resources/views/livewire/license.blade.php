@@ -133,7 +133,7 @@
                                     <td>
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#user-modal" wire:click="licenseHolder({{ $license->id }})">User</button>
                                         <button type="button" class="btn btn-primary" wire:click="select({{ $license->id }}, 'true')">Edit</button>
-                                        <button type="button" class="btn btn-danger text-white" wire:click="select({{ $license->id }})" onclick="openModal()"> Delete </button>
+                                        <button type="button" class="btn btn-danger text-white" wire:click="select({{ $license->id }})" data-bs-toggle="modal" data-bs-target="#delete-modal"> Delete </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -146,13 +146,13 @@
     </div>
 
     <!-- Delete Modal -->
-    <div wire:ignore.self class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div wire:ignore.self class="modal bs-example-modal-sm" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt="Delete"> <br>
-                    <button type="button" class="btn btn-danger text-white" wire:click="destroy" onclick="closeModal()"> Confirm Delete </button>
-                    <button type="button" class="btn btn-secondary close-btn" onclick="closeModal()">Cancel</button>
+                    <button type="button" class="btn btn-danger text-white" wire:click="destroy" data-bs-dismiss="modal"> Confirm Delete </button>
+                    <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
@@ -162,10 +162,6 @@
     <div wire:ignore.self class="modal bs-example-modal-lg" id="user-modal" tabindex="-1" aria-labelledby="" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <h4 class="modal-title text-white" id="">License owner</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
                 <div class="modal-body">
                     <div class="row align-items-center">
                         <div class="col-md-4 col-lg-3 text-center">
@@ -221,14 +217,4 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    <script type="text/javascript">
-        function openModal() {
-            $('#delete_modal').modal('show');
-        }
-
-        function closeModal() {
-            $('#delete_modal').modal('hide');
-        }
-
-    </script>
 </div>

@@ -186,6 +186,7 @@
                                     <th>Amount</th>
                                     <th>Last date of pay</th>
                                     <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,7 +201,14 @@
                                         @else
                                         <span class="badge bg-danger">DUE</span>
                                         @endif
-                                     </td>
+                                    </td>
+                                    <td>
+                                        @if($payment->paid)
+                                        <button class="btn btn-danger" type="submit" wire:click="changePaymentStatus({{ $payment->id }}, 'due')">Make Due</button>
+                                        @else
+                                        <button class="btn btn-success" type="submit" wire:click="changePaymentStatus({{ $payment->id }}, 'paid')">Make Paid</button>
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -91,8 +91,20 @@ class License extends Component
             'email' => $license->user->email ?? null,
             'phone' => $license->user->phone ?? null,
         ];
-
         $this->payments = $license->payments;
+    }
+
+    public function changePaymentStatus(Payment $payment, $status)
+    {
+        if($status == 'paid'){
+            $payment->paid = true;
+            $payment->save();
+        }else{
+            $payment->paid = false;
+            $payment->save();
+        }
+        $this->payments = $payment->license->payments; //For re load update payments data
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Updated!']);
     }
 
     public function mount()

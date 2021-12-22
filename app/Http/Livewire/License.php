@@ -16,10 +16,11 @@ class License extends Component
     public $form = null, $users, $user_id, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id, $expire_date;
     public $license_holder = [], $payments = null;
 
-    public function showForm()
+    public function create()
     {
         $this->form = true;
         $this->license_number = rand(88888888, 99999999);
+        $this->user_id = $this->fee = $this->instalment = $this->license_category = $this->license_sub_category = $this->expire_date = $this->selected_id = null;
     }
 
     public function submit()
@@ -35,23 +36,29 @@ class License extends Component
         ]);
 
         if ($this->selected_id) {
-            $license = ModelsLicense::find($this->selected_id)->update($valivate_data);
+            $license = ModelsLicense::find($this->selected_id);
+            $license->update($valivate_data);
+            $license->payments()->delete();
         } else {
             $license = ModelsLicense::create($valivate_data);
         }
-        $begin_date = new DateTime(date('Y-m-d'));
-        $end_date = new DateTime($this->expire_date);
-        $total_days = $begin_date->diff($end_date->modify('+1 month'))->days;
-        $gap_day_of_each_instalmant = intval($total_days / $this->instalment);
-        for ($instalment = 1; $instalment <= $this->instalment; $instalment++) {
-            $payment = new Payment();
-            $payment->license_id = $license->id;
-            $payment->amount = $this->fee / $this->instalment;
-            $payment->last_date_of_payment = $begin_date->modify('+' . $gap_day_of_each_instalmant . ' day');
-            $payment->save();
+        if($license){
+            $begin_date = new DateTime(date('Y-m-d'));
+            $end_date = new DateTime($this->expire_date);
+            $total_days = $begin_date->diff($end_date->modify('+1 month'))->days;
+            $gap_day_of_each_instalmant = intval($total_days / $this->instalment);
+            for ($instalment = 1; $instalment <= $this->instalment; $instalment++) {
+                $payment = new Payment();
+                $payment->license_id = $license->id;
+                $payment->amount = $this->fee / $this->instalment;
+                $payment->last_date_of_payment = $begin_date->modify('+' . $gap_day_of_each_instalmant . ' day');
+                $payment->save();
+            }
+            $this->create(); //Clear form
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Done!']);
+        }else{
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'License not created!']);
         }
-        $this->form = $this->user_id = $this->license_number = $this->fee = $this->instalment = $this->license_category = $this->license_sub_category = $this->expire_date = null;
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'User Successfully Done!']);
     }
 
     public function select(ModelsLicense $license, $form = null)
@@ -71,6 +78,7 @@ class License extends Component
 
     public function destroy()
     {
+        ModelsLicense::find($this->selected_id)->payments()->delete();
         ModelsLicense::find($this->selected_id)->delete();
         $this->selected_id = null;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);

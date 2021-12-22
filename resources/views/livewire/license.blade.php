@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item active">License Page</li>
                 </ol>
-                <button type="button" class="btn btn-dark d-none d-lg-block m-l-15" wire:click="showForm"><i class="fa fa-plus-circle"></i>
+                <button type="button" class="btn btn-dark d-none d-lg-block m-l-15" wire:click="create"><i class="fa fa-plus-circle"></i>
                     Create New</button>
             </div>
         </div>

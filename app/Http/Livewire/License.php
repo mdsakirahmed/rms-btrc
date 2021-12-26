@@ -11,12 +11,14 @@ use App\Models\User;
 use Livewire\Component;
 use DateTime;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class License extends Component
 {
     public $licenses, $licenseCategories, $licenseSubCategories, $selected_id;
     public $form = null, $users, $user_id, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id, $expire_date;
     public $license_holder = [], $payments = null, $payment_methods, $transaction_id, $payment_method;
+    public $payment;
 
     public function create()
     {
@@ -100,7 +102,6 @@ class License extends Component
 
     public function changePaymentStatus(Payment $payment, $status)
     {
-        // dd($this->transaction_id);
         if ($status == 'paid') {
             $validator = Validator::make([
                 'transaction_id' => $this->transaction_id,
@@ -127,6 +128,14 @@ class License extends Component
             $this->payments = $payment->license->payments; //For re load update payments data
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Updated!']);
         }
+    }
+
+    public function downloadInvoice(Payment $payment)
+    {
+        $this->payment = $payment;
+        return response()->streamDownload(function () {
+            PDF::loadView('pdf.invoice',  ['payment' => $this->payment])->download();
+        }, 'Invoice print at -'.date('d-m-Y h-i-s').'.pdf');
     }
 
     public function mount()

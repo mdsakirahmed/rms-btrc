@@ -205,7 +205,7 @@
                                     <td>
                                         @if($payment->paid)
                                         <button class="btn btn-danger" type="button" wire:click="changePaymentStatus({{ $payment->id }}, 'due')">Make Due</button>
-                                        <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }}, 'due')">INV</button>
+                                        <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
                                         @else
                                         <form wire:submit.prevent="changePaymentStatus({{ $payment->id }}, 'paid')">
                                             <div class="input-group mb-3">

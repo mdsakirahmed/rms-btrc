@@ -8,6 +8,7 @@ use App\Http\Livewire\License;
 use App\Http\Livewire\LicenseCategory;
 use App\Http\Livewire\LicenseSubCategory;
 use App\Http\Livewire\Operator;
+use App\Http\Livewire\Payment as LivewirePayment;
 use App\Http\Livewire\PaymentMethod;
 use App\Http\Livewire\PaymentReceive;
 use App\Http\Livewire\PermissionManagement;
@@ -50,4 +51,5 @@ Route::middleware('auth')->group(function () {
     Route::get('permission-management', PermissionManagement::class)->name('permission-management')->middleware(['permission:permission-management']);
     Route::get('report', Report::class)->name('report')->middleware(['permission:report']);
     Route::get('my-license', MyLicense::class)->name('my-license')->middleware(['permission:my-license']);
+    Route::get('payment', LivewirePayment::class)->name('payment')->middleware(['permission:payment']);
 });

@@ -89,7 +89,7 @@ class License extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);
     }
 
-    public function licenseHolder(ModelsLicense $license)
+    public function selectLicense(ModelsLicense $license)
     {
         $this->license_holder = [
             'name' => $license->user->name ?? null,

@@ -25,6 +25,7 @@
                                     <th>License</th>
                                     <th>Expire Date</th>
                                     <th>Fee</th>
+                                    <th>Receipt</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,6 +35,7 @@
                                     <td>{{ $license->license_number }}</td>
                                     <td>{{ $license->expire_date }}</td>
                                     <td>{{ $license->fee}}/{{ $license->instalment }}</td>
+                                    <td><button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $license->id }}, 'due')">Download</button></td>
                                 </tr>
                                 @endforeach
                             </tbody>

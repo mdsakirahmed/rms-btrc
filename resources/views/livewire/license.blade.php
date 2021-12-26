@@ -204,9 +204,32 @@
                                     </td>
                                     <td>
                                         @if($payment->paid)
-                                        <button class="btn btn-danger" type="submit" wire:click="changePaymentStatus({{ $payment->id }}, 'due')">Make Due</button>
+                                        <button class="btn btn-danger" type="button" wire:click="changePaymentStatus({{ $payment->id }}, 'due')">Make Due</button>
                                         @else
-                                        <button class="btn btn-success" type="submit" wire:click="changePaymentStatus({{ $payment->id }}, 'paid')">Make Paid</button>
+                                        <form wire:submit.prevent="changePaymentStatus({{ $payment->id }}, 'paid')">
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" aria-label="Transaction ID" wire:model="transaction_id.{{ $payment->id }}">
+                                                <div class="input-group-append">
+                                                    <select class="form-control form-select" data-placeholder="Choose a Category" wire:model="payment_method.{{ $payment->id }}">
+                                                        <option value="">Payment method</option>
+                                                        @foreach ($payment_methods as $payment_method)
+                                                        <option value="{{ $payment_method->id }}">{{ $payment_method->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <button class="btn btn-success" type="submit">Make Paid</button>
+                                            </div>
+                                            @error('transaction_id')
+                                            <div class="alert alert-danger" role="alert">
+                                               {{ $message }}
+                                            </div>
+                                            @enderror
+                                            @error('payment_method')
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </form>
                                         @endif
                                     </td>
                                 </tr>

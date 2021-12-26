@@ -8,6 +8,7 @@ use App\Http\Livewire\License;
 use App\Http\Livewire\LicenseCategory;
 use App\Http\Livewire\LicenseSubCategory;
 use App\Http\Livewire\Operator;
+use App\Http\Livewire\PaymentMethod;
 use App\Http\Livewire\PaymentReceive;
 use App\Http\Livewire\PermissionManagement;
 use App\Http\Livewire\ReceiveFee;
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('user', User::class)->name('user')->middleware(['permission:user']);
     Route::get('document', Document::class)->name('document')->middleware(['permission:document']);
 
+    Route::get('payment-method', PaymentMethod::class)->name('payment-method')->middleware(['permission:payment-method']);
     Route::get('license-category', LicenseCategory::class)->name('license-category')->middleware(['permission:license-category']);
     Route::get('license-sub-category', LicenseSubCategory::class)->name('license-sub-sategory')->middleware(['permission:license-sub-category']);
     Route::get('operator', Operator::class)->name('operator')->middleware(['permission:operator']);

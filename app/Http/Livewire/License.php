@@ -6,15 +6,17 @@ use App\Models\License as ModelsLicense;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
 use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Models\User;
 use Livewire\Component;
 use DateTime;
+use Illuminate\Support\Facades\Validator;
 
 class License extends Component
 {
     public $licenses, $licenseCategories, $licenseSubCategories, $selected_id;
     public $form = null, $users, $user_id, $license_number, $fee, $instalment, $license_category_id, $license_sub_category_id, $expire_date;
-    public $license_holder = [], $payments = null;
+    public $license_holder = [], $payments = null, $payment_methods, $transaction_id, $payment_method;
 
     public function create()
     {
@@ -25,6 +27,7 @@ class License extends Component
 
     public function submit()
     {
+
         $valivate_data = $this->validate([
             'license_number' => 'required',
             'fee' => 'required',
@@ -42,7 +45,7 @@ class License extends Component
         } else {
             $license = ModelsLicense::create($valivate_data);
         }
-        if($license){
+        if ($license) {
             $begin_date = new DateTime(date('Y-m-d'));
             $end_date = new DateTime($this->expire_date);
             $total_days = $begin_date->diff($end_date->modify('+1 month'))->days;
@@ -56,7 +59,7 @@ class License extends Component
             }
             $this->create(); //Clear form
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Done!']);
-        }else{
+        } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'License not created!']);
         }
     }
@@ -92,19 +95,38 @@ class License extends Component
             'phone' => $license->user->phone ?? null,
         ];
         $this->payments = $license->payments;
+        $this->payment_methods = PaymentMethod::all();
     }
 
     public function changePaymentStatus(Payment $payment, $status)
     {
-        if($status == 'paid'){
-            $payment->paid = true;
-            $payment->save();
-        }else{
+        // dd($this->transaction_id);
+        if ($status == 'paid') {
+            $validator = Validator::make([
+                'transaction_id' => $this->transaction_id,
+                'payment_method' => $this->payment_method,
+            ], [
+                'transaction_id.'.$payment->id => 'required|string',
+                'payment_method.'.$payment->id => 'required|exists:payment_methods,id',
+            ]);
+            if ($validator->fails()) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Check transaction ID and payment method']);
+            } else {
+                $payment->payment_method_id = $this->payment_method[$payment->id];
+                $payment->transaction = $this->transaction_id[$payment->id];
+                $payment->paid = true;
+                $payment->save();
+                $this->payments = $payment->license->payments; //For re load update payments data
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Updated!']);
+            }
+        } else {
+            $payment->payment_method_id = null;
+            $payment->transaction = null;
             $payment->paid = false;
             $payment->save();
+            $this->payments = $payment->license->payments; //For re load update payments data
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Updated!']);
         }
-        $this->payments = $payment->license->payments; //For re load update payments data
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Updated!']);
     }
 
     public function mount()

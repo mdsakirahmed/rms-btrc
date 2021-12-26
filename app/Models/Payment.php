@@ -12,6 +12,8 @@ class Payment extends Model
 
     protected $fillable = [
         'license_id',
+        'payment_method_id',
+        'transaction',
         'amount',
         'last_date_of_payment',
         'payment_date',
@@ -20,5 +22,9 @@ class Payment extends Model
 
     public function license(){
         return $this->belongsTo(License::class, 'license_id', 'id');
+    }
+
+    public function paymentMethod(){
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id', 'id');
     }
 }

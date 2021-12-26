@@ -69,6 +69,9 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
                             class="ti-layout-media-right-alt"></i><span class="hide-menu">Setting</span></a>
                     <ul aria-expanded="false" class="collapse">
+                        @can('payment-method')
+                        <li> <a href="{{ route('payment-method') }}">Payment Method</a></li>
+                        @endcan
                         @can('license-category')
                         <li> <a href="{{ route('license-category') }}">License Category</a></li>
                         @endcan

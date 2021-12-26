@@ -131,7 +131,7 @@
                                     <td>{{ $license->expire_date }}</td>
                                     <td>{{ $license->fee}}/{{ $license->instalment }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#user-modal" wire:click="licenseHolder({{ $license->id }})">User</button>
+                                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#user-modal" wire:click="licenseHolder({{ $license->id }})">Payments</button>
                                         <button type="button" class="btn btn-primary" wire:click="select({{ $license->id }}, 'true')">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="select({{ $license->id }})" data-bs-toggle="modal" data-bs-target="#delete-modal"> Delete </button>
                                     </td>

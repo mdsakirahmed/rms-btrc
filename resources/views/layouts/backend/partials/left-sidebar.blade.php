@@ -91,6 +91,9 @@
                         @can('receiver-period')
                         <li> <a href="{{ route('receiver-period') }}">Receiver-period</a></li>
                         @endcan
+                        @can('git')
+                        <li> <a href="{{ route('git') }}">Git</a></li>
+                        @endcan
                     </ul>
                 </li>
             </ul>

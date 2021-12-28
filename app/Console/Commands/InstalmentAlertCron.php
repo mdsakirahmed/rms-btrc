@@ -40,7 +40,6 @@ class InstalmentAlertCron extends Command
     public function handle()
     {
         $users = User::all();
-        InstalmentNotificationSender::dispatch($users);
-        // return 'success';
+        InstalmentNotificationSender::dispatch($users)->delay(now()->addMinutes(1));
     }
 }

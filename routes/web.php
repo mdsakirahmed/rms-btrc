@@ -39,11 +39,7 @@ Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
 
 Route::get('cron', function () {
-
     \Artisan::call('instalment:notification-send');
-
-    // $users = User::all();
-    // Notification::send($users, new InstalmentNotification());
+    //php artisan queue:work
     dd("success");
-
 });

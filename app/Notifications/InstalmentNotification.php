@@ -43,7 +43,7 @@ class InstalmentNotification extends Notification
     {
         return (new MailMessage)
                     ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->action('Pay Now', url('/'))
                     ->line('Thank you for using our application!');
     }
 

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\SslCommerzPaymentController;
+use App\Models\User;
+use App\Notifications\InstalmentNotification;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,3 +37,13 @@ Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
+
+Route::get('cron', function () {
+
+    \Artisan::call('instalment:notification-send');
+
+    // $users = User::all();
+    // Notification::send($users, new InstalmentNotification());
+    dd("success");
+
+});

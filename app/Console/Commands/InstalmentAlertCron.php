@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\InstalmentNotificationSender;
 use App\Models\User;
 use Illuminate\Console\Command;
+use App\Notifications\InstalmentNotification;
+use Illuminate\Support\Facades\Notification;
 
 class InstalmentAlertCron extends Command
 {
@@ -39,7 +40,6 @@ class InstalmentAlertCron extends Command
      */
     public function handle()
     {
-        $users = User::all();
-        InstalmentNotificationSender::dispatch($users)->delay(now()->addMinutes(1));
+        Notification::send(User::all(), new InstalmentNotification());
     }
 }

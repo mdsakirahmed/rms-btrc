@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use App\Notifications\InstalmentNotification;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class InstalmentAlertCron extends Command
@@ -40,6 +41,7 @@ class InstalmentAlertCron extends Command
      */
     public function handle()
     {
+        $users = DB::table('users')->join('users', 'id', 'user_id', 'licenses');
         Notification::send(User::all(), new InstalmentNotification());
     }
 }

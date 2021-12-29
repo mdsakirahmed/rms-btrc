@@ -11,15 +11,15 @@ class InstalmentNotification extends Notification
 {
     use Queueable;
 
-    public $user;
+    public $payment_data;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user = null)
+    public function __construct($payment_data = null)
     {
-        $this->user = $user;
+        $this->payment_data = $payment_data;
     }
 
     /**
@@ -42,8 +42,8 @@ class InstalmentNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Pay Now', url('/'))
+                    ->line('This is license instalment notification. DUE amount is: '.$this->payment_data->amount.'BDT & Last date of payment: '.$this->payment_data->last_date_of_payment)
+                    ->action('Pay Now', route('payment'))
                     ->line('Thank you for using our application!');
     }
 

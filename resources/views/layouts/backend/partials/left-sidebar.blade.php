@@ -34,29 +34,15 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <li class="nav-small-cap">--- BTRC</li>
                 <li> <a class="waves-effect waves-dark" href="{{ route('dashboard') }}" aria-expanded="false"><i
                             class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
-                @can('user')
-                <li> <a class="waves-effect waves-dark" href="{{ route('user') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">User</span></a></li>
-                @endcan
-                @can('document')
-                <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
-                @endcan
-
-                @can('payment-receive')
+                {{-- @can('payment-receive')
                 <li> <a class="waves-effect waves-dark" href="{{ route('payment-receive') }}" aria-expanded="false"><i
                             class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
-                @endcan
+                @endcan --}}
                 @can('license')
                 <li> <a class="waves-effect waves-dark" href="{{ route('license') }}" aria-expanded="false"><i
                             class="far fa-circle text-info"></i><span class="hide-menu">License</span></a></li>
-                @endcan
-                @can('permission-management')
-                <li> <a class="waves-effect waves-dark" href="{{ route('permission-management') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">Permission</span></a></li>
                 @endcan
                 @can('report')
                 <li> <a class="waves-effect waves-dark" href="{{ route('report') }}" aria-expanded="false"><i
@@ -70,6 +56,21 @@
                 <li> <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i
                             class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
                 @endcan
+                @can('document')
+                <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i
+                            class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
+                @endcan
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-layout-media-right-alt"></i><span class="hide-menu">User Access</span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        @can('user')
+                        <li> <a href="{{ route('user') }}">User</a></li>
+                        @endcan
+                        @can('permission-management')
+                        <li> <a href="{{ route('permission-management') }}">Permission management</a></li>
+                        @endcan
+                    </ul>
+                </li>
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
                             class="ti-layout-media-right-alt"></i><span class="hide-menu">Setting</span></a>
                     <ul aria-expanded="false" class="collapse">

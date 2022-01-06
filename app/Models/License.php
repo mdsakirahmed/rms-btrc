@@ -12,12 +12,20 @@ class License extends Model
 
     protected $fillable = [
         'user_id',
-        'license_sub_category_id',
         'license_category_id',
+        'license_sub_category_id',
         'license_number',
         'fee',
         'instalment',
+        'issue_date',
         'expire_date',
+        'renewal_date',
+        'name',
+        'address',
+        'contac_number',
+        'website',
+        'name_and_designation_of_the_contact_person',
+        'mobile_number_of_contact_person',
     ];
 
     //Relational function

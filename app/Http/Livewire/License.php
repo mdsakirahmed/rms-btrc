@@ -36,7 +36,7 @@ class License extends Component
             'instalment' => 'required',
             'user_id' => 'required',
             'license_category_id' => 'required',
-            'license_sub_category_id' => 'required',
+            'license_sub_category_id' => 'nullable',
             'expire_date' => 'required',
         ]);
 

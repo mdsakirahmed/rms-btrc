@@ -26,7 +26,6 @@
                                     <th>Name</th>
                                     <th style="text-align: right;">Application fee</th>
                                     <th style="text-align: right;">Processing fee</th>
-                                    <th style="text-align: right;">Processing fee</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>

@@ -133,7 +133,7 @@
                                     <td>
                                         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#user-modal" wire:click="selectLicense({{ $license->id }})">Payments</button>
                                         <button type="button" class="btn btn-primary" wire:click="select({{ $license->id }}, 'true')">Edit</button>
-                                        <button type="button" class="btn btn-danger text-white" wire:click="select({{ $license->id }})" data-bs-toggle="modal" data-bs-target="#delete-modal"> Delete </button>
+                                        <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $license->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
                                     </td>
                                 </tr>
                                 @endforeach

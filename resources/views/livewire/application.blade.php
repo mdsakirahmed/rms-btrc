@@ -24,21 +24,25 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Application fee</th>
-                                    <th>Processing fee</th>
-                                    <th>Action</th>
+                                    <th style="text-align: right;">Application fee</th>
+                                    <th style="text-align: right;">Processing fee</th>
+                                    <th style="text-align: right;">Processing fee</th>
+                                    <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($applications as $application)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $application->name }}</td>
-                                    <td>{{ $application->application_fee }}</td>
-                                    <td>{{ $application->processing_fee }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $application->id }})">Edit</button>
-                                        <button type="button" class="btn btn-danger text-white" wire:click="selectForDelete({{ $application->id }})" onclick="openModal()"> Delete </button>
+                                        {{ $application->name }} &nbsp;
+                                        <button type="button" class="btn waves-effect waves-light btn-xs text-white @if( $application->approved) btn-info @else btn-danger @endif"  wire:click="change_approval({{ $application->id }})" onclick="confirm('Are you sure you want to change approval ?') || event.stopImmediatePropagation()">Approve</button>
+                                    </td>
+                                    <td style="text-align: right;">{{ $application->application_fee }} ৳</td>
+                                    <td style="text-align: right;">{{ $application->processing_fee }} ৳</td>
+                                    <td style="text-align: center;">
+                                        <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $application->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
+                                        <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $application->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
                                     </td>
                                 </tr>
                                 @endforeach

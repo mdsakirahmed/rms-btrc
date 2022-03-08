@@ -17,6 +17,7 @@ use App\Http\Livewire\ReceiveFee;
 use App\Http\Livewire\ReceivePeriod;
 use App\Http\Livewire\Report;
 use App\Http\Livewire\User;
+use App\Http\Livewire\Application;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('my-dashboard', Dashboard::class)->name('my-dashboard')->middleware(['permission:my-dashboard']);
     Route::get('user', User::class)->name('user')->middleware(['permission:user']);
     Route::get('document', Document::class)->name('document')->middleware(['permission:document']);
+
+    Route::get('application', Application::class)->name('application')->middleware(['permission:application']);
 
     Route::get('payment-method', PaymentMethod::class)->name('payment-method')->middleware(['permission:payment-method']);
     Route::get('license-category', LicenseCategory::class)->name('license-category')->middleware(['permission:license-category']);

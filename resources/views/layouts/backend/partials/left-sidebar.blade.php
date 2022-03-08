@@ -6,8 +6,7 @@
             <div class="user-pro-body">
                 <div><img src="assets/images/users/2.jpg" alt="user-img" class="img-circle"></div>
                 <div class="dropdown">
-                    <a href="javascript:void(0)" class="dropdown-toggle u-dropdown link hide-menu"
-                        data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave
+                    <a href="javascript:void(0)" class="dropdown-toggle u-dropdown link hide-menu" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave
                         Gection <span class="caret"></span></a>
                     <div class="dropdown-menu animated flipInY">
                         <!-- text-->
@@ -34,34 +33,29 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <li> <a class="waves-effect waves-dark" href="{{ route('dashboard') }}" aria-expanded="false"><i
-                            class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
-                {{-- @can('payment-receive')
-                <li> <a class="waves-effect waves-dark" href="{{ route('payment-receive') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
-                @endcan --}}
+                <li> <a class="waves-effect waves-dark" href="{{ route('dashboard') }}" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
+                @can('application')
+                <li> <a class="waves-effect waves-dark" href="{{ route('application') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Application</span></a></li>
+                @endcan
+                @can('payment-receive')
+                <li> <a class="waves-effect waves-dark" href="{{ route('payment-receive') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
+                @endcan
                 @can('license')
-                <li> <a class="waves-effect waves-dark" href="{{ route('license') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">License</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('license') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">License</span></a></li>
                 @endcan
                 @can('report')
-                <li> <a class="waves-effect waves-dark" href="{{ route('report') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">Report</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('report') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Report</span></a></li>
                 @endcan
                 @can('my-license')
-                <li> <a class="waves-effect waves-dark" href="{{ route('my-license') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">My-License</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('my-license') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">My-License</span></a></li>
                 @endcan
                 @can('payment')
-                <li> <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
                 @endcan
                 @can('document')
-                <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i
-                            class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
+                <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
                 @endcan
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-layout-media-right-alt"></i><span class="hide-menu">User Access</span></a>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-layout-media-right-alt"></i><span class="hide-menu">User Access</span></a>
                     <ul aria-expanded="false" class="collapse">
                         @can('user')
                         <li> <a href="{{ route('user') }}">User</a></li>
@@ -71,8 +65,7 @@
                         @endcan
                     </ul>
                 </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-layout-media-right-alt"></i><span class="hide-menu">Setting</span></a>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-layout-media-right-alt"></i><span class="hide-menu">Setting</span></a>
                     <ul aria-expanded="false" class="collapse">
                         @can('payment-method')
                         <li> <a href="{{ route('payment-method') }}">Payment Method</a></li>

@@ -15,31 +15,29 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
+        //Permissions
+        Permission::create(['name' => 'my-dashboard']);
+        Permission::create(['name' => 'application']);
+        Permission::create(['name' => 'permission-management']);
+        Permission::create(['name' => 'product-list']);
+        Permission::create(['name' => 'product-export']);
+        Permission::create(['name' => 'product-import']);
+        Permission::create(['name' => 'user']);
+        Permission::create(['name' => 'document']);
+        Permission::create(['name' => 'payment-method']);
+        Permission::create(['name' => 'license-category']);
+        Permission::create(['name' => 'license-sub-category']);
+        Permission::create(['name' => 'operator']);
+        Permission::create(['name' => 'receiver-fee']);
+        Permission::create(['name' => 'receiver-period']);
+        Permission::create(['name' => 'payment-receive']);
+        Permission::create(['name' => 'license']);
+        Permission::create(['name' => 'report']);
+        Permission::create(['name' => 'payment']);
+        Permission::create(['name' => 'git']);
+
         //Role
-        $admin_role = Role::create(['name' => 'admin']);
-        $user_role  = Role::create(['name' => 'user']);
-
-        //Permission
-        Permission::create(['name' => 'my-dashboard'])->assignRole([$admin_role, $user_role]);
-        Permission::create(['name' => 'permission-management'])->assignRole($admin_role);
-        Permission::create(['name' => 'product-list'])->assignRole($admin_role);
-        Permission::create(['name' => 'product-export'])->assignRole($admin_role);
-        Permission::create(['name' => 'product-import'])->assignRole($admin_role);
-        Permission::create(['name' => 'user'])->assignRole($admin_role);
-        Permission::create(['name' => 'document'])->assignRole($admin_role);
-        Permission::create(['name' => 'payment-method'])->assignRole($admin_role);
-        Permission::create(['name' => 'license-category'])->assignRole($admin_role);
-        Permission::create(['name' => 'license-sub-category'])->assignRole($admin_role);
-        Permission::create(['name' => 'operator'])->assignRole($admin_role);
-        Permission::create(['name' => 'receiver-fee'])->assignRole($admin_role);
-        Permission::create(['name' => 'receiver-period'])->assignRole($admin_role);
-        Permission::create(['name' => 'payment-receive'])->assignRole($admin_role);
-        Permission::create(['name' => 'license'])->assignRole($admin_role);
-        Permission::create(['name' => 'report'])->assignRole($admin_role);
-        Permission::create(['name' => 'payment'])->assignRole($admin_role);
-        Permission::create(['name' => 'git'])->assignRole($admin_role);
-
-        //
-        Permission::create(['name' => 'my-license'])->assignRole($user_role);
+        $role = Role::create(['name' => 'admin']);
+        $role->syncPermissions(Permission::all());
     }
 }

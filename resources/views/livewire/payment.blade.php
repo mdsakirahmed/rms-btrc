@@ -14,51 +14,66 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-12">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="card-title">Operarot Information</h4>
+                    <b>Operator: </b> {{ $operator->name }} <br>
+                    <b>Category: </b> {{ $operator->category->name ?? 'Not Found' }} <br>
+                    <b>Sub Category: </b> {{ $operator->sub_category->name ?? 'Not Found' }}
+                </div>
+            </div>
+        </div>
         @if($expirations->count() > 0)
-            @foreach ($expirations as $expiration)
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table color-bordered-table primary-bordered-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Amount</th>
-                                        <th>Last date of pay</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($expiration->payments as $payment)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $payment->amount }}</td>
-                                        <td>{{ $payment->last_date_of_payment }}</td>
-                                        <td>
-                                            @if($payment->paid)
-                                            <span class="badge bg-success">PAID</span>
-                                            @else
-                                            <span class="badge bg-danger">DUE</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if($payment->paid)
-                                            <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
-                                            @else
-                                            <button class="btn btn-success" type="button" wire:click="makePayment({{ $payment->id }})">Pay</button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+        @foreach ($expirations as $count => $expiration)
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-header @if($loop->odd) bg-success @else bg-primary @endif text-white d-flex justify-content-around">
+                    <h4>Start: {{ $expiration->starting_date->format('d M Y') }}</h4>
+                    <h4><b>** {{ $loop->iteration }} **</b></h4>
+                    <h4>Expire: {{ $expiration->ending_date->format('d M Y') }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table color-bordered-table  @if($loop->odd) success-bordered-table @else primary-bordered-table @endif">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Amount</th>
+                                    <th>Last date of pay</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($expiration->payments as $payment)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $payment->payble_amount }} ৳</td>
+                                    <td>{{ $payment->last_date_of_payment->format('d M Y') }}</td>
+                                    <td>
+                                        @if($payment->paid)
+                                        <span class="badge bg-success">PAID</span>
+                                        @else
+                                        <span class="badge bg-danger">DUE</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($payment->paid)
+                                        <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
+                                        @else
+                                        <button class="btn btn-success" type="button" wire:click="makePayment({{ $payment->id }})">Pay</button>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            @endforeach
+        </div>
+        @endforeach
         @else
         <div class="col-12">
             <div class="alert alert-danger text-center" role="alert">

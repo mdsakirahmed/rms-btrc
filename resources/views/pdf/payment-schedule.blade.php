@@ -33,6 +33,11 @@
 
 {{-- Bode Document --}}
 <div>
+    <div style="text-align:center; background:rgba(0, 140, 255, 0.233); margin:50px; padding:10px; border-radius:20px;">
+        <h4>Operator: {{ $expiration->operator->name ?? 'Not found' }}</h4>
+        <h4>Category: {{ $expiration->operator->name ?? 'Not found' }}</h4>
+        <h4>Sub Category: {{ $expiration->operator->name ?? 'Not found' }}</h4>
+    </div>
     <table id="schedule_tbl" style="width:100%">
         <tr>
             <th>#</th>

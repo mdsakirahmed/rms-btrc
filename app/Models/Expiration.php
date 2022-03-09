@@ -18,7 +18,13 @@ class Expiration extends Model
         'total_iteration'
     ];
 
+    protected $dates = ['starting_date', 'ending_date'];
+
     public function payments(){
         return $this->hasMany(Payment::class, 'expiration_id', 'id');
+    }
+
+    public function operator(){
+        return $this->belongsTo(Operator::class, 'operator_id', 'id');
     }
 }

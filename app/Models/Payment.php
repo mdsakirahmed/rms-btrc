@@ -23,6 +23,8 @@ class Payment extends Model
         'paid',
     ];
 
+    protected $dates = ['last_date_of_payment', 'payment_date'];
+
     public function expiration(){
         return $this->belongsTo(Expiration::class, 'expiration_id', 'id');
     }

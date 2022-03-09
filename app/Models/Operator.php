@@ -23,4 +23,8 @@ class Operator extends Model
     public function sub_category(){
         return $this->belongsTo(LicenseSubCategory::class, 'sub_category_id', 'id');
     }
+
+    public function expirations(){
+        return $this->hasMany(Expiration::class, 'operator_id', 'id');
+    }
 }

@@ -18,6 +18,8 @@ class Payment extends Model
         'payble_amount',
         'last_date_of_payment',
         'payment_date',
+        'vat',
+        'late_fee',
         'paid',
     ];
 

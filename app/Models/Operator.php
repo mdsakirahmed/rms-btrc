@@ -11,6 +11,16 @@ class Operator extends Model
     use HasFactory, Userstamps;
 
     protected $fillable = [
-        'name'
+        'name',
+        'category_id',
+        'sub_category_id',
     ];
+
+    public function category(){
+        return $this->belongsTo(LicenseCategory::class, 'category_id', 'id');
+    }
+
+    public function sub_category(){
+        return $this->belongsTo(LicenseSubCategory::class, 'sub_category_id', 'id');
+    }
 }

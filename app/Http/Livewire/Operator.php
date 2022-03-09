@@ -2,58 +2,54 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\LicenseCategory;
+use App\Models\LicenseSubCategory;
 use App\Models\Operator as ModelsOperator;
 use Livewire\Component;
 
 class Operator extends Component
 {
-    public $operators, $form, $selected_id;
+    public $name, $category_id, $sub_category_id;
+    public $operator;
 
-    public function showForm()
-    {
-        $this->form = true;
-        $this->name = $this->file = $this->selected_id = null;
+    public function create(){
+        $this->name = $this->category_id = $this->sub_category_id = $this->operator = null;
     }
 
-    public function submit()
-    {
-        $this->validate([
-            'name' => 'required|string',
+    public function submit(){
+        $validate_data = $this->validate([
+            'name' => 'required',
+            'category_id' => 'required',
+            'sub_category_id' => 'required',
         ]);
-        if($this->selected_id){
-            $model = ModelsOperator::find($this->selected_id);
+        if($this->operator){
+            $this->operator->update($validate_data);
         }else{
-            $model = new ModelsOperator;
+            ModelsOperator::create($validate_data);
         }
-        $model->name =  $this->name;
-        $model->save();
-        $this->name = $this->form = $this->selected_id = null;
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Done!']);
+        $this->create();
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 
-    public function selectForEdit(ModelsOperator $operator){
+    public function select_for_edit(ModelsOperator $operator){
         $this->name = $operator->name;
-        $this->form = true;
-        $this->selected_id = $operator->id;
+        $this->category_id = $operator->category_id;
+        $this->sub_category_id = $operator->sub_category_id;
+        $this->operator = $operator;
     }
 
-    public function selectForDelete(ModelsOperator $operator){
-        $this->selected_id = $operator->id;
+    public function delete(ModelsOperator $operator){
+        $operator->delete();
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 
-    public function destroy(){
-        ModelsOperator::find($this->selected_id)->delete();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);
-        $this->selected_id = null;
-    }
-    
-    public function mount(){
-        $this->operators = ModelsOperator::latest()->get();
-    }
 
     public function render()
     {
-        $this->operators = ModelsOperator::latest()->get();
-        return view('livewire.operator')->layout('layouts.backend.app');
+        return view('livewire.operator', [
+            'operators' => ModelsOperator::latest()->get(),
+            'categories' => LicenseCategory::latest()->get(),
+            'sub_categories' => LicenseSubCategory::latest()->get()
+        ])->layout('layouts.backend.app');
     }
 }

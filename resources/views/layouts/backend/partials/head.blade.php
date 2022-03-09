@@ -9,6 +9,7 @@
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
 <title>@yield('title'){{ config('app.name') }}</title>
+<link href="{{ asset('assets/node_module_files/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 <!-- Custom CSS -->
 <link href="{{ asset('assets/dist/css/style.min.css') }}" rel="stylesheet">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

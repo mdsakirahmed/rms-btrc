@@ -37,6 +37,9 @@
                 @can('application')
                 <li> <a class="waves-effect waves-dark" href="{{ route('application') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Application</span></a></li>
                 @endcan
+                @can('operator')
+                <li> <a class="waves-effect waves-dark" href="{{ route('operator') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Operator</span></a></li>
+                @endcan
                 @can('payment-receive')
                 <li> <a class="waves-effect waves-dark" href="{{ route('payment-receive') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
                 @endcan
@@ -76,9 +79,7 @@
                         @can('license-sub-category')
                         <li> <a href="{{ route('license-sub-sategory') }}">License Sub Category</a></li>
                         @endcan
-                        @can('operator')
-                        <li> <a href="{{ route('operator') }}">Operator</a></li>
-                        @endcan
+
                         @can('receiver-fee')
                         <li> <a href="{{ route('receiver-fee') }}">Receiver-fee</a></li>
                         @endcan

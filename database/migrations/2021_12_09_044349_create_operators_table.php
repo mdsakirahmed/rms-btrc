@@ -15,6 +15,8 @@ class CreateOperatorsTable extends Migration
     {
         Schema::create('operators', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->nullable();
+            $table->foreignId('sub_category_id')->nullable();
             $table->string('name');
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();

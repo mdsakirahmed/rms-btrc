@@ -14,8 +14,11 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!--Custom JavaScript -->
 <script src="{{ asset('assets/dist/js/custom.min.js') }}"></script>
+{{-- Select 2 --}}
+<script src="{{ asset('assets/node_module_files/select2/dist/js/select2.full.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/helper/helper.js') }}"></script>
 {{-- @jquery --}}
 @toastr_js
 @toastr_render
 @stack('foot')
+

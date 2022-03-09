@@ -4,7 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\Expiration as ModelsExpiration;
 use App\Models\Operator;
+use App\Models\Payment;
 use Livewire\Component;
+use DateTime;
+use PDF;
 
 class Expiration extends Component
 {
@@ -26,7 +29,18 @@ class Expiration extends Component
         if($this->expiration){
             $this->expiration->update($validate_data);
         }else{
-            ModelsExpiration::create($validate_data);
+            $expitation = ModelsExpiration::create($validate_data);
+            $begin_date = new DateTime($this->starting_date);
+            $end_date = new DateTime($this->ending_date);
+            $total_days = $begin_date->diff($end_date)->days;
+            $gap_day_of_each_instalmant = (integer)intval($total_days / $this->total_iteration);
+            for ($total_iteration = 1; $total_iteration <= $this->total_iteration; $total_iteration++) {
+                $payment = new Payment();
+                $payment->expiration_id = $expitation->id;
+                $payment->payble_amount = $this->total_price / $this->total_iteration;
+                $payment->last_date_of_payment = $begin_date->modify('+' . $gap_day_of_each_instalmant . ' day');
+                $payment->save();
+            }
         }
         $this->create();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
@@ -43,6 +57,13 @@ class Expiration extends Component
     public function delete(ModelsExpiration $expiration){
         $expiration->delete();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+    }
+
+    public function download_payment_schedule(ModelsExpiration $expiration){
+        $this->expiration = $expiration;
+        return response()->streamDownload(function () {
+            PDF::loadView('pdf.payment-schedule',  ['expiration' => $this->expiration])->download();
+        }, 'Payment schedule download at -'.date('d-m-Y h-i-s').'.pdf');
     }
 
     public function mount(){

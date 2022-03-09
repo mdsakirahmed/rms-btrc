@@ -17,4 +17,8 @@ class Expiration extends Model
         'total_price',
         'total_iteration'
     ];
+
+    public function payments(){
+        return $this->hasMany(Payment::class, 'expiration_id', 'id');
+    }
 }

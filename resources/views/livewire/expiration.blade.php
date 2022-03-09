@@ -39,8 +39,14 @@
                                     <td style="text-align: right;">{{ $expiration->total_price }} ৳</td>
                                     <td style="text-align: right;">{{ $expiration->total_iteration }}</td>
                                     <td style="text-align: center;">
+                                        @if($expiration->payments()->where('paid', true)->count() > 0)
+                                        <i class="text-danger">{{ $expiration->payments()->where('paid', true)->count() }} payments</i>
+                                        @else
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $expiration->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $expiration->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
+                                        @endif
+                                        <br>
+                                        <button type="button" class="btn btn-success btn-sm text-white" wire:click="download_payment_schedule({{ $expiration->id }})"> Download Payment Schedule </button>
                                     </td>
                                 </tr>
                                 @endforeach

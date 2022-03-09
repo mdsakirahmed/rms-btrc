@@ -14,78 +14,55 @@
         </div>
     </div>
     <div class="row">
-
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <form wire:submit.prevent="search">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control form-control-lg" id="license_number" placeholder="License number" aria-label="" wire:model="license_number">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-lg btn-info" type="submit">Search</button>
-                                    </div>
-                                </div>
-                                @error('license_number')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+        @if($expirations->count() > 0)
+            @foreach ($expirations as $expiration)
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table color-bordered-table primary-bordered-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Amount</th>
+                                        <th>Last date of pay</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($expiration->payments as $payment)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $payment->amount }}</td>
+                                        <td>{{ $payment->last_date_of_payment }}</td>
+                                        <td>
+                                            @if($payment->paid)
+                                            <span class="badge bg-success">PAID</span>
+                                            @else
+                                            <span class="badge bg-danger">DUE</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($payment->paid)
+                                            <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
+                                            @else
+                                            <button class="btn btn-success" type="button" wire:click="makePayment({{ $payment->id }})">Pay</button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        @if($payments)
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table color-bordered-table primary-bordered-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Amount</th>
-                                    <th>Last date of pay</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($payments as $payment)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $payment->amount }}</td>
-                                    <td>{{ $payment->last_date_of_payment }}</td>
-                                    <td>
-                                        @if($payment->paid)
-                                        <span class="badge bg-success">PAID</span>
-                                        @else
-                                        <span class="badge bg-danger">DUE</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($payment->paid)
-                                        <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
-                                        @else
-                                        <button class="btn btn-success" type="button" wire:click="makePayment({{ $payment->id }})">Pay</button>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
-        </div>
+            @endforeach
         @else
         <div class="col-12">
             <div class="alert alert-danger text-center" role="alert">
-                <h1>Not found</h1>
+                <h1>Configration Not Found</h1>
             </div>
         </div>
         @endif

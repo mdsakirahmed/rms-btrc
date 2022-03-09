@@ -14,7 +14,6 @@ class Payment extends Model
         'expiration_id',
         'bank_id',
         'branch_id',
-        'transaction',
         'payble_amount',
         'last_date_of_payment',
         'payment_date',

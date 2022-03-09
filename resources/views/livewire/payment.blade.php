@@ -104,9 +104,9 @@
                                                 </b>
                                             </h4>
                                         </div>
-                                        <div class=" @if($payment_for_pay->last_date_of_payment->isPast()) col-md-6 @else col-md-12 @endif">
+                                        <div class="col-md-6">
                                             <div class="form-floating mb-3">
-                                                <input type="number" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="VAT">
+                                                <input required type="number" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="VAT">
                                                 <label for="vat">VAT</label>
                                             </div>
                                             @error('vat')
@@ -115,60 +115,50 @@
                                             </div>
                                             @enderror
                                         </div>
-                                        @if($payment_for_pay->last_date_of_payment->isPast())
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control bg-danger text-white" id="late_fee" wire:model="late_fee" placeholder="Late fee">
-                                                    <label for="late_fee">Late fee</label>
-                                                </div>
-                                                @error('late_fee')
-                                                <div class="alert alert-danger" role="alert">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
+                                        <div class="col-md-6">
+                                            @if($payment_for_pay->last_date_of_payment->isPast())
+                                            <div class="form-floating mb-3">
+                                                <input required type="number" class="form-control bg-danger text-white" id="late_fee" wire:model="late_fee" placeholder="Late fee">
+                                                <label for="late_fee">Late fee</label>
                                             </div>
-                                        @endif
-                                    @endif
-                                    <div class="col-md-6">
-                                        <div class="mb-3" wire:ignore>
-                                            <select style="width: 100%;" class="form-control select2" id="bank_id" wire:model="bank_id">
-                                                <option value="">Chose bank</option>
+                                            @error('late_fee')
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                            @endif
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="list-group">
+                                                <input type="text" class="list-group-item list-group-item-action list-group-item-primary"/>
                                                 @foreach ($banks as $bank)
-                                                <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                                <a href="javascript:void(0)" class="list-group-item list-group-item-action list-group-item-secondary">{{ $bank->name }}</a>
                                                 @endforeach
-                                            </select>
-                                            <label for="bank_id">Bank</label>
-                                        </div>
-                                        @error('bank_id')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3" wire:ignore>
-                                            <select style="width: 100%;" class="form-control select2" id="branch_id" wire:model="branch_id">
-                                                <option value="">Chose branch</option>
-                                                @foreach ($branches as $branch)
-                                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <label for="branch_id">Branch</label>
-                                        </div>
-                                        @error('branch_id')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="d-md-flex align-items-center mt-3">
-                                            <div class="ms-auto mt-3 mt-md-0">
-                                                <button type="submit" class="btn btn-success text-white">Submit</button>
-                                                <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <div class="list-group">
+                                                <input type="text" class="list-group-item list-group-item-action list-group-item-primary"/>
+                                                @foreach ($branches as $branch)
+                                                <a href="javascript:void(0)" class="list-group-item list-group-item-action list-group-item-secondary">{{ $branch->name }}</a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="d-md-flex align-items-center mt-3">
+                                                <div class="ms-auto mt-3 mt-md-0">
+                                                    <button type="submit" class="btn btn-success text-white">Submit</button>
+                                                    <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="col-12">
+                                            <div class="alert alert-success text-center" role="alert">
+                                                <h1><b>Click on another pay</b></h1>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </form>
                         </div>

@@ -35,7 +35,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $branch->bank->name ?? 'Not Found' }}</td>
                                     <td>{{ $branch->name }}</td>
-                                    <td style="text-align: right;">{{ $branch->routing_number }} ৳</td>
+                                    <td style="">{{ $branch->routing_number }}</td>
                                     <td style="text-align: center;">
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $branch->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $branch->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>

@@ -40,6 +40,9 @@
                 @can('operator')
                 <li> <a class="waves-effect waves-dark" href="{{ route('operator') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Operator</span></a></li>
                 @endcan
+                @can('payment')
+                <li> <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
+                @endcan
                 @can('payment-receive')
                 <li> <a class="waves-effect waves-dark" href="{{ route('payment-receive') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
                 @endcan
@@ -52,9 +55,7 @@
                 @can('my-license')
                 <li> <a class="waves-effect waves-dark" href="{{ route('my-license') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">My-License</span></a></li>
                 @endcan
-                @can('payment')
-                <li> <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
-                @endcan
+
                 @can('document')
                 <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
                 @endcan
@@ -70,14 +71,17 @@
                 </li>
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-layout-media-right-alt"></i><span class="hide-menu">Setting</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        @can('payment-method')
-                        <li> <a href="{{ route('payment-method') }}">Payment Method</a></li>
+                        @can('bank')
+                        <li> <a href="{{ route('bank') }}">Bank</a></li>
+                        @endcan
+                        @can('branch')
+                        <li> <a href="{{ route('branch') }}">Branch</a></li>
                         @endcan
                         @can('license-category')
-                        <li> <a href="{{ route('license-category') }}">License Category</a></li>
+                        <li> <a href="{{ route('license-category') }}">Category</a></li>
                         @endcan
                         @can('license-sub-category')
-                        <li> <a href="{{ route('license-sub-sategory') }}">License Sub Category</a></li>
+                        <li> <a href="{{ route('license-sub-sategory') }}">Sub-Category</a></li>
                         @endcan
 
                         @can('receiver-fee')

@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
 
-class PaymentMethod extends Model
+class Bank extends Model
 {
     use HasFactory, Userstamps;
 
     protected $fillable = [
         'name'
     ];
+
+    public function branches(){
+        return $this->hasMany(Branch::class, 'branch_id', 'id');
+    }
 }

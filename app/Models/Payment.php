@@ -11,20 +11,25 @@ class Payment extends Model
     use HasFactory, Userstamps;
 
     protected $fillable = [
-        'license_id',
-        'payment_method_id',
+        'expiration_id',
+        'bank_id',
+        'branch_id',
         'transaction',
-        'amount',
+        'payble_amount',
         'last_date_of_payment',
         'payment_date',
         'paid',
     ];
 
-    public function license(){
-        return $this->belongsTo(License::class, 'license_id', 'id');
+    public function expiration(){
+        return $this->belongsTo(Expiration::class, 'expiration_id', 'id');
     }
 
-    public function paymentMethod(){
-        return $this->belongsTo(PaymentMethod::class, 'payment_method_id', 'id');
+    public function bank(){
+        return $this->belongsTo(Bank::class, 'bank_id', 'id');
+    }
+
+    public function branch(){
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 }

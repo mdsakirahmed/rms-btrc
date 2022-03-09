@@ -18,6 +18,8 @@ use App\Http\Livewire\ReceivePeriod;
 use App\Http\Livewire\Report;
 use App\Http\Livewire\User;
 use App\Http\Livewire\Application;
+use App\Http\Livewire\Bank;
+use App\Http\Livewire\Branch;
 use App\Http\Livewire\Expiration;
 use Illuminate\Support\Facades\Route;
 
@@ -45,8 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::get('application', Application::class)->name('application')->middleware(['permission:application']);
     Route::get('operator', Operator::class)->name('operator')->middleware(['permission:operator']);
     Route::get('expiration', Expiration::class)->name('expiration')->middleware(['permission:expiration']);
+    Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
+    Route::get('branch', Branch::class)->name('branch')->middleware(['permission:branch']);
 
-    Route::get('payment-method', PaymentMethod::class)->name('payment-method')->middleware(['permission:payment-method']);
     Route::get('license-category', LicenseCategory::class)->name('license-category')->middleware(['permission:license-category']);
     Route::get('license-sub-category', LicenseSubCategory::class)->name('license-sub-sategory')->middleware(['permission:license-sub-category']);
     Route::get('receiver-fee', ReceiveFee::class)->name('receiver-fee')->middleware(['permission:receiver-fee']);

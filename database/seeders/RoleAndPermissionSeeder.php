@@ -20,13 +20,14 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'application']);
         Permission::create(['name' => 'operator']);
         Permission::create(['name' => 'expiration']);
+        Permission::create(['name' => 'bank']);
+        Permission::create(['name' => 'branch']);
         Permission::create(['name' => 'permission-management']);
         Permission::create(['name' => 'product-list']);
         Permission::create(['name' => 'product-export']);
         Permission::create(['name' => 'product-import']);
         Permission::create(['name' => 'user']);
         Permission::create(['name' => 'document']);
-        Permission::create(['name' => 'payment-method']);
         Permission::create(['name' => 'license-category']);
         Permission::create(['name' => 'license-sub-category']);
         Permission::create(['name' => 'receiver-fee']);

@@ -9,7 +9,6 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item active">Payment Page</li>
                 </ol>
-                <button type="button" class="btn btn-dark d-none d-lg-block m-l-15" wire:click="showForm"><i class="fa fa-plus-circle"></i>Create New</button>
             </div>
         </div>
     </div>
@@ -30,7 +29,7 @@
             <div class="card">
                 <div class="card-header @if($loop->odd) bg-success @else bg-primary @endif text-white d-flex justify-content-around">
                     <h4>Start: {{ $expiration->starting_date->format('d M Y') }}</h4>
-                    <h4><b>** {{ $loop->iteration }} **</b></h4>
+                    <h4 style="background: red; border-radius:12px; padding:5px 15px 5px 15px;"><b>** {{ $loop->iteration }} **</b></h4>
                     <h4>Expire: {{ $expiration->ending_date->format('d M Y') }}</h4>
                 </div>
                 <div class="card-body">
@@ -62,7 +61,7 @@
                                         @if($payment->paid)
                                         <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
                                         @else
-                                        <button class="btn btn-success" type="button" wire:click="makePayment({{ $payment->id }})">Pay</button>
+                                        <button class="btn btn-success" type="button" wire:click="select_payment_for_pay({{ $payment->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Pay</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -81,65 +80,104 @@
             </div>
         </div>
         @endif
-    </div>
-    <!-- payment modal -->
-    <div wire:ignore.self id="payment-modal" class="modal" tabindex="-1" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Make payment</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <form wire:submit.prevent="makePayment">
-                        <div class="form-row row">
-                            <div class="form-group col-md-6">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Mr. Example Name" wire:model="name">
-                                @error('name')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="example@email.com" wire:model="email">
-                                @error('email')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Password" wire:model="password">
-                                @error('password')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="password_confirmation">Password</label>
-                                <input type="password" class="form-control" id="password_confirmation" placeholder="Confirm Password" wire:model="password_confirmation">
-                                @error('password_confirmation')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+        <div class="col-12">
+            <!-- sample modal content -->
+            <div wire:ignore.self class="modal bs-example-modal-lg fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h4 class="modal-title" id="">Payment Form</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
-                        <button type="submit" class="btn btn-primary col-12">SUBMIT</button>
-                    </form>
+                        <div class="modal-body">
+                            <form wire:submit.prevent="submit">
+                                <div class="row">
+                                    @if($payment_for_pay)
+                                        <div class="col-md-12 text-center m-3">
+                                            <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:30px; color:white; border: 5px solid @if($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
+                                                <b>
+                                                    {{ $payment_for_pay->payble_amount }} TAKA <br>
+                                                    {{ $payment_for_pay->last_date_of_payment->format('d M Y') }} ({{ $payment_for_pay->last_date_of_payment->diffForHumans() }}) <br>
+                                                    @if($payment_for_pay->last_date_of_payment->isPast())
+                                                    <i class="text-danger">*Late fee include</i> <br>
+                                                    @endif
+                                                </b>
+                                            </h4>
+                                        </div>
+                                        <div class=" @if($payment_for_pay->last_date_of_payment->isPast()) col-md-6 @else col-md-12 @endif">
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="VAT">
+                                                <label for="vat">VAT</label>
+                                            </div>
+                                            @error('vat')
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                        @if($payment_for_pay->last_date_of_payment->isPast())
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control bg-danger text-white" id="late_fee" wire:model="late_fee" placeholder="Late fee">
+                                                    <label for="late_fee">Late fee</label>
+                                                </div>
+                                                @error('late_fee')
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        @endif
+                                    @endif
+                                    <div class="col-md-6">
+                                        <div class="mb-3" wire:ignore>
+                                            <select style="width: 100%;" class="form-control select2" id="bank_id" wire:model="bank_id">
+                                                <option value="">Chose bank</option>
+                                                @foreach ($banks as $bank)
+                                                <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label for="bank_id">Bank</label>
+                                        </div>
+                                        @error('bank_id')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3" wire:ignore>
+                                            <select style="width: 100%;" class="form-control select2" id="branch_id" wire:model="branch_id">
+                                                <option value="">Chose branch</option>
+                                                @foreach ($branches as $branch)
+                                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label for="branch_id">Branch</label>
+                                        </div>
+                                        @error('branch_id')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-md-flex align-items-center mt-3">
+                                            <div class="ms-auto mt-3 mt-md-0">
+                                                <button type="submit" class="btn btn-success text-white">Submit</button>
+                                                <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info waves-effect text-white" data-bs-dismiss="modal">Close</button>
-                </div>
+                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal-content -->
+            <!-- /.modal -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
-    <!-- /.payment modal -->
 </div>

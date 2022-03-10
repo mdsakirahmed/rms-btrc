@@ -15,6 +15,6 @@ class Bank extends Model
     ];
 
     public function branches(){
-        return $this->hasMany(Branch::class, 'branch_id', 'id');
+        return $this->hasMany(Branch::class, 'bank_id', 'id');
     }
 }

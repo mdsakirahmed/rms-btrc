@@ -16,6 +16,7 @@ use PDF;
 class Payment extends Component
 {
     public $payment_for_pay, $vat, $late_fee, $bank_id, $branch_id;
+    public $bank_search_key, $branch_search_key;
 
     public function select_payment_for_pay(ModelsPayment $payment){
         $this->payment_for_pay = $payment;
@@ -44,8 +45,17 @@ class Payment extends Component
             'payment_date' => Carbon::now(),
             'paid' => true
         ]);
-        $this->payment_for_pay = $this->vat = $this->late_fee = $this->bank_id = $this->branch_id = null;
+        $this->payment_for_pay = $this->vat = $this->late_fee = $this->bank_id = $this->branch_id = $this->bank_search_key = $this->branch_search_key = null;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+    }
+
+    public function chose_bank(Bank $bank){
+        $this->bank_id = $bank->id;
+        $this->branch_id = null;
+    }
+
+    public function chose_branch(Branch $branch){
+        $this->branch_id = $branch->id;
     }
 
     public function mount(){
@@ -65,8 +75,8 @@ class Payment extends Component
 
         return view('livewire.payment', [
             'expirations' => $expirations,
-            'banks' => Bank::latest()->get(),
-            'branches' => Branch::where('bank_id', $this->bank_id)->get() ?? [],
+            'banks' => Bank::where('name', 'like', '%'.$this->bank_search_key.'%')->latest()->get(),
+            'branches' => Branch::where('bank_id', $this->bank_id)->where('name', 'like', '%'.$this->branch_search_key.'%')->latest()->get() ?? [],
         ])->layout('layouts.backend.app');
     }
 }

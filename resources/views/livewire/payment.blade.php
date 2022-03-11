@@ -13,6 +13,7 @@
         </div>
     </div>
     <div class="row">
+        @if($operator)
         <div class="col-12">
             <div class="card text-center">
                 <div class="card-body">
@@ -23,6 +24,56 @@
                 </div>
             </div>
         </div>
+        @elseif($categories)
+        <div class="col-12">
+            <div class="card" style="border-radius:15px 15px 0px 0px;">
+                <div class="card-body row">
+                    <div class="col-md-4" style="height:3in; overflow:scroll;">
+                        <div class="list-group">
+                            <input type="text" wire:model="sub_category_search_key" class="text-center text-white" placeholder="Search category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                            @if($categories->count() > 0)
+                            @foreach ($categories as $category)
+                            <a href="javascript:void(0)" wire:click="chose_bank({{ $category->id }})" class=" @if($category->id == $category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $category->name }}</a>
+                            @endforeach
+                            @else
+                            <div class="alert alert-warning text-center" role="alert">
+                                <b>Category Not Found</b>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="height:3in; overflow:scroll;">
+                        <div class="list-group">
+                            <input type="text" wire:model="category_search_key" class="text-center text-white" placeholder="Search sub category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                            @if($sub_categories->count() > 0)
+                            @foreach ($sub_categories as $sub_category)
+                            <a href="javascript:void(0)" wire:click="chose_bank({{ $sub_category->id }})" class=" @if($sub_category->id == $sub_category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $sub_category->name }}</a>
+                            @endforeach
+                            @else
+                            <div class="alert alert-warning text-center" role="alert">
+                                <b>Sub category Not Found</b>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="height:3in; overflow:scroll;">
+                        <div class="list-group">
+                            <input type="text" wire:model="category_search_key" class="text-center text-white" placeholder="Search operator" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                            @if($operators->count() > 0)
+                            @foreach ($operators as $operator)
+                            <a href="javascript:void(0)" wire:click="chose_bank({{ $operator->id }})" class=" @if($operator->id == $operator_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $operator->name }}</a>
+                            @endforeach
+                            @else
+                            <div class="alert alert-warning text-center" role="alert">
+                                <b>Operator Not Found</b>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
         @if($expirations->count() > 0)
         @foreach ($expirations as $count => $expiration)
         <div class="col-12 mt-3">
@@ -93,95 +144,95 @@
                             <form wire:submit.prevent="submit">
                                 <div class="row">
                                     @if($payment_for_pay)
-                                        <div class="col-md-12 text-center m-3">
-                                            <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:30px; color:white; border: 5px solid @if($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
-                                                <b>
-                                                    {{ $payment_for_pay->payble_amount }} TAKA <br>
-                                                    {{ $payment_for_pay->last_date_of_payment->format('d M Y') }} ({{ $payment_for_pay->last_date_of_payment->diffForHumans() }}) <br>
-                                                    @if($payment_for_pay->last_date_of_payment->isPast())
-                                                    <i class="text-danger">*Late fee include</i> <br>
-                                                    @endif
-                                                </b>
-                                            </h4>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input required type="number" class="form-control bg-success text-white text-center" id="vat" wire:model="vat" placeholder="VAT">
-                                                <label for="vat">VAT</label>
-                                            </div>
-                                            @error('vat')
-                                            <div class="alert alert-danger" role="alert">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6">
-                                            @if($payment_for_pay->last_date_of_payment->isPast())
-                                            <div class="form-floating mb-3">
-                                                <input required type="number" class="form-control bg-danger text-white text-center" id="late_fee" wire:model="late_fee" placeholder="Late fee">
-                                                <label for="late_fee">Late fee</label>
-                                            </div>
-                                            @error('late_fee')
-                                            <div class="alert alert-danger" role="alert">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                            @endif
-                                        </div>
-                                        <div class="col-md-6">
-                                            @error('bank_id')
-                                            <div class="alert alert-danger" role="alert">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                            <div class="list-group">
-                                                <input type="text" wire:model="bank_search_key" class="text-center text-white" placeholder="Search bank" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;"/>
-                                                @if($banks->count() > 0)
-                                                @foreach ($banks as $bank)
-                                                <a href="javascript:void(0)" wire:click="chose_bank({{ $bank->id }})" class=" @if($bank->id == $bank_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $bank->name }}</a>
-                                                @endforeach
-                                                @else
-                                                <div class="alert alert-warning text-center" role="alert">
-                                                    <b>Bank Not Found</b>
-                                                </div>
+                                    <div class="col-md-12 text-center m-3">
+                                        <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:30px; color:white; border: 5px solid @if($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
+                                            <b>
+                                                {{ $payment_for_pay->payble_amount }} TAKA <br>
+                                                {{ $payment_for_pay->last_date_of_payment->format('d M Y') }} ({{ $payment_for_pay->last_date_of_payment->diffForHumans() }}) <br>
+                                                @if($payment_for_pay->last_date_of_payment->isPast())
+                                                <i class="text-danger">*Late fee include</i> <br>
                                                 @endif
-                                            </div>
+                                            </b>
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input required type="number" class="form-control bg-success text-white text-center" id="vat" wire:model="vat" placeholder="VAT">
+                                            <label for="vat">VAT</label>
                                         </div>
-                                        <div class="col-md-6">
-                                            @error('branch_id')
-                                            <div class="alert alert-danger" role="alert">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                            @if($bank_id)
-                                            <div class="list-group">
-                                                <input type="text" wire:model="branch_search_key" class="text-white text-center" placeholder="Search branch" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;"/>
-                                                @if($branches->count() > 0)
-                                                @foreach ($branches as $branch)
-                                                <a href="javascript:void(0)" wire:click="chose_branch({{ $branch->id }})" class="  @if($branch->id == $branch_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $branch->name }}</a>
-                                                @endforeach
-                                                @else
-                                                <div class="alert alert-warning text-center" role="alert">
-                                                    <b>Branch Not Found</b>
-                                                </div>
-                                                @endif
+                                        @error('vat')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        @if($payment_for_pay->last_date_of_payment->isPast())
+                                        <div class="form-floating mb-3">
+                                            <input required type="number" class="form-control bg-danger text-white text-center" id="late_fee" wire:model="late_fee" placeholder="Late fee">
+                                            <label for="late_fee">Late fee</label>
+                                        </div>
+                                        @error('late_fee')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        @error('bank_id')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                        <div class="list-group">
+                                            <input type="text" wire:model="bank_search_key" class="text-center text-white" placeholder="Search bank" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                                            @if($banks->count() > 0)
+                                            @foreach ($banks as $bank)
+                                            <a href="javascript:void(0)" wire:click="chose_bank({{ $bank->id }})" class=" @if($bank->id == $bank_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $bank->name }}</a>
+                                            @endforeach
+                                            @else
+                                            <div class="alert alert-warning text-center" role="alert">
+                                                <b>Bank Not Found</b>
                                             </div>
                                             @endif
                                         </div>
-                                        <div class="col-12">
-                                            <div class="d-md-flex align-items-center mt-3">
-                                                <div class="ms-auto mt-3 mt-md-0">
-                                                    <button type="submit" class="btn btn-success text-white">Submit</button>
-                                                    <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
-                                                </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @error('branch_id')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                        @if($bank_id)
+                                        <div class="list-group">
+                                            <input type="text" wire:model="branch_search_key" class="text-white text-center" placeholder="Search branch" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                                            @if($branches->count() > 0)
+                                            @foreach ($branches as $branch)
+                                            <a href="javascript:void(0)" wire:click="chose_branch({{ $branch->id }})" class="  @if($branch->id == $branch_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $branch->name }}</a>
+                                            @endforeach
+                                            @else
+                                            <div class="alert alert-warning text-center" role="alert">
+                                                <b>Branch Not Found</b>
+                                            </div>
+                                            @endif
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-md-flex align-items-center mt-3">
+                                            <div class="ms-auto mt-3 mt-md-0">
+                                                <button type="submit" class="btn btn-success text-white">Submit</button>
+                                                <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
+                                    </div>
                                     @else
-                                        <div class="col-12">
-                                            <div class="alert alert-success text-center" role="alert">
-                                                <h1><b>Click on another pay</b></h1>
-                                            </div>
+                                    <div class="col-12">
+                                        <div class="alert alert-success text-center" role="alert">
+                                            <h1><b>Click on another pay</b></h1>
                                         </div>
+                                    </div>
                                     @endif
                                 </div>
                             </form>

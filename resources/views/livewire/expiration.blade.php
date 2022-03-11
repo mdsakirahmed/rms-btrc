@@ -16,6 +16,16 @@
 
     <div class="row">
         <div class="col-12">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="card-title">Operarot Information</h4>
+                    <b>Operator: </b> {{ $operator->name }} <br>
+                    <b>Category: </b> {{ $operator->category->name ?? 'Not Found' }} <br>
+                    <b>Sub Category: </b> {{ $operator->sub_category->name ?? 'Not Found' }}
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -46,6 +56,7 @@
                                         <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $expiration->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
                                         @endif
                                         <br>
+                                        <a href="{{ route('payment', ['operator' => $operator, 'expiration' => $expiration]) }}" class="btn btn-success text-white">Payments</a>
                                         <button type="button" class="btn btn-success btn-sm text-white" wire:click="download_payment_schedule({{ $expiration->id }})"> Download Payment Schedule </button>
                                     </td>
                                 </tr>

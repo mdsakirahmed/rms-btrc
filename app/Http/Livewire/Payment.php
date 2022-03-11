@@ -9,6 +9,8 @@ use App\Library\SslCommerz\SslCommerzNotification;
 use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\Expiration;
+use App\Models\LicenseCategory;
+use App\Models\LicenseSubCategory;
 use App\Models\Operator;
 use Carbon\Carbon;
 use PDF;
@@ -17,6 +19,8 @@ class Payment extends Component
 {
     public $payment_for_pay, $vat, $late_fee, $bank_id, $branch_id;
     public $bank_search_key, $branch_search_key;
+    // public $license_categories, $license_sub_categories, $operators;
+    public $category_search_key, $sub_category_search_key, $operator_search_key, $category_id, $sub_category_id, $operator_id;
 
     public function select_payment_for_pay(ModelsPayment $payment){
         $this->payment_for_pay = $payment;
@@ -60,23 +64,33 @@ class Payment extends Component
 
     public function mount(){
         $this->operator = Operator::find(request()->operator);
-        if($this->operator){
-            $this->operator_id = $this->operator->id;
-        }
     }
 
     public function render()
     {
-        if($this->operator){
-            $expirations = Expiration::latest()->where('operator_id', $this->operator->id)->get();
+        return view('livewire.payment', [
+            'expirations' => $this->get_expirations(),
+            'banks' => Bank::where('name', 'like', '%'.$this->bank_search_key.'%')->latest()->get(),
+            'branches' => Branch::where('bank_id', $this->bank_id)->where('name', 'like', '%'.$this->branch_search_key.'%')->latest()->get() ?? [],
+        ])->layout('layouts.backend.app');
+    }
+
+    public function get_expirations(){
+        if(!request()->operator && !request()->expiration){
+            $expirations = collect();
+            $this->categories = LicenseCategory::where('name', 'like', '%'.$this->category_search_key.'%')->latest()->get();
+            $this->sub_categories = LicenseSubCategory::where('name', 'like', '%'.$this->sub_category_search_key.'%')->latest()->get();
+            $this->operators = collect();
         }else{
             $expirations = Expiration::latest()->get();
         }
 
-        return view('livewire.payment', [
-            'expirations' => $expirations,
-            'banks' => Bank::where('name', 'like', '%'.$this->bank_search_key.'%')->latest()->get(),
-            'branches' => Branch::where('bank_id', $this->bank_id)->where('name', 'like', '%'.$this->branch_search_key.'%')->latest()->get() ?? [],
-        ])->layout('layouts.backend.app');
+        if(request()->operator){
+            $expirations = $expirations->where('operator_id', request()->operator);
+        }
+        if(request()->expiration){
+            $expirations = $expirations->where('id', request()->expiration);
+        }
+        return $expirations;
     }
 }

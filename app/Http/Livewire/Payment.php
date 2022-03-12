@@ -52,6 +52,13 @@ class Payment extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 
+    public function download_invoice(ModelsPayment $payment){
+        $this->payment_for_inv_download = $payment;
+        return response()->streamDownload(function () {
+            PDF::loadView('pdf.payment-invoice',  ['payment' => $this->payment_for_inv_download])->download();
+        }, 'Payment invoice download at -'.date('d-m-Y h-i-s').'.pdf');
+    }
+
     public function chose_bank(Bank $bank){
         $this->bank_id = $bank->id;
         $this->branch_id = null;

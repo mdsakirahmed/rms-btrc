@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item active">Expiration Page</li>
                 </ol>
-                <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"><i class="fa fa-plus-circle"></i> Create New</button>
+                <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"><i class="fa fa-plus-circle"></i> @if($operator->expirations->count() > 0) Renew @else Create New @endif </button>
             </div>
         </div>
     </div>
@@ -44,8 +44,8 @@
                                 @foreach ($expirations as $expiration)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $expiration->starting_date }}</td>
-                                    <td>{{ $expiration->ending_date }}</td>
+                                    <td>{{ $expiration->starting_date->format('d M Y') }}</td>
+                                    <td>{{ $expiration->ending_date->format('d M Y') }}</td>
                                     <td style="text-align: right;">{{ $expiration->total_price }} ৳</td>
                                     <td style="text-align: right;">{{ $expiration->total_iteration }}</td>
                                     <td style="text-align: center;">

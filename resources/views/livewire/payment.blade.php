@@ -112,7 +112,7 @@
                                     </td>
                                     <td>
                                         @if ($payment->paid)
-                                        <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
+                                        <button class="btn btn-dark" type="button" wire:click="download_invoice({{ $payment->id }})">INV</button>
                                         @else
                                         <button class="btn btn-success" type="button" wire:click="select_payment_for_pay({{ $payment->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#payment_modal">Pay</button>
                                         @endif

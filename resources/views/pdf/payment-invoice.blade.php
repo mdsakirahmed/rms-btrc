@@ -34,9 +34,9 @@
 {{-- Bode Document --}}
 <div>
     <div style="text-align:center; background:rgba(0, 140, 255, 0.233); margin:50px; padding:10px; border-radius:20px;">
-        <h4>Operator: {{ $expiration->operator->name ?? 'Not found' }}</h4>
-        <h4>Category: {{ $expiration->operator->category->name ?? 'Not found' }}</h4>
-        <h4>Sub Category: {{ $expiration->operator->sub_category->name ?? 'Not found' }}</h4>
+        <h4>Operator: {{ $payment->expiration->operator->name ?? 'Not found' }}</h4>
+        <h4>Category: {{ $payment->expiration->operator->category->name ?? 'Not found' }}</h4>
+        <h4>Sub Category: {{ $payment->expiration->operator->sub_category->name ?? 'Not found' }}</h4>
     </div>
     <table id="schedule_tbl" style="width:100%">
         <tr>
@@ -45,9 +45,8 @@
             <th>Amount</th>
             <th>Status</th>
         </tr>
-        @foreach($expiration->payments as $payment)
         <tr>
-            <td style="text-align: center">{{ $loop->iteration }}</td>
+            <td style="text-align: center">1.</td>
             <td style="text-align:center;">{{ $payment->last_date_of_payment->format('d M Y') }}</td>
             <td style="text-align:right;">{{ $payment->payble_amount }} TAKA </td>
             <td style="text-align:center;">
@@ -58,6 +57,5 @@
                 @endif
             </td>
         </tr>
-        @endforeach
     </table>
 </div>

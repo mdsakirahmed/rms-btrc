@@ -80,7 +80,6 @@ class Expiration extends Component
         }else{
             $expirations = ModelsExpiration::latest()->get();
         }
-        // dd($expirations);
         return view('livewire.expiration', [
             'expirations' => $expirations
         ])->layout('layouts.backend.app');

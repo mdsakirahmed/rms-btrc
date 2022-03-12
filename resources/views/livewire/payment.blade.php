@@ -87,7 +87,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table color-bordered-table  @if ($loop->odd) success-bordered-table @else primary-bordered-table @endif">
+                        <table class="table color-bordered-table  @if($loop->odd) success-bordered-table @else primary-bordered-table @endif">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -114,7 +114,7 @@
                                         @if ($payment->paid)
                                         <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
                                         @else
-                                        <button class="btn btn-success" type="button" wire:click="select_payment_for_pay({{ $payment->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Pay</button>
+                                        <button class="btn btn-success" type="button" wire:click="select_payment_for_pay({{ $payment->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#payment_modal">Pay</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -135,7 +135,7 @@
         @endif
         <div class="col-12">
             <!-- sample modal content -->
-            <div wire:ignore.self class="modal bs-example-modal-lg fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+            <div wire:ignore.self class="modal bs-example-modal-lg fade" id="payment_modal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">

@@ -1,20 +1,14 @@
 <?php
 
 use App\Http\Controllers\Backend\ProductController;
-use App\Http\Livewire\MyLicense;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Document;
 use App\Http\Livewire\Git;
-use App\Http\Livewire\License;
 use App\Http\Livewire\LicenseCategory;
 use App\Http\Livewire\LicenseSubCategory;
 use App\Http\Livewire\Operator;
 use App\Http\Livewire\Payment;
-use App\Http\Livewire\PaymentMethod;
-use App\Http\Livewire\PaymentReceive;
 use App\Http\Livewire\PermissionManagement;
-use App\Http\Livewire\ReceiveFee;
-use App\Http\Livewire\ReceivePeriod;
 use App\Http\Livewire\Report;
 use App\Http\Livewire\User;
 use App\Http\Livewire\Application;
@@ -52,14 +46,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('license-category', LicenseCategory::class)->name('license-category')->middleware(['permission:license-category']);
     Route::get('license-sub-category', LicenseSubCategory::class)->name('license-sub-sategory')->middleware(['permission:license-sub-category']);
-    Route::get('receiver-fee', ReceiveFee::class)->name('receiver-fee')->middleware(['permission:receiver-fee']);
-    Route::get('receiver-period', ReceivePeriod::class)->name('receiver-period')->middleware(['permission:receiver-period']);
 
-    Route::get('license', License::class)->name('license')->middleware(['permission:license']);
-    Route::get('payment-receive', PaymentReceive::class)->name('payment-receive')->middleware(['permission:payment-receive']);
     Route::get('permission-management', PermissionManagement::class)->name('permission-management')->middleware(['permission:permission-management']);
     Route::get('report', Report::class)->name('report')->middleware(['permission:report']);
-    Route::get('my-license', MyLicense::class)->name('my-license')->middleware(['permission:my-license']);
     Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
     Route::get('git', Git::class)->name('git')->middleware(['permission:git']);
 });

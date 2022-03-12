@@ -43,19 +43,9 @@
                 @can('payment')
                 <li> <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
                 @endcan
-                @can('payment-receive')
-                <li> <a class="waves-effect waves-dark" href="{{ route('payment-receive') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment Receive</span></a></li>
-                @endcan
-                @can('license')
-                <li> <a class="waves-effect waves-dark" href="{{ route('license') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">License</span></a></li>
-                @endcan
                 @can('report')
                 <li> <a class="waves-effect waves-dark" href="{{ route('report') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Report</span></a></li>
                 @endcan
-                @can('my-license')
-                <li> <a class="waves-effect waves-dark" href="{{ route('my-license') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">My-License</span></a></li>
-                @endcan
-
                 @can('document')
                 <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
                 @endcan
@@ -82,13 +72,6 @@
                         @endcan
                         @can('license-sub-category')
                         <li> <a href="{{ route('license-sub-sategory') }}">Sub-Category</a></li>
-                        @endcan
-
-                        @can('receiver-fee')
-                        <li> <a href="{{ route('receiver-fee') }}">Receiver-fee</a></li>
-                        @endcan
-                        @can('receiver-period')
-                        <li> <a href="{{ route('receiver-period') }}">Receiver-period</a></li>
                         @endcan
                         @can('git')
                         <li> <a href="{{ route('git') }}">Git</a></li>

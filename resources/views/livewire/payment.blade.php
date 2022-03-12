@@ -13,27 +13,15 @@
         </div>
     </div>
     <div class="row">
-        @if($operator)
-        <div class="col-12">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h4 class="card-title">Operarot Information</h4>
-                    <b>Operator: </b> {{ $operator->name }} <br>
-                    <b>Category: </b> {{ $operator->category->name ?? 'Not Found' }} <br>
-                    <b>Sub Category: </b> {{ $operator->sub_category->name ?? 'Not Found' }}
-                </div>
-            </div>
-        </div>
-        @elseif($categories)
         <div class="col-12">
             <div class="card" style="border-radius:15px 15px 0px 0px;">
                 <div class="card-body row">
                     <div class="col-md-4" style="height:3in; overflow:scroll;">
                         <div class="list-group">
-                            <input type="text" wire:model="sub_category_search_key" class="text-center text-white" placeholder="Search category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                            @if($categories->count() > 0)
+                            <input type="text" wire:model="category_search_key" class="text-center text-white" placeholder="Search category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                            @if ($categories->count() > 0)
                             @foreach ($categories as $category)
-                            <a href="javascript:void(0)" wire:click="chose_bank({{ $category->id }})" class=" @if($category->id == $category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $category->name }}</a>
+                            <a href="javascript:void(0)" wire:click="chose_category({{ $category->id }})" class=" @if ($category->id == $category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $category->name }}</a>
                             @endforeach
                             @else
                             <div class="alert alert-warning text-center" role="alert">
@@ -44,10 +32,10 @@
                     </div>
                     <div class="col-md-4" style="height:3in; overflow:scroll;">
                         <div class="list-group">
-                            <input type="text" wire:model="category_search_key" class="text-center text-white" placeholder="Search sub category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                            @if($sub_categories->count() > 0)
+                            <input type="text" wire:model="sub_category_search_key" class="text-center text-white" placeholder="Search sub category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                            @if ($sub_categories->count() > 0)
                             @foreach ($sub_categories as $sub_category)
-                            <a href="javascript:void(0)" wire:click="chose_bank({{ $sub_category->id }})" class=" @if($sub_category->id == $sub_category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $sub_category->name }}</a>
+                            <a href="javascript:void(0)" wire:click="chose_sub_category({{ $sub_category->id }})" class=" @if ($sub_category->id == $sub_category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $sub_category->name }}</a>
                             @endforeach
                             @else
                             <div class="alert alert-warning text-center" role="alert">
@@ -58,10 +46,10 @@
                     </div>
                     <div class="col-md-4" style="height:3in; overflow:scroll;">
                         <div class="list-group">
-                            <input type="text" wire:model="category_search_key" class="text-center text-white" placeholder="Search operator" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                            @if($operators->count() > 0)
-                            @foreach ($operators as $operator)
-                            <a href="javascript:void(0)" wire:click="chose_bank({{ $operator->id }})" class=" @if($operator->id == $operator_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $operator->name }}</a>
+                            <input type="text" wire:model="operator_search_key" class="text-center text-white" placeholder="Search operator" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                            @if ($operators->count() > 0)
+                            @foreach ($operators as $operator_1)
+                            <a href="javascript:void(0)" wire:click="chose_operator({{ $operator_1->id }})" class=" @if ($operator_1->id == $operator_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $operator_1->name }}</a>
                             @endforeach
                             @else
                             <div class="alert alert-warning text-center" role="alert">
@@ -73,19 +61,33 @@
                 </div>
             </div>
         </div>
+
+        @if ($operator)
+        <div class="col-12">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="card-title">Operarot Information</h4>
+                    <b>Operator: </b> {{ $operator->name }} <br>
+                    <b>Category: </b> {{ $operator->category->name ?? 'Not Found' }} <br>
+                    <b>Sub Category: </b> {{ $operator->sub_category->name ?? 'Not Found' }}
+                </div>
+            </div>
+        </div>
         @endif
-        @if($expirations->count() > 0)
-        @foreach ($expirations as $count => $expiration)
+
+        @if ($expirations->count() > 0)
+        @foreach ($expirations as $expiration)
         <div class="col-12 mt-3">
             <div class="card">
-                <div class="card-header @if($loop->odd) bg-success @else bg-primary @endif text-white d-flex justify-content-around">
+                <div class="card-header @if ($loop->odd) bg-success @else bg-primary @endif text-white d-flex justify-content-around">
                     <h4>Start: {{ $expiration->starting_date->format('d M Y') }}</h4>
-                    <h4 style="background: red; border-radius:12px; padding:5px 15px 5px 15px;"><b>** {{ $loop->iteration }} **</b></h4>
+                    <h4 style="background: red; border-radius:12px; padding:5px 15px 5px 15px;"><b>**
+                            {{ $loop->iteration }} **</b></h4>
                     <h4>Expire: {{ $expiration->ending_date->format('d M Y') }}</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table color-bordered-table  @if($loop->odd) success-bordered-table @else primary-bordered-table @endif">
+                        <table class="table color-bordered-table  @if ($loop->odd) success-bordered-table @else primary-bordered-table @endif">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -102,14 +104,14 @@
                                     <td>{{ $payment->payble_amount }} ৳</td>
                                     <td>{{ $payment->last_date_of_payment->format('d M Y') }}</td>
                                     <td>
-                                        @if($payment->paid)
+                                        @if ($payment->paid)
                                         <span class="badge bg-success">PAID</span>
                                         @else
                                         <span class="badge bg-danger">DUE</span>
                                         @endif
                                     </td>
                                     <td>
-                                        @if($payment->paid)
+                                        @if ($payment->paid)
                                         <button class="btn btn-dark" type="button" wire:click="downloadInvoice({{ $payment->id }})">INV</button>
                                         @else
                                         <button class="btn btn-success" type="button" wire:click="select_payment_for_pay({{ $payment->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Pay</button>
@@ -143,13 +145,15 @@
                         <div class="modal-body">
                             <form wire:submit.prevent="submit">
                                 <div class="row">
-                                    @if($payment_for_pay)
+                                    @if ($payment_for_pay)
                                     <div class="col-md-12 text-center m-3">
-                                        <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:30px; color:white; border: 5px solid @if($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
+                                        <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:30px; color:white; border: 5px solid @if ($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
                                             <b>
                                                 {{ $payment_for_pay->payble_amount }} TAKA <br>
-                                                {{ $payment_for_pay->last_date_of_payment->format('d M Y') }} ({{ $payment_for_pay->last_date_of_payment->diffForHumans() }}) <br>
-                                                @if($payment_for_pay->last_date_of_payment->isPast())
+                                                {{ $payment_for_pay->last_date_of_payment->format('d M Y') }}
+                                                ({{ $payment_for_pay->last_date_of_payment->diffForHumans() }})
+                                                <br>
+                                                @if ($payment_for_pay->last_date_of_payment->isPast())
                                                 <i class="text-danger">*Late fee include</i> <br>
                                                 @endif
                                             </b>
@@ -167,7 +171,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        @if($payment_for_pay->last_date_of_payment->isPast())
+                                        @if ($payment_for_pay->last_date_of_payment->isPast())
                                         <div class="form-floating mb-3">
                                             <input required type="number" class="form-control bg-danger text-white text-center" id="late_fee" wire:model="late_fee" placeholder="Late fee">
                                             <label for="late_fee">Late fee</label>
@@ -187,9 +191,9 @@
                                         @enderror
                                         <div class="list-group">
                                             <input type="text" wire:model="bank_search_key" class="text-center text-white" placeholder="Search bank" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                                            @if($banks->count() > 0)
+                                            @if ($banks->count() > 0)
                                             @foreach ($banks as $bank)
-                                            <a href="javascript:void(0)" wire:click="chose_bank({{ $bank->id }})" class=" @if($bank->id == $bank_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $bank->name }}</a>
+                                            <a href="javascript:void(0)" wire:click="chose_bank({{ $bank->id }})" class=" @if ($bank->id == $bank_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $bank->name }}</a>
                                             @endforeach
                                             @else
                                             <div class="alert alert-warning text-center" role="alert">
@@ -204,12 +208,12 @@
                                             {{ $message }}
                                         </div>
                                         @enderror
-                                        @if($bank_id)
+                                        @if ($bank_id)
                                         <div class="list-group">
                                             <input type="text" wire:model="branch_search_key" class="text-white text-center" placeholder="Search branch" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                                            @if($branches->count() > 0)
+                                            @if ($branches->count() > 0)
                                             @foreach ($branches as $branch)
-                                            <a href="javascript:void(0)" wire:click="chose_branch({{ $branch->id }})" class="  @if($branch->id == $branch_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $branch->name }}</a>
+                                            <a href="javascript:void(0)" wire:click="chose_branch({{ $branch->id }})" class="  @if ($branch->id == $branch_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $branch->name }}</a>
                                             @endforeach
                                             @else
                                             <div class="alert alert-warning text-center" role="alert">

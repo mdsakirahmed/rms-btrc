@@ -17,6 +17,7 @@ class RoleAndPermissionSeeder extends Seeder
     {
         //Permissions
         Permission::create(['name' => 'my-dashboard']);
+        Permission::create(['name' => 'profile']);
         Permission::create(['name' => 'application']);
         Permission::create(['name' => 'operator']);
         Permission::create(['name' => 'expiration']);

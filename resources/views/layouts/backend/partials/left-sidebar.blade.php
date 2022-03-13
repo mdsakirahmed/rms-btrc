@@ -6,25 +6,16 @@
             <div class="user-pro-body">
                 <div><img src="assets/images/users/2.jpg" alt="user-img" class="img-circle"></div>
                 <div class="dropdown">
-                    <a href="javascript:void(0)" class="dropdown-toggle u-dropdown link hide-menu" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave
-                        Gection <span class="caret"></span></a>
+                    <a href="javascript:void(0)" class="dropdown-toggle u-dropdown link hide-menu" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ auth()->user()->name }}<span class="caret"></span></a>
                     <div class="dropdown-menu animated flipInY">
                         <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
-                        <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
-                        <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
+                        @can('profile')
+                        <a href="{{ route('profile') }}" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+                        @endcan
                         <!-- text-->
                         <div class="dropdown-divider"></div>
                         <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-settings"></i> Account
-                            Setting</a>
-                        <!-- text-->
-                        <div class="dropdown-divider"></div>
-                        <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item logout-btn"><i class="fa fa-power-off"></i>
-                            Logout</a>
+                        <a href="javascript:void(0)" class="dropdown-item logout-btn"><i class="fa fa-power-off"></i> Logout</a>
                         <!-- text-->
                     </div>
                 </div>

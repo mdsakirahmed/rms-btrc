@@ -12,13 +12,14 @@ class Expiration extends Model
 
     protected $fillable = [
         'operator_id',
-        'starting_date',
-        'ending_date',
-        'total_price',
-        'total_iteration'
+        'issue_date',
+        'expire_date',
+        'price',
+        'fee',
+        'iteration'
     ];
 
-    protected $dates = ['starting_date', 'ending_date'];
+    protected $dates = ['issue_date', 'expire_date'];
 
     public function payments(){
         return $this->hasMany(Payment::class, 'expiration_id', 'id');

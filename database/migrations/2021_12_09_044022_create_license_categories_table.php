@@ -16,6 +16,10 @@ class CreateLicenseCategoriesTable extends Migration
         Schema::create('license_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->double('license_fee')->default(0);
+            $table->double('duration_year')->default(0);
+            $table->double('duration_month')->default(0);
+            $table->integer('payment_iteration')->default(0);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

@@ -11,6 +11,10 @@ class LicenseCategory extends Model
     use HasFactory, Userstamps;
 
     protected $fillable = [
-        'name'
+        'name',
+        'license_fee',
+        'duration_year',
+        'duration_month',
+        'payment_iteration',
     ];
 }

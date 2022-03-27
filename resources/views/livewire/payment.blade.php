@@ -190,23 +190,6 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <x-error name="branch_id" />
-                                        @if ($bank_id)
-                                        <div class="list-group">
-                                            <input type="text" wire:model="branch_search_key" class="text-white text-center" placeholder="Search branch" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                                            @if ($branches->count() > 0)
-                                            @foreach ($branches as $branch)
-                                            <a href="javascript:void(0)" wire:click="chose_branch({{ $branch->id }})" class="  @if ($branch->id == $branch_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $branch->name }}</a>
-                                            @endforeach
-                                            @else
-                                            <div class="alert alert-warning text-center" role="alert">
-                                                <b>Branch Not Found</b>
-                                            </div>
-                                            @endif
-                                        </div>
-                                        @endif
-                                    </div>
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">
                                             <div class="ms-auto mt-3 mt-md-0">

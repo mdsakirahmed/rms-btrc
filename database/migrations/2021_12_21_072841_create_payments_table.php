@@ -17,7 +17,6 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->foreignId('expiration_id');
             $table->foreignId('bank_id')->nullable();
-            $table->foreignId('branch_id')->nullable();
             $table->double('payble_amount')->default(0);
             $table->date('last_date_of_payment');
             $table->date('payment_date')->nullable();

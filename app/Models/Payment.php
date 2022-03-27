@@ -13,7 +13,6 @@ class Payment extends Model
     protected $fillable = [
         'expiration_id',
         'bank_id',
-        'branch_id',
         'payble_amount',
         'last_date_of_payment',
         'payment_date',
@@ -30,9 +29,5 @@ class Payment extends Model
 
     public function bank(){
         return $this->belongsTo(Bank::class, 'bank_id', 'id');
-    }
-
-    public function branch(){
-        return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 }

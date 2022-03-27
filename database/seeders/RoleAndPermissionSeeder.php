@@ -22,7 +22,6 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'operator']);
         Permission::create(['name' => 'expiration']);
         Permission::create(['name' => 'bank']);
-        Permission::create(['name' => 'branch']);
         Permission::create(['name' => 'permission-management']);
         Permission::create(['name' => 'product-list']);
         Permission::create(['name' => 'product-export']);

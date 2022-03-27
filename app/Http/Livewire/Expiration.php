@@ -16,6 +16,11 @@ class Expiration extends Component
     public $operator, $expiration;
     public $duration_year, $duration_month, $fee;
 
+    public function mount()
+    {
+        $this->operator = Operator::find(request()->operator);
+    }
+
     public function create()
     {
         $this->issue_date = $this->expire_date = $this->price = $this->iteration = null;
@@ -98,15 +103,10 @@ class Expiration extends Component
         }, 'Payment schedule download at -' . date('d-m-Y h-i-s') . '.pdf');
     }
 
-    public function mount()
-    {
-        $this->operator = Operator::find(request()->operator);
-    }
-
     public function render()
     {
-        if (request()->operator) {
-            $expirations = ModelsExpiration::latest()->where('operator_id', request()->operator)->get();
+        if ($this->operator) {
+            $expirations = ModelsExpiration::latest()->where('operator_id', $this->operator->id)->get();
         } else {
             $expirations = ModelsExpiration::latest()->get();
         }

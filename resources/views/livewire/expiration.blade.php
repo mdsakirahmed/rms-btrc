@@ -74,6 +74,11 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h4 class="modal-title" id="">Expiration Form</h4>
+                            <div wire:loading>
+                                <div class="spinner-grow spinner-grow-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
                         <div class="modal-body">

@@ -18,7 +18,7 @@ class Operator extends Component
 
     public function submit(){
         $validate_data = $this->validate([
-            'name' => 'required',
+            'name' => 'required|unique:operators,name',
             'category_id' => 'required',
             'sub_category_id' => 'required',
         ]);

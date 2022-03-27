@@ -68,21 +68,21 @@
                                             <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
                                             <label for="name">Name</label>
                                         </div>
-                                        @error('name') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="name" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="application_fee" wire:model="application_fee" placeholder="Application fee">
                                             <label for="application_fee">Application fee</label>
                                         </div>
-                                        @error('application_fee') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="application_fee" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="processing_fee" wire:model="processing_fee" placeholder="Processing fee">
                                             <label for="processing_fee">Processing fee</label>
                                         </div>
-                                        @error('processing_fee') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="processing_fee" />
                                     </div>
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">

@@ -77,55 +77,32 @@
                         <div class="form-group">
                             <label for="name">License category name</label>
                             <input type="text" class="form-control" id="name" placeholder="License category name" wire:model="name">
-                            @error('name')
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                            @enderror
+                            <x-error name="name" />
                         </div>
                         <div class="row">
                             <div class="form-group col">
                                 <label for="license_fee">License fee</label>
                                 <input type="number" class="form-control" id="license_fee" placeholder="Fee" wire:model="license_fee">
-                                @error('license_fee')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="license_fee" />
                             </div>
                             <div class="form-group col">
                                 <label for="duration_year">Duration year</label>
                                 <input type="number" class="form-control" id="duration_year" placeholder="Year" wire:model="duration_year" wire:change="calculate_iteration">
-                                @error('duration_year')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="duration_year" />
                             </div>
                             <div class="form-group col">
                                 <label for="duration_month">Duration month</label>
                                 <input type="number" class="form-control" id="duration_month" placeholder="Month" wire:model="duration_month" wire:change="calculate_iteration">
-                                @error('duration_month')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="duration_month" />
                             </div>
                             <div class="form-group col">
                                 <label for="payment_iteration">Payment iteration ({{ $payment_iteration * 2 }} monthes)</label>
                                 <input type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
                                 <small class="form-text text-muted">Only integer number accepted <b># {{ (int)$payment_iteration }}</b></small>
-
-                                @error('payment_iteration')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="payment_iteration" />
                             </div>
                         </div>
                         <button class="btn btn-lg btn-info" type="submit">Save!</button>
-
-
                     </form>
                 </div>
             </div>

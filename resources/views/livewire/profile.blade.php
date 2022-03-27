@@ -27,22 +27,14 @@
                                     <input required type="text" class="form-control bg-success text-white" id="name" wire:model="name" placeholder="Full name">
                                     <label for="name">Full Name</label>
                                 </div>
-                                @error('name')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="name" />
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <input required type="email" class="form-control bg-success text-white" id="email" wire:model="email" placeholder="Email Address">
                                     <label for="email">Email Address</label>
                                 </div>
-                                @error('email')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="email" />
                             </div>
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn w-50 btn-lg btn-info">Submit</button>
@@ -63,11 +55,7 @@
                                     <input required type="password" class="form-control @if($old_password_correct) bg-success @else bg-danger @endif text-white" id="old_password" wire:model="old_password" placeholder="Old password">
                                     <label for="old_password">Old password</label>
                                 </div>
-                                @error('old_password')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="old_password" />
                                 @if($password_message)
                                 <div class="alert alert-danger" role="alert">
                                     {{ $password_message }}
@@ -79,22 +67,14 @@
                                     <input required type="password" class="form-control @if($new_and_confirm_password_are_same) bg-success @else bg-danger @endif text-white" id="new_password" wire:model="new_password" placeholder="New password">
                                     <label for="new_password">New password</label>
                                 </div>
-                                @error('new_password')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="new_password" />
                             </div>
                             <div class="col-md-3">
                                 <div class="form-floating mb-3">
                                     <input required type="password" class="form-control @if($new_and_confirm_password_are_same) bg-success @else bg-danger @endif text-white" id="confirm_password" wire:model="confirm_password" placeholder="Confirm password">
                                     <label for="confirm_password">Confirm password</label>
                                 </div>
-                                @error('confirm_password')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="confirm_password" />
                             </div>
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn w-50 btn-lg btn-info">Submit</button>

@@ -106,11 +106,7 @@
                                 <button class="btn btn-info" type="submit">Save</button>
                             </div>
                         </div>
-                        @error('role_name')
-                        <div class="alert alert-danger" role="alert">
-                            {{ $message }}
-                        </div>
-                        @enderror
+                        <x-error name="role_name" />
                     </form>
                     @if($selected_role)
                     @foreach ($permissions as $permission)
@@ -118,11 +114,7 @@
                         <input type="checkbox" class="form-check-input" id="permission_no_{{ $permission->id }}" value="{{ $permission->id }}" wire:model="selected_permissions.{{ $permission->id }}" wire:click="checkPermission('{{ $permission->name }}')"> {{ $loop->iteration }}) {{ $permission->name }}
                     </label>
                     @endforeach
-                    @error('selected_permissions.*')
-                    <div class="alert alert-danger" role="alert">
-                        {{ $message }}
-                    </div>
-                    @enderror
+                    <x-error name="'selected_permissions.*" />
                     @endif
                 </div>
                 <div class="modal-footer">

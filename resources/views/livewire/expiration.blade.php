@@ -85,14 +85,14 @@
                                             <input type="date" class="form-control" id="issue_date" wire:model="issue_date" placeholder="" wire:change="calculate_iteration">
                                             <label for="issue_date">Issue date</label>
                                         </div>
-                                        @error('issue_date') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="issue_date" />
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-floating mb-3">
                                             <input disabled type="date" class="form-control" id="expire_date" wire:model="expire_date" placeholder="">
                                             <label for="expire_date">Expire date</label>
                                         </div>
-                                        @error('expire_date') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                       <x-error name="expire_date" />
                                     </div>
 
                                     <div class="col-md-4">
@@ -101,35 +101,35 @@
                                             <label for="iteration">Total iteration ({{ $iteration * 2 }} monthes)</label>
                                             <small class="form-text text-muted">Only integer number accepted <b># {{ (int)$iteration }}</b></small>
                                         </div>
-                                        @error('iteration') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="iteration" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control @if(!$price) bg-danger @endif " id="price" wire:model="price" placeholder="Total price">
                                             <label for="price">Total price</label>
                                         </div>
-                                        @error('price') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                       <x-error name="price" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="fee" wire:model="fee" placeholder="License fee">
                                             <label for="fee">License fee</label>
                                         </div>
-                                        @error('fee') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="fee" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="duration_year" wire:model="duration_year" placeholder="Year" wire:change="calculate_iteration">
                                             <label for="duration_year">Year</label>
                                         </div>
-                                        @error('duration_year') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                       <x-error name="duration_year" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="duration_month" wire:model="duration_month" placeholder="Month" wire:change="calculate_iteration">
                                             <label for="duration_month">Month</label>
                                         </div>
-                                        @error('duration_month') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="duration_month" />
                                     </div>
                                     @if($operator)
                                     <div class="col-md-6">

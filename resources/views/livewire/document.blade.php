@@ -25,20 +25,12 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Name</label>
                                 <input type="text" class="form-control" id="name" placeholder="Example Document" wire:model="name">
-                                @error('name')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="name" />
                             </div>
                           <div class="form-group col-md-6">
                             <label for="file">File</label>
                             <input type="file" class="form-control" id="file" wire:model="file">
-                            @error('file')
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                            @enderror
+                            <x-error name="file" />
                           </div>
                         </div>
                         <br>
@@ -107,6 +99,6 @@
     }
     function closeModal() {
         $('#delete_modal').modal('hide');
-    } 
+    }
 </script>
 </div>

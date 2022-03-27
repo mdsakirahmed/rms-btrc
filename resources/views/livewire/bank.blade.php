@@ -63,7 +63,7 @@
                                             <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
                                             <label for="name">Name</label>
                                         </div>
-                                        @error('name') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="name" />
                                     </div>
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">

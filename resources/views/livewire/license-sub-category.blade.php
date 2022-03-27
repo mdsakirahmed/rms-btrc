@@ -24,16 +24,12 @@
                                 <label for="name">License sub category name</label>
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-lg" id="name" placeholder="License sub category name" aria-label="" wire:model="name">
-                                   
+
                                     <div class="input-group-append">
                                         <button class="btn btn-lg btn-info" type="submit">Save!</button>
                                     </div>
                                 </div>
-                                @error('name')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="name" />
                             </div>
                         </div>
                       </form>
@@ -92,6 +88,6 @@
     }
     function closeModal() {
         $('#delete_modal').modal('hide');
-    } 
+    }
 </script>
 </div>

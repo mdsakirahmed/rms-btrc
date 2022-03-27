@@ -164,7 +164,7 @@
                                             <input required type="number" class="form-control bg-success text-white text-center" id="vat" wire:model="vat" placeholder="VAT">
                                             <label for="vat">VAT</label>
                                         </div>
-                                        @error('vat') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="vat" />
                                     </div>
                                     <div class="col-md-6">
                                         @if ($payment_for_pay->last_date_of_payment->isPast())
@@ -172,11 +172,11 @@
                                             <input required type="number" class="form-control bg-danger text-white text-center" id="late_fee" wire:model="late_fee" placeholder="Late fee">
                                             <label for="late_fee">Late fee</label>
                                         </div>
-                                        @error('late_fee') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="late_fee" />
                                         @endif
                                     </div>
                                     <div class="col-md-6">
-                                        @error('bank_id') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="bank_id" />
                                         <div class="list-group">
                                             <input type="text" wire:model="bank_search_key" class="text-center text-white" placeholder="Search bank" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
                                             @if ($banks->count() > 0)
@@ -191,7 +191,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        @error('branch_id') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="branch_id" />
                                         @if ($bank_id)
                                         <div class="list-group">
                                             <input type="text" wire:model="branch_search_key" class="text-white text-center" placeholder="Search branch" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />

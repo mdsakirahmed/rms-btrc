@@ -65,14 +65,14 @@
                                             <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter branch name here">
                                             <label for="name">Name</label>
                                         </div>
-                                        @error('name') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="name" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="routing_number" wire:model="routing_number" placeholder="Routing number">
                                             <label for="routing_number">Routing Number</label>
                                         </div>
-                                        @error('routing_number') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="routing_number" />
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3" wire:ignore>
@@ -84,7 +84,7 @@
                                             </select>
                                             <label for="bank_id">Chose bank</label>
                                         </div>
-                                        @error('bank_id') <x-alert message="{{ $message }}" type="danger" /> @enderror
+                                        <x-error name="bank_id" />
                                     </div>
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">

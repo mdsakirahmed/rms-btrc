@@ -87,8 +87,12 @@ class Payment extends Component
     }
 
     public function chose_operator(Operator $operator){
-        $this->operator_id = $operator->id;
-        $this->operator = $operator;
+        if($this->operator_id == $operator->id){ // if double click on same element, assign null
+            $this->operator_id = $this->operator = null;
+        }else{
+            $this->operator_id = $operator->id;
+            $this->operator = $operator;
+        }
     }
 
     public function mount(){
@@ -123,7 +127,8 @@ class Payment extends Component
         }
 
         if($this->operator_id){
-            $this->operators = $this->operators->where('id', $this->operator_id);
+            // $this->operators = $this->operators->where('id', $this->operator_id);
+            $this->operator = $this->operators->find($this->operator_id);
         }
 
         if($this->operator_search_key){

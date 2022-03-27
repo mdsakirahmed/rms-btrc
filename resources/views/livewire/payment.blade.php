@@ -175,7 +175,7 @@
                                         <x-error name="late_fee" />
                                         @endif
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="height:3in; overflow:scroll;">
                                         <x-error name="bank_id" />
                                         <div class="list-group">
                                             <input type="text" wire:model="bank_search_key" class="text-center text-white" placeholder="Search bank" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />

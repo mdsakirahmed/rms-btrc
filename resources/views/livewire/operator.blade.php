@@ -68,11 +68,7 @@
                                             <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
                                             <label for="name">Name</label>
                                         </div>
-                                        @error('name')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
+                                        @error('name') <x-alert message="{{ $message }}" type="danger" /> @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3" wire:ignore>
@@ -85,11 +81,7 @@
                                             </select>
                                             <label for="category_id">Category</label>
                                         </div>
-                                        @error('category_id')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
+                                        @error('category_id') <x-alert message="{{ $message }}" type="danger" /> @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3" wire:ignore>
@@ -102,11 +94,7 @@
                                             </select>
                                             <label for="sub_category_id">Sub Category</label>
                                         </div>
-                                        @error('sub_category_id')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
+                                        @error('sub_category_id') <x-alert message="{{ $message }}" type="danger" /> @enderror
                                     </div>
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">

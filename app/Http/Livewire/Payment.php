@@ -114,7 +114,7 @@ class Payment extends Component
     }
 
     public function get_operators(){
-        $this->operators = Operator::latest()->get();
+        $this->operators = new Operator;
         if($this->category_id){
             $this->operators = $this->operators->where('category_id', $this->category_id);
         }
@@ -125,6 +125,12 @@ class Payment extends Component
         if($this->operator_id){
             $this->operators = $this->operators->where('id', $this->operator_id);
         }
+
+        if($this->operator_search_key){
+            $this->operators = $this->operators->where('name', 'like', '%'.$this->operator_search_key.'%');
+        }
+
+        $this->operators = $this->operators->latest()->get();
     }
 
     public function get_expirations(){

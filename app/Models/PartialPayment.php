@@ -20,6 +20,7 @@ class PartialPayment extends Model
         'journal_number',
     ];
 
+    protected $dates = ['payment_date'];
 
     public function payment(){
         return $this->belongsTo(Payment::class, 'payment_id');

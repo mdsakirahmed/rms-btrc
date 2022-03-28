@@ -16,7 +16,7 @@ class Payment extends Model
         'last_date_of_payment',
     ];
 
-    protected $dates = ['last_date_of_payment', 'payment_date'];
+    protected $dates = ['last_date_of_payment'];
 
     public function expiration(){
         return $this->belongsTo(Expiration::class, 'expiration_id', 'id');

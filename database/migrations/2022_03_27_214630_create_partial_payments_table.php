@@ -21,6 +21,8 @@ class CreatePartialPaymentsTable extends Migration
             $table->double('paid_amount')->nullable();
             $table->double('vat')->nullable();
             $table->double('late_fee')->nullable(); // If payment date expire
+            $table->string('pay_order_number')->nullable();
+            $table->string('journal_number')->nullable();
             $table->timestamps();
         });
     }

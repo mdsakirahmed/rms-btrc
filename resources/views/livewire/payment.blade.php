@@ -238,10 +238,8 @@
                                                     <tr>
                                                         <th scope="col">#</th>
                                                         <th scope="col">Payment</th>
-                                                        <th scope="col">Date</th>
-                                                        <th scope="col">Pay Order Number</th>
-                                                        <th scope="col">Journal Number</th>
-                                                        <th scope="col">Bank</th>
+                                                        <th scope="col">Bank & Payment date</th>
+                                                        <th scope="col">Pay order & journal</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -255,10 +253,14 @@
                                                             Late fee: {{ $partial_payment->late_fee }}
                                                             @endif
                                                         </td>
-                                                        <td>{{ $partial_payment->payment_date }}</td>
-                                                        <td>{{ $partial_payment->payment_date }}</td>
-                                                        <td>{{ $partial_payment->payment_date }}</td>
-                                                        <td>{{ $partial_payment->payment_date }}</td>
+                                                        <td>
+                                                            Date: {{ $partial_payment->payment_date }} <br>
+                                                            Bank: {{ $partial_payment->bank->name ?? 'Not Found' }}
+                                                        </td>
+                                                        <td>
+                                                            Pay order no: {{ $partial_payment->pay_order_number }} <br>
+                                                            Journal no: {{ $partial_payment->journal_number }}
+                                                        </td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>

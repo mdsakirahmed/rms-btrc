@@ -9,12 +9,13 @@ use App\Models\Expiration;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
 use App\Models\Operator;
+use App\Models\PartialPayment;
 use Carbon\Carbon;
 use PDF;
 
 class Payment extends Component
 {
-    public $payment_for_pay, $vat, $late_fee, $bank_id;
+    public $payment_for_pay, $paid_amount, $vat, $late_fee, $bank_id, $pay_order_number, $journal_number, $payment_date;
     public $bank_search_key;
     public $category_search_key, $sub_category_search_key, $operator_search_key, $category_id, $sub_category_id, $operator_id, $expiration_id;
 
@@ -24,8 +25,9 @@ class Payment extends Component
 
     public function submit(){
         $this->validate([
-            'payment_for_pay' => 'required',
-            'vat' => 'required|numeric',
+            'payment_for_pay' => 'required', // selected payment
+            'paid_amount' => 'required|numeric|min:0|max:'.$this->payment_for_pay->due(),
+            'vat' => 'required|numeric|min:0',
             'bank_id' => 'required|exists:banks,id',
         ]);
 
@@ -35,15 +37,18 @@ class Payment extends Component
             ]);
         }
 
-        $this->payment_for_pay->update([
-            'vat' => $this->vat,
-            'bank_id' => $this->bank_id,
+        PartialPayment::create([
+            'payment_id' => $this->payment_for_pay->id,
+            'paid_amount' => $this->paid_amount,
             'vat' => $this->vat,
             'late_fee' => $this->late_fee ?? 0,
-            'payment_date' => Carbon::now(),
-            'paid' => true
+            'bank_id' => $this->bank_id,
+            'payment_date' => $this->payment_date,
+            'pay_order_number' => $this->pay_order_number,
+            'journal_number' => $this->journal_number,
         ]);
-        $this->payment_for_pay = $this->vat = $this->late_fee = $this->bank_id = $this->bank_search_key = null;
+        $this->payment_for_pay = $this->paid_amount = $this->vat = $this->late_fee = $this->bank_id = $this->bank_search_key =
+        $this->pay_order_number = $this->journal_number = $this->payment_date = null;
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 

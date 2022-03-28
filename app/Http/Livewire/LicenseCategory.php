@@ -31,7 +31,7 @@ class LicenseCategory extends Component
         $model->license_fee =  $this->license_fee;
         $model->duration_year =  $this->duration_year;
         $model->duration_month =  $this->duration_month;
-        $model->payment_iteration =  (int)$this->payment_iteration;
+        $model->payment_iteration =  (int)$this->payment_iteration ?? 0;
         $model->save();
         $this->create();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Done!']);
@@ -57,7 +57,7 @@ class LicenseCategory extends Component
     }
 
     public function calculate_iteration(){
-        $this->payment_iteration = Carbon::now()->diffInMonths(Carbon::now()->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)) / 2;
+        $this->payment_iteration = (Carbon::now()->diffInMonths(Carbon::now()->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)) / 2) ?? 0;
     }
 
 

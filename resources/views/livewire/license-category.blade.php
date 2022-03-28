@@ -97,7 +97,7 @@
                             </div>
                             <div class="form-group col">
                                 <label for="payment_iteration">Payment iteration ({{ $payment_iteration * 2 }} monthes)</label>
-                                <input type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
+                                <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
                                 <small class="form-text text-muted">Only integer number accepted <b># {{ (int)$payment_iteration }}</b></small>
                                 <x-error name="payment_iteration" />
                             </div>

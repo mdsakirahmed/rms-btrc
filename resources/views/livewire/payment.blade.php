@@ -106,16 +106,15 @@
                                     <td>{{ $payment->payble_amount }} ৳</td>
                                     <td>{{ $payment->last_date_of_payment->format('d M Y') }}</td>
                                     <td>
-                                        @if ($payment->paid)
-                                        <span class="badge bg-success">PAID</span>
-                                        @else
+                                        @if ($payment->due() > 0)
                                         <span class="badge bg-danger">DUE</span>
+                                        @else
+                                        <span class="badge bg-success">PAID</span>
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($payment->paid)
                                         <button class="btn btn-dark" type="button" wire:click="download_invoice({{ $payment->id }})">INV</button>
-                                        @else
+                                        @if ($payment->due() > 0)
                                         <button class="btn btn-success" type="button" wire:click="select_payment_for_pay({{ $payment->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#payment_modal">Pay</button>
                                         @endif
                                     </td>
@@ -141,7 +140,7 @@
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
-                            <h4 class="modal-title" id="">Payment Form</h4>
+                            <h4 class="modal-title" id="">Payment Form <x-loading /> </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
                         <div class="modal-body">
@@ -149,9 +148,9 @@
                                 <div class="row">
                                     @if ($payment_for_pay)
                                     <div class="col-md-12 text-center m-3">
-                                        <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:30px; color:white; border: 5px solid @if ($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
+                                        <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:20px; color:white; border: 5px solid @if ($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
                                             <b>
-                                                {{ $payment_for_pay->payble_amount }} TAKA <br>
+                                                <b class="text-danger">{{ $payment_for_pay->due() }}</b> of {{ $payment_for_pay->payble_amount }} TAKA <br>
                                                 {{ $payment_for_pay->last_date_of_payment->format('d M Y') }}
                                                 ({{ $payment_for_pay->last_date_of_payment->diffForHumans() }})
                                                 <br>
@@ -180,7 +179,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-floating">
-                                                    <input required type="number" class="form-control bg-success text-white" id="paid_amount" wire:model="vat" placeholder="Paid Amount">
+                                                    <input required type="number" max="{{ $payment_for_pay->due() }}" min="0" class="form-control bg-success text-white" id="paid_amount" wire:model="paid_amount" placeholder="Paid Amount">
                                                     <label for="paid_amount">Paid</label>
                                                 </div>
                                                 <x-error name="paid_amount" />
@@ -203,24 +202,24 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating">
-                                                    <input required type="text" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="Pay order xx-xxx-xx">
-                                                    <label for="vat">Pay order number</label>
+                                                    <input required type="text" class="form-control bg-success text-white" id="pay_order_number" wire:model="pay_order_number" placeholder="Pay order xx-xxx-xx">
+                                                    <label for="pay_order_number">Pay order number</label>
                                                 </div>
-                                                <x-error name="vat" />
+                                                <x-error name="pay_order_number" />
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating">
-                                                    <input required type="text" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="Pay order xx-xxx-xx">
-                                                    <label for="vat">Jurnal number</label>
+                                                    <input required type="text" class="form-control bg-success text-white" id="journal_number" wire:model="journal_number" placeholder="Journal number xx-xxx-xx">
+                                                    <label for="journal_number">Journal number</label>
                                                 </div>
-                                                <x-error name="vat" />
+                                                <x-error name="journal_number" />
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-floating">
-                                                    <input required type="date" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="Pay order xx-xxx-xx">
-                                                    <label for="vat">Payment date</label>
+                                                    <input required type="date" class="form-control bg-success text-white" id="payment_date" wire:model="payment_date" placeholder="">
+                                                    <label for="payment_date">Payment date</label>
                                                 </div>
-                                                <x-error name="vat" />
+                                                <x-error name="payment_date" />
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-md-flex align-items-center mt-3">
@@ -238,30 +237,30 @@
                                                 <thead class="bg-success text-white">
                                                     <tr>
                                                         <th scope="col">#</th>
-                                                        <th scope="col">First</th>
-                                                        <th scope="col">Last</th>
-                                                        <th scope="col">Handle</th>
+                                                        <th scope="col">Payment</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Pay Order Number</th>
+                                                        <th scope="col">Journal Number</th>
+                                                        <th scope="col">Bank</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach ($payment_for_pay->partial_payments as $partial_payment)
                                                     <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
+                                                        <th scope="row">{{ $loop->iteration }}</th>
+                                                        <td>
+                                                            Paid amount: {{ $partial_payment->paid_amount }} <br>
+                                                            Vat: {{ $partial_payment->vat }} <br>
+                                                            @if($partial_payment->late_fee)
+                                                            Late fee: {{ $partial_payment->late_fee }}
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ $partial_payment->payment_date }}</td>
+                                                        <td>{{ $partial_payment->payment_date }}</td>
+                                                        <td>{{ $partial_payment->payment_date }}</td>
+                                                        <td>{{ $partial_payment->payment_date }}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <th scope="row">2</th>
-                                                        <td>Jacob</td>
-                                                        <td>Thornton</td>
-                                                        <td>@fat</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">3</th>
-                                                        <td>Larry</td>
-                                                        <td>the Bird</td>
-                                                        <td>@twitter</td>
-                                                    </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>

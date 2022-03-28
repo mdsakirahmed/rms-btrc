@@ -1,7 +1,9 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Payment Page <x-loading /> </h4>
+            <h4 class="text-themecolor">Payment Page
+                <x-loading />
+            </h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
@@ -159,23 +161,7 @@
                                             </b>
                                         </h4>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <input required type="number" class="form-control bg-success text-white text-center" id="vat" wire:model="vat" placeholder="VAT">
-                                            <label for="vat">VAT</label>
-                                        </div>
-                                        <x-error name="vat" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        @if ($payment_for_pay->last_date_of_payment->isPast())
-                                        <div class="form-floating mb-3">
-                                            <input required type="number" class="form-control bg-danger text-white text-center" id="late_fee" wire:model="late_fee" placeholder="Late fee">
-                                            <label for="late_fee">Late fee</label>
-                                        </div>
-                                        <x-error name="late_fee" />
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6" style="height:3in; overflow:scroll;">
+                                    <div class="col-md-5" style="height:3in; overflow:scroll;">
                                         <x-error name="bank_id" />
                                         <div class="list-group">
                                             <input type="text" wire:model="bank_search_key" class="text-center text-white" placeholder="Search bank" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
@@ -190,12 +176,94 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="d-md-flex align-items-center mt-3">
-                                            <div class="ms-auto mt-3 mt-md-0">
-                                                <button type="submit" class="btn btn-success text-white">Submit</button>
-                                                <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
+                                    <div class="col-md-7">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    <input required type="number" class="form-control bg-success text-white" id="paid_amount" wire:model="vat" placeholder="Paid Amount">
+                                                    <label for="paid_amount">Paid</label>
+                                                </div>
+                                                <x-error name="paid_amount" />
                                             </div>
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    <input required type="number" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="VAT">
+                                                    <label for="vat">VAT</label>
+                                                </div>
+                                                <x-error name="vat" />
+                                            </div>
+                                            <div class="col-md-4">
+
+                                                <div class="form-floating">
+                                                    <input @if(!$payment_for_pay->last_date_of_payment->isPast()) disabled @endif required type="number" class="form-control bg-danger text-white" id="late_fee" wire:model="late_fee" placeholder="Late fee">
+                                                    <label for="late_fee">Late fee</label>
+                                                </div>
+                                                <x-error name="late_fee" />
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input required type="text" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="Pay order xx-xxx-xx">
+                                                    <label for="vat">Pay order number</label>
+                                                </div>
+                                                <x-error name="vat" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input required type="text" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="Pay order xx-xxx-xx">
+                                                    <label for="vat">Jurnal number</label>
+                                                </div>
+                                                <x-error name="vat" />
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-floating">
+                                                    <input required type="date" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="Pay order xx-xxx-xx">
+                                                    <label for="vat">Payment date</label>
+                                                </div>
+                                                <x-error name="vat" />
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-md-flex align-items-center mt-3">
+                                                    <div class="ms-auto mt-3 mt-md-0">
+                                                        <button type="submit" class="btn btn-success text-white">Submit</button>
+                                                        <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead class="bg-success text-white">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">First</th>
+                                                        <th scope="col">Last</th>
+                                                        <th scope="col">Handle</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">1</th>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                        <td>@mdo</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">2</th>
+                                                        <td>Jacob</td>
+                                                        <td>Thornton</td>
+                                                        <td>@fat</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">3</th>
+                                                        <td>Larry</td>
+                                                        <td>the Bird</td>
+                                                        <td>@twitter</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     @else

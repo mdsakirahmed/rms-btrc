@@ -15,6 +15,12 @@ class CreatePartialPaymentsTable extends Migration
     {
         Schema::create('partial_payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('payment_id');
+            $table->foreignId('bank_id')->nullable();
+            $table->date('payment_date')->nullable();
+            $table->double('paid_amount')->nullable();
+            $table->double('vat')->nullable();
+            $table->double('late_fee')->nullable(); // If payment date expire
             $table->timestamps();
         });
     }

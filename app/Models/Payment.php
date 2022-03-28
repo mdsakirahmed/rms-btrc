@@ -30,4 +30,8 @@ class Payment extends Model
     public function bank(){
         return $this->belongsTo(Bank::class, 'bank_id', 'id');
     }
+
+    public function partial_payments(){
+        return $this->hasMany(PartialPayment::class, 'payment_id', 'id');
+    }
 }

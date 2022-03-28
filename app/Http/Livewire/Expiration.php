@@ -56,7 +56,7 @@ class Expiration extends Component
                     $issue_date =  Carbon::parse($issue_date)->addMonths(2)->format('Y-m-d');
                     $payment = new Payment();
                     $payment->expiration_id = $expitation->id;
-                    $payment->payble_amount = $expitation->price / $expitation->iteration;
+                    $payment->payble_amount = round($expitation->price / $expitation->iteration);
                     $payment->last_date_of_payment = $issue_date;
                     $payment->save();
                 }

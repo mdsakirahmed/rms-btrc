@@ -240,6 +240,7 @@
                                     @endif
                                 </div>
                             </form>
+                            @if ($payment_for_pay)
                             <div class="col-md-12 mt-3">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
@@ -253,7 +254,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($partial_payments as $partial_payment)
+                                            @foreach ($payment_for_pay->partial_payments as $partial_payment)
                                             <tr>
                                                 <th scope="row">{{ $loop->iteration }}</th>
                                                 <td>
@@ -280,6 +281,7 @@
                                     </table>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <!-- /.modal-content -->

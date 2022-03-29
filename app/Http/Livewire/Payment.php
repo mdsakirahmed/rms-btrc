@@ -21,7 +21,6 @@ class Payment extends Component
 
     public function select_payment_for_pay(ModelsPayment $payment){
         $this->payment_for_pay = $payment;
-        $this->partial_payments = PartialPayment::where('payment_id', $this->payment_for_pay->id)->latest()->get();
     }
 
     public function submit(){
@@ -111,9 +110,7 @@ class Payment extends Component
     {
         $this->get_operators();
         $this->get_expirations();
-        $this->partial_payments = [];
         if($this->payment_for_pay){
-            $this->partial_payments = PartialPayment::where('payment_id', $this->payment_for_pay->id)->latest()->get();
             $this->payment_for_pay = ModelsPayment::find($this->payment_for_pay->id);
         }
 

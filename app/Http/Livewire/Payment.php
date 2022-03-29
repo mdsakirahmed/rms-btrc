@@ -114,6 +114,10 @@ class Payment extends Component
             $this->payment_for_pay = ModelsPayment::find($this->payment_for_pay->id);
         }
 
+        if($this->paid_amount && $this->operator){
+            $this->vat = ($this->operator->category->vat_percentage/100)*$this->paid_amount;
+        }
+
         return view('livewire.payment', [
             'categories' => LicenseCategory::where('name', 'like', '%'.$this->category_search_key.'%')->latest()->get(),
             'sub_categories' => LicenseSubCategory::where('name', 'like', '%'.$this->sub_category_search_key.'%')->latest()->get(),

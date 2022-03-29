@@ -20,6 +20,8 @@ class CreateLicenseCategoriesTable extends Migration
             $table->double('duration_year')->default(0);
             $table->double('duration_month')->default(0);
             $table->integer('payment_iteration')->default(0);
+            $table->double('vat_percentage')->default(0);
+            $table->double('late_fee_percentage')->default(0);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

@@ -34,7 +34,11 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $licenseCategory->name }}</td>
-                                    <td>{{ $licenseCategory->license_fee }}</td>
+                                    <td>
+                                        Fee: {{ $licenseCategory->license_fee }} <br>
+                                        VAT: {{ $licenseCategory->vat_percentage }}%<br>
+                                        Late fee: {{ $licenseCategory->late_fee_percentage }}%
+                                    </td>
                                     <td>{{ $licenseCategory->duration_year }} years and {{ $licenseCategory->duration_month }}</td>
                                     <td>{{ $licenseCategory->payment_iteration }}</td>
                                     <td>
@@ -80,26 +84,37 @@
                             <x-error name="name" />
                         </div>
                         <div class="row">
-                            <div class="form-group col">
-                                <label for="license_fee">License fee</label>
-                                <input type="number" class="form-control" id="license_fee" placeholder="Fee" wire:model="license_fee">
-                                <x-error name="license_fee" />
-                            </div>
-                            <div class="form-group col">
+
+                            <div class="form-group col-md-4">
                                 <label for="duration_year">Duration year</label>
                                 <input type="number" class="form-control" id="duration_year" placeholder="Year" wire:model="duration_year" wire:change="calculate_iteration">
                                 <x-error name="duration_year" />
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-md-4">
                                 <label for="duration_month">Duration month</label>
                                 <input type="number" class="form-control" id="duration_month" placeholder="Month" wire:model="duration_month" wire:change="calculate_iteration">
                                 <x-error name="duration_month" />
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-md-4">
                                 <label for="payment_iteration">Payment iteration ({{ $payment_iteration * 2 }} monthes)</label>
                                 <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
                                 <small class="form-text text-muted">Only integer number accepted <b># {{ (int)$payment_iteration }}</b></small>
                                 <x-error name="payment_iteration" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="license_fee">License fee</label>
+                                <input type="number" class="form-control" id="license_fee" placeholder="Fee" wire:model="license_fee">
+                                <x-error name="license_fee" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="vat_percentage">VAT %</label>
+                                <input type="number" class="form-control" id="vat_percentage" placeholder="Vat %" min="0" wire:model="vat_percentage">
+                                <x-error name="vat_percentage" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="late_fee_percentage">Late fee %</label>
+                                <input type="number" class="form-control" id="late_fee_percentage" placeholder="Late fee %" min="0" wire:model="late_fee_percentage">
+                                <x-error name="late_fee_percentage" />
                             </div>
                         </div>
                         <button class="btn btn-lg btn-info" type="submit">Save!</button>

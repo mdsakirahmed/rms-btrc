@@ -16,5 +16,7 @@ class LicenseCategory extends Model
         'duration_year',
         'duration_month',
         'payment_iteration',
+        'vat_percentage',
+        'late_fee_percentage',
     ];
 }

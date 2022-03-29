@@ -9,12 +9,13 @@ use Livewire\Component;
 class LicenseCategory extends Component
 {
 
-    public $name, $license_fee, $duration_year, $duration_month, $payment_iteration; //Form variables
+    public $name, $license_fee, $duration_year, $duration_month, $payment_iteration, $vat_percentage,
+    $late_fee_percentage; //Form variables
     // public $selected_license_category;
 
     public function create()
     {
-        $this->name = $this->license_fee = $this->duration_year = $this->duration_month = $this->payment_iteration = $this->selected_license_category = null;
+        $this->name = $this->license_fee = $this->duration_year = $this->duration_month = $this->payment_iteration = $this->vat_percentage = $this->late_fee_percentage = $this->selected_license_category = null;
     }
 
     public function submit()
@@ -32,6 +33,8 @@ class LicenseCategory extends Component
         $model->duration_year =  $this->duration_year;
         $model->duration_month =  $this->duration_month;
         $model->payment_iteration =  (int)$this->payment_iteration ?? 0;
+        $model->vat_percentage =  $this->vat_percentage;
+        $model->late_fee_percentage =  $this->late_fee_percentage;
         $model->save();
         $this->create();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Done!']);
@@ -44,6 +47,8 @@ class LicenseCategory extends Component
         $this->duration_year = $this->selected_license_category->duration_year;
         $this->duration_month = $this->selected_license_category->duration_month;
         $this->payment_iteration = $this->selected_license_category->payment_iteration;
+        $this->vat_percentage = $this->selected_license_category->vat_percentage;
+        $this->late_fee_percentage = $this->selected_license_category->late_fee_percentage;
     }
 
     public function selectForDelete(ModelsLicenseCategory $licenseCategory){

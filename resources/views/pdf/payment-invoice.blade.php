@@ -68,6 +68,6 @@
 
     <br>
 
-    <h3 style="color:red;"> ** You are requested to complete <b>{{  $partial_payment->payment->payble_amount ?? 00 }} TAKA</b> within {{ $partial_payment->payment->last_date_of_payment->format('d M Y') ?? 'Not Found' }}</h3>
+    <h3 style="color:red;"> ** You are requested to complete <b>{{  $payment->payble_amount ?? 00 }} TAKA</b> within {{ $payment->last_date_of_payment->format('d M Y') ?? 'Not Found' }}</h3>
 
 </div>

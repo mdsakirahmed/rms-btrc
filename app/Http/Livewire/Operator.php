@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Operator extends Component
 {
-    public $name, $category_id, $sub_category_id;
+    public $name, $category_id, $sub_category_id, $category_search_key, $sub_category_search_key;
     public $operator;
 
     public function create(){
@@ -43,13 +43,28 @@ class Operator extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 
+    public function chose_category(LicenseCategory $category){
+        if($this->category_id == $category->id){ // if double click on same element, assign null
+            $this->category_id = null;
+        }else{
+            $this->category_id = $category->id;
+        }
+    }
+
+    public function chose_sub_category(LicenseSubCategory $sub_category){
+        if($this->sub_category_id == $sub_category->id){ // if double click on same element, assign null
+            $this->sub_category_id = null;
+        }else{
+            $this->sub_category_id = $sub_category->id;
+        }
+    }
 
     public function render()
     {
         return view('livewire.operator', [
             'operators' => ModelsOperator::latest()->get(),
-            'categories' => LicenseCategory::latest()->get(),
-            'sub_categories' => LicenseSubCategory::latest()->get()
+            'categories' => LicenseCategory::where('name', 'like', '%'.$this->category_search_key.'%')->latest()->get(),
+            'sub_categories' => LicenseSubCategory::where('name', 'like', '%'.$this->sub_category_search_key.'%')->latest()->get(),
         ])->layout('layouts.backend.app');
     }
 }

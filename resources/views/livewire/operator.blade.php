@@ -71,28 +71,36 @@
                                         <x-error name="name" />
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="mb-3" wire:ignore>
-                                            <select style="width: 100%;" class="form-control select2" id="category_id" wire:model="category_id">
-                                                <option value="">Chose category</option>
-                                                <option value="0">Non category</option>
+                                        <div style="height:3in; overflow:scroll;">
+                                            <div class="list-group">
+                                                <input type="text" wire:model="category_search_key" class="text-center text-white" placeholder="Search category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                                                @if ($categories->count() > 0)
                                                 @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <a href="javascript:void(0)" wire:click="chose_category({{ $category->id }})" class=" @if ($category->id == $category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $category->name }}</a>
                                                 @endforeach
-                                            </select>
-                                            <label for="category_id">Category</label>
+                                                @else
+                                                <div class="alert alert-warning text-center" role="alert">
+                                                    <b>Category Not Found</b>
+                                                </div>
+                                                @endif
+                                            </div>
                                         </div>
                                         <x-error name="category_id" />
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="mb-3" wire:ignore>
-                                            <select style="width: 100%;" class="form-control select2" id="sub_category_id" wire:model="sub_category_id">
-                                                <option value="">Chose sub category</option>
-                                                <option value="0">Non sub category</option>
+                                        <div style="height:3in; overflow:scroll;">
+                                            <div class="list-group">
+                                                <input type="text" wire:model="sub_category_search_key" class="text-center text-white" placeholder="Search sub category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
+                                                @if ($sub_categories->count() > 0)
                                                 @foreach ($sub_categories as $sub_category)
-                                                <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>
+                                                <a href="javascript:void(0)" wire:click="chose_sub_category({{ $sub_category->id }})" class=" @if ($sub_category->id == $sub_category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $sub_category->name }}</a>
                                                 @endforeach
-                                            </select>
-                                            <label for="sub_category_id">Sub Category</label>
+                                                @else
+                                                <div class="alert alert-warning text-center" role="alert">
+                                                    <b>Sub category Not Found</b>
+                                                </div>
+                                                @endif
+                                            </div>
                                         </div>
                                         <x-error name="sub_category_id" />
                                     </div>
@@ -119,15 +127,16 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.select2').select2({
-                dropdownParent: $('#operator_form'),
-                theme: "classic"
+                dropdownParent: $('#operator_form')
+                , theme: "classic"
             });
-            $('.select2').on('change', function (e) {
+            $('.select2').on('change', function(e) {
                 let elementName = $(this).attr('id');
                 var data = $(this).select2("val");
                 @this.set(elementName, data);
             });
         });
+
     </script>
     @endpush
 </div>

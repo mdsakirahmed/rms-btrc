@@ -21,6 +21,7 @@ class Payment extends Component
 
     public function select_payment_for_pay(ModelsPayment $payment){
         $this->payment_for_pay = $payment;
+        $this->partial_payments = PartialPayment::where('payment_id', $this->payment_for_pay->id)->latest()->get();
     }
 
     public function submit(){
@@ -47,8 +48,14 @@ class Payment extends Component
             'pay_order_number' => $this->pay_order_number,
             'journal_number' => $this->journal_number,
         ]);
-        $this->payment_for_pay = $this->paid_amount = $this->vat = $this->late_fee = $this->bank_id = $this->bank_search_key =
+        // $this->payment_for_pay = null;
+        $this->paid_amount = $this->vat = $this->late_fee = $this->bank_id = $this->bank_search_key =
         $this->pay_order_number = $this->journal_number = $this->payment_date = null;
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+    }
+
+    public function delete_partial_payment(PartialPayment $partialPayment){
+        $partialPayment->delete();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 
@@ -104,6 +111,12 @@ class Payment extends Component
     {
         $this->get_operators();
         $this->get_expirations();
+        $this->partial_payments = [];
+        if($this->payment_for_pay){
+            $this->partial_payments = PartialPayment::where('payment_id', $this->payment_for_pay->id)->latest()->get();
+            $this->payment_for_pay = ModelsPayment::find($this->payment_for_pay->id);
+        }
+
         return view('livewire.payment', [
             'categories' => LicenseCategory::where('name', 'like', '%'.$this->category_search_key.'%')->latest()->get(),
             'sub_categories' => LicenseSubCategory::where('name', 'like', '%'.$this->sub_category_search_key.'%')->latest()->get(),

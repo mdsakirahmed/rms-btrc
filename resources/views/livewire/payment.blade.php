@@ -231,42 +231,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 mt-3">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead class="bg-success text-white">
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">Payment</th>
-                                                        <th scope="col">Bank & Payment date</th>
-                                                        <th scope="col">Pay order & journal</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($payment_for_pay->partial_payments as $partial_payment)
-                                                    <tr>
-                                                        <th scope="row">{{ $loop->iteration }}</th>
-                                                        <td>
-                                                            Paid amount: {{ $partial_payment->paid_amount }} <br>
-                                                            Vat: {{ $partial_payment->vat }} <br>
-                                                            @if($partial_payment->late_fee)
-                                                            Late fee: {{ $partial_payment->late_fee }}
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            Date: {{ $partial_payment->payment_date }} <br>
-                                                            Bank: {{ $partial_payment->bank->name ?? 'Not Found' }}
-                                                        </td>
-                                                        <td>
-                                                            Pay order no: {{ $partial_payment->pay_order_number }} <br>
-                                                            Journal no: {{ $partial_payment->journal_number }}
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
                                     @else
                                     <div class="col-12">
                                         <div class="alert alert-success text-center" role="alert">
@@ -276,6 +240,46 @@
                                     @endif
                                 </div>
                             </form>
+                            <div class="col-md-12 mt-3">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="bg-success text-white">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Payment</th>
+                                                <th scope="col">Bank & Payment date</th>
+                                                <th scope="col">Pay order & journal</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($partial_payments as $partial_payment)
+                                            <tr>
+                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <td>
+                                                    Paid amount: {{ $partial_payment->paid_amount }} <br>
+                                                    Vat: {{ $partial_payment->vat }} <br>
+                                                    @if($partial_payment->late_fee)
+                                                    Late fee: {{ $partial_payment->late_fee }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    Date: {{ $partial_payment->payment_date }} <br>
+                                                    Bank: {{ $partial_payment->bank->name ?? 'Not Found' }}
+                                                </td>
+                                                <td>
+                                                    Pay order no: {{ $partial_payment->pay_order_number }} <br>
+                                                    Journal no: {{ $partial_payment->journal_number }}
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-danger text-white" wire:click="delete_partial_payment({{ $partial_payment->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()">Delete</button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /.modal-content -->

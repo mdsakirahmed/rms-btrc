@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
-                                            <input type="number" class="form-control @if(!$price) bg-danger @endif " id="price" wire:model="price" placeholder="Total price">
+                                            <input type="number" class="form-control" id="price" wire:model="price" placeholder="Total price">
                                             <label for="price">Total price</label>
                                         </div>
                                        <x-error name="price" />

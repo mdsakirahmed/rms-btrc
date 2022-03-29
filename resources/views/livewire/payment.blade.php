@@ -147,8 +147,8 @@
                             <form wire:submit.prevent="submit">
                                 <div class="row">
                                     @if ($payment_for_pay)
-                                    <div class="col-md-12 text-center m-3">
-                                        <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:20px; color:white; border: 5px solid @if ($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
+                                    <div class="col-md-12 d-flex justify-content-center text-center m-3">
+                                        <h4 style="border-radius:5px; width:60%; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:20px; border: 5px solid @if ($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
                                             <b>
                                                 <b class="text-danger">{{ $payment_for_pay->due() }}</b> of {{ $payment_for_pay->payble_amount }} TAKA <br>
                                                 {{ $payment_for_pay->last_date_of_payment->format('d M Y') }}
@@ -179,14 +179,14 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-floating">
-                                                    <input required type="number" max="{{ $payment_for_pay->due() }}" min="0" class="form-control bg-success text-white" id="paid_amount" wire:model="paid_amount" placeholder="Paid Amount">
+                                                    <input required type="number" max="{{ $payment_for_pay->due() }}" min="0" class="form-control" id="paid_amount" wire:model="paid_amount" placeholder="Paid Amount">
                                                     <label for="paid_amount">Paid</label>
                                                 </div>
                                                 <x-error name="paid_amount" />
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-floating">
-                                                    <input required type="number" class="form-control bg-success text-white" id="vat" wire:model="vat" placeholder="VAT">
+                                                    <input required type="number" class="form-control" id="vat" wire:model="vat" placeholder="VAT">
                                                     <label for="vat">VAT</label>
                                                 </div>
                                                 <x-error name="vat" />
@@ -194,29 +194,29 @@
                                             <div class="col-md-4">
 
                                                 <div class="form-floating">
-                                                    <input @if(!$payment_for_pay->last_date_of_payment->isPast()) disabled @endif required type="number" class="form-control bg-danger text-white" id="late_fee" wire:model="late_fee" placeholder="Late fee">
+                                                    <input @if(!$payment_for_pay->last_date_of_payment->isPast()) disabled style="backgroung:#000000;" @else style="backgroung:red;" @endif required type="number" class="form-control text-white" id="late_fee" wire:model="late_fee" placeholder="Late fee">
                                                     <label for="late_fee">Late fee</label>
                                                 </div>
                                                 <x-error name="late_fee" />
 
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mt-2 mb-2">
                                                 <div class="form-floating">
-                                                    <input required type="text" class="form-control bg-success text-white" id="pay_order_number" wire:model="pay_order_number" placeholder="Pay order xx-xxx-xx">
+                                                    <input required type="text" class="form-control" id="pay_order_number" wire:model="pay_order_number" placeholder="Pay order xx-xxx-xx">
                                                     <label for="pay_order_number">Pay order number</label>
                                                 </div>
                                                 <x-error name="pay_order_number" />
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mt-2 mb-2">
                                                 <div class="form-floating">
-                                                    <input required type="text" class="form-control bg-success text-white" id="journal_number" wire:model="journal_number" placeholder="Journal number xx-xxx-xx">
+                                                    <input required type="text" class="form-control" id="journal_number" wire:model="journal_number" placeholder="Journal number xx-xxx-xx">
                                                     <label for="journal_number">Journal number</label>
                                                 </div>
                                                 <x-error name="journal_number" />
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-floating">
-                                                    <input required type="date" class="form-control bg-success text-white" id="payment_date" wire:model="payment_date" placeholder="">
+                                                    <input required type="date" class="form-control" id="payment_date" wire:model="payment_date" placeholder="">
                                                     <label for="payment_date">Payment date</label>
                                                 </div>
                                                 <x-error name="payment_date" />

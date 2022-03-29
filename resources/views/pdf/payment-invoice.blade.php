@@ -61,7 +61,7 @@
             <td style="text-align: center">{{ $loop->iteration }}</td>
             <td style="text-align:center;">{{ $partial_payment->payment_date->format('d M Y') }}</td>
             <td style="text-align:right;">{{ $partial_payment->paid_amount }} TAKA </td>
-            <td style="text-align:center;">{{ $partial_payment->bank->name ?? 'Not Found' }} TAKA </td>
+            <td style="text-align:center;">{{ $partial_payment->bank->name ?? 'Not Found' }} </td>
         </tr>
         @endforeach
     </table>

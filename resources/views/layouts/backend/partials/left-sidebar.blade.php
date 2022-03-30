@@ -61,9 +61,6 @@
                         @can('license-sub-category')
                         <li> <a href="{{ route('license-sub-sategory') }}">Sub-Category</a></li>
                         @endcan
-                        @can('git')
-                        <li> <a href="{{ route('git') }}">Git</a></li>
-                        @endcan
                     </ul>
                 </li>
             </ul>

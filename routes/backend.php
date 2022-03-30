@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ReportController;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Document;
 use App\Http\Livewire\Git;
@@ -47,5 +48,5 @@ Route::middleware('auth')->group(function () {
     Route::get('license-sub-category', LicenseSubCategory::class)->name('license-sub-sategory')->middleware(['permission:license-sub-category']);
     Route::get('report', Report::class)->name('report')->middleware(['permission:report']);
     Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
-    Route::get('git', Git::class)->name('git')->middleware(['permission:git']);
+    Route::get('report/get-suggestion-for-filter', [ReportController::class, 'getSuggestionForFilter'])->name('getSuggestionForFilter')->middleware(['permission:report']); //Use for ui auto complete
 });

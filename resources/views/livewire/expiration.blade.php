@@ -35,7 +35,7 @@
                                     <th>#</th>
                                     <th>Starting Date</th>
                                     <th>Ending Date</th>
-                                    <th style="text-align: right;">Total Price</th>
+                                    <th style="text-align: right;">Total Amount</th>
                                     <th style="text-align: right;">Total Iteration</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
@@ -105,8 +105,8 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
-                                            <input type="number" class="form-control" id="price" wire:model="price" placeholder="Total price">
-                                            <label for="price">Total price</label>
+                                            <input type="number" class="form-control" id="price" wire:model="price" placeholder="Total amount">
+                                            <label for="price">Total Amount</label>
                                         </div>
                                        <x-error name="price" />
                                     </div>

@@ -117,6 +117,9 @@ class Payment extends Component
         if($this->paid_amount && $this->operator){
             $this->vat = ($this->operator->category->vat_percentage/100)*$this->paid_amount;
         }
+        if($this->paid_amount && $this->payment_for_pay->last_date_of_payment->isPast() && $this->operator){
+            $this->late_fee = ($this->operator->category->late_fee_percentage/100)*$this->paid_amount;
+        }
 
         return view('livewire.payment', [
             'categories' => LicenseCategory::where('name', 'like', '%'.$this->category_search_key.'%')->latest()->get(),

@@ -194,7 +194,7 @@
                                             <div class="col-md-4">
 
                                                 <div class="form-floating">
-                                                    <input @if(!$payment_for_pay->last_date_of_payment->isPast()) disabled style="backgroung:#000000;" @else style="backgroung:red;" @endif required type="number" class="form-control text-white" id="late_fee" wire:model="late_fee" placeholder="Late fee">
+                                                    <input @if(!$payment_for_pay->last_date_of_payment->isPast()) disabled style="backgroung:#000000;" @else style="backgroung:red;" @endif required type="number" class="form-control" id="late_fee" wire:model="late_fee" placeholder="Late fee">
                                                     <label for="late_fee">Late fee</label>
                                                 </div>
                                                 <x-error name="late_fee" />

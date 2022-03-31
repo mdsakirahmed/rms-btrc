@@ -33,7 +33,7 @@
                         <div class="form-group col-md-4">
                             <label for="late_fee" class="required">Late fee</label>
                             <select id="late_fee" class="form-control filter_element" name="late_fee">
-                                <option value="">Choose bank</option>
+                                <option value="">Choose late fee type</option>
                                 <option value="1">With late fee</option>
                                 <option value="0">Without late fee</option>
                             </select>

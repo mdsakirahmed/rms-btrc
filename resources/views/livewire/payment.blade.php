@@ -83,7 +83,7 @@
             <div class="card">
                 <div class="card-header @if ($loop->odd) bg-success @else bg-primary @endif text-white d-flex justify-content-around">
                     <h4>Start: {{ $expiration->issue_date->format('d M Y') }}</h4>
-                    <h4 style="background: red; border-radius:12px; padding:5px 15px 5px 15px;"><b>**
+                    <h4 style="background: red; border-radius:12px; padding:2px 15px 5px 15px;"><b>**
                             {{ $loop->iteration }} **</b></h4>
                     <h4>Expire: {{ $expiration->expire_date->format('d M Y') }}</h4>
                 </div>

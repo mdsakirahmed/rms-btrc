@@ -148,7 +148,7 @@
                                 <div class="row">
                                     @if ($payment_for_pay)
                                     <div class="col-md-12 d-flex justify-content-center text-center m-3">
-                                        <h4 style="border-radius:5px; width:60%; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:20px; border: 5px solid @if ($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
+                                        <h4 style="border-radius:5px; width:60%; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:20px; border: 2px solid @if ($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
                                             <b>
                                                 <b class="text-danger">{{ $payment_for_pay->due() }}</b> of {{ $payment_for_pay->payble_amount }} TAKA <br>
                                                 {{ $payment_for_pay->last_date_of_payment->format('d M Y') }}

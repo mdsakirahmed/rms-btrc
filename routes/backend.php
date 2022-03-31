@@ -46,7 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     Route::get('license-category', LicenseCategory::class)->name('license-category')->middleware(['permission:license-category']);
     Route::get('license-sub-category', LicenseSubCategory::class)->name('license-sub-sategory')->middleware(['permission:license-sub-category']);
-    Route::get('report', Report::class)->name('report')->middleware(['permission:report']);
     Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
+    // Route::get('report', Report::class)->name('report')->middleware(['permission:report']);
+    Route::get('report', [ReportController::class, 'index'])->name('report')->middleware(['permission:report']);
     Route::get('report/get-suggestion-for-filter', [ReportController::class, 'getSuggestionForFilter'])->name('getSuggestionForFilter')->middleware(['permission:report']); //Use for ui auto complete
+    Route::get('report/filter-submit', [ReportController::class, 'filterSubmit'])->name('filterSubmit')->middleware(['permission:report']); //Use for ui auto complete
 });

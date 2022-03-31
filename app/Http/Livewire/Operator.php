@@ -17,14 +17,19 @@ class Operator extends Component
     }
 
     public function submit(){
-        $validate_data = $this->validate([
-            'name' => 'required|unique:operators,name',
-            'category_id' => 'required',
-            'sub_category_id' => 'required',
-        ]);
         if($this->operator){
+            $validate_data = $this->validate([
+                'name' => 'required|unique:operators,name,'.$this->operator->id,
+                'category_id' => 'required',
+                'sub_category_id' => 'nullable',
+            ]);
             $this->operator->update($validate_data);
         }else{
+            $validate_data = $this->validate([
+                'name' => 'required|unique:operators,name',
+                'category_id' => 'required',
+                'sub_category_id' => 'nullable',
+            ]);
             ModelsOperator::create($validate_data);
         }
         $this->create();

@@ -11,7 +11,7 @@ class ReportController extends Controller
 {
     public function getSuggestionForFilter(){
         try{
-            return DB::table(request()->table)
+            return DB::table(request()->table)->select(request()->table.'.'.request()->column.' as name')
             ->where(request()->column, 'like', '%' . request()->keyword . '%')
             ->get();
         }catch(\Exception $e){

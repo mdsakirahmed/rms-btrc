@@ -59,7 +59,10 @@
                             <div class="form-group col-md-3">
                                 <label for="bank">Bank</label>
                                 <select name="" id="bank" class="form-control" wire:model="bank">
-                                    <option value="bank">Choose bank</option>
+                                    <option value="">Choose bank</option>
+                                    @foreach ($banks as $bank)
+                                    <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                    @endforeach
                                 </select>
                                 <x-error name="bank" />
                             </div>
@@ -113,7 +116,7 @@
                     },
                 });
             },
-            minLength: 1
+            minLength: 3
         });
 
     </script>

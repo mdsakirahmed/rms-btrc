@@ -62,7 +62,7 @@ class Operator extends Component
     public function render()
     {
         return view('livewire.operator', [
-            'operators' => ModelsOperator::latest()->get(),
+            'operators' => ModelsOperator::latest()->paginate(20),
             'categories' => LicenseCategory::where('name', 'like', '%'.$this->category_search_key.'%')->latest()->get(),
             'sub_categories' => LicenseSubCategory::where('name', 'like', '%'.$this->sub_category_search_key.'%')->latest()->get(),
         ])->layout('layouts.backend.app');

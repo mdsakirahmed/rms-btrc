@@ -47,6 +47,11 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @if ($operators->hasPages())
+                        <div class="pagination-wrapper">
+                            {{ $operators->links('pagination::bootstrap-4') }}
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -84,6 +84,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                @if(count($data_set) > 0)
                 <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -107,7 +108,7 @@
                         <th class="bg-dark text-white" title="Sub Category">Sub Category</th>
                     </thead>
                     <tbody>
-                        @if(count($data_set) > 0)
+
                         @foreach ($data_set as $data)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
@@ -130,18 +131,14 @@
                             <td>{{ $data->payment->expiration->operator->sub_category->name ?? 'Not found' }}</td>
                         </tr>
                         @endforeach
-                        @else
-                        <tr>
-                            <td>
-                                <h1>
-                                    No Data Found
-                                </h1>
-                            </td>
-                        </tr>
-                        @endif
                     </tbody>
                 </table>
                 </div>
+                @else
+                <div class="alert alert-danger text-center" role="alert">
+                    <h1>No Data Found</h1>
+                </div>
+                @endif
             </div>
         </div>
     </div>

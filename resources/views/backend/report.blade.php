@@ -21,18 +21,19 @@
                 <form id="filter_form" action="{{ route('report') }}" method="get">
                     <div class="form-row row">
                         <div class="form-group col-md-4">
-                            <label for="start_date">Start date</label>
+                            <label for="start_date" class="required">Start date</label>
                             <input type="date" class="form-control filter_element" id="start_date" placeholder="" name="start_date">
                             <x-error name="start_date" />
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="end_date">End date</label>
+                            <label for="end_date" class="required">End date</label>
                             <input type="date" class="form-control filter_element" id="end_date" placeholder="" name="end_date">
                             <x-error name="end_date" />
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="late_fee">Late fee</label>
+                            <label for="late_fee" class="required">Late fee</label>
                             <select id="late_fee" class="form-control filter_element" name="late_fee">
+                                <option value="">Choose bank</option>
                                 <option value="1">With late fee</option>
                                 <option value="0">Without late fee</option>
                             </select>
@@ -53,12 +54,12 @@
                             <x-error name="operator" />
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="journal_number">Journal number</label>
+                            <label for="journal_number" class="required">Journal number</label>
                             <input table="partial_payments" column="journal_number" type="text" class="form-control ui_auto_complete filter_element" id="journal_number" name="journal_number">
                             <x-error name="journal_number" />
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="bank">Bank</label>
+                            <label for="bank" class="required">Bank</label>
                             <select id="bank" class="form-control filter_element" name="bank">
                                 <option value="">Choose bank</option>
                                 @foreach ($banks as $bank)
@@ -68,7 +69,7 @@
                             <x-error name="bank" />
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="pay_order_number">Pay order number</label>
+                            <label for="pay_order_number" class="required">Pay order number</label>
                             <input table="partial_payments" column="pay_order_number" type="text" class="form-control ui_auto_complete filter_element" id="pay_order_number" name="pay_order_number">
                             <x-error name="pay_order_number" />
                         </div>

@@ -14,13 +14,34 @@ class ReportController extends Controller
     public function index()
     {
         $data_set =
-            PartialPayment::with(['payment' => function ($payment) {
+            PartialPayment::where(function ($query) {
+                return request()->start_date ? $query->from('partial_payments')->whereDate('payment_date', '>=', request()->start_date) : '';
+            })->where(function ($query) {
+                return request()->end_date ? $query->from('partial_payments')->whereDate('payment_date', '<=', request()->end_date) : '';
+            })->where(function ($query) {
+                return request()->late_fee ? $query->from('partial_payments')->where('late_fee', '>', 0) : '';
+            })->where(function ($query) {
+                return request()->journal_number ? $query->from('partial_payments')->where('journal_number', request()->journal_number) : '';
+            })->where(function ($query) {
+                return request()->pay_order_number ? $query->from('partial_payments')->where('pay_order_number', request()->pay_order_number) : '';
+            })->where(function ($query) {
+                return request()->bank ? $query->from('partial_payments')->where('bank', request()->bank) : '';
+            })
+            ->with(['payment' => function ($payment) {
                 $payment->with(['expiration' => function ($expiration) {
                     $expiration->with(['operator' => function ($operator) {
                         $operator->with(['category', 'sub_category']);
                     }]);
                 }]);
-            }])->get();
+            }])
+
+
+            ->get();
+
+        //     $data  = Truck::where( function($query) use($request){
+        //         return $request->filter_brand ?
+        //                $query->from('trucks')->where('brand_id',$request->filter_brand) : '';
+        //    })
 
         // $data_set = DB::table('partial_payments')
         // ->join('banks', 'partial_payments.bank_id', '=', 'banks.id')

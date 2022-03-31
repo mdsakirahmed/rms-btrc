@@ -58,7 +58,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="bank">Bank</label>
-                                <select name="" id="bank" class="form-control" wire:model="bank">
+                                <select id="bank" class="form-control" wire:model="bank">
                                     <option value="">Choose bank</option>
                                     @foreach ($banks as $bank)
                                     <option value="{{ $bank->id }}">{{ $bank->name }}</option>
@@ -76,6 +76,41 @@
                         <br>
                         <button type="submit" class="btn btn-primary">Upload</button>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <code>
+                        {{ print_r($data_set) }}
+                    </code>
+                    <table class="table">
+                        <thead>
+                            <th>#</th>
+                            <th>Bank</th>
+                            <th>Pay order number</th>
+                        </thead>
+                        <tbody>
+                            @if(count($data_set) > 0)
+                            @foreach ($data_set as $data)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $data->bank_name ?? 'not found' }}</td>
+                                <td>{{ $data->pay_order_number ?? 'Not found' }}</td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td>
+                                    <h1>
+                                        No Data Found
+                                    </h1>
+                                </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

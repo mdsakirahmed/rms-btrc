@@ -25,7 +25,7 @@ class ReportController extends Controller
             })->where(function ($query) {
                 return request()->pay_order_number ? $query->from('partial_payments')->where('pay_order_number', request()->pay_order_number) : '';
             })->where(function ($query) {
-                return request()->bank ? $query->from('partial_payments')->where('bank', request()->bank) : '';
+                return request()->bank ? $query->from('partial_payments')->where('bank_id', request()->bank) : '';
             })->with(['payment' => function ($payment) {
                 $payment->with(['expiration' => function ($expiration) {
                     $expiration->with(['operator' => function ($operator) {
@@ -63,7 +63,9 @@ class ReportController extends Controller
         }
     }
 
-    public function filterSubmit()
+    public function getPartialPaymentWiseData()
     {
+
+
     }
 }

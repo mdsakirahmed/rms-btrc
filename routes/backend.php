@@ -15,6 +15,7 @@ use App\Http\Livewire\User;
 use App\Http\Livewire\Application;
 use App\Http\Livewire\Bank;
 use App\Http\Livewire\Expiration;
+use App\Http\Livewire\FeeType;
 use App\Http\Livewire\Profile;
 use Illuminate\Support\Facades\Route;
 
@@ -41,11 +42,11 @@ Route::middleware('auth')->group(function () {
     Route::get('permission-management', PermissionManagement::class)->name('permission-management')->middleware(['permission:permission-management']);
     Route::get('document', Document::class)->name('document')->middleware(['permission:document']);
     Route::get('application', Application::class)->name('application')->middleware(['permission:application']);
-    Route::get('operator', Operator::class)->name('operator')->middleware(['permission:operator']);
-    Route::get('expiration', Expiration::class)->name('expiration')->middleware(['permission:expiration']);
-    Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
+    Route::get('fee-type', FeeType::class)->name('fee-type')->middleware(['permission:fee-type']);
     Route::get('license-category', LicenseCategory::class)->name('license-category')->middleware(['permission:license-category']);
     Route::get('license-sub-category', LicenseSubCategory::class)->name('license-sub-sategory')->middleware(['permission:license-sub-category']);
+    Route::get('operator', Operator::class)->name('operator')->middleware(['permission:operator']);
+    Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
     // Route::get('report', Report::class)->name('report')->middleware(['permission:report']);
     Route::get('report', [ReportController::class, 'index'])->name('report')->middleware(['permission:report']);

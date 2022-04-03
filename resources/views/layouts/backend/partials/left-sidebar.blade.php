@@ -55,6 +55,9 @@
                         @can('bank')
                         <li> <a href="{{ route('bank') }}">Bank</a></li>
                         @endcan
+                        @can('fee-type')
+                        <li> <a href="{{ route('fee-type') }}">Fee type</a></li>
+                        @endcan
                         @can('license-category')
                         <li> <a href="{{ route('license-category') }}">Category</a></li>
                         @endcan

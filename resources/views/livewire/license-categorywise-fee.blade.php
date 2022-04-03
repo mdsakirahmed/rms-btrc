@@ -1,13 +1,14 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">License Category Page</h4>
+            <h4 class="text-themecolor">Fee types setting</h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">License Category Page</li>
+                    <li class="breadcrumb-item"><a href="{{ route('license-category') }}">{{ $license_category->name }}</a></li>
+                    <li class="breadcrumb-item active">Fees types setting</li>
                 </ol>
                 <button type="button" class="btn btn-dark d-none d-lg-block m-l-15" wire:click="create" alt="default" data-bs-toggle="modal" data-bs-target="#create_and_edit_modal"><i class="fa fa-plus-circle"></i>Create New</button>
             </div>
@@ -22,23 +23,20 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Duration Year</th>
-                                    <th>Duration Month</th>
+                                    <th>Fee type name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($licenseCategories as $licenseCategory)
+                                @foreach ($category_wise_fees as $category_wise_fee)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $licenseCategory->name }}</td>
-                                    <td>{{ $licenseCategory->duration_year }} year</td>
-                                    <td>{{ $licenseCategory->duration_month }} month</td>
+                                    <td>{{ $category_wise_fee->fee_type->name ?? 'Not found' }}</td>
+                                    {{-- <td>{{ $licenseCategory->duration_year }} year</td>
+                                    <td>{{ $licenseCategory->duration_month }} month</td> --}}
                                     <td>
-                                        <a href="{{ route('licenseCategorywiseFee', $licenseCategory->id) }}" class="btn btn-primary">Fee types</a>
-                                        <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $licenseCategory->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#create_and_edit_modal">Edit</button>
-                                        <button type="button" class="btn btn-danger text-white confirmation_btn" wire:click="delete({{ $licenseCategory->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
+                                        {{-- <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $licenseCategory->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#create_and_edit_modal">Edit</button>
+                                        <button type="button" class="btn btn-danger text-white confirmation_btn" wire:click="delete({{ $licenseCategory->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button> --}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -61,23 +59,6 @@
                 <div class="modal-body">
                     <form wire:submit.prevent="submit">
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="name">License category name</label>
-                                <input type="text" class="form-control" id="name" placeholder="License category name" wire:model="name">
-                                <x-error name="name" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="duration_year">Duration year</label>
-                                <input type="number" class="form-control" id="duration_year" placeholder="Year" wire:model="duration_year">
-                                <x-error name="duration_year" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="duration_month">Duration month</label>
-                                <input type="number" class="form-control" id="duration_month" placeholder="Month" wire:model="duration_month">
-                                <x-error name="duration_month" />
-                            </div>
-                        </div>
-                        {{-- <div class="row">
                             <div class="form-group col-md-3">
                                 <label for="payment_iteration">Fee type</label>
                                 <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
@@ -103,7 +84,7 @@
                                 <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
                                 <x-error name="payment_iteration" />
                             </div>
-                        </div> --}}
+                        </div>
                         <button class="btn btn-lg btn-info" type="button">Add fee type</button>
                         <button class="btn btn-lg btn-info" type="submit">Save!</button>
                     </form>

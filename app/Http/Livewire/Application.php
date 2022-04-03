@@ -51,6 +51,7 @@ class Application extends Component
     {
         return view('livewire.application', [
             'applications' => ModelsApplication::latest()->get()
-        ])->layout('layouts.backend.app');
+        ])->extends('layouts.backend.app', ['title' => 'Application'])
+        ->section('content');
     }
 }

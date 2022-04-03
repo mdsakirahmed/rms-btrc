@@ -112,6 +112,7 @@ class Expiration extends Component
         }
         return view('livewire.expiration', [
             'expirations' => $expirations
-        ])->layout('layouts.backend.app');
+        ])->extends('layouts.backend.app', ['title' => 'Expiration'])
+        ->section('content');
     }
 }

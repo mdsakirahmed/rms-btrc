@@ -70,6 +70,7 @@ class Operator extends Component
             'operators' => ModelsOperator::latest()->paginate(20),
             'categories' => LicenseCategory::where('name', 'like', '%'.$this->category_search_key.'%')->latest()->get(),
             'sub_categories' => LicenseSubCategory::where('name', 'like', '%'.$this->sub_category_search_key.'%')->latest()->get(),
-        ])->layout('layouts.backend.app');
+        ])->extends('layouts.backend.app', ['title' => 'Operator'])
+        ->section('content');
     }
 }

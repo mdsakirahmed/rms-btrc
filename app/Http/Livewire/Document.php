@@ -9,7 +9,7 @@ use Livewire\WithFileUploads;
 class Document extends Component
 {
     use WithFileUploads;
-    
+
     public $documents, $form, $selected_document_id, $name, $file;
 
     public function showForm()
@@ -59,7 +59,7 @@ class Document extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);
         $this->selected_document_id = null;
     }
-    
+
     public function mount(){
         $this->documents = ModelsDocument::latest()->get();
     }
@@ -67,6 +67,7 @@ class Document extends Component
     public function render()
     {
         $this->documents = ModelsDocument::latest()->get();
-        return view('livewire.document')->layout('layouts.backend.app');
+        return view('livewire.document')->extends('layouts.backend.app', ['title' => 'Document'])
+        ->section('content');
     }
 }

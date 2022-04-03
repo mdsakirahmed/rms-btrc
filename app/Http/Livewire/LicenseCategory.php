@@ -69,6 +69,7 @@ class LicenseCategory extends Component
     public function render()
     {
         $this->licenseCategories = ModelsLicenseCategory::latest()->get();
-        return view('livewire.license-category')->layout('layouts.backend.app');
+        return view('livewire.license-category')->extends('layouts.backend.app', ['title' => 'License category'])
+        ->section('content');
     }
 }

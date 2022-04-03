@@ -38,7 +38,8 @@ class Profile extends Component
     public function render()
     {
         $this->password_check();
-        return view('livewire.profile')->layout('layouts.backend.app');
+        return view('livewire.profile')->extends('layouts.backend.app', ['title' => 'Profile'])
+        ->section('content');
     }
 
     public function password_check(){

@@ -125,7 +125,8 @@ class Payment extends Component
             'categories' => LicenseCategory::where('name', 'like', '%'.$this->category_search_key.'%')->latest()->get(),
             'sub_categories' => LicenseSubCategory::where('name', 'like', '%'.$this->sub_category_search_key.'%')->latest()->get(),
             'banks' => Bank::where('name', 'like', '%'.$this->bank_search_key.'%')->latest()->get(),
-        ])->layout('layouts.backend.app');
+        ])->extends('layouts.backend.app', ['title' => 'Payment'])
+        ->section('content');
     }
 
     public function get_operators(){

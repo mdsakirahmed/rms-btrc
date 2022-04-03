@@ -71,6 +71,7 @@ class PermissionManagement extends Component
     {
         $this->permissions = Permission::all();
         $this->roles = Role::latest()->get();
-        return view('livewire.permission-management')->layout('layouts.backend.app');
+        return view('livewire.permission-management')->extends('layouts.backend.app', ['title' => 'Payments'])
+        ->section('content');
     }
 }

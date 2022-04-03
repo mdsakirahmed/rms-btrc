@@ -60,6 +60,7 @@ class Report extends Component
     {
         return view('livewire.report', [
             'banks' => Bank::where('name', 'like', '%'.$this->bank_search_key.'%')->latest()->get(),
-        ])->layout('layouts.backend.app');
+        ])->extends('layouts.backend.app', ['title' => 'Report'])
+        ->section('content');
     }
 }

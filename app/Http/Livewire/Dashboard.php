@@ -8,6 +8,7 @@ class Dashboard extends Component
 {
     public function render()
     {
-        return view('livewire.dashboard')->layout('layouts.backend.app');
+        return view('livewire.dashboard')->extends('layouts.backend.app', ['title' => 'Dasjboard'])
+        ->section('content');
     }
 }

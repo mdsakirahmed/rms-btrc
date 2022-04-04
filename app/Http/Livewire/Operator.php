@@ -9,7 +9,8 @@ use Livewire\Component;
 
 class Operator extends Component
 {
-    public $name, $category_id, $sub_category_id, $category_search_key, $sub_category_search_key;
+    public $category_id, $sub_category_id, $name, $phone, $email, $website, $address, $note, $contact_person_name, $contact_person_designation, $contact_person_phone, $contact_person_email;
+    public $category_search_key, $sub_category_search_key;
     public $operator;
 
     public function create(){
@@ -17,18 +18,28 @@ class Operator extends Component
     }
 
     public function submit(){
+        $validate_data = $this->validate([
+            'category_id' => 'required|exists:license_categories,id',
+            'sub_category_id' => 'nullable|numeric',
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'email' => 'required|string',
+            'website' => 'nullable|string',
+            'address' => 'nullable|string',
+            'note' => 'nullable|string',
+            'contact_person_name' => 'required|string',
+            'contact_person_designation' => 'nullable|string',
+            'contact_person_phone' => 'required|string',
+            'contact_person_email' => 'nullable|string',
+        ]);
         if($this->operator){
-            $validate_data = $this->validate([
+            $this->validate([
                 'name' => 'required|unique:operators,name,'.$this->operator->id,
-                'category_id' => 'required',
-                'sub_category_id' => 'nullable',
             ]);
             $this->operator->update($validate_data);
         }else{
-            $validate_data = $this->validate([
-                'name' => 'required|unique:operators,name',
-                'category_id' => 'required',
-                'sub_category_id' => 'nullable',
+            $this->validate([
+                'name' => 'required|unique:operators,name'
             ]);
             ModelsOperator::create($validate_data);
         }

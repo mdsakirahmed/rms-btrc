@@ -77,35 +77,7 @@
                                 <x-error name="duration_month" />
                             </div>
                         </div>
-                        {{-- <div class="row">
-                            <div class="form-group col-md-3">
-                                <label for="payment_iteration">Fee type</label>
-                                <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
-                                <x-error name="payment_iteration" />
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="payment_iteration">VAT %</label>
-                                <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
-                                <x-error name="payment_iteration" />
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="payment_iteration">Late fee %</label>
-                                <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
-                                <x-error name="payment_iteration" />
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="payment_iteration">Iteration</label>
-                                <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
-                                <x-error name="payment_iteration" />
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="payment_iteration">Amount</label>
-                                <input disabled type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
-                                <x-error name="payment_iteration" />
-                            </div>
-                        </div> --}}
-                        <button class="btn btn-lg btn-info" type="button">Add fee type</button>
-                        <button class="btn btn-lg btn-info" type="submit">Save!</button>
+                        <button class="btn btn-lg btn-info" type="submit">Submit now</button>
                     </form>
                 </div>
             </div>

@@ -13,12 +13,12 @@ class LicenseCategoryWiseFeeType extends Model
     protected $fillable = [
         'category_id',
         'fee_type_id',
-        'year',
-        'month',
         'iteration',
-        'fee',
-        'vat',
+        'amount',
         'late_fee',
+        'vat',
+        'tax',
+
     ];
 
     public function category(){

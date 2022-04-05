@@ -14,7 +14,7 @@ class Operator extends Component
     public $operator;
 
     public function create(){
-        $this->name = $this->category_id = $this->sub_category_id = $this->operator = null;
+        $this->category_id = $this->sub_category_id = $this->name = $this->phone = $this->email = $this->website = $this->address = $this->note = $this->contact_person_name = $this->contact_person_designation = $this->contact_person_phone = $this->contact_person_email = null;
     }
 
     public function submit(){
@@ -22,14 +22,14 @@ class Operator extends Component
             'category_id' => 'required|exists:license_categories,id',
             'sub_category_id' => 'nullable|numeric',
             'name' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|string',
+            'phone' => 'nullable|string',
+            'email' => 'nullable|string',
             'website' => 'nullable|string',
             'address' => 'nullable|string',
             'note' => 'nullable|string',
             'contact_person_name' => 'required|string',
             'contact_person_designation' => 'nullable|string',
-            'contact_person_phone' => 'required|string',
+            'contact_person_phone' => 'nullable|string',
             'contact_person_email' => 'nullable|string',
         ]);
         if($this->operator){
@@ -48,10 +48,19 @@ class Operator extends Component
     }
 
     public function select_for_edit(ModelsOperator $operator){
-        $this->name = $operator->name;
+        $this->operator = $operator;
         $this->category_id = $operator->category_id;
         $this->sub_category_id = $operator->sub_category_id;
-        $this->operator = $operator;
+        $this->name = $operator->name;
+        $this->phone = $operator->phone;
+        $this->email = $operator->email;
+        $this->website = $operator->website;
+        $this->address = $operator->address;
+        $this->note = $operator->note;
+        $this->contact_person_name = $operator->contact_person_name;
+        $this->contact_person_designation = $operator->contact_person_designation;
+        $this->contact_person_phone = $operator->contact_person_phone;
+        $this->contact_person_email = $operator->contact_person_email;
     }
 
     public function delete(ModelsOperator $operator){

@@ -13,10 +13,7 @@ class Expiration extends Model
     protected $fillable = [
         'operator_id',
         'issue_date',
-        'expire_date',
-        'price',
-        'fee',
-        'iteration'
+        'expire_date'
     ];
 
     protected $dates = ['issue_date', 'expire_date'];

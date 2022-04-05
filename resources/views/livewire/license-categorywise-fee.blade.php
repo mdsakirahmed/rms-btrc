@@ -18,13 +18,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                  <h5 class="card-title">Category: {{ $license_category->name }}</h5>
+                  <h5 class="">Duration year: {{ $license_category->duration_year }}</h5>
+                  <h5 class="">Duration month: {{ $license_category->duration_month }}</h5>
+                </div>
+              </div>
+            <div class="card">
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table color-table success-table">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Fee type name</th>
-                                    <th>Iteration</th>
+                                    <th>Duration by month</th>
                                     <th>Amount</th>
                                     <th>Late fee</th>
                                     <th>Vat</th>
@@ -37,7 +44,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category_wise_fee->fee_type->name ?? 'Not found' }}</td>
-                                    <td>{{ $category_wise_fee->iteration }} </td>
+                                    <td>{{ $category_wise_fee->period_month }} month </td>
                                     <td>{{ $category_wise_fee->amount }} BDT</td>
                                     <td>{{ $category_wise_fee->late_fee }} %</td>
                                     <td>{{ $category_wise_fee->vat }} %</td>
@@ -68,7 +75,7 @@
                     <form wire:submit.prevent="submit">
                         <div class="row">
                             <div class="form-group col-md-2">
-                                <label for="fee_type">Fee type</label>
+                                <label for="fee_type" class="required">Fee type</label>
                                 <select class="form-control" id="fee_type" wire:model="fee_type">
                                     <option value="">Select fee type</option>
                                     @foreach ($fee_types as $fee_type)
@@ -78,27 +85,27 @@
                                 <x-error name="fee_type" />
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="iteration">Iteration</label>
-                                <input type="number" class="form-control" id="iteration" placeholder="iteration" min="0" step="1" wire:model="iteration">
-                                <x-error name="iteration" />
+                                <label for="period_month" class="required">Duration by month</label>
+                                <input type="number" class="form-control" id="period_month" placeholder="Pediod" min="0" step="1" wire:model="period_month">
+                                <x-error name="period_month" />
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="amount">Amount</label>
+                                <label for="amount" class="required">Amount</label>
                                 <input type="number" class="form-control" id="amount" placeholder="amount" min="0" step="1" wire:model="amount">
                                 <x-error name="amount" />
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="late_fee">Late fee %</label>
+                                <label for="late_fee" class="required">Late fee %</label>
                                 <input type="number" class="form-control" id="late_fee" placeholder="Late fee" min="0" step="1" wire:model="late_fee">
                                 <x-error name="late_fee" />
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="vat">Vat %</label>
+                                <label for="vat" class="required">Vat %</label>
                                 <input type="number" class="form-control" id="vat" placeholder="vat" min="0" step="1" wire:model="vat">
                                 <x-error name="vat" />
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="tax">Tax %</label>
+                                <label for="tax" class="required">Tax %</label>
                                 <input type="number" class="form-control" id="tax" placeholder="tax" min="0" step="1" wire:model="tax">
                                 <x-error name="tax" />
                             </div>

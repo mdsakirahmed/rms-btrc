@@ -23,6 +23,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'license-category']);
         Permission::create(['name' => 'license-sub-category']);
         Permission::create(['name' => 'operator']);
+        Permission::create(['name' => 'expiration']);
         Permission::create(['name' => 'bank']);
         Permission::create(['name' => 'payment']);
 

@@ -13,14 +13,14 @@ class LicenseCategorywiseFee extends Component
 
     public function create()
     {
-        $this->fee_type = $this->iteration = $this->amount = $this->late_fee = $this->vat = $this->tax = $this->selected_category_wise_fee = null;
+        $this->fee_type = $this->period_month = $this->amount = $this->late_fee = $this->vat = $this->tax = $this->selected_category_wise_fee = null;
     }
 
     public function submit()
     {
         $this->validate([
             'fee_type' => 'required|numeric|exists:fee_types,id',
-            'iteration' => 'required|numeric',
+            'period_month' => 'required|numeric',
             'amount' => 'required|numeric',
             'late_fee' => 'required|numeric',
             'vat' => 'required|numeric',
@@ -31,7 +31,7 @@ class LicenseCategorywiseFee extends Component
             $this->selected_category_wise_fee->update([
                 'category_id' => $this->license_category->id,
                 'fee_type_id' => $this->fee_type,
-                'iteration' => $this->iteration,
+                'period_month' => $this->period_month,
                 'amount' => $this->amount,
                 'late_fee' => $this->late_fee,
                 'vat' => $this->vat,
@@ -46,7 +46,7 @@ class LicenseCategorywiseFee extends Component
                 LicenseCategoryWiseFeeType::create([
                     'category_id' => $this->license_category->id,
                     'fee_type_id' => $this->fee_type,
-                    'iteration' => $this->iteration,
+                    'period_month' => $this->period_month,
                     'amount' => $this->amount,
                     'late_fee' => $this->late_fee,
                     'vat' => $this->vat,
@@ -62,7 +62,7 @@ class LicenseCategorywiseFee extends Component
     {
         $this->selected_category_wise_fee = $licenseCategoryWiseFeeType;
         $this->fee_type = $this->selected_category_wise_fee->fee_type_id;
-        $this->iteration = $this->selected_category_wise_fee->iteration;
+        $this->period_month = $this->selected_category_wise_fee->period_month;
         $this->amount = $this->selected_category_wise_fee->amount;
         $this->late_fee = $this->selected_category_wise_fee->late_fee;
         $this->vat = $this->selected_category_wise_fee->vat;

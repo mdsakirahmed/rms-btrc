@@ -33,10 +33,8 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Starting Date</th>
-                                    <th>Ending Date</th>
-                                    <th style="text-align: right;">Total Amount</th>
-                                    <th style="text-align: right;">Total Iteration</th>
+                                    <th>Issue Date</th>
+                                    <th>Expire Date</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
@@ -46,18 +44,9 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $expiration->issue_date->format('d M Y') }}</td>
                                     <td>{{ $expiration->expire_date->format('d M Y') }}</td>
-                                    <td style="text-align: right;">{{ $expiration->price }} ৳</td>
-                                    <td style="text-align: right;">{{ $expiration->iteration }}</td>
                                     <td style="text-align: center;">
-                                        {{-- @if($expiration->payments()->where('paid', true)->count() > 0) --}}
-                                        {{-- <i class="text-danger">{{ $expiration->payments()->where('paid', true)->count() }} payments</i> --}}
-                                        {{-- @else --}}
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $expiration->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $expiration->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
-                                        {{-- @endif --}}
-                                        <br>
-                                        <a href="{{ route('payment', ['operator' => $operator, 'expiration' => $expiration]) }}" class="btn btn-success text-white">Payments</a>
-                                        <button type="button" class="btn btn-success btn-sm text-white" wire:click="download_payment_schedule({{ $expiration->id }})"> Download Payment Schedule </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -80,69 +69,34 @@
                         <div class="modal-body">
                             <form wire:submit.prevent="submit">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="date" class="form-control" id="issue_date" wire:model="issue_date" placeholder="" wire:change="calculate_iteration">
                                             <label for="issue_date">Issue date</label>
                                         </div>
                                         <x-error name="issue_date" />
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input disabled type="date" class="form-control" id="expire_date" wire:model="expire_date" placeholder="">
                                             <label for="expire_date">Expire date</label>
                                         </div>
                                        <x-error name="expire_date" />
                                     </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-floating mb-3">
-                                            <input disabled type="number" class="form-control" id="iteration" wire:model="iteration" wire:change="change_expire_date" placeholder="Total iteration" min="0" step="1">
-                                            <label for="iteration">Total iteration ({{ $iteration * 2 }} monthes)</label>
-                                            <small class="form-text text-muted">Only integer number accepted <b># {{ (int)$iteration }}</b></small>
-                                        </div>
-                                        <x-error name="iteration" />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-floating mb-3">
-                                            <input type="number" class="form-control" id="price" wire:model="price" placeholder="Total amount">
-                                            <label for="price">Total Amount</label>
-                                        </div>
-                                       <x-error name="price" />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-floating mb-3">
-                                            <input type="number" class="form-control" id="fee" wire:model="fee" placeholder="License fee">
-                                            <label for="fee">License fee</label>
-                                        </div>
-                                        <x-error name="fee" />
-                                    </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="duration_year" wire:model="duration_year" placeholder="Year" wire:change="calculate_iteration">
                                             <label for="duration_year">Year</label>
                                         </div>
                                        <x-error name="duration_year" />
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="duration_month" wire:model="duration_month" placeholder="Month" wire:change="calculate_iteration">
                                             <label for="duration_month">Month</label>
                                         </div>
                                         <x-error name="duration_month" />
                                     </div>
-                                    @if($operator)
-                                    <div class="col-md-6">
-                                        <small class="form-text text-muted">License category name: <b># {{ $operator->category->name }}</b></small> <br>
-                                        <small class="form-text text-muted">Default license fee: <b># {{ $operator->category->license_fee }}</b></small> <br>
-                                        <small class="form-text text-muted">Default duration year: <b># {{ $operator->category->duration_year }}</b></small> <br>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <small class="form-text text-muted">Default duration month: <b># {{ $operator->category->duration_month }}</b></small> <br>
-                                        <small class="form-text text-muted">Default payment iteration: <b># {{ $operator->category->payment_iteration }}</b></small> <br>
-                                    </div>
-                                    @endif
-
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">
                                             <div class="ms-auto mt-3 mt-md-0">
@@ -151,11 +105,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if($operator)
-                                    <div class="col-12">
-
-                                    </div>
-                                    @endif
                                 </div>
                             </form>
                         </div>

@@ -12,60 +12,39 @@ use PDF;
 
 class Expiration extends Component
 {
-    public $operator_id, $issue_date, $expire_date, $price, $iteration;
+    public $issue_date, $expire_date, $duration_year, $duration_month;
     public $operator, $expiration;
-    public $duration_year, $duration_month, $fee;
 
-    public function mount()
+    public function mount(Operator $operator)
     {
-        $this->operator = Operator::find(request()->operator);
+        $this->operator = $operator;
     }
 
     public function create()
     {
-        $this->issue_date = $this->expire_date = $this->price = $this->iteration = null;
-        if ($this->operator) {
-            $this->operator_id = $this->operator->id;
-            $this->issue_date = Carbon::today()->format('Y-m-d');
-            $this->expire_date = Carbon::now()->addYears($this->operator->category->duration_year ?? 0)->addMonths($this->operator->category->duration_month ?? 0)->format('Y-m-d');
-            $this->iteration = $this->operator->category->payment_iteration ?? 0;
-            $this->duration_year = $this->operator->category->duration_year ?? 0;
-            $this->duration_month = $this->operator->category->duration_month ?? 0;
-            $this->fee = $this->operator->category->license_fee ?? 0;
-        }
+        $this->issue_date = $this->expire_date = $this->duration_year = $this->duration_month = null;
     }
 
     public function submit()
     {
-        $validate_data = $this->validate([
-            'operator_id' => 'required|exists:operators,id',
+        $this->validate([
             'issue_date' => 'required|date',
             'expire_date' => 'required|date',
-            'price' => 'required|numeric',
-            'fee' => 'required|numeric',
-            'iteration' => 'required|numeric',
         ]);
         if ($this->expiration) {
-            $this->expiration->update($validate_data);
+            $this->expiration->update([
+                'operator_id' => $this->operator->id,
+                'issue_date' => $this->issue_date,
+                'expire_date' => $this->expire_date
+            ]);
         } else {
-            $expitation = ModelsExpiration::create($validate_data);
-            // Now create payment schedules
-            try {
-                $issue_date = Carbon::parse($expitation->issue_date);
-                for ($iteration = 1; $iteration <= $expitation->iteration; $iteration++) {
-                    $issue_date =  Carbon::parse($issue_date)->addMonths(2)->format('Y-m-d');
-                    $payment = new Payment();
-                    $payment->expiration_id = $expitation->id;
-                    $payment->payble_amount = round($expitation->price / $expitation->iteration);
-                    $payment->last_date_of_payment = $issue_date;
-                    $payment->save();
-                }
-                $this->create();
-                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
-            } catch (\Exception $exception) {
-                $expitation->delete();
-                $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => $exception->getMessage()]);
-            }
+            ModelsExpiration::create([
+                'operator_id' => $this->operator->id,
+                'issue_date' => $this->issue_date,
+                'expire_date' => $this->expire_date
+            ]);
+            $this->create();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
         }
     }
 
@@ -84,10 +63,6 @@ class Expiration extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 
-    public function change_expire_date()
-    {
-        $this->expire_date = Carbon::parse($this->issue_date)->addMonths(($this->iteration ?? 0) * 2)->format('Y-m-d');
-    }
 
     public function calculate_iteration()
     {
@@ -105,14 +80,9 @@ class Expiration extends Component
 
     public function render()
     {
-        if ($this->operator) {
-            $expirations = ModelsExpiration::latest()->where('operator_id', $this->operator->id)->get();
-        } else {
-            $expirations = ModelsExpiration::latest()->get();
-        }
         return view('livewire.expiration', [
-            'expirations' => $expirations
+            'expirations' => ModelsExpiration::latest()->where('operator_id', $this->operator->id)->get()
         ])->extends('layouts.backend.app', ['title' => 'Expiration'])
-        ->section('content');
+            ->section('content');
     }
 }

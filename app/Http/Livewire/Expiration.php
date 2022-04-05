@@ -50,11 +50,9 @@ class Expiration extends Component
 
     public function select_for_edit(ModelsExpiration $expiration)
     {
+        $this->expiration = $expiration;
         $this->issue_date = $expiration->issue_date;
         $this->expire_date = $expiration->expire_date;
-        $this->price = $expiration->price;
-        $this->iteration = $expiration->iteration;
-        $this->expiration = $expiration;
     }
 
     public function delete(ModelsExpiration $expiration)
@@ -68,14 +66,6 @@ class Expiration extends Component
     {
         $this->iteration = Carbon::parse($this->issue_date)->diffInMonths(Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)) / 2;
         $this->expire_date = Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)->format('Y-m-d');
-    }
-
-    public function download_payment_schedule(ModelsExpiration $expiration)
-    {
-        $this->expiration = $expiration;
-        return response()->streamDownload(function () {
-            PDF::loadView('pdf.payment-schedule',  ['expiration' => $this->expiration])->download();
-        }, 'Payment schedule download at -' . date('d-m-Y h-i-s') . '.pdf');
     }
 
     public function render()

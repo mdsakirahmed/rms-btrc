@@ -66,56 +66,99 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
                         <div class="modal-body">
+
                             <form wire:submit.prevent="submit" id="operator_form">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-floating mb-3">
+                                    <h4 class="card-title fw-bold">Operator information</h4>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
                                             <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
                                             <label for="name">Name</label>
                                         </div>
                                         <x-error name="name" />
                                     </div>
-                                    <div class="col-md-6">
-                                        <div style="height:3in; overflow:scroll;">
-                                            <div class="list-group">
-                                                <input type="text" wire:model="category_search_key" class="text-center text-white" placeholder="Search category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                                                @if ($categories->count() > 0)
-                                                @foreach ($categories as $category)
-                                                <a href="javascript:void(0)" wire:click="chose_category({{ $category->id }})" class=" @if ($category->id == $category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $category->name }}</a>
-                                                @endforeach
-                                                @else
-                                                <div class="alert alert-warning text-center" role="alert">
-                                                    <b>Category Not Found</b>
-                                                </div>
-                                                @endif
-                                            </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="phone" wire:model="phone" placeholder="Enter phone here">
+                                            <label for="phone">Phone</label>
                                         </div>
-                                        <x-error name="category_id" />
+                                        <x-error name="phone" />
                                     </div>
-                                    <div class="col-md-6">
-                                        <div style="height:3in; overflow:scroll;">
-                                            <div class="list-group">
-                                                <input type="text" wire:model="sub_category_search_key" class="text-center text-white" placeholder="Search sub category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                                                @if ($sub_categories->count() > 0)
-                                                @foreach ($sub_categories as $sub_category)
-                                                <a href="javascript:void(0)" wire:click="chose_sub_category({{ $sub_category->id }})" class=" @if ($sub_category->id == $sub_category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $sub_category->name }}</a>
-                                                @endforeach
-                                                @else
-                                                <div class="alert alert-warning text-center" role="alert">
-                                                    <b>Sub category Not Found</b>
-                                                </div>
-                                                @endif
-                                            </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="email" wire:model="email" placeholder="Enter email here">
+                                            <label for="email">Email</label>
                                         </div>
-                                        <x-error name="sub_category_id" />
+                                        <x-error name="email" />
                                     </div>
-                                    <div class="col-12">
-                                        <div class="d-md-flex align-items-center mt-3">
-                                            <div class="ms-auto mt-3 mt-md-0">
-                                                <button type="submit" class="btn btn-success text-white">Submit</button>
-                                                <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
-                                            </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="website" wire:model="website" placeholder="Enter website here">
+                                            <label for="website">Website</label>
                                         </div>
+                                        <x-error name="website" />
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <label for="address">Address</label>
+                                        <textarea cols="30" rows="3" class="form-control" id="address" wire:model="address" placeholder="Enter address here"></textarea>
+                                        <x-error name="address" />
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <label for="note">Note</label>
+                                        <textarea cols="30" rows="3" class="form-control" id="note" wire:model="note" placeholder="Enter note here"></textarea>
+                                        <x-error name="note" />
+                                    </div>
+                                    {{-- Contact person --}}
+                                    <h4 class="card-title mt-5 fw-bold">Contact person</h4>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contact_person_name" wire:model="contact_person_name" placeholder="Enter name here">
+                                            <label for="contact_person_name">Name</label>
+                                        </div>
+                                        <x-error name="contact_person_name" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="designation" wire:model="designation" placeholder="Enter designation here">
+                                            <label for="designation">Designation</label>
+                                        </div>
+                                        <x-error name="designation" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contact_person_phone" wire:model="contact_person_phone" placeholder="Enter phone here">
+                                            <label for="contact_person_phone">Phone</label>
+                                        </div>
+                                        <x-error name="contact_person_phone" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contact_person_email" wire:model="contact_person_email" placeholder="Enter email here">
+                                            <label for="contact_person_email">Email</label>
+                                        </div>
+                                        <x-error name="contact_person_email" />
+                                    </div>
+                                    {{-- License mapping --}}
+                                    <h4 class="card-title mt-5 fw-bold">License mapping</h4>
+                                    <div class="col-md-3">
+                                        <label for="category">Category</label>
+                                        <select name="" id="category" class="form-control" wire:model="category">
+                                            <option value="">Select category</option>
+                                        </select>
+                                        <x-error name="category" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="sub_category">Sub Category</label>
+                                        <select name="" id="sub_category" class="form-control" wire:model="sub_category">
+                                            <option value="">Select category</option>
+                                        </select>
+                                        <x-error name="sub_category" />
+                                    </div>
+                                    <div class="col-6 mt-4 d-flex justify-content-betwee">
+
+                                                <button type="submit" class="btn waves-effect waves-light w-100 btn-info">Submit</button>
+                                                <button type="button" class="btn waves-effect waves-light w-100 btn-warning" data-bs-dismiss="modal">Close</button>
+
                                     </div>
                                 </div>
                             </form>

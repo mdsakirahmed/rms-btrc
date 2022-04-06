@@ -28,42 +28,36 @@
                                     <input type="text" id="firstName" class="form-control" placeholder="John doe">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div wire:ignore class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Category</label>
-                                    <select class="form-control form-select select2">
-                                        <option value="">Select category</option>
+                                    <select class="form-control form-select select2" id="select_category">
+                                        <option value="" disabled selected>Select category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->value }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div wire:ignore class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Sub Category</label>
                                     <select class="form-control form-select select2">
-                                        <option value="">Select sub category</option>
+                                        <option value="" disabled selected>Select sub category</option>
                                         @foreach ($sub_categories as $sub_category)
-                                            <option value="{{ $sub_category->value }}">{{ $sub_category->name }}</option>
+                                        <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="col-md-2">
+                            <div wire:ignore class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Operator</label>
-                                    <select class="form-control form-select select2">
-                                        <option value="">Select operator</option>
-                                        @foreach ($operators as $operator)
-                                            <option value="{{ $operator->value }}">{{ $operator->name }}</option>
-                                        @endforeach
+                                    <select class="form-control form-select select2" id="select_operator">
+                                        <option value="" disabled selected>Select operator</option>
                                     </select>
                                 </div>
                             </div>
-
-
                             <div class="col-md-2">
                                 <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4">Search</button>
                             </div>
@@ -136,6 +130,22 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2();
+
+            $('#select_category').on('change', function(e) {
+                livewire.emit('select_category', e.target.value)
+            });
+
+            window.addEventListener('operators_data_event', event => {
+                let operators_formated_data_set = jQuery.map(event.detail.operators_data, function(val, index) {
+                    return { id: val.id , text: val.name };
+                })
+                $('#select_operator').html('').select2({ data: operators_formated_data_set })
+            });
+
+            $('#select_operator').on('change', function(e) {
+                livewire.emit('select_operator', e.target.value)
+            });
         });
+
     </script>
 </div>

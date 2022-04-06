@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Bank;
 use App\Models\Expiration;
 use App\Models\LicenseCategory;
+use App\Models\LicenseCategoryWiseFeeType;
 use App\Models\LicenseSubCategory;
 use App\Models\Operator;
 use App\Models\PartialPayment;
@@ -17,7 +18,7 @@ class Payment extends Component
 {
     public $categories, $sub_categories;
 
-    public $category_id, $operator_id;
+    public $category_id, $operator_id, $license_category_wise_fee_type_id;
 
     // listeners use for get data from jsvascript
     protected $listeners = [
@@ -45,6 +46,13 @@ class Payment extends Component
             $operators = Operator::where('category_id', $this->category_id)->get();
         }
         $this->dispatchBrowserEvent('operators_data_event', ['operators_data' => $operators]);
+
+        $fees = [];
+        if($this->operator_id && $this->category_id){
+            $fees = LicenseCategoryWiseFeeType::where('category_id', $this->category_id)->with('fee_type')->get();
+        }
+        $this->dispatchBrowserEvent('fees_data_event', ['fees_data' => $fees]);
+
         return view('livewire.payment')
             ->extends('layouts.backend.app', ['title' => 'Payment'])
             ->section('content');

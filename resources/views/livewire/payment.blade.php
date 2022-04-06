@@ -63,61 +63,38 @@
                             </div>
                         </div>
                         <!--/row-->
-                        <h4 class="card-title mt-5">Address</h4>
+                        <h4 class="card-title mt-5">Receive amount</h4>
                     </div>
                     <hr>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-12 ">
-                                <div class="form-group">
-                                    <label class="form-label">Street</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">City</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">State</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <!--/span-->
-                        </div>
-                        <!--/row-->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Post Code</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <!--/span-->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Country</label>
-                                    <select class="form-control form-select">
-                                        <option>--Select your Country--</option>
-                                        <option>India</option>
-                                        <option>Sri Lanka</option>
-                                        <option>USA</option>
+                            <div wire:ignore class="col-md-2">
+                                <div class="form-group has-success">
+                                    <label class="form-label">Fee type</label>
+                                    <select class="form-control form-select select2" id="fee_type">
+                                        <option value="" disabled selected>Select category</option>
+                                        {{-- @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
-                            <!--/span-->
+                            <div wire:ignore class="col-md-2">
+                                <div class="form-group has-success">
+                                    <label class="form-label">Select period</label>
+                                    <select class="form-control form-select select2" id="period">
+                                        <option value="" disabled selected>Select category</option>
+                                        {{-- @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach --}}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="card-body">
-                            <button type="submit" class="btn btn-success text-white"> <i class="fa fa-check"></i>
-                                Save</button>
+                            <button type="submit" class="btn btn-success text-white"> <i class="fa fa-check"></i>Save</button>
                             <button type="button" class="btn btn-dark">Cancel</button>
                         </div>
                     </div>
@@ -144,6 +121,14 @@
 
             $('#select_operator').on('change', function(e) {
                 livewire.emit('select_operator', e.target.value)
+            });
+
+            window.addEventListener('fees_data_event', event => {
+                console.log(event.detail.fees_data);
+                let fees_formated_data_set = jQuery.map(event.detail.fees_data, function(val, index) {
+                    return { id: val.id , text: val.fee_type.name };
+                })
+                $('#fee_type').html('').select2({ data: fees_formated_data_set })
             });
         });
 

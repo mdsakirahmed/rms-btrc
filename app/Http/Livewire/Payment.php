@@ -54,6 +54,12 @@ class Payment extends Component
         $this->dispatchBrowserEvent('category_wise_selected_fee_type_data_event', ['category_wise_selected_fee_type_data' => $category_wise_fee_type]);
     }
 
+    public function ready_for_get_payment(){
+        // $this->validate([
+        //     'category_id' => 'required'
+        // ]);
+    }
+
     public function render()
     {
         $this->categories = LicenseCategory::all();

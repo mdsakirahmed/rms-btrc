@@ -22,7 +22,7 @@
                 <div class="form-body">
                     <div class="card-body">
                         <div class="row pt-3">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="form-label">First Name</label>
                                     <input type="text" id="firstName" class="form-control" placeholder="John doe">
@@ -37,6 +37,7 @@
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
+                                    {{-- <x-error name="category_id"> --}}
                                 </div>
                             </div>
                             <div wire:ignore class="col-md-2">
@@ -58,16 +59,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4">Search</button>
-                            </div>
-                        </div>
-                        <!--/row-->
-                        <h4 class="card-title mt-5">Receive amount</h4>
-                    </div>
-                    <hr>
-                    <div class="card-body">
-                        <div class="row">
                             <div wire:ignore class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Fee type</label>
@@ -84,6 +75,17 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-12 text-center">
+                                <button type="button" class="btn waves-effect waves-light btn-info mt-4">Search</button>
+                            </div>
+                        </div>
+                        <!--/row-->
+                        <h4 class="card-title mt-5">Receive amount</h4>
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="row">
+
                             <div class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Receive date</label>
@@ -102,13 +104,13 @@
                                     <input type="number" class="form-control" placeholder="Late fee %">
                                 </div>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">VAT %</label>
                                     <input type="number" class="form-control" placeholder="VAT %">
                                 </div>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">TAX %</label>
                                     <input type="number" class="form-control" placeholder="TAX %">

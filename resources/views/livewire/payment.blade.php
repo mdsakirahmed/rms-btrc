@@ -79,8 +79,8 @@
                             <div wire:ignore class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Select period</label>
-                                    <select class="form-control form-select select2" id="period">
-                                        <option value="" disabled selected>Select category</option>
+                                    <select class="form-control form-select select2" id="payment_period">
+                                        <option value="" disabled selected>Select payment period</option>
                                     </select>
                                 </div>
                             </div>
@@ -109,14 +109,14 @@
                     let operators_formated_data_set = jQuery.map(event.detail.operators_data, function(val, index) {
                         return { id: val.id , text: val.name };
                     });
-                    $('#select_operator').html('').select2({ data: operators_formated_data_set })
+                    $('#select_operator').html('<option value="" disabled selected>Select operator</option>').select2({ data: operators_formated_data_set })
                 });
 
                 window.addEventListener('category_wise_fee_types_data_event', event => {
                     let category_wise_fee_types_formated_data_set = jQuery.map(event.detail.category_wise_fee_types_data, function(val, index) {
                         return { id: val.id , text: val.fee_type.name };
                     });
-                    $('#select_fee_type').html('').select2({ data: category_wise_fee_types_formated_data_set })
+                    $('#select_fee_type').html('<option value="" disabled selected>Select fee type</option>').select2({ data: category_wise_fee_types_formated_data_set })
                 });
             });
 
@@ -128,6 +128,18 @@
 
             $('#select_fee_type').on('change', function(e) {
                 livewire.emit('select_fee_type', e.target.value);
+
+                window.addEventListener('payment_period_data_event', event => {
+                    let formated_payment_period_data_set = jQuery.map(event.detail.payment_period_data, function(val, index) {
+                        return { id: val, text: val };
+                    });
+                    $('#payment_period').html('<option value="" disabled selected>Select period</option>').select2({ data: formated_payment_period_data_set })
+                });
+
+                window.addEventListener('category_wise_selected_fee_type_data_event', event => {
+                    // event.detail.category_wise_selected_fee_type_data
+                    // $('#select_fee_type').html('');
+                });
             });
         });
 

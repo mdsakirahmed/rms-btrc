@@ -84,6 +84,36 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group has-success">
+                                    <label class="form-label">Receive date</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group has-success">
+                                    <label class="form-label">Amount</label>
+                                    <input type="number" class="form-control" placeholder="Amount">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group has-success">
+                                    <label class="form-label">Late fee %</label>
+                                    <input type="number" class="form-control" placeholder="Late fee %">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group has-success">
+                                    <label class="form-label">VAT %</label>
+                                    <input type="number" class="form-control" placeholder="VAT %">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group has-success">
+                                    <label class="form-label">TAX %</label>
+                                    <input type="number" class="form-control" placeholder="TAX %">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-actions">

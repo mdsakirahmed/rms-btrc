@@ -71,11 +71,8 @@
                             <div wire:ignore class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Fee type</label>
-                                    <select class="form-control form-select select2" id="fee_type">
-                                        <option value="" disabled selected>Select category</option>
-                                        {{-- @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach --}}
+                                    <select class="form-control form-select select2" id="select_fee_type">
+                                        <option value="" disabled selected>Select fee type</option>
                                     </select>
                                 </div>
                             </div>
@@ -84,9 +81,6 @@
                                     <label class="form-label">Select period</label>
                                     <select class="form-control form-select select2" id="period">
                                         <option value="" disabled selected>Select category</option>
-                                        {{-- @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -109,26 +103,31 @@
             $('.select2').select2();
 
             $('#select_category').on('change', function(e) {
-                livewire.emit('select_category', e.target.value)
+                livewire.emit('select_category', e.target.value);
+
+                window.addEventListener('operators_data_event', event => {
+                    let operators_formated_data_set = jQuery.map(event.detail.operators_data, function(val, index) {
+                        return { id: val.id , text: val.name };
+                    });
+                    $('#select_operator').html('').select2({ data: operators_formated_data_set })
+                });
+
+                window.addEventListener('category_wise_fee_types_data_event', event => {
+                    let category_wise_fee_types_formated_data_set = jQuery.map(event.detail.category_wise_fee_types_data, function(val, index) {
+                        return { id: val.id , text: val.fee_type.name };
+                    });
+                    $('#select_fee_type').html('').select2({ data: category_wise_fee_types_formated_data_set })
+                });
             });
 
-            window.addEventListener('operators_data_event', event => {
-                let operators_formated_data_set = jQuery.map(event.detail.operators_data, function(val, index) {
-                    return { id: val.id , text: val.name };
-                })
-                $('#select_operator').html('').select2({ data: operators_formated_data_set })
-            });
 
             $('#select_operator').on('change', function(e) {
-                livewire.emit('select_operator', e.target.value)
+                livewire.emit('select_operator', e.target.value);
             });
 
-            window.addEventListener('fees_data_event', event => {
-                console.log(event.detail.fees_data);
-                let fees_formated_data_set = jQuery.map(event.detail.fees_data, function(val, index) {
-                    return { id: val.id , text: val.fee_type.name };
-                })
-                $('#fee_type').html('').select2({ data: fees_formated_data_set })
+
+            $('#select_fee_type').on('change', function(e) {
+                livewire.emit('select_fee_type', e.target.value);
             });
         });
 

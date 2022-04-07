@@ -67,11 +67,11 @@
                     </div>
                     <hr>
                     <div class="card-body">
-                        <div class="row">
+                        <ain class="row" class="cloneitem">
                             <div wire:ignore class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Fee type</label>
-                                    <select class="form-control form-select select2" id="select_fee_type">
+                                    <select class="form-control form-select select2 select_fee_type" id="select_fee_type">
                                         <option value="" disabled selected>Select fee type</option>
                                     </select>
                                 </div>
@@ -114,7 +114,9 @@
                                     <input type="number" class="form-control" placeholder="TAX %">
                                 </div>
                             </div>
-                        </div>
+                        </ain>
+                        <div class="receive_amount_body"></div>
+                        <button type="button" class="btn btn-danger" id="add_receive_amount_row">Add</button>
                     </div>
                     <div class="form-actions">
                         <div class="card-body">
@@ -146,7 +148,7 @@
                     let category_wise_fee_types_formated_data_set = jQuery.map(event.detail.category_wise_fee_types_data, function(val, index) {
                         return { id: val.id , text: val.fee_type.name };
                     });
-                    $('#select_fee_type').html('<option value="" disabled selected>Select fee type</option>').select2({ data: category_wise_fee_types_formated_data_set })
+                    $('.select_fee_type').html('<option value="" disabled selected>Select fee type</option>').select2({ data: category_wise_fee_types_formated_data_set })
                 });
             });
 
@@ -170,6 +172,14 @@
                     // event.detail.category_wise_selected_fee_type_data
                     // $('#select_fee_type').html('');
                 });
+            });
+
+
+
+            $('#add_receive_amount_row').on('click', function(e) {
+                // $("#select_category").clone().appendTo( ".receive_amount_body" );
+                $('ain').not('.cloned').clone().addClass('cloned').appendTo('.receive_amount_body');
+
             });
         });
 

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
     public function index(){
-        $operators = $fee_types = $periods = $fee_type_wise_periods = [];
+        $operators = $fee_types = $fee_type_wise_periods = [];
 
         if(request()->category){
             // $operators = Operator::where('category_id', request()->category)->get();
@@ -38,23 +38,11 @@ class PaymentController extends Controller
                 }
             }
         }
-        // dd($fee_type_wise_periods);
-        // if(request()->category && request()->fee_type){
-        //     $expiration = Expiration::find(request()->category);
-        //     $category_wise_fee_type = LicenseCategoryWiseFeeType::find(request()->fee_type);
-        //     if($expiration && $category_wise_fee_type){
-        //         for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' month')){
-        //             array_push($periods, $issue_date->format('d-m-Y'));
-        //         }
-        //     }
-        // }
-        // dd($fee_types);
         return view('backend.payment', [
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
             'operators' =>$operators,
             'fee_types' =>$fee_types,
-            'periods' =>$periods,
             'fee_type_wise_periods' =>$fee_type_wise_periods,
         ]);
     }

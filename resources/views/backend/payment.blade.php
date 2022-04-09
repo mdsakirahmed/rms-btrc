@@ -64,6 +64,8 @@
                         <div class="col-md-2">
                             <button type="submit" class="btn waves-effect waves-light w-100 btn-info mt-4">Search</button>
                         </div>
+                        <hr class="bg-success" style="height: 10px;">
+                        <h4 class="card-title mt-5">Receive amount</h4>
                         <div class="col-12 revinue_col">
                             <div class="row revinue_row">
                                 <div class="col-md-2">
@@ -82,24 +84,137 @@
                                 <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="period">Select period</label>
-                                        <select class="form-control form-select select2 period" id="period" name="period">
+                                        <select class="form-control form-select select2 period" id="" name="period">
                                             <option value="" disabled selected>Select period</option>
-                                            {{-- @foreach ($periods as $period)
-                                            <option value="{{ $period }}" @if(request()->period == $period) selected
-                                                @endif>{{ $period }}</option>
-                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Receive date</label>
+                                        <input type="date" class="form-control reeive_date" id="" name="receive_date">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Receive amount</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Late (%)</label>
+                                        <input type="number" class="form-control late_fee" id="" name="late_fee">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Vat (%)</label>
+                                        <input type="number" class="form-control vat" id="" name="vat">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">TAX (%)</label>
+                                        <input type="number" class="form-control tax" id="" name="tax">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn waves-effect btn-danger mt-4">RM</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 revinue_clone_btn">Add new</button>
+                        <div class="col-md-2 mb-5">
+                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 revinue_clone_btn">Add new receive amount</button>
+                        </div>
+                        <h4 class="card-title mt-5">Pay order</h4>
+                        <div class="col-12 pay_order_col">
+                            <div class="row pay_order_row">
+                                <div class="col-md-3">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Receive amount</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Receive amount</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Receive amount</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="fee_type">Fee type</label>
+                                        <select class="form-control form-select select2 fee_type" name="fee_type">
+                                            <option value="" disabled selected>Select fee type</option>
+                                            @foreach ($fee_types as $fee_type)
+                                            <option value="{{ $fee_type->fee_type->id }}" @if(request()->fee_type ==
+                                                $fee_type->fee_type->id) selected @endif>{{ $fee_type->fee_type->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn waves-effect btn-danger mt-4">RM</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-5">
+                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 pay_order_clone_btn">Add new pay order</button>
+                        </div>
+                        <h4 class="card-title mt-5">Deposit</h4>
+                        <div class="col-12 deposit_col">
+                            <div class="row deposit_row">
+                                <div class="col-md-3">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Receive amount</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Receive amount</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Receive amount</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="fee_type">Fee type</label>
+                                        <select class="form-control form-select select2 fee_type" name="fee_type">
+                                            <option value="" disabled selected>Select fee type</option>
+                                            @foreach ($fee_types as $fee_type)
+                                            <option value="{{ $fee_type->fee_type->id }}" @if(request()->fee_type ==
+                                                $fee_type->fee_type->id) selected @endif>{{ $fee_type->fee_type->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn waves-effect btn-danger mt-4">RM</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-5">
+                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 deposit_clone_btn">Add new deposit</button>
                         </div>
 
                     </form>
                     <!--/row-->
-                    <h4 class="card-title mt-5">Receive amount</h4>
+                   
                 </div>
             </div>
         </div>
@@ -135,6 +250,20 @@
         $clone_div.find("span").remove();
         $clone_div.find("select").select2();
         $(".revinue_col").append($clone_div);
+    });
+    $(".pay_order_clone_btn").click(function(){
+        // $('.pay_order_row').not('.cloned').clone().addClass('cloned').appendTo('.pay_order_col');
+        $clone_div = $('.pay_order_row').not('.cloned').clone().addClass('cloned');
+        $clone_div.find("span").remove();
+        $clone_div.find("select").select2();
+        $(".pay_order_col").append($clone_div);
+    });
+    $(".deposit_clone_btn").click(function(){
+        // $('.deposit_row').not('.cloned').clone().addClass('cloned').appendTo('.deposit_col');
+        $clone_div = $('.deposit_row').not('.cloned').clone().addClass('cloned');
+        $clone_div.find("span").remove();
+        $clone_div.find("select").select2();
+        $(".deposit_col").append($clone_div);
     });
 </script>
 @endsection

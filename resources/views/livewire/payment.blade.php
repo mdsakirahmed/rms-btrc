@@ -66,8 +66,8 @@
                         <h4 class="card-title mt-5">Receive amount</h4>
                     </div>
                     <hr>
-                    <div class="card-body">
-                        <ain class="row" class="cloneitem">
+                    <div class="card-body receive_amount_body">
+                        <revinue class="row">
                             <div wire:ignore class="col-md-2">
                                 <div class="form-group has-success">
                                     <label class="form-label">Fee type</label>
@@ -114,8 +114,7 @@
                                     <input type="number" class="form-control" placeholder="TAX %">
                                 </div>
                             </div>
-                        </ain>
-                        <div class="receive_amount_body"></div>
+                        </revinue>
                         <button type="button" class="btn btn-danger" id="add_receive_amount_row">Add</button>
                     </div>
                     <div class="form-actions">
@@ -178,7 +177,9 @@
 
             $('#add_receive_amount_row').on('click', function(e) {
                 // $("#select_category").clone().appendTo( ".receive_amount_body" );
-                $('ain').not('.cloned').clone().addClass('cloned').appendTo('.receive_amount_body');
+                $('revinue').not('.cloned').clone().addClass('cloned').appendTo('.receive_amount_body');
+
+
 
             });
         });

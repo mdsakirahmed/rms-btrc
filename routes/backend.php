@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Livewire\Dashboard;
@@ -50,7 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('expiration/{operator}', Expiration::class)->name('expiration')->middleware(['permission:expiration']);
     Route::get('license-category-wise-fee/{license_category}', LicenseCategorywiseFee::class)->name('licenseCategorywiseFee')->middleware(['permission:license-category']);
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
-    Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
+    // Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
+    Route::get('payment', [PaymentController::class, 'index'])->name('payment')->middleware(['permission:payment']);
     // Route::get('report', Report::class)->name('report')->middleware(['permission:report']);
     Route::get('report', [ReportController::class, 'index'])->name('report')->middleware(['permission:report']);
     Route::get('report/get-suggestion-for-filter', [ReportController::class, 'getSuggestionForFilter'])->name('getSuggestionForFilter')->middleware(['permission:report']); //Use for ui auto complete

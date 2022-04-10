@@ -70,8 +70,8 @@
                         </div>
                         <hr class="bg-success" style="height: 10px;">
                         <h4 class="card-title mt-5">Receive amount</h4>
-                        <div class="col-12 revinue_col">
-                            <div class="row revinue_row">
+                        <div class="col-12 receive_col">
+                            <div class="row receive_row">
                                 <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="fee_type">Fee type</label>
@@ -126,13 +126,13 @@
                                 </div>
                                 <div class="col-md-1">
                                     <button type="button"
-                                        class="btn waves-effect btn-danger mt-4 remove_revinue_row">RM</button>
+                                        class="btn waves-effect btn-danger mt-4 remove_receive_row">RM</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2 mb-5">
                             <button type="button"
-                                class="btn waves-effect waves-light w-100 btn-info mt-4 revinue_clone_btn">Add new
+                                class="btn waves-effect waves-light w-100 btn-info mt-4 receive_clone_btn">Add new
                                 receive amount</button>
                         </div>
                         <h4 class="card-title mt-5">Pay order</h4>
@@ -237,12 +237,12 @@
             this.form.submit();
         });
 
-        $( '.revinue_col' ).on( 'change', '.fee_type', function () { 
+        $( '.receive_col' ).on( 'change', '.fee_type', function () { 
             let this_fee_type = $(this).val();
             let this_fee_type_wise_periods = $.grep({!! collect($fee_type_wise_periods) !!}, function(value) {
                 return value.fee_type === parseInt(this_fee_type);
             });
-            period = $(this).closest( ".revinue_row" ).find('.period');
+            period = $(this).closest( ".receive_row" ).find('.period');
             period.html('<option value="" disabled selected>Select period</option>');
             $.each(this_fee_type_wise_periods, function( key, value ) {
                 period.append('<option value="'+value.periods+'">'+value.periods+'</option>');
@@ -250,12 +250,12 @@
         });
     });
 
-    $(".revinue_clone_btn").click(function(){
-        // $('.revinue_row').not('.cloned').clone().addClass('cloned').appendTo('.revinue_col');
-        $clone_div = $('.revinue_row').not('.cloned').clone().addClass('cloned');
+    $(".receive_clone_btn").click(function(){
+        // $('.receive_row').not('.cloned').clone().addClass('cloned').appendTo('.receive_col');
+        $clone_div = $('.receive_row').not('.cloned').clone().addClass('cloned');
         $clone_div.find("span").remove();
         $clone_div.find("select").select2();
-        $(".revinue_col").append($clone_div);
+        $(".receive_col").append($clone_div);
     });
     $(".pay_order_clone_btn").click(function(){
         // $('.pay_order_row').not('.cloned').clone().addClass('cloned').appendTo('.pay_order_col');
@@ -272,8 +272,8 @@
         $(".deposit_col").append($clone_div);
     });
 
-    $('.revinue_col').on( 'click', '.remove_revinue_row', function () { 
-        $(this).closest( ".revinue_row" ).html('');
+    $('.receive_col').on( 'click', '.remove_receive_row', function () { 
+        $(this).closest( ".receive_row" ).html('');
     });
 
     $('.pay_order_col').on( 'click', '.remove_pay_order_row', function () { 
@@ -293,9 +293,9 @@
             operator : $('#payment_form .operator').val()
         });
 
-        let revinues = [];
-        $('#payment_form .revinue_col .revinue_row').each(function(index, obj) {
-            revinues.push({
+        let receives = [];
+        $('#payment_form .receive_col .receive_row').each(function(index, obj) {
+            receives.push({
                 fee_type : $(obj).find('.fee_type').val(),
                 period : $(obj).find('.period').val(),
                 reeive_date : $(obj).find('.reeive_date').val(),
@@ -328,7 +328,7 @@
         $.ajax({
             type: "POST",
             url: "{{ route('payment') }}",
-            data: { "_token": "{{ csrf_token() }}", payment:payment, revinues:revinues, pay_orders:pay_orders, deposits:deposits }, 
+            data: { "_token": "{{ csrf_token() }}", payment:payment, receives:receives, pay_orders:pay_orders, deposits:deposits }, 
             success: function(obj) {
                 console.log(obj);
                 // alert(obj.message);

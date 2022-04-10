@@ -10,6 +10,8 @@ use App\Models\LicenseCategoryWiseFeeType;
 use App\Models\LicenseSubCategory;
 use App\Models\Operator;
 use App\Models\Payment;
+use App\Models\PaymentWisePayOrder;
+use App\Models\PaymentWiseReceive;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -60,7 +62,35 @@ class PaymentController extends Controller
                 'operator_id' => $request->payment[0]['operator'],
                 'name' => $request->payment[0]['name'],
             ]);
-            
+
+            // receive
+            foreach($request->receives as $receive){
+                PaymentWiseReceive::create([
+                    'fee_type' => $receive['fee_type'],
+                    'period' => $receive['period'],
+                    'reeive_date' => $receive['reeive_date'],
+                    'reeive_amount' => $receive['reeive_amount'],
+                    'late_fee' => $receive['late_fee'],
+                    'vat' => $receive['vat'],
+                    'tax' => $receive['tax'],
+                ]);
+            }
+
+            // pay_order
+            foreach($request->pay_orders as $pay_order){
+                PaymentWisePayOrder::create([
+                    'po_amount' => $pay_order['po_amount'],
+                    'po_number' => $pay_order['po_number'],
+                    'po_date' => $pay_order['po_date'],
+                    'po_bank' => $pay_order['po_bank'],
+                ]);
+                if(!$pay_order['po_amount'] || !$pay_order['po_number'] || !$pay_order['po_date'] || !$pay_order['po_bank']){
+                    return [
+                        'type' => 'error',
+                        'message' => 'All po_amount, po_number, po_date, po_bank field is required'
+                    ];
+                }
+            }
             return 'Successfully done';
         }catch(\Exception $expiration){
             return [
@@ -80,9 +110,9 @@ class PaymentController extends Controller
             ];
         }
 
-        // revinue
-        foreach($request->revinues as $revinue){
-            if(!$revinue['fee_type'] || !$revinue['period'] || !$revinue['reeive_date'] || !$revinue['reeive_amount'] || !$revinue['late_fee'] || !$revinue['vat'] || !$revinue['tax']){
+        // receive
+        foreach($request->receives as $receive){
+            if(!$receive['fee_type'] || !$receive['period'] || !$receive['reeive_date'] || !$receive['reeive_amount'] || !$receive['late_fee'] || !$receive['vat'] || !$receive['tax']){
                 return [
                     'type' => 'error',
                     'message' => 'All fee_type, period, reeive_date, reeive_amount, late_fee, vat, tax field is required'

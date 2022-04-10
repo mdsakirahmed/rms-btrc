@@ -18,17 +18,17 @@
         <div class="card">
             <div class="form-body">
                 <div class="card-body">
-                    <form action="{{ route('payment') }}" method="GET" class="row pt-3">
+                    <form action="{{ route('payment') }}" method="GET" class="row pt-3" id="payment_form">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">First Name</label>
-                                <input type="text" id="firstName" class="form-control" placeholder="John doe">
+                                <input type="text" id="firstName" class="form-control name" placeholder="John doe">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group has-success">
                                 <label class="form-label" for="category">Category</label>
-                                <select class="form-control form-select select2 filter" id="category" name="category">
+                                <select class="form-control form-select select2 filter category" id="category" name="category">
                                     <option value="" disabled selected>Select category</option>
                                     @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" @if(request()->category == $category->id)
@@ -40,7 +40,7 @@
                         <div class="col-md-2">
                             <div class="form-group has-success">
                                 <label class="form-label" for="sub_category">Sub Category</label>
-                                <select class="form-control form-select select2" id="sub_category" name="sub_category">
+                                <select class="form-control form-select select2 sub_category" id="sub_category" name="sub_category">
                                     <option value="" disabled selected>Select sub category</option>
                                     @foreach ($sub_categories as $sub_category)
                                     <option value="{{ $sub_category->id }}" @if(request()->sub_category ==
@@ -52,7 +52,7 @@
                         <div class="col-md-2">
                             <div class="form-group has-success">
                                 <label class="form-label">Operator</label>
-                                <select class="form-control form-select select2 filter" id="select_operator" name="operator">
+                                <select class="form-control form-select select2 filter operator" id="select_operator" name="operator">
                                     <option value="" disabled selected>Select sub category</option>
                                     @foreach ($operators as $operator)
                                     <option value="{{ $operator->id }}" @if(request()->operator == $operator->id)
@@ -132,30 +132,29 @@
                             <div class="row pay_order_row">
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="">Receive amount</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                        <label class="form-label" for="">PO Amount</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="po_amount">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="">Receive amount</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                        <label class="form-label" for="">PO Number</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="po_number">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="">Receive amount</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                        <label class="form-label" for="">PO Date</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="po_date">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="fee_type">Fee type</label>
-                                        <select class="form-control form-select select2 fee_type" name="fee_type">
-                                            <option value="" disabled selected>Select fee type</option>
-                                            @foreach ($fee_types as $fee_type)
-                                            <option value="{{ $fee_type->fee_type->id }}" @if(request()->fee_type ==
-                                                $fee_type->fee_type->id) selected @endif>{{ $fee_type->fee_type->name }}
+                                        <label class="form-label" for="po_bank">PO Bank</label>
+                                        <select class="form-control form-select select2 po_bank" name="po_bank">
+                                            <option value="" disabled selected>Selectbank</option>
+                                            @foreach ($banks as $bank)
+                                            <option value="{{ $bank->id }}">{{ $bank->name }}
                                             </option>
                                             @endforeach
                                         </select>
@@ -172,33 +171,25 @@
                         <h4 class="card-title mt-5">Deposit</h4>
                         <div class="col-12 deposit_col">
                             <div class="row deposit_row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="">Receive amount</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                        <label class="form-label" for="">Deposit Journal No</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="journal_number">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Deposit Date</label>
+                                        <input type="number" class="form-control reeive_amount" id="" name="daposit_date">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="">Receive amount</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group has-success">
-                                        <label class="form-label" for="">Receive amount</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group has-success">
-                                        <label class="form-label" for="fee_type">Fee type</label>
-                                        <select class="form-control form-select select2 fee_type" name="fee_type">
+                                        <label class="form-label" for="deposit_bank">Deposit Bank</label>
+                                        <select class="form-control form-select select2 deposit_bank" name="deposit_bank">
                                             <option value="" disabled selected>Select fee type</option>
-                                            @foreach ($fee_types as $fee_type)
-                                            <option value="{{ $fee_type->fee_type->id }}" @if(request()->fee_type ==
-                                                $fee_type->fee_type->id) selected @endif>{{ $fee_type->fee_type->name }}
-                                            </option>
+                                            @foreach ($banks as $bank)
+                                            <option value="{{ $bank->id }}">{{ $bank->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -211,10 +202,9 @@
                         <div class="col-md-2 mb-5">
                             <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 deposit_clone_btn">Add new deposit</button>
                         </div>
-
+                        <button type="button" id="payment_submit" class="btn waves-effect waves-light w-100 btn-warning mt-4">Submit Form</button>
                     </form>
                     <!--/row-->
-                   
                 </div>
             </div>
         </div>
@@ -241,7 +231,7 @@
             $.each(this_fee_type_wise_periods, function( key, value ) {
                 period.append('<option value="'+value.periods+'">'+value.periods+'</option>');
             });
-         });
+        });
     });
 
     $(".revinue_clone_btn").click(function(){
@@ -264,6 +254,29 @@
         $clone_div.find("span").remove();
         $clone_div.find("select").select2();
         $(".deposit_col").append($clone_div);
+    });
+
+    $("#payment_submit").click(function(){
+        console.log('hello');
+        let name = $('#payment_form .name').val();
+        let category = $('#payment_form .category').val();
+        let sub_category = $('#payment_form .sub_category').val();
+        let operator = $('#payment_form .operator').val();
+        console.log(name, category, sub_category, operator);
+
+        let revinue = [];
+        $('#payment_form .revinue_col .revinue_row').each(function(index, obj) {
+            revinue.push({
+                fee_type : $(obj).find('.fee_type').val(),
+                period : $(obj).find('.period').val(),
+                reeive_date : $(obj).find('.reeive_date').val(),
+                reeive_amount : $(obj).find('.reeive_amount').val(),
+                late_fee : $(obj).find('.late_fee').val(),
+                vat : $(obj).find('.vat').val(),
+                tax : $(obj).find('.tax').val(),
+            });
+        });
+        console.log(revinue);
     });
 </script>
 @endsection

@@ -6,16 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
 
-class Payment extends Model
+class PaymentWisePayOrder extends Model
 {
     use HasFactory, Userstamps;
-
+    
     protected $fillable = [
-        'operato_id',
-        'name',
+        'payment_id',
+        'bank_id',
+        'amount',
+        'number',
+        'date'
     ];
-
-    public function operator(){
-        return $this->belongsTo(Operator::class, 'operator_id', 'id');
-    }
 }

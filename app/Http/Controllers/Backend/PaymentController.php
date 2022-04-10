@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
 use App\Models\Expiration;
 use App\Models\LicenseCategory;
 use App\Models\LicenseCategoryWiseFeeType;
@@ -39,6 +40,7 @@ class PaymentController extends Controller
             }
         }
         return view('backend.payment', [
+            'banks' => Bank::all(),
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
             'operators' =>$operators,

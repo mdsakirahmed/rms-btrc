@@ -28,7 +28,8 @@
                         <div class="col-md-2">
                             <div class="form-group has-success">
                                 <label class="form-label" for="category">Category</label>
-                                <select class="form-control form-select select2 filter category" id="category" name="category">
+                                <select class="form-control form-select select2 filter category" id="category"
+                                    name="category">
                                     <option value="" disabled selected>Select category</option>
                                     @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" @if(request()->category == $category->id)
@@ -40,7 +41,8 @@
                         <div class="col-md-2">
                             <div class="form-group has-success">
                                 <label class="form-label" for="sub_category">Sub Category</label>
-                                <select class="form-control form-select select2 sub_category" id="sub_category" name="sub_category">
+                                <select class="form-control form-select select2 sub_category" id="sub_category"
+                                    name="sub_category">
                                     <option value="" disabled selected>Select sub category</option>
                                     @foreach ($sub_categories as $sub_category)
                                     <option value="{{ $sub_category->id }}" @if(request()->sub_category ==
@@ -52,7 +54,8 @@
                         <div class="col-md-2">
                             <div class="form-group has-success">
                                 <label class="form-label">Operator</label>
-                                <select class="form-control form-select select2 filter operator" id="select_operator" name="operator">
+                                <select class="form-control form-select select2 filter operator" id="select_operator"
+                                    name="operator">
                                     <option value="" disabled selected>Select sub category</option>
                                     @foreach ($operators as $operator)
                                     <option value="{{ $operator->id }}" @if(request()->operator == $operator->id)
@@ -62,7 +65,8 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn waves-effect waves-light w-100 btn-info mt-4">Search</button>
+                            <button type="submit"
+                                class="btn waves-effect waves-light w-100 btn-info mt-4">Search</button>
                         </div>
                         <hr class="bg-success" style="height: 10px;">
                         <h4 class="card-title mt-5">Receive amount</h4>
@@ -98,7 +102,8 @@
                                 <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Receive amount</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="receive_amount">
+                                        <input type="number" class="form-control reeive_amount" id=""
+                                            name="receive_amount">
                                     </div>
                                 </div>
                                 <div class="col-md-1">
@@ -125,7 +130,9 @@
                             </div>
                         </div>
                         <div class="col-md-2 mb-5">
-                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 revinue_clone_btn">Add new receive amount</button>
+                            <button type="button"
+                                class="btn waves-effect waves-light w-100 btn-info mt-4 revinue_clone_btn">Add new
+                                receive amount</button>
                         </div>
                         <h4 class="card-title mt-5">Pay order</h4>
                         <div class="col-12 pay_order_col">
@@ -133,19 +140,19 @@
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">PO Amount</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="po_amount">
+                                        <input type="number" class="form-control po_amount" id="" name="po_amount">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">PO Number</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="po_number">
+                                        <input type="number" class="form-control po_number" id="" name="po_number">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">PO Date</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="po_date">
+                                        <input type="number" class="form-control po_date" id="" name="po_date">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -166,7 +173,9 @@
                             </div>
                         </div>
                         <div class="col-md-2 mb-5">
-                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 pay_order_clone_btn">Add new pay order</button>
+                            <button type="button"
+                                class="btn waves-effect waves-light w-100 btn-info mt-4 pay_order_clone_btn">Add new pay
+                                order</button>
                         </div>
                         <h4 class="card-title mt-5">Deposit</h4>
                         <div class="col-12 deposit_col">
@@ -174,19 +183,22 @@
                                 <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Deposit Journal No</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="journal_number">
+                                        <input type="number" class="form-control journal_number" id=""
+                                            name="journal_number">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Deposit Date</label>
-                                        <input type="number" class="form-control reeive_amount" id="" name="daposit_date">
+                                        <input type="number" class="form-control daposit_date" id=""
+                                            name="daposit_date">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="deposit_bank">Deposit Bank</label>
-                                        <select class="form-control form-select select2 deposit_bank" name="deposit_bank">
+                                        <select class="form-control form-select select2 deposit_bank"
+                                            name="deposit_bank">
                                             <option value="" disabled selected>Select fee type</option>
                                             @foreach ($banks as $bank)
                                             <option value="{{ $bank->id }}">{{ $bank->name }}</option>
@@ -200,9 +212,12 @@
                             </div>
                         </div>
                         <div class="col-md-2 mb-5">
-                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 deposit_clone_btn">Add new deposit</button>
+                            <button type="button"
+                                class="btn waves-effect waves-light w-100 btn-info mt-4 deposit_clone_btn">Add new
+                                deposit</button>
                         </div>
-                        <button type="button" id="payment_submit" class="btn waves-effect waves-light w-100 btn-warning mt-4">Submit Form</button>
+                        <button type="button" id="payment_submit"
+                            class="btn waves-effect waves-light w-100 btn-warning mt-4">Submit Form</button>
                     </form>
                     <!--/row-->
                 </div>
@@ -257,16 +272,17 @@
     });
 
     $("#payment_submit").click(function(){
-        console.log('hello');
-        let name = $('#payment_form .name').val();
-        let category = $('#payment_form .category').val();
-        let sub_category = $('#payment_form .sub_category').val();
-        let operator = $('#payment_form .operator').val();
-        console.log(name, category, sub_category, operator);
+        let payment = [];
+        payment.push({
+            name : $('#payment_form .name').val(),
+            // category : $('#payment_form .category').val(),
+            // sub_category : $('#payment_form .sub_category').val(),
+            operator : $('#payment_form .operator').val()
+        });
 
-        let revinue = [];
+        let revinues = [];
         $('#payment_form .revinue_col .revinue_row').each(function(index, obj) {
-            revinue.push({
+            revinues.push({
                 fee_type : $(obj).find('.fee_type').val(),
                 period : $(obj).find('.period').val(),
                 reeive_date : $(obj).find('.reeive_date').val(),
@@ -276,7 +292,35 @@
                 tax : $(obj).find('.tax').val(),
             });
         });
-        console.log(revinue);
+
+        let pay_orders = [];
+        $('#payment_form .pay_order_col .pay_order_row').each(function(index, obj) {
+            pay_orders.push({
+                po_amount : $(obj).find('.po_amount').val(),
+                po_number : $(obj).find('.po_number').val(),
+                po_date : $(obj).find('.po_date').val(),
+                po_bank : $(obj).find('.po_bank').val()
+            });
+        });
+       
+        let deposits = [];
+        $('#payment_form .deposit_col .deposit_row').each(function(index, obj) {
+            deposits.push({
+                journal_number : $(obj).find('.journal_number').val(),
+                daposit_date : $(obj).find('.daposit_date').val(),
+                deposit_bank : $(obj).find('.deposit_bank').val(),
+            });
+        });
+
+        $.ajax({
+        type: "POST",
+        url: "{{ route('payment') }}",
+        data: { "_token": "{{ csrf_token() }}", payment:payment, revinues:revinues, pay_orders:pay_orders, deposits:deposits }, 
+        success: function(obj) {
+            console.log(obj);
+            // alert(obj.message);
+        }
+    });
     });
 </script>
 @endsection

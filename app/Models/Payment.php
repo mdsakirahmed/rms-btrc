@@ -11,7 +11,7 @@ class Payment extends Model
     use HasFactory, Userstamps;
 
     protected $fillable = [
-        'operato_id',
+        'operator_id',
         'name',
     ];
 

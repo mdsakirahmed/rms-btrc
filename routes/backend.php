@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     // Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
     Route::get('payment', [PaymentController::class, 'index'])->name('payment')->middleware(['permission:payment']);
+    Route::post('payment', [PaymentController::class, 'store'])->middleware(['permission:payment']);
     // Route::get('report', Report::class)->name('report')->middleware(['permission:report']);
     Route::get('report', [ReportController::class, 'index'])->name('report')->middleware(['permission:report']);
     Route::get('report/get-suggestion-for-filter', [ReportController::class, 'getSuggestionForFilter'])->name('getSuggestionForFilter')->middleware(['permission:report']); //Use for ui auto complete

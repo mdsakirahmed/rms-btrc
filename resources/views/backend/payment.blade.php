@@ -125,7 +125,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn waves-effect btn-danger mt-4">RM</button>
+                                    <button type="button"
+                                        class="btn waves-effect btn-danger mt-4 remove_revinue_row">RM</button>
                                 </div>
                             </div>
                         </div>
@@ -168,7 +169,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn waves-effect btn-danger mt-4">RM</button>
+                                    <button type="button" class="btn waves-effect btn-danger mt-4 remove_pay_order_row">RM</button>
                                 </div>
                             </div>
                         </div>
@@ -207,7 +208,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn waves-effect btn-danger mt-4">RM</button>
+                                    <button type="button" class="btn waves-effect btn-danger mt-4 remove_deposit_row">RM</button>
                                 </div>
                             </div>
                         </div>
@@ -271,6 +272,18 @@
         $(".deposit_col").append($clone_div);
     });
 
+    $('.revinue_col').on( 'click', '.remove_revinue_row', function () { 
+        $(this).closest( ".revinue_row" ).html('');
+    });
+
+    $('.pay_order_col').on( 'click', '.remove_pay_order_row', function () { 
+        $(this).closest( ".pay_order_row" ).html('');
+    });
+
+    $('.deposit_col').on( 'click', '.remove_deposit_row', function () { 
+        $(this).closest( ".deposit_row" ).html('');
+    });
+
     $("#payment_submit").click(function(){
         let payment = [];
         payment.push({
@@ -313,14 +326,14 @@
         });
 
         $.ajax({
-        type: "POST",
-        url: "{{ route('payment') }}",
-        data: { "_token": "{{ csrf_token() }}", payment:payment, revinues:revinues, pay_orders:pay_orders, deposits:deposits }, 
-        success: function(obj) {
-            console.log(obj);
-            // alert(obj.message);
-        }
-    });
+            type: "POST",
+            url: "{{ route('payment') }}",
+            data: { "_token": "{{ csrf_token() }}", payment:payment, revinues:revinues, pay_orders:pay_orders, deposits:deposits }, 
+            success: function(obj) {
+                console.log(obj);
+                // alert(obj.message);
+            }
+        });
     });
 </script>
 @endsection

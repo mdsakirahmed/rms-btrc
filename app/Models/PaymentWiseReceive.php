@@ -12,4 +12,7 @@ class PaymentWiseReceive extends Model
 
     protected $fillable = ['payment_id','fee_type_id', 'period_date', 'receive_date', 'receive_amount', 'late_fee_percentage', 'vat_percentage', 'tax_percentage'];
 
+    public function fee_type(){
+        return $this->belongsTo(FeeType::class, 'fee_type_id', 'id');
+    }
 }

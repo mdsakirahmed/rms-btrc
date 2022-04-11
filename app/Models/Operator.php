@@ -36,4 +36,8 @@ class Operator extends Model
     public function expirations(){
         return $this->hasMany(Expiration::class, 'operator_id', 'id');
     }
+
+    public function payments(){
+        return $this->hasMany(Payment::class, 'operator_id', 'id');
+    }
 }

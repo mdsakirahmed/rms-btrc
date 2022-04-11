@@ -37,10 +37,9 @@
                                     <td>{{ $operator->sub_category->name ?? 'Non sub category' }}</td>
                                     <td>
                                         <a href="{{ route('expiration', $operator->id) }}" class="btn btn-info text-white">Configration</a>
+                                        <a href="{{ route('operator-wise-payment', $operator->id) }}" class="btn btn-info text-white">Show Payments</a>
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $operator->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
-                                        {{-- @if($operator->payments) --}}
                                         <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $operator->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
-                                        {{-- @endif --}}
                                     </td>
                                 </tr>
                                 @endforeach

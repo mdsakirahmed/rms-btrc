@@ -22,8 +22,8 @@
                         <div class="col-12 error_msg" id="error_msg_payment"></div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">First Name</label>
-                                <input type="text" id="firstName" class="form-control name" placeholder="John doe">
+                                <label class="form-label">Transaction Number</label>
+                                <input type="text" id="firstName" class="form-control name" placeholder="2203-name-01000">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -72,7 +72,7 @@
                         <hr class="bg-success" style="height: 10px;">
                         <h4 class="card-title mt-5">Receive amount</h4>
                         <div class="col-12 error_msg" id="error_msg_receive"></div>
-                        <div class="col-12 receive_col">
+                        <div class="col-12 column receive_col">
                             <div class="row receive_row">
                                 <div class="col-md-2">
                                     <div class="form-group has-success">
@@ -126,20 +126,14 @@
                                         <input type="number" class="form-control tax" id="" name="tax">
                                     </div>
                                 </div>
-                                <div class="col-md-1">
-                                    <button type="button"
-                                        class="btn waves-effect btn-danger mt-4 remove_receive_row">RM</button>
+                                <div class="col-1 cln__or_rm_div">
+                                    <button type="button" class="btn btn-success mt-4 cln_btn"><i class="mdi mdi-plus-box"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 mb-5">
-                            <button type="button"
-                                class="btn waves-effect waves-light w-100 btn-info mt-4 receive_clone_btn">Add new
-                                receive amount</button>
-                        </div>
                         <h4 class="card-title mt-5">Pay order</h4>
                         <div class="col-12 error_msg" id="error_msg_pay_order"></div>
-                        <div class="col-12 pay_order_col">
+                        <div class="col-12 column pay_order_col">
                             <div class="row pay_order_row">
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
@@ -171,19 +165,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
-                                    <button type="button" class="btn waves-effect btn-danger mt-4 remove_pay_order_row">RM</button>
+                                <div class="col-1 cln__or_rm_div">
+                                    <button type="button" class="btn btn-success mt-4 cln_btn"><i class="mdi mdi-plus-box"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 mb-5">
-                            <button type="button"
-                                class="btn waves-effect waves-light w-100 btn-info mt-4 pay_order_clone_btn">Add new pay
-                                order</button>
-                        </div>
                         <h4 class="card-title mt-5">Deposit</h4>
                         <div class="col-12 error_msg" id="error_msg_deposit"></div>
-                        <div class="col-12 deposit_col">
+                        <div class="col-12 column deposit_col">
                             <div class="row deposit_row">
                                 <div class="col-md-4">
                                     <div class="form-group has-success">
@@ -211,13 +200,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
-                                    <button type="button" class="btn waves-effect btn-danger mt-4 remove_deposit_row">RM</button>
+                                <div class="col-1 cln__or_rm_div">
+                                    <button type="button" class="btn btn-success mt-4 cln_btn"><i class="mdi mdi-plus-box"></i></button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2 mb-5">
-                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 deposit_clone_btn">Add new deposit</button>
                         </div>
                         <button type="button" id="payment_submit"
                             class="btn waves-effect waves-light w-100 btn-warning mt-4">Submit Form</button>
@@ -252,38 +238,16 @@
         });
     });
 
-    $(".receive_clone_btn").click(function(){
-        // $('.receive_row').not('.cloned').clone().addClass('cloned').appendTo('.receive_col');
-        $clone_div = $('.receive_row').not('.cloned').clone().addClass('cloned');
-        $clone_div.find("span").remove();
-        $clone_div.find("select").select2();
-        $(".receive_col").append($clone_div);
-    });
-    $(".pay_order_clone_btn").click(function(){
-        // $('.pay_order_row').not('.cloned').clone().addClass('cloned').appendTo('.pay_order_col');
-        $clone_div = $('.pay_order_row').not('.cloned').clone().addClass('cloned');
-        $clone_div.find("span").remove();
-        $clone_div.find("select").select2();
-        $(".pay_order_col").append($clone_div);
-    });
-    $(".deposit_clone_btn").click(function(){
-        // $('.deposit_row').not('.cloned').clone().addClass('cloned').appendTo('.deposit_col');
-        $clone_div = $('.deposit_row').not('.cloned').clone().addClass('cloned');
-        $clone_div.find("span").remove();
-        $clone_div.find("select").select2();
-        $(".deposit_col").append($clone_div);
+    $(".cln_btn").click(function(){
+        let clone_div = $(this).closest( ".row" ).not('.cloned').clone().addClass('cloned');
+        clone_div.find("span").remove();
+        clone_div.find("select").select2();
+        clone_div.find(".cln__or_rm_div").html(`<button type="button" class="btn btn-danger mt-4 rm_btn"><i class="mdi mdi-delete-forever text-white"></i></button>`);
+        $(this).closest( ".column" ).append(clone_div);
     });
 
-    $('.receive_col').on( 'click', '.remove_receive_row', function () { 
-        $(this).closest( ".receive_row" ).html('');
-    });
-
-    $('.pay_order_col').on( 'click', '.remove_pay_order_row', function () { 
-        $(this).closest( ".pay_order_row" ).html('');
-    });
-
-    $('.deposit_col').on( 'click', '.remove_deposit_row', function () { 
-        $(this).closest( ".deposit_row" ).html('');
+    $('#payment_form').on( 'click', '.rm_btn', function () { 
+        $(this).closest( ".row" ).html('');
     });
 
     $("#payment_submit").click(function(){

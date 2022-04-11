@@ -39,5 +39,6 @@ class Operator extends Model
 
     public function payments(){
         return $this->hasMany(Payment::class, 'operator_id', 'id');
+        // return $this->hasMany(Payment::class, 'operator_id', 'id')->latest();
     }
 }

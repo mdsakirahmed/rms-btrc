@@ -131,6 +131,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 d-flex flex-row-reverse bd-highlight mr-3">
+                            <div class="p-2 bd-highlight fw-bold">Total receive amount is: <b id="total_amount_of_receive">0</b> BDT</div>
+                        </div>
                         <h4 class="card-title mt-5">Pay order</h4>
                         <div class="col-12 error_msg" id="error_msg_pay_order"></div>
                         <div class="col-12 column pay_order_col">
@@ -170,6 +173,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 d-flex flex-row-reverse bd-highlight mr-3">
+                            <div class="p-2 bd-highlight fw-bold">Total pay order amount is: <b id="total_amount_of_pay_order">0</b> BDT</div>
+                        </div>
                         <h4 class="card-title mt-5">Deposit</h4>
                         <div class="col-12 error_msg" id="error_msg_deposit"></div>
                         <div class="col-12 column deposit_col">
@@ -205,8 +211,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="payment_submit"
-                            class="btn waves-effect waves-light w-100 btn-warning mt-4">Submit Form</button>
+                        <button type="button" id="payment_submit" class="btn waves-effect waves-light w-100 btn-warning mt-4">Submit Form</button>
                     </form>
                     <!--/row-->
                 </div>
@@ -248,6 +253,23 @@
 
     $('#payment_form').on( 'click', '.rm_btn', function () { 
         $(this).closest( ".row" ).html('');
+    });
+    
+    $('#payment_form').on( 'change', function () {
+        let total_amount_of_receive = 0;
+        $('.receive_row').each(function(index, obj) {
+            let receive_amount = $(obj).find('.receive_amount').val();
+            let late_fee = (receive_amount / 100) * $(obj).find('.late_fee').val();
+            let vat = (receive_amount / 100) * $(obj).find('.vat').val();
+            let tax = (receive_amount / 100) * $(obj).find('.tax').val();
+            total_amount_of_receive += parseFloat(receive_amount) + parseFloat(late_fee) + parseFloat(vat) + parseFloat(tax);
+        });
+        let total_amount_of_pay_order = 0;
+        $('.pay_order_row').each(function(index, obj) {
+            total_amount_of_pay_order += parseFloat($(obj).find('.po_amount').val());
+        });
+        $('#total_amount_of_receive').text(total_amount_of_receive);
+        $('#total_amount_of_pay_order').text(total_amount_of_pay_order);
     });
 
     $("#payment_submit").click(function(){
@@ -291,22 +313,26 @@
             });
         });
 
-        $.ajax({
-            type: "POST",
-            url: "{{ route('payment') }}",
-            data: { "_token": "{{ csrf_token() }}", payment:payment, receives:receives, pay_orders:pay_orders, deposits:deposits }, 
-            success: function(obj) {
-                console.log(obj);
-                $('.error_msg').html("");
-                if(obj.error === true){
-                    $('#error_msg_'+obj.area+'').html(`<div class="alert alert-danger text-center fw-bold" role="alert">`+obj.message+`</div>`);
-                    toastr['error'](obj.message, obj.area ?? ''), toastr.options = {"closeButton": true, "progressBar": true, }
-                }else if(obj.error === false){
-                    toastr['success']('Successfully done', 'Thank you'), toastr.options = {"closeButton": true, "progressBar": true, }
-                    location.reload();
+        if($('#total_amount_of_receive').text() != $('#total_amount_of_pay_order').text()){
+            toastr['error']('Receive & PO amount is not equal', 'Amount'), toastr.options = {"closeButton": true, "progressBar": true, }
+        }else{
+            $.ajax({
+                type: "POST",
+                url: "{{ route('payment') }}",
+                data: { "_token": "{{ csrf_token() }}", payment:payment, receives:receives, pay_orders:pay_orders, deposits:deposits }, 
+                success: function(obj) {
+                    console.log(obj);
+                    $('.error_msg').html("");
+                    if(obj.error === true){
+                        $('#error_msg_'+obj.area+'').html(`<div class="alert alert-danger text-center fw-bold" role="alert">`+obj.message+`</div>`);
+                        toastr['error'](obj.message, obj.area ?? ''), toastr.options = {"closeButton": true, "progressBar": true, }
+                    }else if(obj.error === false){
+                        toastr['success']('Successfully done', 'Thank you'), toastr.options = {"closeButton": true, "progressBar": true, }
+                        location.reload();
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 </script>
 @endsection

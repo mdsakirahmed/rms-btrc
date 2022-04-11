@@ -74,4 +74,12 @@ if (!function_exists('random_code')) {
 
         }
     }
+
+    function convert_to_initial($full_name){
+        $acronym = $word = '';
+        foreach(preg_split("/(\s|\-|\.)/", $full_name) as $w) {
+            $acronym .= substr($w,0,1);
+        }
+        return $word . $acronym;
+    }
 }

@@ -12,7 +12,7 @@ class Payment extends Model
 
     protected $fillable = [
         'operator_id',
-        'name',
+        'transaction',
     ];
 
     public function operator(){

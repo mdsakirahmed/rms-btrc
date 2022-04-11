@@ -66,7 +66,7 @@ class PaymentController extends Controller
             // Payment
             $payment = Payment::create([
                 'operator_id' => $request->payment[0]['operator'],
-                'name' => $request->payment[0]['name'],
+                'transaction' => $request->payment[0]['transaction'],
             ]);
             
             // Receive
@@ -116,11 +116,11 @@ class PaymentController extends Controller
     // Helper function for payment store
     public function check_validation(Request $request){
         // Payment
-        if(!$request->payment[0]['operator'] || !$request->payment[0]['name']){
+        if(!$request->payment[0]['operator'] || !$request->payment[0]['transaction']){
             return [
                 'error' => true,
                 'area' => 'payment',
-                'message' => 'Name and operator field is required'
+                'message' => 'Transaction and operator field is required'
             ];
         }
 

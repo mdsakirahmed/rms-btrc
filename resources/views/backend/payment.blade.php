@@ -23,7 +23,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Transaction Number</label>
-                                <input type="text" id="firstName" class="form-control name" placeholder="2203-name-01000">
+                                <input type="text" id="transaction" class="form-control transaction" placeholder="2203-name-01000" value="{{ date('ym') }}-{{ convert_to_initial(auth()->user()->name) }}-{{ sprintf("%'.05d\n", (App\Models\Payment::latest()->first()->id ?? 0)+1) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -215,11 +215,11 @@
     </div>
 </div>
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+{{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
 <script>
     $(document).ready(function() {
-        $('.select2').select2();
+        // $('.select2').select2();
 
         $('.filter').change(function() {
             this.form.submit();
@@ -240,8 +240,8 @@
 
     $(".cln_btn").click(function(){
         let clone_div = $(this).closest( ".row" ).not('.cloned').clone().addClass('cloned');
-        clone_div.find("span").remove();
-        clone_div.find("select").select2();
+        // clone_div.find("span").remove();
+        // clone_div.find("select").select2();
         clone_div.find(".cln__or_rm_div").html(`<button type="button" class="btn btn-danger mt-4 rm_btn"><i class="mdi mdi-delete-forever text-white"></i></button>`);
         $(this).closest( ".column" ).append(clone_div);
     });
@@ -253,7 +253,7 @@
     $("#payment_submit").click(function(){
         let payment = [];
         payment.push({
-            name : $('#payment_form .name').val(),
+            name : $('#payment_form .transaction').val(),
             // category : $('#payment_form .category').val(),
             // sub_category : $('#payment_form .sub_category').val(),
             operator : $('#payment_form .operator').val()

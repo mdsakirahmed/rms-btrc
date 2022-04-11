@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
 
-class PaymentDeposit extends Model
+class PaymentWiseDeposit extends Model
 {
     use HasFactory, Userstamps;
     

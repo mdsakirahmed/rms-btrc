@@ -10,6 +10,7 @@ use App\Models\LicenseCategoryWiseFeeType;
 use App\Models\LicenseSubCategory;
 use App\Models\Operator;
 use App\Models\Payment;
+use App\Models\PaymentWiseDeposit;
 use App\Models\PaymentWisePayOrder;
 use App\Models\PaymentWiseReceive;
 use Carbon\Carbon;
@@ -54,44 +55,56 @@ class PaymentController extends Controller
 
     public function store(Request $request){
         try{
+            // Check validation
             $validation_response = $this->check_validation($request);
-            if($validation_response['type'] == 'error'){
-                return  $validation_response['message'];
+
+            // Validation error response
+            if($validation_response['error']){
+                return  $validation_response;
             }
+           
+            // Payment
             $payment = Payment::create([
                 'operator_id' => $request->payment[0]['operator'],
                 'name' => $request->payment[0]['name'],
             ]);
-
-            // receive
+            
+            // Receive
             foreach($request->receives as $receive){
                 PaymentWiseReceive::create([
-                    'fee_type' => $receive['fee_type'],
-                    'period' => $receive['period'],
-                    'reeive_date' => $receive['reeive_date'],
-                    'reeive_amount' => $receive['reeive_amount'],
-                    'late_fee' => $receive['late_fee'],
-                    'vat' => $receive['vat'],
-                    'tax' => $receive['tax'],
+                    'payment_id' => $payment->id,
+                    'fee_type_id' => $receive['fee_type'],
+                    'period_date' => date('Y-m-d', strtotime($receive['period'])),
+                    'receive_date' => $receive['receive_date'],
+                    'receive_amount' => $receive['receive_amount'],
+                    'late_fee_percentage' => $receive['late_fee'],
+                    'vat_percentage' => $receive['vat'],
+                    'tax_percentage' => $receive['tax'],
                 ]);
             }
 
             // pay_order
             foreach($request->pay_orders as $pay_order){
                 PaymentWisePayOrder::create([
-                    'po_amount' => $pay_order['po_amount'],
-                    'po_number' => $pay_order['po_number'],
-                    'po_date' => $pay_order['po_date'],
-                    'po_bank' => $pay_order['po_bank'],
+                    'payment_id' => $payment->id,
+                    'amount' => $pay_order['po_amount'],
+                    'number' => $pay_order['po_number'],
+                    'date' => $pay_order['po_date'],
+                    'bank_id' => $pay_order['po_bank'],
                 ]);
-                if(!$pay_order['po_amount'] || !$pay_order['po_number'] || !$pay_order['po_date'] || !$pay_order['po_bank']){
-                    return [
-                        'type' => 'error',
-                        'message' => 'All po_amount, po_number, po_date, po_bank field is required'
-                    ];
-                }
             }
-            return 'Successfully done';
+            
+            foreach($request->deposits as $deposit){
+                PaymentWiseDeposit::create([
+                    'payment_id' => $payment->id,
+                    'bank_id' => $deposit['deposit_bank'],
+                    'journal_number' => $deposit['journal_number'],
+                    'date' => $deposit['daposit_date'],
+                ]);
+            }
+            return [
+                'error' => false,
+            ];
         }catch(\Exception $expiration){
             return [
                 'message' => $expiration->getMessage()
@@ -105,17 +118,19 @@ class PaymentController extends Controller
         // Payment
         if(!$request->payment[0]['operator'] || !$request->payment[0]['name']){
             return [
-                'type' => 'error',
+                'error' => true,
+                'area' => 'payment',
                 'message' => 'Name and operator field is required'
             ];
         }
 
         // receive
         foreach($request->receives as $receive){
-            if(!$receive['fee_type'] || !$receive['period'] || !$receive['reeive_date'] || !$receive['reeive_amount'] || !$receive['late_fee'] || !$receive['vat'] || !$receive['tax']){
+            if(!$receive['fee_type'] || !$receive['period'] || !$receive['receive_date'] || !$receive['receive_amount'] || !$receive['late_fee'] || !$receive['vat'] || !$receive['tax']){
                 return [
-                    'type' => 'error',
-                    'message' => 'All fee_type, period, reeive_date, reeive_amount, late_fee, vat, tax field is required'
+                    'error' => true,
+                    'area' => 'receive',
+                    'message' => 'All fee_type, period, receive date, receive amount, late fee, vat, tax field is required'
                 ];
             }
         }
@@ -125,7 +140,8 @@ class PaymentController extends Controller
             if(!$pay_order['po_amount'] || !$pay_order['po_number'] || !$pay_order['po_date'] || !$pay_order['po_bank']){
                 return [
                     'type' => 'error',
-                    'message' => 'All po_amount, po_number, po_date, po_bank field is required'
+                    'area' => 'pay_order',
+                    'message' => 'All po amount, po number, po date, po bank field is required'
                 ];
             }
         }
@@ -134,10 +150,15 @@ class PaymentController extends Controller
         foreach($request->deposits as $deposit){
             if(!$deposit['journal_number'] || !$deposit['daposit_date'] || !$deposit['deposit_bank']){
                 return [
-                    'type' => 'error',
-                    'message' => 'All journal_number, daposit_date, deposit_bank field is required'
+                    'error' => true,
+                    'area' => 'deposit',
+                    'message' => 'All journal number, daposit date, deposit bank field is required'
                 ];
             }
         }
+
+        return [
+            'error' => false
+        ];
     }
 }

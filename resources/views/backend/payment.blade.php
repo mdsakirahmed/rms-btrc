@@ -19,6 +19,7 @@
             <div class="form-body">
                 <div class="card-body">
                     <form action="{{ route('payment') }}" method="GET" class="row pt-3" id="payment_form">
+                        <div class="col-12 error_msg" id="error_msg_payment"></div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">First Name</label>
@@ -70,6 +71,7 @@
                         </div>
                         <hr class="bg-success" style="height: 10px;">
                         <h4 class="card-title mt-5">Receive amount</h4>
+                        <div class="col-12 error_msg" id="error_msg_receive"></div>
                         <div class="col-12 receive_col">
                             <div class="row receive_row">
                                 <div class="col-md-2">
@@ -96,13 +98,13 @@
                                 <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Receive date</label>
-                                        <input type="date" class="form-control reeive_date" id="" name="receive_date">
+                                        <input type="date" class="form-control receive_date" id="" name="receive_date">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Receive amount</label>
-                                        <input type="number" class="form-control reeive_amount" id=""
+                                        <input type="number" class="form-control receive_amount" id=""
                                             name="receive_amount">
                                     </div>
                                 </div>
@@ -136,6 +138,7 @@
                                 receive amount</button>
                         </div>
                         <h4 class="card-title mt-5">Pay order</h4>
+                        <div class="col-12 error_msg" id="error_msg_pay_order"></div>
                         <div class="col-12 pay_order_col">
                             <div class="row pay_order_row">
                                 <div class="col-md-3">
@@ -153,7 +156,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">PO Date</label>
-                                        <input type="number" class="form-control po_date" id="" name="po_date">
+                                        <input type="date" class="form-control po_date" id="" name="po_date">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -179,6 +182,7 @@
                                 order</button>
                         </div>
                         <h4 class="card-title mt-5">Deposit</h4>
+                        <div class="col-12 error_msg" id="error_msg_deposit"></div>
                         <div class="col-12 deposit_col">
                             <div class="row deposit_row">
                                 <div class="col-md-4">
@@ -191,7 +195,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Deposit Date</label>
-                                        <input type="number" class="form-control daposit_date" id=""
+                                        <input type="date" class="form-control daposit_date" id=""
                                             name="daposit_date">
                                     </div>
                                 </div>
@@ -213,9 +217,7 @@
                             </div>
                         </div>
                         <div class="col-md-2 mb-5">
-                            <button type="button"
-                                class="btn waves-effect waves-light w-100 btn-info mt-4 deposit_clone_btn">Add new
-                                deposit</button>
+                            <button type="button" class="btn waves-effect waves-light w-100 btn-info mt-4 deposit_clone_btn">Add new deposit</button>
                         </div>
                         <button type="button" id="payment_submit"
                             class="btn waves-effect waves-light w-100 btn-warning mt-4">Submit Form</button>
@@ -298,8 +300,8 @@
             receives.push({
                 fee_type : $(obj).find('.fee_type').val(),
                 period : $(obj).find('.period').val(),
-                reeive_date : $(obj).find('.reeive_date').val(),
-                reeive_amount : $(obj).find('.reeive_amount').val(),
+                receive_date : $(obj).find('.receive_date').val(),
+                receive_amount : $(obj).find('.receive_amount').val(),
                 late_fee : $(obj).find('.late_fee').val(),
                 vat : $(obj).find('.vat').val(),
                 tax : $(obj).find('.tax').val(),
@@ -331,7 +333,14 @@
             data: { "_token": "{{ csrf_token() }}", payment:payment, receives:receives, pay_orders:pay_orders, deposits:deposits }, 
             success: function(obj) {
                 console.log(obj);
-                // alert(obj.message);
+                $('.error_msg').html("");
+                if(obj.error === true){
+                    $('#error_msg_'+obj.area+'').html(`<div class="alert alert-danger text-center fw-bold" role="alert">`+obj.message+`</div>`);
+                    toastr['error'](obj.message, obj.area ?? ''), toastr.options = {"closeButton": true, "progressBar": true, }
+                }else if(obj.error === false){
+                    toastr['success']('Successfully done', 'Thank you'), toastr.options = {"closeButton": true, "progressBar": true, }
+                    location.reload();
+                }
             }
         });
     });

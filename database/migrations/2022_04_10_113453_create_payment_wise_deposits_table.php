@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentDepositsTable extends Migration
+class CreatePaymentWiseDepositsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePaymentDepositsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_deposits', function (Blueprint $table) {
+        Schema::create('payment_wise_deposits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('payment_id');
             $table->foreignId('bank_id');
@@ -33,6 +33,6 @@ class CreatePaymentDepositsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_deposits');
+        Schema::dropIfExists('payment_wise_deposits');
     }
 }

@@ -277,10 +277,12 @@
             let tax = (receive_amount / 100) * $(obj).find('.tax').val();
             total_amount_of_receive += parseFloat(receive_amount) + parseFloat(late_fee) + parseFloat(vat) + parseFloat(tax);
         });
+
         let total_amount_of_pay_order = 0;
         $('.pay_order_row').each(function(index, obj) {
             total_amount_of_pay_order += parseFloat($(obj).find('.po_amount').val());
         });
+
         $('#total_amount_of_receive').text(total_amount_of_receive);
         $('#total_amount_of_pay_order').text(total_amount_of_pay_order);
     });

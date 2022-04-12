@@ -34,9 +34,6 @@
                 @can('payment')
                 <li> <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
                 @endcan
-                @can('report')
-                <li> <a class="waves-effect waves-dark" href="{{ route('report') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Report</span></a></li>
-                @endcan
                 @can('document')
                 <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>
                 @endcan
@@ -66,6 +63,13 @@
                         @endcan
                     </ul>
                 </li>
+                @can('report')
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-layout-media-right-alt"></i><span class="hide-menu">Report</span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li> <a href="{{ route('operator-wise-file-register') }}">Operator wise file register</a></li>
+                    </ul>
+                </li>
+                @endcan
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

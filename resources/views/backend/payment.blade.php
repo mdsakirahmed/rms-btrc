@@ -183,7 +183,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Deposit Journal No</label>
-                                        <input type="number" class="form-control journal_number" id=""
+                                        <input type="text" class="form-control journal_number" id="" placeholder="Journal number"
                                             name="journal_number">
                                     </div>
                                 </div>
@@ -230,7 +230,7 @@
             this.form.submit();
         });
 
-        $( '.receive_col' ).on( 'change', '.fee_type', function () { 
+        $('.receive_col' ).on( 'change', '.fee_type', function () { 
             let this_fee_type = $(this).val();
             let this_fee_type_wise_periods = $.grep({!! collect($fee_type_wise_periods) !!}, function(value) {
                 return value.fee_type === parseInt(this_fee_type);
@@ -238,8 +238,21 @@
             period = $(this).closest( ".receive_row" ).find('.period');
             period.html('<option value="" disabled selected>Select period</option>');
             $.each(this_fee_type_wise_periods, function( key, value ) {
-                period.append('<option value="'+value.periods+'">'+value.periods+'</option>');
+                period.append('<option value="'+value.period+'">'+value.period+'</option>');
             });
+            let amount = late_fee = vat = tax = 0;
+            $.grep({!! collect($fee_type_wise_pre_set_money) !!}, function(value) {
+                if(value.fee_type === parseInt(this_fee_type)){
+                    amount = value.amount;
+                    late_fee = value.late_fee;
+                    vat = value.vat;
+                    tax = value.tax;
+                }
+            });
+            $(this).closest( ".receive_row" ).find('.receive_amount').val(amount);
+            $(this).closest( ".receive_row" ).find('.late_fee').val(late_fee);
+            $(this).closest( ".receive_row" ).find('.vat').val(vat);
+            $(this).closest( ".receive_row" ).find('.tax').val(tax);
         });
     });
 
@@ -275,7 +288,7 @@
     $("#payment_submit").click(function(){
         let payment = [];
         payment.push({
-            name : $('#payment_form .transaction').val(),
+            transaction : $('#payment_form .transaction').val(),
             // category : $('#payment_form .category').val(),
             // sub_category : $('#payment_form .sub_category').val(),
             operator : $('#payment_form .operator').val()
@@ -314,6 +327,7 @@
         });
 
         if($('#total_amount_of_receive').text() != $('#total_amount_of_pay_order').text()){
+            $('.error_msg').html("");
             toastr['error']('Receive & PO amount is not equal', 'Amount'), toastr.options = {"closeButton": true, "progressBar": true, }
         }else{
             $.ajax({
@@ -321,7 +335,6 @@
                 url: "{{ route('payment') }}",
                 data: { "_token": "{{ csrf_token() }}", payment:payment, receives:receives, pay_orders:pay_orders, deposits:deposits }, 
                 success: function(obj) {
-                    console.log(obj);
                     $('.error_msg').html("");
                     if(obj.error === true){
                         $('#error_msg_'+obj.area+'').html(`<div class="alert alert-danger text-center fw-bold" role="alert">`+obj.message+`</div>`);

@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
     public function index(){
-        $operators = $fee_types = $fee_type_wise_periods = [];
+        $operators = $fee_types = $fee_type_wise_periods = $fee_type_wise_pre_set_money = [];
 
         if(request()->category){
             // $operators = Operator::where('category_id', request()->category)->get();
@@ -34,11 +34,18 @@ class PaymentController extends Controller
             $expiration = Expiration::find(request()->category);
             if($expiration)
             foreach($fee_types as $fee_type){
+                array_push($fee_type_wise_pre_set_money,[
+                    'fee_type' => $fee_type->fee_type_id,
+                    'amount' => $fee_type->amount,
+                    'late_fee' => $fee_type->late_fee,
+                    'vat' => $fee_type->vat,
+                    'tax' => $fee_type->tax,
+                ]);
                 $category_wise_fee_type = LicenseCategoryWiseFeeType::find($fee_type->fee_type_id);
                 for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' month')){
                     array_push($fee_type_wise_periods,[
                         'fee_type' => $fee_type->fee_type_id,
-                        'periods' => $issue_date->format('d-m-Y')
+                        'period' => $issue_date->format('d-m-Y'),
                     ]);
                 }
             }
@@ -50,6 +57,7 @@ class PaymentController extends Controller
             'operators' =>$operators,
             'fee_types' =>$fee_types,
             'fee_type_wise_periods' =>$fee_type_wise_periods,
+            'fee_type_wise_pre_set_money' =>$fee_type_wise_pre_set_money,
         ]);
     }
 
@@ -130,7 +138,7 @@ class PaymentController extends Controller
                 return [
                     'error' => true,
                     'area' => 'receive',
-                    'message' => 'All fee_type, period, receive date, receive amount, late fee, vat, tax field is required'
+                    'message' => 'All fee type, period, receive date, receive amount, late fee, vat, tax field is required'
                 ];
             }
         }
@@ -139,7 +147,7 @@ class PaymentController extends Controller
         foreach($request->pay_orders as $pay_order){
             if(!$pay_order['po_amount'] || !$pay_order['po_number'] || !$pay_order['po_date'] || !$pay_order['po_bank']){
                 return [
-                    'type' => 'error',
+                    'error' => true,
                     'area' => 'pay_order',
                     'message' => 'All po amount, po number, po date, po bank field is required'
                 ];

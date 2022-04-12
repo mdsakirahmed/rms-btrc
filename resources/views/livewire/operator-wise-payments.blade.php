@@ -14,10 +14,10 @@
     </div>
     <div class="row">
         @foreach ($operator->payments as $payment)
-        <div class="col-12">
+        <div class="col-12" title="Transaction number: {{ $payment->transaction }}">
             <div class="card">
                 <div class="card-header">
-                    <h1>#{{ $loop->iteration }}</h1>
+                    <h1>#{{ $payment->transaction }}</h1>
                 </div>
                 <div class="card-body">
                     <h4 class="card-title">Recives</h4>

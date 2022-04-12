@@ -18,11 +18,14 @@ class Expiration extends Component
     public function mount(Operator $operator)
     {
         $this->operator = $operator;
+        $this->duration_year = $operator->category->duration_year ?? 0;
+        $this->duration_month = $operator->category->duration_month ?? 0;
     }
 
     public function create()
     {
-        $this->issue_date = $this->expire_date = $this->duration_year = $this->duration_month = null;
+        $this->issue_date = $this->expire_date = null;
+        // $this->duration_year = $this->duration_month = null;
     }
 
     public function submit()

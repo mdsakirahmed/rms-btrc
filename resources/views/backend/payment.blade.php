@@ -265,10 +265,15 @@
     });
 
     $('#payment_form').on( 'click', '.rm_btn', function () { 
-        $(this).closest( ".row" ).html('');
+        $(this).closest( ".row" ).remove();
+        calculation();
     });
     
-    $('#payment_form').on( 'change', function () {
+    $('#payment_form').on( 'keyup change', function () {
+        calculation();
+    });
+
+    function calculation(){
         let total_amount_of_receive = 0;
         $('.receive_row').each(function(index, obj) {
             let receive_amount = $(obj).find('.receive_amount').val();
@@ -285,7 +290,7 @@
 
         $('#total_amount_of_receive').text(total_amount_of_receive);
         $('#total_amount_of_pay_order').text(total_amount_of_pay_order);
-    });
+    }
 
     $("#payment_submit").click(function(){
         let payment = [];

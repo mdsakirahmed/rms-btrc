@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="">Receive amount ( <b class="text-success receive_amount">--</b> )</label>
+                                        <label class="form-label" for="">Receive amount ( <b class="text-success receive_amount_title">--</b> )</label>
                                         <input type="number" class="form-control receive_amount" id=""
                                             name="receive_amount">
                                     </div>
@@ -261,7 +261,7 @@
                     tax = value.tax;
                 }
             });
-            $(this).closest( ".receive_row" ).find('.receive_amount').text(amount);
+            $(this).closest( ".receive_row" ).find('.receive_amount_title').text(amount);
             // $(this).closest( ".receive_row" ).find('.receive_amount').val(amount);
             $(this).closest( ".receive_row" ).find('.late_fee').val(late_fee);
             $(this).closest( ".receive_row" ).find('.vat').val(vat);

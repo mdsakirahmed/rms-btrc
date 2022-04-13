@@ -219,9 +219,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-around">
-                            <button type="button" id="payment_submit" class="btn waves-effect waves-light w-25 btn-success mt-4">Submit Form</button>
-                            <a href="{{ route('payment') }}" class="btn waves-effect waves-light w-25 btn-warning mt-4">Reset Form</a>
+                        <div class="col-12 text-center">
+                            <button type="button" id="payment_submit" class="btn waves-effect waves-light w-25 btn-success mt-4 mr-2">Submit Form</button>
+                            <a href="{{ route('payment') }}" class="btn waves-effect waves-light w-25 btn-warning mt-4 ml-2">Reset Form</a>
                         </div>
                         
                     </form>

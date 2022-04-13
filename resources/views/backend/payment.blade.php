@@ -82,7 +82,7 @@
                         <div class="col-12 error_msg" id="error_msg_receive"></div>
                         <div class="col-12 column receive_col">
                             <div class="row receive_row">
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="fee_type">Fee type</label>
                                         <select class="form-control form-select select2 fee_type" name="fee_type">
@@ -95,7 +95,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="period">Select period</label>
                                         <select class="form-control form-select select2 period" id="" name="period">
@@ -103,32 +103,32 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Receive date</label>
                                         <input type="date" class="form-control receive_date" id="" name="receive_date">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="">Receive amount</label>
+                                        <label class="form-label" for="">Receive amount ( <b class="text-success receive_amount">--</b> )</label>
                                         <input type="number" class="form-control receive_amount" id=""
                                             name="receive_amount">
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Late (%)</label>
                                         <input type="number" class="form-control late_fee" id="" name="late_fee">
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Vat (%)</label>
                                         <input type="number" class="form-control vat" id="" name="vat">
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">TAX (%)</label>
                                         <input type="number" class="form-control tax" id="" name="tax">
@@ -139,8 +139,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 d-flex flex-row-reverse bd-highlight mr-3">
-                            <div class="p-2 bd-highlight fw-bold" style="margin-right:8%;">Total receive amount is: <b id="total_amount_of_receive">0</b> BDT</div>
+                        <div class="col-12 d-flex flex-row-reverse bd-highlight">
+                            <div class="p-2 bd-highlight fw-bold">Total receive amount is: <b id="total_amount_of_receive">0</b> BDT</div>
                         </div>
                         <h4 class="card-title mt-5">Pay order</h4>
                         <div class="col-12 error_msg" id="error_msg_pay_order"></div>
@@ -181,8 +181,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 d-flex flex-row-reverse bd-highlight mr-3">
-                            <div class="p-2 bd-highlight fw-bold" style="margin-right:8%;">Total pay order amount is: <b id="total_amount_of_pay_order">0</b> BDT</div>
+                        <div class="col-12 d-flex flex-row-reverse bd-highlight">
+                            <div class="p-2 bd-highlight fw-bold">Total pay order amount is: <b id="total_amount_of_pay_order">0</b> BDT</div>
                         </div>
                         <h4 class="card-title mt-5">Deposit</h4>
                         <div class="col-12 error_msg" id="error_msg_deposit"></div>
@@ -261,7 +261,8 @@
                     tax = value.tax;
                 }
             });
-            $(this).closest( ".receive_row" ).find('.receive_amount').val(amount);
+            $(this).closest( ".receive_row" ).find('.receive_amount').text(amount);
+            // $(this).closest( ".receive_row" ).find('.receive_amount').val(amount);
             $(this).closest( ".receive_row" ).find('.late_fee').val(late_fee);
             $(this).closest( ".receive_row" ).find('.vat').val(vat);
             $(this).closest( ".receive_row" ).find('.tax').val(tax);

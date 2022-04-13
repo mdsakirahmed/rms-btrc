@@ -134,8 +134,8 @@
                                         <input type="number" class="form-control tax" id="" name="tax">
                                     </div>
                                 </div>
-                                <div class="col-1 cln__or_rm_div">
-                                    <button type="button" class="btn btn-success mt-4 cln_btn" title="Add new one"><i class="fa fa-plus"></i> </button>
+                                <div class="col-2 cln__or_rm_div">
+                                    <button type="button" class="btn btn-success w-100 mt-4 cln_btn" title="Add new one"><i class="fa fa-plus"></i> </button>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +177,7 @@
                                     </div>
                                 </div>
                                 <div class="col-1 cln__or_rm_div">
-                                    <button type="button" class="btn btn-success mt-4 cln_btn" title="Add new one"><i class="fa fa-plus"></i></button>
+                                    <button type="button" class="btn btn-success mt-4 w-100 cln_btn" title="Add new one"><i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -215,7 +215,7 @@
                                     </div>
                                 </div>
                                 <div class="col-1 cln__or_rm_div">
-                                    <button type="button" class="btn btn-success mt-4 cln_btn" title="Add new one"><i class="fa fa-plus"></i></button>
+                                    <button type="button" class="btn btn-success mt-4 w-100 cln_btn" title="Add new one"><i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -273,7 +273,7 @@
         let clone_div = $(this).closest( ".row" ).not('.cloned').clone().addClass('cloned');
         // clone_div.find("span").remove();
         // clone_div.find("select").select2();
-        clone_div.find(".cln__or_rm_div").html(`<button type="button" class="btn btn-danger mt-4 rm_btn" title="Remove this one"><i class="fa fa-times text-white"></i></button>`);
+        clone_div.find(".cln__or_rm_div").html(`<button type="button" class="btn btn-danger w-100 mt-4 rm_btn" title="Remove this one"><i class="fa fa-times text-white"></i></button>`);
         $(this).closest( ".column" ).append(clone_div);
     });
 

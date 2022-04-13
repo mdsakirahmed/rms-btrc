@@ -19,14 +19,15 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
     public function index(){
-        $operators = $fee_types = $fee_type_wise_periods = $fee_type_wise_pre_set_money = [];
+        $operators = $sub_categories = $fee_types = $fee_type_wise_periods = $fee_type_wise_pre_set_money = [];
 
         if(request()->category){
             // $operators = Operator::where('category_id', request()->category)->get();
+            $sub_categories = LicenseSubCategory::all();
             $operators = Operator::where('category_id', request()->category)
             ->whereHas('expirations', function($query){
                 $query->where('expire_date', '>=', Carbon::today());
-            })->get();
+            })->where('sub_category_id', request()->sub_category ?? null)->get();
         }
 
         if(request()->category){
@@ -53,7 +54,7 @@ class PaymentController extends Controller
         return view('backend.payment', [
             'banks' => Bank::all(),
             'categories' => LicenseCategory::all(),
-            'sub_categories' => LicenseSubCategory::all(),
+            'sub_categories' => $sub_categories,
             'operators' =>$operators,
             'fee_types' =>$fee_types,
             'fee_type_wise_periods' =>$fee_type_wise_periods,

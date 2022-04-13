@@ -15,10 +15,13 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <button class="btn btn-success" wire:click="export">Export as .xlsx</button>
+                </div>
                 <div class="card-body">
                     <h4 class="card-title"># Payments</h4>
                     <div class="table-responsive">
-                        <table class="table datatable color-table primary-table" style="font-size: 8px;">
+                        <table class="table datatable color-table primary-table">
                             <thead>
                                 <tr>
                                     <th>#</th>

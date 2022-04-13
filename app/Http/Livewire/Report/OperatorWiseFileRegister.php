@@ -2,15 +2,25 @@
 
 namespace App\Http\Livewire\Report;
 
+use App\Exports\OperatorWiseFileRegisterExport;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductExport;
 
 class OperatorWiseFileRegister extends Component
 {
     public function render()
     {
-        $payments = DB::table('payments')
+        return view('livewire.report.operator-wise-file-register',[
+            'payments' => $this->payments()->paginate(100)
+        ])->extends('layouts.backend.app', ['title' => 'Report'])
+        ->section('content');
+    }
+
+    public function payments(){
+        return DB::table('payments')
         ->join('payment_wise_receives', 'payments.id', '=', 'payment_wise_receives.payment_id')
         ->join('payment_wise_pay_orders', 'payments.id', '=', 'payment_wise_pay_orders.payment_id')
         ->join('payment_wise_deposits', 'payments.id', '=', 'payment_wise_deposits.payment_id')
@@ -35,11 +45,10 @@ class OperatorWiseFileRegister extends Component
         'payment_wise_deposits.journal_number as deposit_journal_number',
         'payment_wise_deposits.date as deposit_date',
         );
+    }
 
-
-        return view('livewire.report.operator-wise-file-register',[
-            'payments' => $payments->paginate(100)
-        ])->extends('layouts.backend.app', ['title' => 'Report'])
-        ->section('content');
+    public function export(){
+        $collection = $this->payments()->get();
+        return Excel::download(new OperatorWiseFileRegisterExport($collection), 'Operator wise file register '.date('d-m-Y h-i-s a').'.xlsx');
     }
 }

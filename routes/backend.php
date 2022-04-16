@@ -17,6 +17,7 @@ use App\Http\Livewire\FeeType;
 use App\Http\Livewire\LicenseCategorywiseFee;
 use App\Http\Livewire\OperatorWisePayments;
 use App\Http\Livewire\Profile;
+use App\Http\Livewire\Report\OperatorDetail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,4 +57,5 @@ Route::middleware('auth')->group(function () {
     Route::post('payment', [PaymentController::class, 'store'])->middleware(['permission:payment']);
 
     Route::get('operator-wise-file-register', OperatorWiseFileRegister::class)->name('operator-wise-file-register')->middleware(['permission:report']);
+    Route::get('operator-detail', OperatorDetail::class)->name('operator-detail')->middleware(['permission:report']);
 });

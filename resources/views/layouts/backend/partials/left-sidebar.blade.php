@@ -67,6 +67,7 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-layout-media-right-alt"></i><span class="hide-menu">Report</span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li> <a href="{{ route('operator-wise-file-register') }}">Operator wise file register</a></li>
+                        <li> <a href="{{ route('operator-detail') }}">Operator detail</a></li>
                     </ul>
                 </li>
                 @endcan

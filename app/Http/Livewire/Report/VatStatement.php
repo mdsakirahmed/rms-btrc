@@ -86,7 +86,7 @@ class VatStatement extends Component
 
     public function export()
     {
-        $collection = $this->payments()->get();
+        $collection = $this->get_payments()->get();
         return Excel::download(new VatStatementExport($collection), 'Vat statement ' . date('d-m-Y h-i-s a') . '.xlsx');
     }
 }

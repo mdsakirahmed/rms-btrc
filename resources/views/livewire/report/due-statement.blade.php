@@ -1,13 +1,13 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Due statement</h4>
+            <h4 class="text-themecolor">Due Statement</h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">Due statement</li>
+                    <li class="breadcrumb-item active">Due Statement</li>
                 </ol>
             </div>
         </div>
@@ -36,17 +36,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-3">
-                            <select name="" id="" class="form-control" wire:model="selected_operator">
-                                <option value="all">All Operator</option>
-                                @foreach ($operators as $operator)
-                                    <option value="{{ $operator->id }}">{{ $operator->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" wire:model.debounce.500ms="search" placeholder="Search by category name">
-                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table datatable color-table primary-table">
@@ -66,14 +55,14 @@
                             <tbody>
                                 <tr>
                                     <th>#</th>
-                                    <th><input type="text" class="form-control" placeholder="Sub Category"></th>
-                                    <th><input type="text" class="form-control" placeholder="Category"></th>
-                                    <th><input type="text" class="form-control" placeholder="Operator"></th>
-                                    <th><input type="text" class="form-control" placeholder="Receive date"></th>
-                                    <th><input type="text" class="form-control" placeholder="Particular"></th>
-                                    <th><input type="text" class="form-control" placeholder="Period"></th>
-                                    <th><input type="text" class="form-control" placeholder="Fee"></th>
-                                    <th><input type="text" class="form-control" placeholder="VAT %"></th>
+                                    <th><input wire:model="category_name" type="text" class="form-control" placeholder="Sub Category"></th>
+                                    <th><input wire:model="sub_category_name" type="text" class="form-control" placeholder="Category"></th>
+                                    <th><input wire:model="operator_name" type="text" class="form-control" placeholder="Operator"></th>
+                                    <th><input wire:model="receive_date" type="text" class="form-control" placeholder="Receive date"></th>
+                                    <th><input wire:model="fee_type_name" type="text" class="form-control" placeholder="Particular"></th>
+                                    <th><input wire:model="period_date" type="text" class="form-control" placeholder="Period"></th>
+                                    <th><input wire:model="receive_amount" type="text" class="form-control" placeholder="Fee"></th>
+                                    <th><input wire:model="receive_vat" type="text" class="form-control" placeholder="VAT %"></th>
                                 </tr>
                                 @foreach ($payments as $payment)
                                     <tr>
@@ -92,7 +81,7 @@
                         </table>
                         @if ($payments->hasPages())
                         <div class="pagination-wrapper">
-                            {{ $payments->links('pagination::bootstrap-4') }}
+                            {{ $payments->links('livewire.widget.custom-pagination') }}
                         </div>
                         @endif
                     </div>

@@ -2,23 +2,38 @@
 
 namespace App\Http\Livewire\Report;
 
-use App\Exports\VatStatementExport;
+use App\Exports\DueStatementExport;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
-use App\Models\Operator;
 use DB;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Pagination\Paginator;
 
 class DueStatement extends Component
 {
-    public $selected_category, $selected_sub_category, $selected_operator, $search;
+
+    public $selected_category, $selected_sub_category, $search,
+        $category_name, $sub_category_name, $operator_name, $receive_date, $fee_type_name, $period_date, $receive_amount,
+        $receive_vat;
+
+    public function setPage($url)
+    {
+        $this->currentPage = explode('page=', $url)[1];
+        Paginator::currentPageResolver(function () {
+            return $this->currentPage;
+        });
+    }
 
     public function mount()
     {
         $this->selected_category = 'all';
         $this->selected_sub_category = 'all';
-        $this->selected_operator = 'all';
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
 
     public function render()
@@ -26,30 +41,14 @@ class DueStatement extends Component
         return view('livewire.report.due-statement', [
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
-            'operators' => $this->get_operators(),
             'payments' => $this->get_payments()->paginate(100),
-        ])->extends('layouts.backend.app', ['title' => 'VAT Statement'])
+        ])->extends('layouts.backend.app', ['title' => 'Due Statement'])
             ->section('content');
-    }
-
-    public function get_operators()
-    {
-        return Operator::where(function ($query) {
-            if ($this->selected_category != 'all') {
-                $query->where('category_id', $this->selected_category);
-            }
-            if ($this->selected_sub_category != 'all') {
-                $query->where('sub_category_id', $this->selected_sub_category);
-            }
-            if ($this->selected_operator != 'all') {
-                $query->where('id', $this->selected_operator);
-            }
-        })->where('name', 'like', '%' . $this->search . '%')->get();
     }
 
     public function get_payments()
     {
-        $payments = DB::table('payments')
+        return DB::table('payments')
             ->join('payment_wise_receives', 'payments.id', '=', 'payment_wise_receives.payment_id')
             ->join('operators', 'payments.operator_id', '=', 'operators.id')
             ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
@@ -62,14 +61,11 @@ class DueStatement extends Component
                 'categories.id as category_id',
                 'sub_categories.name as sub_category_name',
                 'sub_categories.id as sub_category_id',
-                'payments.transaction',
                 'fee_types.name as fee_type_name',
                 'payment_wise_receives.period_date',
                 'payment_wise_receives.receive_date',
                 'payment_wise_receives.receive_amount as receive_amount',
-                'payment_wise_receives.late_fee_percentage as receive_late_fee',
                 'payment_wise_receives.vat_percentage as receive_vat',
-                'payment_wise_receives.tax_percentage as receive_tax',
             )->where(function ($query) {
                 if ($this->selected_category != 'all') {
                     $query->where('category_id', $this->selected_category);
@@ -77,17 +73,20 @@ class DueStatement extends Component
                 if ($this->selected_sub_category != 'all') {
                     $query->where('sub_category_id', $this->selected_sub_category);
                 }
-                if ($this->selected_operator != 'all') {
-                    $query->where('operator_id', $this->selected_operator);
-                }
+                $query->where('categories.name', 'like', '%' . $this->category_name . '%');
+                $query->where('sub_categories.name', 'like', '%' . $this->sub_category_name . '%');
+                $query->where('operators.name', 'like', '%' . $this->operator_name . '%');
+                $query->where('payment_wise_receives.receive_date', 'like', '%' . $this->receive_date . '%');
+                $query->where('fee_types.name', 'like', '%' . $this->fee_type_name . '%');
+                $query->where('payment_wise_receives.period_date', 'like', '%' . $this->period_date . '%');
+                $query->where('payment_wise_receives.receive_amount', 'like', '%' . $this->receive_amount . '%');
+                $query->where('payment_wise_receives.vat_percentage', 'like', '%' . $this->receive_vat . '%');
             });
-
-        return $payments;
     }
 
     public function export()
     {
-        $collection = $this->payments()->get();
-        return Excel::download(new VatStatementExport($collection), 'Vat statement ' . date('d-m-Y h-i-s a') . '.xlsx');
+        $collection = $this->get_payments()->get();
+        return Excel::download(new DueStatementExport($collection), 'Due statement ' . date('d-m-Y h-i-s a') . '.xlsx');
     }
 }

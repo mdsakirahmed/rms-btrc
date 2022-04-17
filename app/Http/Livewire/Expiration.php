@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Expiration as ModelsExpiration;
+use App\Models\ExpirationWisePaymentDate;
 use App\Models\Operator;
 use App\Models\Payment;
 use Carbon\Carbon;
@@ -40,15 +41,30 @@ class Expiration extends Component
                 'issue_date' => $this->issue_date,
                 'expire_date' => $this->expire_date
             ]);
+            $expiration = $this->expiration;
+            $expiration->expiration_wise_payment_dates()->delete();
         } else {
-            ModelsExpiration::create([
+            $expiration = ModelsExpiration::create([
                 'operator_id' => $this->operator->id,
                 'issue_date' => $this->issue_date,
                 'expire_date' => $this->expire_date
             ]);
-            $this->create();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
         }
+        foreach($this->operator->category->category_wise_fees as $category_wise_fee_type){
+            $counter = 1;
+            for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' month')){
+               ExpirationWisePaymentDate::create([
+                   'expiration_id' => $expiration->id,
+                   'fee_type_id' => $category_wise_fee_type->fee_type_id,
+                   'paid' => false,
+                   'payment_number' => $counter,
+                   'period_date' => $issue_date,
+               ]);
+               $counter ++;
+            }
+        }
+        $this->create();
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 
     public function select_for_edit(ModelsExpiration $expiration)

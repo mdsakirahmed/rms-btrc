@@ -45,11 +45,8 @@
                                     <th>Sub Category</th>
                                     <th>Category</th>
                                     <th>Operator</th>
-                                    <th>Receive date</th>
-                                    <th>Particular</th>
-                                    <th>Period</th>
-                                    <th>Fee</th>
-                                    <th>VAT %</th>
+                                    <th>Fee type</th>
+                                    <th>Payment date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,30 +55,33 @@
                                     <th><input wire:model="category_name" type="text" class="form-control" placeholder="Sub Category"></th>
                                     <th><input wire:model="sub_category_name" type="text" class="form-control" placeholder="Category"></th>
                                     <th><input wire:model="operator_name" type="text" class="form-control" placeholder="Operator"></th>
-                                    <th><input wire:model="receive_date" type="text" class="form-control" placeholder="Receive date"></th>
-                                    <th><input wire:model="fee_type_name" type="text" class="form-control" placeholder="Particular"></th>
-                                    <th><input wire:model="period_date" type="text" class="form-control" placeholder="Period"></th>
-                                    <th><input wire:model="receive_amount" type="text" class="form-control" placeholder="Fee"></th>
-                                    <th><input wire:model="receive_vat" type="text" class="form-control" placeholder="VAT %"></th>
+                                    <th><input wire:model="receive_vat" type="text" class="form-control" placeholder="Fee type"></th>
+                                    <td></td>
                                 </tr>
-                                @foreach ($payments as $payment)
+                                @foreach ($operators as $operator)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $payment->category_name }}</td>
-                                        <td>{{ $payment->sub_category_name }}</td>
-                                        <td>{{ $payment->operator_name }}</td>
-                                        <td>{{ $payment->receive_date }}</td>
-                                        <td>{{ $payment->fee_type_name }}</td>
-                                        <td>{{ $payment->period_date }}</td>
-                                        <td>{{ $payment->receive_amount }}</td>
-                                        <td>{{ $payment->receive_vat }} %</td>
+                                        <td>{{ $operator->category_name }}</td>
+                                        <td>{{ $operator->sub_category_name }}</td>
+                                        <td>{{ $operator->name }}</td>
+                                        <td>{{ $operator->fee_type_name }}</td>
+                                        <td>
+                                            @php
+                                               for($issue_date = date('Y-m-d', strtotime($operator->issue_date)); $issue_date < date('Y-m-d', strtotime($operator->expire_date)); date("Y-m-d", strtotime($issue_date."+9 months"))){
+                                               dd("<b>{{ $issue_date }}</b>, &nbsp") ;
+                                               } 
+                                            @endphp
+                                            {{-- @for($issue_date = date('Y-m-d', strtotime($operator->issue_date)); $issue_date < date('Y-m-d', strtotime($operator->expire_date)); date("Y-m-d", strtotime($issue_date."+90000000000 months")))
+                                                <b>{{ $issue_date }}</b>, &nbsp;
+                                            @endfor --}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        @if ($payments->hasPages())
+                        @if ($operators->hasPages())
                         <div class="pagination-wrapper">
-                            {{ $payments->links('livewire.widget.custom-pagination') }}
+                            {{ $operators->links('livewire.widget.custom-pagination') }}
                         </div>
                         @endif
                     </div>

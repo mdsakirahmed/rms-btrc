@@ -38,50 +38,34 @@ class DueStatement extends Component
 
     public function render()
     {
+        // dd($this->get_payments()->get());
         return view('livewire.report.due-statement', [
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
-            'payments' => $this->get_payments()->paginate(100),
+            'operators' => $this->get_payments()->paginate(100),
         ])->extends('layouts.backend.app', ['title' => 'Due Statement'])
             ->section('content');
     }
 
     public function get_payments()
     {
-        return DB::table('payments')
-            ->join('payment_wise_receives', 'payments.id', '=', 'payment_wise_receives.payment_id')
-            ->join('operators', 'payments.operator_id', '=', 'operators.id')
-            ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
-            ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
-            ->join('fee_types', 'payment_wise_receives.fee_type_id', '=', 'fee_types.id')
-            ->select(
-                'operators.name as operator_name',
-                'operators.id as operator_id',
-                'categories.name as category_name',
-                'categories.id as category_id',
-                'sub_categories.name as sub_category_name',
-                'sub_categories.id as sub_category_id',
-                'fee_types.name as fee_type_name',
-                'payment_wise_receives.period_date',
-                'payment_wise_receives.receive_date',
-                'payment_wise_receives.receive_amount as receive_amount',
-                'payment_wise_receives.vat_percentage as receive_vat',
-            )->where(function ($query) {
-                if ($this->selected_category != 'all') {
-                    $query->where('category_id', $this->selected_category);
-                }
-                if ($this->selected_sub_category != 'all') {
-                    $query->where('sub_category_id', $this->selected_sub_category);
-                }
-                $query->where('categories.name', 'like', '%' . $this->category_name . '%');
-                $query->where('sub_categories.name', 'like', '%' . $this->sub_category_name . '%');
-                $query->where('operators.name', 'like', '%' . $this->operator_name . '%');
-                $query->where('payment_wise_receives.receive_date', 'like', '%' . $this->receive_date . '%');
-                $query->where('fee_types.name', 'like', '%' . $this->fee_type_name . '%');
-                $query->where('payment_wise_receives.period_date', 'like', '%' . $this->period_date . '%');
-                $query->where('payment_wise_receives.receive_amount', 'like', '%' . $this->receive_amount . '%');
-                $query->where('payment_wise_receives.vat_percentage', 'like', '%' . $this->receive_vat . '%');
-            });
+        return DB::table('operators')
+        ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
+        ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
+        ->join('expirations', 'operators.id', '=', 'expirations.operator_id')
+        ->join('license_category_wise_fee_types', 'operators.category_id', '=', 'license_category_wise_fee_types.category_id')
+        ->join('fee_types', 'license_category_wise_fee_types.fee_type_id', '=', 'fee_types.id')
+        ->select(
+            'operators.*',
+            'categories.name as category_name',
+            'categories.id as category_id',
+            'sub_categories.name as sub_category_name',
+            'sub_categories.id as sub_category_id',
+            'fee_types.name as fee_type_name',
+            'license_category_wise_fee_types.period_month as period_month',
+            'expirations.issue_date as issue_date',
+            'expirations.expire_date as expire_date',
+        );
     }
 
     public function export()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\Expiration;
+use App\Models\ExpirationWisePaymentDate;
 use App\Models\LicenseCategory;
 use App\Models\LicenseCategoryWiseFeeType;
 use App\Models\LicenseSubCategory;
@@ -30,22 +31,24 @@ class PaymentController extends Controller
             })->where('sub_category_id', request()->sub_category ?? null)->get();
         }
 
-        if(request()->category){
-            $fee_types = LicenseCategoryWiseFeeType::where('category_id', request()->category)->with('fee_type')->get();
-            $expiration = Expiration::find(request()->category);
+        if(request()->category && request()->operator){
+            $category_wise_fee_types = LicenseCategoryWiseFeeType::where('category_id', request()->category)->with('fee_type')->get();
+            $expiration = Expiration::where('all_payment_completed', false)
+            ->where('operator_id', request()->operator)
+            ->first();
             if($expiration)
-            foreach($fee_types as $fee_type){
+            foreach($category_wise_fee_types as $category_wise_fee_type){
                 array_push($fee_type_wise_pre_set_money,[
-                    'fee_type' => $fee_type->fee_type_id,
-                    'amount' => $fee_type->amount,
-                    'late_fee' => $fee_type->late_fee,
-                    'vat' => $fee_type->vat,
-                    'tax' => $fee_type->tax,
+                    'fee_type' => $category_wise_fee_type->fee_type_id,
+                    'amount' => $category_wise_fee_type->amount,
+                    'late_fee' => $category_wise_fee_type->late_fee,
+                    'vat' => $category_wise_fee_type->vat,
+                    'tax' => $category_wise_fee_type->tax,
                 ]);
-                $category_wise_fee_type = LicenseCategoryWiseFeeType::find($fee_type->fee_type_id);
-                for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' month')){
+
+                for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' months')){
                     array_push($fee_type_wise_periods,[
-                        'fee_type' => $fee_type->fee_type_id,
+                        'fee_type' => $category_wise_fee_type->fee_type_id,
                         'period' => $issue_date->format('d-m-Y'),
                     ]);
                 }
@@ -56,7 +59,7 @@ class PaymentController extends Controller
             'categories' => LicenseCategory::all(),
             'sub_categories' => $sub_categories,
             'operators' =>$operators,
-            'fee_types' =>$fee_types,
+            'fee_types' =>$category_wise_fee_types,
             'fee_type_wise_periods' =>$fee_type_wise_periods,
             'fee_type_wise_pre_set_money' =>$fee_type_wise_pre_set_money,
         ]);
@@ -77,7 +80,9 @@ class PaymentController extends Controller
                 'operator_id' => $request->payment[0]['operator'],
                 'transaction' => $request->payment[0]['transaction'],
             ]);
-            
+            $expiration = Expiration::where('all_payment_completed', false)
+                ->where('operator_id', $request->payment[0]['operator'])
+                ->first();
             // Receive
             foreach($request->receives as $receive){
                 PaymentWiseReceive::create([
@@ -90,6 +95,17 @@ class PaymentController extends Controller
                     'vat_percentage' => $receive['vat'],
                     'tax_percentage' => $receive['tax'],
                 ]);
+                
+                //Update expiration wise payment date status
+                ExpirationWisePaymentDate::where('expiration_id', $expiration->id)
+                ->where('fee_type_id', $receive['fee_type'])
+                ->where('period_date', date('Y-m-d', strtotime($receive['period'])))
+                ->update(['paid' => true]);
+                
+                // If all period of payment is done than this expiration will be done
+                if(ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->where('paid', false)->count() == 0){
+                    $expiration->update(['all_payment_completed' => true]);
+                }
             }
 
             // pay_order

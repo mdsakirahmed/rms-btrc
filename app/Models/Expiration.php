@@ -13,7 +13,8 @@ class Expiration extends Model
     protected $fillable = [
         'operator_id',
         'issue_date',
-        'expire_date'
+        'expire_date',
+        'all_payment_completed'
     ];
 
     protected $dates = ['issue_date', 'expire_date'];
@@ -24,5 +25,9 @@ class Expiration extends Model
 
     public function operator(){
         return $this->belongsTo(Operator::class, 'operator_id', 'id');
+    }
+
+    public function expiration_wise_payment_dates(){
+        return $this->hasMany(ExpirationWisePaymentDate::class, 'expiration_id', 'id');
     }
 }

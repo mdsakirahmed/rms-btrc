@@ -1,13 +1,13 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Operator details</h4>
+            <h4 class="text-themecolor">Due statement</h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">Operator details</li>
+                    <li class="breadcrumb-item active">Due statement</li>
                 </ol>
             </div>
         </div>
@@ -45,7 +45,7 @@
                             </select>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" wire:model.debounce.500ms="search" placeholder="Search by name">
+                            <input type="text" class="form-control" wire:model.debounce.500ms="search" placeholder="Search by category name">
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -53,43 +53,46 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Sub Category</th>
                                     <th>Category</th>
-                                    <th>Sub category</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Website</th>
-                                    <th>Address</th>
-                                    <th>Note</th>
-                                    <th>Contact person name</th>
-                                    <th>Contact person designation</th>
-                                    <th>Contact person phone</th>
-                                    <th>Contact person email</th>
+                                    <th>Operator</th>
+                                    <th>Receive date</th>
+                                    <th>Particular</th>
+                                    <th>Period</th>
+                                    <th>Fee</th>
+                                    <th>VAT %</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($operators as $operator)
+                                <tr>
+                                    <th>#</th>
+                                    <th><input type="text" class="form-control" placeholder="Sub Category"></th>
+                                    <th><input type="text" class="form-control" placeholder="Category"></th>
+                                    <th><input type="text" class="form-control" placeholder="Operator"></th>
+                                    <th><input type="text" class="form-control" placeholder="Receive date"></th>
+                                    <th><input type="text" class="form-control" placeholder="Particular"></th>
+                                    <th><input type="text" class="form-control" placeholder="Period"></th>
+                                    <th><input type="text" class="form-control" placeholder="Fee"></th>
+                                    <th><input type="text" class="form-control" placeholder="VAT %"></th>
+                                </tr>
+                                @foreach ($payments as $payment)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $operator->category->name ?? '--' }}</td>
-                                        <td>{{ $operator->sub_category->name ?? '--' }}</td>
-                                        <td>{{ $operator->name }}</td>
-                                        <td>{{ $operator->phone }}</td>
-                                        <td>{{ $operator->email }}</td>
-                                        <td>{{ $operator->website }}</td>
-                                        <td>{{ $operator->address }}</td>
-                                        <td>{{ $operator->note }}</td>
-                                        <td>{{ $operator->contact_person_name }}</td>
-                                        <td>{{ $operator->contact_person_designation }}</td>
-                                        <td>{{ $operator->contact_person_phone }}</td>
-                                        <td>{{ $operator->contact_person_email }}</td>
+                                        <td>{{ $payment->category_name }}</td>
+                                        <td>{{ $payment->sub_category_name }}</td>
+                                        <td>{{ $payment->operator_name }}</td>
+                                        <td>{{ $payment->receive_date }}</td>
+                                        <td>{{ $payment->fee_type_name }}</td>
+                                        <td>{{ $payment->period_date }}</td>
+                                        <td>{{ $payment->receive_amount }}</td>
+                                        <td>{{ $payment->receive_vat }} %</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        @if ($operators->hasPages())
+                        @if ($payments->hasPages())
                         <div class="pagination-wrapper">
-                            {{ $operators->links('pagination::bootstrap-4') }}
+                            {{ $payments->links('pagination::bootstrap-4') }}
                         </div>
                         @endif
                     </div>

@@ -17,7 +17,9 @@ use App\Http\Livewire\FeeType;
 use App\Http\Livewire\LicenseCategorywiseFee;
 use App\Http\Livewire\OperatorWisePayments;
 use App\Http\Livewire\Profile;
+use App\Http\Livewire\Report\DueStatement;
 use App\Http\Livewire\Report\OperatorDetail;
+use App\Http\Livewire\Report\VatStatement;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,4 +60,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('operator-wise-file-register', OperatorWiseFileRegister::class)->name('operator-wise-file-register')->middleware(['permission:report']);
     Route::get('operator-detail', OperatorDetail::class)->name('operator-detail')->middleware(['permission:report']);
+    Route::get('vat-statement', VatStatement::class)->name('vat-statement')->middleware(['permission:report']);
+    Route::get('due-statement', DueStatement::class)->name('due-statement')->middleware(['permission:report']);
 });

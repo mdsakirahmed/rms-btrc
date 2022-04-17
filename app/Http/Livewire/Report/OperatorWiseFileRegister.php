@@ -3,11 +3,9 @@
 namespace App\Http\Livewire\Report;
 
 use App\Exports\OperatorWiseFileRegisterExport;
-use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ProductExport;
 
 class OperatorWiseFileRegister extends Component
 {

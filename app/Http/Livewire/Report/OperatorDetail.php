@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Report;
 
+use App\Exports\OperatorDetailExport;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
 use App\Models\Operator;
@@ -16,6 +17,7 @@ class OperatorDetail extends Component
     public function mount(){
         $this->selected_category = 'all';
         $this->selected_sub_category = 'all';
+        $this->selected_operator = 'all';
     }
 
     public function render()
@@ -37,11 +39,14 @@ class OperatorDetail extends Component
             if($this->selected_sub_category != 'all'){
                 $query->where('sub_category_id', $this->selected_sub_category);
             }
+            if($this->selected_operator != 'all'){
+                $query->where('id', $this->selected_operator);
+            }
         })->where('name', 'like', '%' . $this->search . '%');
     }
 
     public function export(){
         $collection = $this->get_operators()->get();
-        return Excel::download(new Operator($collection), 'Operator details '.date('d-m-Y h-i-s a').'.xlsx');
+        return Excel::download(new OperatorDetailExport($collection), 'Operator detail '.date('d-m-Y h-i-s a').'.xlsx');
     }
 }

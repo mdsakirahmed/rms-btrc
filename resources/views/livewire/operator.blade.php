@@ -29,6 +29,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <th>--</th>
+                                    <th><input type="text" class="form-control" placeholder="Name" wire:model="search_for_name"></th>
+                                    <th><input type="text" class="form-control" placeholder="Category" wire:model="search_for_category"></th>
+                                    <th><input type="text" class="form-control" placeholder="Sub Category" wire:model="search_for_sub_category"></th>
+                                    <th>--</th>
+                                </tr>
                                 @foreach ($operators as $operator)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -47,7 +54,7 @@
                         </table>
                         @if ($operators->hasPages())
                         <div class="pagination-wrapper">
-                            {{ $operators->links('pagination::bootstrap-4') }}
+                            {{ $operators->links('livewire.widget.custom-pagination') }}
                         </div>
                         @endif
                     </div>

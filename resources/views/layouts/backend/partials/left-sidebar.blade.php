@@ -68,6 +68,8 @@
                     <ul aria-expanded="false" class="collapse">
                         <li> <a href="{{ route('operator-wise-file-register') }}">Operator wise file register</a></li>
                         <li> <a href="{{ route('operator-detail') }}">Operator detail</a></li>
+                        <li> <a href="{{ route('vat-statement') }}">Vat statement</a></li>
+                        <li> <a href="{{ route('due-statement') }}">Due statement</a></li>
                     </ul>
                 </li>
                 @endcan

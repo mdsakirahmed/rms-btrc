@@ -46,7 +46,7 @@
                                     <th>Category</th>
                                     <th>Operator</th>
                                     <th>Fee type</th>
-                                    <th>Payment date</th>
+                                    <th>Due date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,7 +56,7 @@
                                     <th><input wire:model="sub_category_name" type="text" class="form-control" placeholder="Category"></th>
                                     <th><input wire:model="operator_name" type="text" class="form-control" placeholder="Operator"></th>
                                     <th><input wire:model="receive_vat" type="text" class="form-control" placeholder="Fee type"></th>
-                                    <td></td>
+                                    <th><input wire:model="receive_vat" type="text" class="form-control" placeholder="Due date"></th>
                                 </tr>
                                 @foreach ($operators as $operator)
                                     <tr>
@@ -65,16 +65,7 @@
                                         <td>{{ $operator->sub_category_name }}</td>
                                         <td>{{ $operator->name }}</td>
                                         <td>{{ $operator->fee_type_name }}</td>
-                                        <td>
-                                            @php
-                                               for($issue_date = date('Y-m-d', strtotime($operator->issue_date)); $issue_date < date('Y-m-d', strtotime($operator->expire_date)); date("Y-m-d", strtotime($issue_date."+9 months"))){
-                                               dd("<b>{{ $issue_date }}</b>, &nbsp") ;
-                                               } 
-                                            @endphp
-                                            {{-- @for($issue_date = date('Y-m-d', strtotime($operator->issue_date)); $issue_date < date('Y-m-d', strtotime($operator->expire_date)); date("Y-m-d", strtotime($issue_date."+90000000000 months")))
-                                                <b>{{ $issue_date }}</b>, &nbsp;
-                                            @endfor --}}
-                                        </td>
+                                        <td>{{ date('d-m-Y', strtotime($operator->period_date)) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -53,8 +53,8 @@ class DueStatement extends Component
         ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
         ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
         ->join('expirations', 'operators.id', '=', 'expirations.operator_id')
-        ->join('license_category_wise_fee_types', 'operators.category_id', '=', 'license_category_wise_fee_types.category_id')
-        ->join('fee_types', 'license_category_wise_fee_types.fee_type_id', '=', 'fee_types.id')
+        ->join('expiration_wise_payment_dates', 'expirations.id', '=', 'expiration_wise_payment_dates.expiration_id')->where('paid', false)->where('period_date', '<', date('Y-m-d'))
+        ->join('fee_types', 'expiration_wise_payment_dates.fee_type_id', '=', 'fee_types.id')
         ->select(
             'operators.*',
             'categories.name as category_name',
@@ -62,9 +62,7 @@ class DueStatement extends Component
             'sub_categories.name as sub_category_name',
             'sub_categories.id as sub_category_id',
             'fee_types.name as fee_type_name',
-            'license_category_wise_fee_types.period_month as period_month',
-            'expirations.issue_date as issue_date',
-            'expirations.expire_date as expire_date',
+            'expiration_wise_payment_dates.period_date as period_date',
         );
     }
 

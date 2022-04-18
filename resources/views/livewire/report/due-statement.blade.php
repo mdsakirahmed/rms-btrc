@@ -52,11 +52,11 @@
                             <tbody>
                                 <tr>
                                     <th>#</th>
-                                    <th><input wire:model="category_name" type="text" class="form-control" placeholder="Sub Category"></th>
-                                    <th><input wire:model="sub_category_name" type="text" class="form-control" placeholder="Category"></th>
-                                    <th><input wire:model="operator_name" type="text" class="form-control" placeholder="Operator"></th>
-                                    <th><input wire:model="receive_vat" type="text" class="form-control" placeholder="Fee type"></th>
-                                    <th><input wire:model="receive_vat" type="text" class="form-control" placeholder="Due date"></th>
+                                    <th><input wire:model="search_for_category_name" type="text" class="form-control" placeholder="Sub Category"></th>
+                                    <th><input wire:model="search_for_sub_category_name" type="text" class="form-control" placeholder="Category"></th>
+                                    <th><input wire:model="search_for_operator_name" type="text" class="form-control" placeholder="Operator"></th>
+                                    <th><input wire:model="search_for_receive_fee_type_name" type="text" class="form-control" placeholder="Fee type"></th>
+                                    <th><input wire:model="search_for_receive_period_date" type="text" class="form-control" placeholder="Due date"></th>
                                 </tr>
                                 @foreach ($operators as $operator)
                                     <tr>

@@ -13,9 +13,9 @@ use Illuminate\Pagination\Paginator;
 class DueStatement extends Component
 {
 
-    public $selected_category, $selected_sub_category, $search,
-        $category_name, $sub_category_name, $operator_name, $receive_date, $fee_type_name, $period_date, $receive_amount,
-        $receive_vat;
+    public $selected_category, $selected_sub_category, 
+    $search_for_category_name, $search_for_sub_category_name, $search_for_operator_name,
+    $search_for_receive_fee_type_name, $search_for_receive_period_date;
 
     public function setPage($url)
     {
@@ -63,7 +63,13 @@ class DueStatement extends Component
             'sub_categories.id as sub_category_id',
             'fee_types.name as fee_type_name',
             'expiration_wise_payment_dates.period_date as period_date',
-        );
+        )->where(function ($query) {
+            $query->where('categories.name', 'like', '%' . $this->search_for_category_name . '%');
+            $query->where('sub_categories.name', 'like', '%' . $this->search_for_sub_category_name . '%');
+            $query->where('operators.name', 'like', '%' . $this->search_for_operator_name . '%');
+            $query->where('fee_types.name', 'like', '%' . $this->search_for_receive_fee_type_name . '%');
+            $query->where('expiration_wise_payment_dates.period_date', 'like', '%' . $this->search_for_receive_period_date . '%');
+        });
     }
 
     public function export()

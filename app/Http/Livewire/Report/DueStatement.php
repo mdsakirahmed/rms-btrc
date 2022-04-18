@@ -64,6 +64,12 @@ class DueStatement extends Component
             'fee_types.name as fee_type_name',
             'expiration_wise_payment_dates.period_date as period_date',
         )->where(function ($query) {
+            if ($this->selected_category != 'all') {
+                $query->where('categories.id', $this->selected_category);
+            }
+            if ($this->selected_sub_category != 'all') {
+                $query->where('sub_categories.id', $this->selected_sub_category);
+            }
             $query->where('categories.name', 'like', '%' . $this->search_for_category_name . '%');
             $query->where('sub_categories.name', 'like', '%' . $this->search_for_sub_category_name . '%');
             $query->where('operators.name', 'like', '%' . $this->search_for_operator_name . '%');

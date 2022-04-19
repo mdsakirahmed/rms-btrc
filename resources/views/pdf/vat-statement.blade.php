@@ -11,8 +11,8 @@
                 <th scope="col">Fee type name</th>
                 <th scope="col">Period date</th>
                 <th scope="col">Receive date</th>
-                <th scope="col">Receive amount</th>
-                <th scope="col">Receive vat</th>
+                <th scope="col" style="text-align: right;">Receive amount</th>
+                <th scope="col" style="text-align: right;">Receive vat</th>
             </tr>
         </thead>
         <tbody>
@@ -25,8 +25,8 @@
                     <td>{{ $collection->fee_type_name }}</td>
                     <td>{{ date('d-m-Y', strtotime($collection->period_date)) }}</td>
                     <td>{{ date('d-m-Y', strtotime($collection->receive_date)) }}</td>
-                    <td>{{ $collection->receive_amount }}</td>
-                    <td>{{ $collection->receive_vat }}</td>
+                    <td style="text-align: right;">{{ $collection->receive_amount }}</td>
+                    <td style="text-align: right;">{{ $collection->receive_vat }}</td>
                 </tr>
             @endforeach
         </tbody>

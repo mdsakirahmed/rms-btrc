@@ -31,9 +31,6 @@ class DueStatementExport implements FromCollection, WithHeadings, WithMapping, W
             $collection->sub_category_name,
             $collection->fee_type_name,
             date('d-m-Y', strtotime($collection->period_date)),
-            date('d-m-Y', strtotime($collection->receive_date)),
-            $collection->receive_amount,
-            $collection->receive_vat,
         ];
     }
 
@@ -45,9 +42,6 @@ class DueStatementExport implements FromCollection, WithHeadings, WithMapping, W
             'Sub Category name',
             'Fee type name',
             'Period date',
-            'Receive date',
-            'Receive amount',
-            'Receive vat',
         ];
     }
 

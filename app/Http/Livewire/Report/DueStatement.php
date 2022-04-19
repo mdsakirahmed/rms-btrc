@@ -5,10 +5,11 @@ namespace App\Http\Livewire\Report;
 use App\Exports\DueStatementExport;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
-use DB;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
+use niklasravnsborg\LaravelPdf\Facades\Pdf as FacadesPdf;
 
 class DueStatement extends Component
 {
@@ -57,6 +58,7 @@ class DueStatement extends Component
         ->join('fee_types', 'expiration_wise_payment_dates.fee_type_id', '=', 'fee_types.id')
         ->select(
             'operators.*',
+            'operators.name as operator_name',
             'categories.name as category_name',
             'categories.id as category_id',
             'sub_categories.name as sub_category_name',
@@ -78,9 +80,22 @@ class DueStatement extends Component
         });
     }
 
-    public function export()
+    public function export_as_excel()
     {
         $collection = $this->get_payments()->get();
         return Excel::download(new DueStatementExport($collection), 'Due statement ' . date('d-m-Y h-i-s a') . '.xlsx');
+    }
+
+    public function export_as_pdf()
+    {
+        return response()->streamDownload(function () {
+            FacadesPdf::loadView('pdf.due-statement', [
+                'file_name' => 'Due Statement',
+                'collections' => $this->get_payments()->get()
+            ], [], [
+                'format' => 'A4-L'
+            ])->download();
+        }, 'Due statement download at ' . date('d-m-Y- h-i-s') . '.pdf');
+
     }
 }

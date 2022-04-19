@@ -9,6 +9,7 @@ use App\Models\Operator;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class OperatorDetail extends Component
 {
@@ -45,8 +46,20 @@ class OperatorDetail extends Component
         })->where('name', 'like', '%' . $this->search . '%');
     }
 
-    public function export(){
+    public function export_as_excel(){
         $collection = $this->get_operators()->get();
         return Excel::download(new OperatorDetailExport($collection), 'Operator detail '.date('d-m-Y h-i-s a').'.xlsx');
+    }
+
+    public function export_as_pdf()
+    {
+        return response()->streamDownload(function () {
+            Pdf::loadView('pdf.operator-detail', [
+                'file_name' => 'Operator detail',
+                'collections' => $this->get_operators()->get()
+            ], [], [
+                'format' => 'A4-L'
+            ])->download();
+        }, 'Operator detail download at ' . date('d-m-Y- h-i-s') . '.pdf');
     }
 }

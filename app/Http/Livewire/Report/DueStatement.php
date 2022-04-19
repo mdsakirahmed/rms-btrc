@@ -96,6 +96,5 @@ class DueStatement extends Component
                 'format' => 'A4-L'
             ])->download();
         }, 'Due statement download at ' . date('d-m-Y- h-i-s') . '.pdf');
-
     }
 }

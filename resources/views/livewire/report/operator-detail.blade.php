@@ -16,7 +16,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-success" wire:click="export">Export as .xlsx</button>
+                    <button class="btn btn-success" wire:click="export_as_excel">Export as .xlsx</button>
+                    <button class="btn btn-success" wire:click="export_as_pdf">Export as .pdf</button>
                 </div>
                 <div class="card-body">
                     <div class="row mb-5">

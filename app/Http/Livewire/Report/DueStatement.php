@@ -9,7 +9,7 @@ use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
-use niklasravnsborg\LaravelPdf\Facades\Pdf as FacadesPdf;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class DueStatement extends Component
 {
@@ -89,7 +89,7 @@ class DueStatement extends Component
     public function export_as_pdf()
     {
         return response()->streamDownload(function () {
-            FacadesPdf::loadView('pdf.due-statement', [
+            Pdf::loadView('pdf.due-statement', [
                 'file_name' => 'Due Statement',
                 'collections' => $this->get_payments()->get()
             ], [], [

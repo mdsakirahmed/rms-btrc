@@ -5,10 +5,11 @@ namespace App\Http\Livewire\Report;
 use App\Exports\VatStatementExport;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
-use DB;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class VatStatement extends Component
 {
@@ -84,9 +85,22 @@ class VatStatement extends Component
             });
     }
 
-    public function export()
+    public function export_as_excel()
     {
         $collection = $this->get_payments()->get();
         return Excel::download(new VatStatementExport($collection), 'Vat statement ' . date('d-m-Y h-i-s a') . '.xlsx');
+    }
+
+    public function export_as_pdf()
+    {
+        return response()->streamDownload(function () {
+            Pdf::loadView('pdf.vat-statement', [
+                'file_name' => 'VAT Statement',
+                'collections' => $this->get_payments()->get()
+            ], [], [
+                'format' => 'A4-L'
+            ])->download();
+        }, 'VAT statement download at ' . date('d-m-Y- h-i-s') . '.pdf');
+
     }
 }

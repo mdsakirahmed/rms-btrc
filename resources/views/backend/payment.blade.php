@@ -32,7 +32,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Transaction Number</label>
-                                <input type="text" id="transaction" class="form-control transaction" placeholder="2203-name-01000" value="{{ date('ym') }}-{{ convert_to_initial(auth()->user()->name) }}-{{ sprintf("%'.05d\n", (App\Models\Payment::latest()->first()->id ?? 0)+1) }}">
+                                <input type="text" id="transaction" class="form-control transaction" placeholder="2203-name-01000" value="{{ date('ym') }}-{{ convert_to_initial(auth()->user()->name) }}-{{ sprintf("%'.05d\n", (App\Models\Payment::latest()->first()->id ?? 0)+1) }}" disabled>
                             </div>
                         </div>
                         <div class="col-md-2">

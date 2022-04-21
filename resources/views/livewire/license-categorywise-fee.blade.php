@@ -31,7 +31,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Fee type name</th>
-                                    <th>Duration by month</th>
+                                    <th>Fee Cycle</th>
                                     <th>Amount</th>
                                     <th>Late Fee</th>
                                     <th>VAT</th>
@@ -85,7 +85,7 @@
                                 <x-error name="fee_type" />
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="period_month" class="required">Duration by month</label>
+                                <label for="period_month" class="required">Fee Cycle</label>
                                 <input type="number" class="form-control" id="period_month" placeholder="Period" min="0" step="1" wire:model="period_month">
                                 <x-error name="period_month" />
                             </div>

@@ -31,7 +31,7 @@
                             <x-error name="end_date" />
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="late_fee" class="required">Late fee</label>
+                            <label for="late_fee" class="required">Late Fee</label>
                             <select id="late_fee" class="form-control filter_element" name="late_fee">
                                 <option value="">Choose late fee type</option>
                                 <option value="1">With late fee</option>
@@ -91,8 +91,8 @@
                         <th class="bg-dark text-white">#</th>
                         <th class="bg-primary text-white" title="Partial payment">Payment date</th>
                         <th class="bg-primary text-white" title="Partial payment">Payment amount</th>
-                        <th class="bg-primary text-white" title="Partial payment">Vat</th>
-                        <th class="bg-primary text-white" title="Partial payment">Late fee</th>
+                        <th class="bg-primary text-white" title="Partial payment">VAT</th>
+                        <th class="bg-primary text-white" title="Partial payment">Late Fee</th>
                         <th class="bg-primary text-white" title="Partial payment">Bank</th>
                         <th class="bg-primary text-white" title="Partial payment">Pay order number</th>
                         <th class="bg-primary text-white" title="Partial payment">Journal number</th>

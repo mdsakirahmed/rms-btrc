@@ -21,7 +21,7 @@
 
             <!-- Email Address -->
             <div>
-                <x-label for="email" :value="__('Use btrc official email address')" />
+                <x-label for="email" :value="__('Btrc Official Email Address')" />
 
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>

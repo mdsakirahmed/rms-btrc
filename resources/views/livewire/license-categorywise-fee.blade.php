@@ -33,8 +33,8 @@
                                     <th>Fee type name</th>
                                     <th>Duration by month</th>
                                     <th>Amount</th>
-                                    <th>Late fee</th>
-                                    <th>Vat</th>
+                                    <th>Late Fee</th>
+                                    <th>VAT</th>
                                     <th>Tax</th>
                                     <th>Action</th>
                                 </tr>
@@ -86,7 +86,7 @@
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="period_month" class="required">Duration by month</label>
-                                <input type="number" class="form-control" id="period_month" placeholder="Pediod" min="0" step="1" wire:model="period_month">
+                                <input type="number" class="form-control" id="period_month" placeholder="Period" min="0" step="1" wire:model="period_month">
                                 <x-error name="period_month" />
                             </div>
                             <div class="form-group col-md-2">
@@ -95,12 +95,12 @@
                                 <x-error name="amount" />
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="late_fee" class="required">Late fee %</label>
-                                <input type="number" class="form-control" id="late_fee" placeholder="Late fee" min="0" step="1" wire:model="late_fee">
+                                <label for="late_fee" class="required">Late Fee %</label>
+                                <input type="number" class="form-control" id="late_fee" placeholder="Late Fee" min="0" step="1" wire:model="late_fee">
                                 <x-error name="late_fee" />
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="vat" class="required">Vat %</label>
+                                <label for="vat" class="required">VAT %</label>
                                 <input type="number" class="form-control" id="vat" placeholder="vat" min="0" step="1" wire:model="vat">
                                 <x-error name="vat" />
                             </div>

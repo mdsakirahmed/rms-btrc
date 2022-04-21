@@ -16,7 +16,7 @@ class LicenseCategoryWiseFeeType extends Model
         'period_month',
         'amount',
         'late_fee',
-        'vat',
+        'VAT',
         'tax',
 
     ];

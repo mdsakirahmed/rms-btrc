@@ -15,7 +15,7 @@ class PartialPayment extends Model
         'bank_id',
         'payment_date',
         'paid_amount',
-        'vat',
+        'VAT',
         'late_fee',
         'pay_order_number',
         'journal_number',

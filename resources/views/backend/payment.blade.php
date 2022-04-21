@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group has-success">
-                                        <label class="form-label" for="">Vat (%)</label>
+                                        <label class="form-label" for="">VAT (%)</label>
                                         <input type="number" class="form-control vat" id="" name="vat">
                                     </div>
                                 </div>
@@ -188,21 +188,28 @@
                         <div class="col-12 error_msg" id="error_msg_deposit"></div>
                         <div class="col-12 column deposit_col">
                             <div class="row deposit_row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group has-success">
+                                        <label class="form-label" for="">Deposit amount</label>
+                                        <input type="text" class="form-control deposit_amount" id="" placeholder="Deposit amount"
+                                            name="deposit_amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Deposit Journal No</label>
                                         <input type="text" class="form-control journal_number" id="" placeholder="Journal number"
                                             name="journal_number">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="">Deposit Date</label>
                                         <input type="date" class="form-control daposit_date" id=""
                                             name="daposit_date">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group has-success">
                                         <label class="form-label" for="deposit_bank">Deposit Bank</label>
                                         <select class="form-control form-select select2 deposit_bank"

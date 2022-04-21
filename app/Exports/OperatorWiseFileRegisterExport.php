@@ -50,7 +50,7 @@ class OperatorWiseFileRegisterExport implements FromCollection, WithHeadings, Wi
             'Fee type name',
             'Period date',
             'Receive amount',
-            'Receive vat',
+            'Receive VAT',
             'Receive late fee',
             'Po bank name',
             'Po number',

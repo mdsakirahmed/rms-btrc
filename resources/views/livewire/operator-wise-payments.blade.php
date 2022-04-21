@@ -30,7 +30,7 @@
                                     <th>Period date</th>
                                     <th>Receive date</th>
                                     <th>Receive amount</th>
-                                    <th>Late fee %</th>
+                                    <th>Late Fee %</th>
                                     <th>VAT %</th>
                                     <th>TAX %</th>
                                 </tr>

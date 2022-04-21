@@ -47,7 +47,7 @@ class VatStatementExport implements FromCollection, WithHeadings, WithMapping, W
             'Period date',
             'Receive date',
             'Receive amount',
-            'Receive vat',
+            'Receive VAT',
         ];
     }
 

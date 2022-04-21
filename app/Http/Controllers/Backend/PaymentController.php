@@ -59,7 +59,7 @@ class PaymentController extends Controller
             'categories' => LicenseCategory::all(),
             'sub_categories' => $sub_categories,
             'operators' =>$operators,
-            'fee_types' =>$category_wise_fee_types,
+            'fee_types' =>$category_wise_fee_types ?? [],
             'fee_type_wise_periods' =>$fee_type_wise_periods,
             'fee_type_wise_pre_set_money' =>$fee_type_wise_pre_set_money,
         ]);

@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
     public function index(){
-        $operators = $sub_categories = $fee_types = $fee_type_wise_periods = $fee_type_wise_pre_set_money = [];
+        $operators = $sub_categories = $fee_type_wise_periods = $fee_type_wise_pre_set_amount = [];
 
         if(request()->category){
             // $operators = Operator::where('category_id', request()->category)->get();
@@ -38,7 +38,7 @@ class PaymentController extends Controller
             ->first();
             if($expiration)
             foreach($category_wise_fee_types as $category_wise_fee_type){
-                array_push($fee_type_wise_pre_set_money,[
+                array_push($fee_type_wise_pre_set_amount,[
                     'fee_type' => $category_wise_fee_type->fee_type_id,
                     'amount' => $category_wise_fee_type->amount,
                     'late_fee' => $category_wise_fee_type->late_fee,
@@ -61,7 +61,7 @@ class PaymentController extends Controller
             'operators' =>$operators,
             'fee_types' =>$category_wise_fee_types ?? [],
             'fee_type_wise_periods' =>$fee_type_wise_periods,
-            'fee_type_wise_pre_set_money' =>$fee_type_wise_pre_set_money,
+            'fee_type_wise_pre_set_amount' =>$fee_type_wise_pre_set_amount,
         ]);
     }
 

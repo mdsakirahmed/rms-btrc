@@ -49,7 +49,7 @@ class PaymentController extends Controller
                 for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' months')){
                     array_push($fee_type_wise_periods,[
                         'fee_type' => $category_wise_fee_type->fee_type_id,
-                        'period' => $issue_date->format('d-m-Y'),
+                        'period' => $issue_date->format('m/d/Y'),
                     ]);
                 }
             }

@@ -28,7 +28,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="form-body">
-                    <div class="card-body">
+                    <div class="card-body" id="payment_body">
                         <form action="{{ route('payment') }}" method="GET" class="row pt-3" id="payment_form">
                             <div class="col-12 error_msg" id="error_msg_payment"></div>
                             <div class="col-md-4">
@@ -94,7 +94,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
                                             <label class="form-label" for="fee_type">Fee type</label>
-                                            <select class="form-control form-select select2 fee_type fee_selection"
+                                            <select class="form-control form-select select2 fee_type"
                                                 name="fee_type">
                                                 <option value="" disabled selected>Select fee type</option>
                                                 @foreach ($fee_types as $fee_type)
@@ -117,7 +117,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
                                             <label class="form-label" for="">Receive date</label>
-                                            <input type="date" class="form-control receive_date fee_selection" id=""
+                                            <input type="date" class="form-control receive_date" id=""
                                                 name="receive_date">
                                         </div>
                                     </div>
@@ -133,6 +133,7 @@
                                         <div class="form-group has-success">
                                             <label class="form-label" for="">Late (%)</label>
                                             <input type="number" class="form-control late_fee" id="" name="late_fee">
+                                            <input type="hidden" class="late_fee_hidden">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -268,7 +269,7 @@
                 this.form.submit();
             });
 
-            $('.receive_col').on('change', '.fee_selection', function() {
+            $('.receive_col').on('change', '.fee_type', function() {
                 let this_fee_type = $(this).closest(".receive_row").find('.fee_type').val();
                 let this_fee_type_wise_periods = $.grep({!! collect($fee_type_wise_periods) !!}, function(value) {
                     return value.fee_type === parseInt(this_fee_type);
@@ -290,12 +291,27 @@
                 });
                 $(this).closest(".receive_row").find('.receive_amount_title').text(amount);
                 // $(this).closest( ".receive_row" ).find('.receive_amount').val(amount);
+                $(this).closest( ".receive_row" ).find('.late_fee_hidden').val(late_fee);
                 // $(this).closest( ".receive_row" ).find('.late_fee').val(late_fee);
                 $(this).closest(".receive_row").find('.vat').val(vat);
                 $(this).closest(".receive_row").find('.tax').val(tax);
 
                 let receive_date = $(this).closest(".receive_row").find('.receive_date').val();
-                if (new Date(receive_date).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)) {
+                let period_date = $(this).closest(".receive_row").find('.period').val();
+                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_date).setHours(0, 0, 0, 0)) {
+                    // Date is past and late fee applicable
+                    $(this).closest(".receive_row").find('.late_fee').val(late_fee);
+                } else {
+                    // Date is not past and late fee is not applicable
+                    $(this).closest(".receive_row").find('.late_fee').val(0);
+                }
+            });
+
+            $('.receive_col').on('change', '.receive_date', function() {
+                let receive_date = $(this).val();
+                let late_fee =  $(this).closest( ".receive_row" ).find('.late_fee_hidden').val();
+                let period_date = $(this).closest(".receive_row").find('.period').val();
+                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_date).setHours(0, 0, 0, 0)) {
                     // Date is past and late fee applicable
                     $(this).closest(".receive_row").find('.late_fee').val(late_fee);
                 } else {
@@ -342,6 +358,21 @@
 
             $('#total_amount_of_receive').text(total_amount_of_receive);
             $('#total_amount_of_pay_order').text(total_amount_of_pay_order);
+
+            $('#payment_form input').each(function(index, obj) {
+                if($(obj).val()){
+                    $(obj).css({"backgroundColor" : "#EFFCF3"});
+                }else{
+                    $(obj).css({"backgroundColor" : "#FCF0EF"});
+                }
+            });
+            $('#payment_form select').each(function(index, obj) {
+                if($(obj).val()){
+                    $(obj).css({"backgroundColor" : "#EFFCF3"});
+                }else{
+                    $(obj).css({"backgroundColor" : "#FCF0EF"});
+                }
+            });
         }
 
         $("#payment_submit").click(function() {

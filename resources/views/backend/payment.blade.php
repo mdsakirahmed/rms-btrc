@@ -134,6 +134,8 @@
                                             <label class="form-label" for="">Late (%)</label>
                                             <input type="number" class="form-control late_fee" id="" name="late_fee">
                                             <input type="hidden" class="late_fee_hidden">
+                                            <input type="hidden" class="differ_from_period_day_hidden">
+                                            <input type="hidden" class="late_fee_amount_of_due_days_hidden">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -290,9 +292,7 @@
                     }
                 });
                 $(this).closest(".receive_row").find('.receive_amount_title').text(amount);
-                // $(this).closest( ".receive_row" ).find('.receive_amount').val(amount);
                 $(this).closest( ".receive_row" ).find('.late_fee_hidden').val(late_fee);
-                // $(this).closest( ".receive_row" ).find('.late_fee').val(late_fee);
                 $(this).closest(".receive_row").find('.vat').val(vat);
                 $(this).closest(".receive_row").find('.tax').val(tax);
 
@@ -301,6 +301,8 @@
                 if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_date).setHours(0, 0, 0, 0)) {
                     // Date is past and late fee applicable
                     $(this).closest(".receive_row").find('.late_fee').val(late_fee);
+                    let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find('.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
+                    $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(differ_from_period_day);
                 } else {
                     // Date is not past and late fee is not applicable
                     $(this).closest(".receive_row").find('.late_fee').val(0);
@@ -314,6 +316,8 @@
                 if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_date).setHours(0, 0, 0, 0)) {
                     // Date is past and late fee applicable
                     $(this).closest(".receive_row").find('.late_fee').val(late_fee);
+                    let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find('.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
+                    $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(differ_from_period_day);
                 } else {
                     // Date is not past and late fee is not applicable
                     $(this).closest(".receive_row").find('.late_fee').val(0);
@@ -344,11 +348,20 @@
             let total_amount_of_receive = 0;
             $('.receive_row').each(function(index, obj) {
                 let receive_amount = $(obj).find('.receive_amount').val();
-                let late_fee = (receive_amount / 100) * $(obj).find('.late_fee').val();
+                let late_fee_amount = (receive_amount / 100) * $(obj).find('.late_fee').val();
                 let vat = (receive_amount / 100) * $(obj).find('.vat').val();
                 let tax = (receive_amount / 100) * $(obj).find('.tax').val();
-                total_amount_of_receive += parseFloat(receive_amount) + parseFloat(late_fee) + parseFloat(vat) +
-                    parseFloat(tax);
+                let differ_from_period_day = $(obj).find('.differ_from_period_day_hidden').val();
+                let late_fee_amount_of_due_days_hidden = (late_fee_amount/365) * differ_from_period_day;
+                total_amount_of_receive += 
+                parseFloat(receive_amount) 
+                + parseFloat(late_fee_amount_of_due_days_hidden) 
+                + parseFloat(vat) 
+                + parseFloat(tax);
+
+                // console.log("Total late fee (in 365 days) :" + late_fee_amount + "Taka")
+                // console.log("Total late fee 1 day :" + (late_fee_amount/365) + "Taka")
+                // console.log("Total late fee "+differ_from_period_day+" day :" + late_fee_amount_of_due_days_hidden + "Taka")
             });
 
             let total_amount_of_pay_order = 0;
@@ -356,7 +369,7 @@
                 total_amount_of_pay_order += parseFloat($(obj).find('.po_amount').val());
             });
 
-            $('#total_amount_of_receive').text(total_amount_of_receive);
+            $('#total_amount_of_receive').text(Math.round(total_amount_of_receive));
             $('#total_amount_of_pay_order').text(total_amount_of_pay_order);
 
             $('#payment_form input').each(function(index, obj) {

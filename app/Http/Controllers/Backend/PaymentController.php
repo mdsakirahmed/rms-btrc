@@ -94,6 +94,8 @@ class PaymentController extends Controller
                     'late_fee_percentage' => $receive['late_fee'],
                     'vat_percentage' => $receive['vat'],
                     'tax_percentage' => $receive['tax'],
+                    'differ_from_period_day' => $receive['differ_from_period_day'],
+                    'late_fee_amount' => $receive['late_fee_amount_of_due_days'],
                 ]);
                 
                 //Update expiration wise payment date status

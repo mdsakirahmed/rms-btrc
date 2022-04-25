@@ -352,16 +352,17 @@
                 let vat = (receive_amount / 100) * $(obj).find('.vat').val();
                 let tax = (receive_amount / 100) * $(obj).find('.tax').val();
                 let differ_from_period_day = $(obj).find('.differ_from_period_day_hidden').val();
-                let late_fee_amount_of_due_days_hidden = (late_fee_amount/365) * differ_from_period_day;
+                let late_fee_amount_of_due_days = (late_fee_amount/365) * differ_from_period_day;
+                $(obj).find('.late_fee_amount_of_due_days_hidden').val(late_fee_amount_of_due_days)
                 total_amount_of_receive += 
                 parseFloat(receive_amount) 
-                + parseFloat(late_fee_amount_of_due_days_hidden) 
+                + parseFloat(late_fee_amount_of_due_days) 
                 + parseFloat(vat) 
                 + parseFloat(tax);
 
                 // console.log("Total late fee (in 365 days) :" + late_fee_amount + "Taka")
                 // console.log("Total late fee 1 day :" + (late_fee_amount/365) + "Taka")
-                // console.log("Total late fee "+differ_from_period_day+" day :" + late_fee_amount_of_due_days_hidden + "Taka")
+                // console.log("Total late fee "+differ_from_period_day+" day :" + late_fee_amount_of_due_days + "Taka")
             });
 
             let total_amount_of_pay_order = 0;
@@ -407,6 +408,8 @@
                     late_fee: $(obj).find('.late_fee').val(),
                     vat: $(obj).find('.vat').val(),
                     tax: $(obj).find('.tax').val(),
+                    differ_from_period_day: $(obj).find('.differ_from_period_day_hidden').val(),
+                    late_fee_amount_of_due_days: $(obj).find('.late_fee_amount_of_due_days_hidden').val(),
                 });
             });
 

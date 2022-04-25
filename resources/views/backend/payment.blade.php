@@ -211,7 +211,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label" for="">Deposit amount</label>
-                                            <input type="text" class="form-control deposit_amount" id=""
+                                            <input type="number" class="form-control deposit_amount" id=""
                                                 placeholder="Deposit amount" name="deposit_amount">
                                         </div>
                                     </div>
@@ -245,6 +245,10 @@
                                             title="Add new one"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-12 d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight fw-bold">Total deposit amount is: <b
+                                        id="total_amount_of_deposit">0</b> BDT</div>
                             </div>
                             <div class="col-12 text-center">
                                 <button type="button" id="payment_submit"
@@ -370,8 +374,14 @@
                 total_amount_of_pay_order += parseFloat($(obj).find('.po_amount').val());
             });
 
+            let total_amount_of_deposit = 0;
+            $('.deposit_row').each(function(index, obj) {
+                total_amount_of_deposit += parseFloat($(obj).find('.deposit_amount').val());
+            });
+
             $('#total_amount_of_receive').text(Math.round(total_amount_of_receive));
             $('#total_amount_of_pay_order').text(total_amount_of_pay_order);
+            $('#total_amount_of_deposit').text(total_amount_of_deposit);
 
             $('#payment_form input').each(function(index, obj) {
                 if($(obj).val()){
@@ -426,15 +436,16 @@
             let deposits = [];
             $('#payment_form .deposit_col .deposit_row').each(function(index, obj) {
                 deposits.push({
+                    deposit_amount: $(obj).find('.deposit_amount').val(),
                     journal_number: $(obj).find('.journal_number').val(),
                     daposit_date: $(obj).find('.daposit_date').val(),
                     deposit_bank: $(obj).find('.deposit_bank').val(),
                 });
             });
 
-            if ($('#total_amount_of_receive').text() != $('#total_amount_of_pay_order').text()) {
+            if ($('#total_amount_of_receive').text() != $('#total_amount_of_pay_order').text() || $('#total_amount_of_receive').text() != $('#total_amount_of_deposit').text()) {
                 $('.error_msg').html("");
-                toastr['error']('Receive & PO amount is not equal', 'Amount'), toastr.options = {
+                toastr['error']('Receive, PO, Deposit amount is not equal', 'Amount'), toastr.options = {
                     "closeButton": true,
                     "progressBar": true,
                 }
@@ -449,17 +460,18 @@
                         pay_orders: pay_orders,
                         deposits: deposits
                     },
-                    success: function(obj) {
+                    success: function(response) {
+                        console.log(response);
                         $('.error_msg').html("");
-                        if (obj.error === true) {
-                            $('#error_msg_' + obj.area + '').html(
+                        if (response.error === true) {
+                            $('#error_msg_' + response.area + '').html(
                                 `<div class="alert alert-danger text-center fw-bold" role="alert">` +
-                                obj.message + `</div>`);
-                            toastr['error'](obj.message, obj.area ?? ''), toastr.options = {
+                                response.message + `</div>`);
+                            toastr['error'](response.message, response.area ?? ''), toastr.options = {
                                 "closeButton": true,
                                 "progressBar": true,
                             }
-                        } else if (obj.error === false) {
+                        } else if (response.error === false) {
                             toastr['success']('Successfully done', 'Thank you'), toastr.options = {
                                 "closeButton": true,
                                 "progressBar": true,

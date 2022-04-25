@@ -90,12 +90,12 @@ class PaymentController extends Controller
                     'fee_type_id' => $receive['fee_type'],
                     'period_date' => date('Y-m-d', strtotime($receive['period'])),
                     'receive_date' => $receive['receive_date'],
-                    'receive_amount' => $receive['receive_amount'],
-                    'late_fee_percentage' => $receive['late_fee'],
-                    'vat_percentage' => $receive['vat'],
-                    'tax_percentage' => $receive['tax'],
-                    'differ_from_period_day' => $receive['differ_from_period_day'],
-                    'late_fee_amount' => $receive['late_fee_amount_of_due_days'],
+                    'receive_amount' => $receive['receive_amount'] ?? 0,
+                    'late_fee_percentage' => $receive['late_fee'] ?? 0,
+                    'vat_percentage' => $receive['vat'] ?? 0,
+                    'tax_percentage' => $receive['tax'] ?? 0,
+                    'differ_from_period_day' => $receive['differ_from_period_day'] ?? 0,
+                    'late_fee_amount' => $receive['late_fee_amount_of_due_days'] ?? 0,
                 ]);
                 
                 //Update expiration wise payment date status
@@ -114,7 +114,7 @@ class PaymentController extends Controller
             foreach($request->pay_orders as $pay_order){
                 PaymentWisePayOrder::create([
                     'payment_id' => $payment->id,
-                    'amount' => $pay_order['po_amount'],
+                    'amount' => $pay_order['po_amount'] ?? 0,
                     'number' => $pay_order['po_number'],
                     'date' => $pay_order['po_date'],
                     'bank_id' => $pay_order['po_bank'],
@@ -124,6 +124,7 @@ class PaymentController extends Controller
             foreach($request->deposits as $deposit){
                 PaymentWiseDeposit::create([
                     'payment_id' => $payment->id,
+                    'amount' => $deposit['deposit_amount'] ?? 0,
                     'bank_id' => $deposit['deposit_bank'],
                     'journal_number' => $deposit['journal_number'],
                     'date' => $deposit['daposit_date'],
@@ -140,7 +141,7 @@ class PaymentController extends Controller
        
     }
 
-    // Helper function for payment store
+    // Helper function for payment store and validation
     public function check_validation(Request $request){
         // Payment
         if(!$request->payment[0]['operator'] || !$request->payment[0]['transaction']){
@@ -153,18 +154,19 @@ class PaymentController extends Controller
 
         // receive
         foreach($request->receives as $receive){
-            if(!$receive['fee_type'] || !$receive['period'] || !$receive['receive_date'] || !$receive['receive_amount'] || !$receive['late_fee'] || !$receive['vat'] || !$receive['tax']){
+            if(is_null($receive['fee_type']) || is_null($receive['period']) || is_null($receive['receive_date']) || is_null($receive['receive_amount']) || is_null($receive['late_fee']) || is_null($receive['vat']) || is_null($receive['tax'])){
                 return [
                     'error' => true,
                     'area' => 'receive',
-                    'message' => 'All fee type, period, receive date, receive amount, late fee, vat, tax field is required'
+                    'message' => 'All fee type, period, receive date, receive amount, late fee, vat, tax field is required',
+                    'dt' => $request->all()
                 ];
             }
         }
 
         // pay_order
         foreach($request->pay_orders as $pay_order){
-            if(!$pay_order['po_amount'] || !$pay_order['po_number'] || !$pay_order['po_date'] || !$pay_order['po_bank']){
+            if(is_null($pay_order['po_amount']) || is_null($pay_order['po_number']) || is_null($pay_order['po_date']) || is_null($pay_order['po_bank'])){
                 return [
                     'error' => true,
                     'area' => 'pay_order',
@@ -175,11 +177,11 @@ class PaymentController extends Controller
         
         // deposit
         foreach($request->deposits as $deposit){
-            if(!$deposit['journal_number'] || !$deposit['daposit_date'] || !$deposit['deposit_bank']){
+            if(is_null($deposit['deposit_amount']) || is_null($deposit['journal_number']) || is_null($deposit['daposit_date']) || is_null($deposit['deposit_bank'])){
                 return [
                     'error' => true,
                     'area' => 'deposit',
-                    'message' => 'All journal number, daposit date, deposit bank field is required'
+                    'message' => 'All deposit amount, journal number, daposit date, deposit bank field is required'
                 ];
             }
         }

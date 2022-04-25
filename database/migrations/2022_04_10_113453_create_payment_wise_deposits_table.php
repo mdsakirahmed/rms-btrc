@@ -17,6 +17,7 @@ class CreatePaymentWiseDepositsTable extends Migration
             $table->id();
             $table->foreignId('payment_id');
             $table->foreignId('bank_id');
+            $table->double('amount')->default(0);
             $table->string('journal_number');
             $table->date('date');
             $table->foreignId('created_by')->nullable();

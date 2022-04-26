@@ -101,7 +101,7 @@
                      border-width:0px;">
 
                      <div style="font-family: 'Poppins', sans-serif; text-transform:uppercase; ">
-                         <span class="text-white" style="padding-right:10px;">BTRC</span><span class="text-primary">Bangladesh </span>
+                         <span class="text-primary">Bangladesh </span>
                      </div>
 
                      </div>
@@ -134,7 +134,7 @@
                      font-weight: 700;
                      border-width:0px;">
                      <div style="font-family: 'Poppins', sans-serif; text-transform:uppercase ;">
-                            <span class="text-primary" style="padding-right:10px;">Telecommunication  </span><span class="text-white">Regulatory Commission</span>
+                            <span class="text-primary" style="padding-right:10px;">Telecommunication  </span><span class="text-primary">Regulatory Commission</span>
                      </div>
 
                      </div>

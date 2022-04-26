@@ -10,16 +10,7 @@ class LicenseCategoryWiseFeeType extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $fillable = [
-        'category_id',
-        'fee_type_id',
-        'period_month',
-        'amount',
-        'late_fee',
-        'VAT',
-        'tax',
-
-    ];
+    protected $guarded = [];
 
     public function category(){
         return $this->belongsTo(LicenseCategory::class, 'category_id', 'id');

@@ -30,7 +30,7 @@ class VatStatementExport implements FromCollection, WithHeadings, WithMapping, W
             $collection->category_name,
             $collection->sub_category_name,
             $collection->fee_type_name,
-            date('d-m-Y', strtotime($collection->period_date)),
+            date('d-m-Y', strtotime($collection->period_end_date)),
             date('d-m-Y', strtotime($collection->receive_date)),
             $collection->receive_amount,
             $collection->receive_vat,

@@ -20,7 +20,7 @@
                     <td>{{ $collection->category_name }}</td>
                     <td>{{ $collection->sub_category_name }}</td>
                     <td>{{ $collection->fee_type_name }}</td>
-                    <td>{{ date('d-m-Y', strtotime($collection->period_date)) }}</td>
+                    <td>{{ date('d-m-Y', strtotime($collection->period_end_date)) }}</td>
                 </tr>
             @endforeach
         </tbody>

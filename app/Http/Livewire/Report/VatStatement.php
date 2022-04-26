@@ -15,7 +15,7 @@ class VatStatement extends Component
 {
 
     public $selected_category, $selected_sub_category, $search,
-        $category_name, $sub_category_name, $operator_name, $receive_date, $fee_type_name, $period_date, $receive_amount,
+        $category_name, $sub_category_name, $operator_name, $receive_date, $fee_type_name, $period_end_date, $receive_amount,
         $receive_vat;
 
     public function setPage($url)
@@ -63,7 +63,7 @@ class VatStatement extends Component
                 'sub_categories.name as sub_category_name',
                 'sub_categories.id as sub_category_id',
                 'fee_types.name as fee_type_name',
-                'payment_wise_receives.period_date',
+                'payment_wise_receives.period_end_date',
                 'payment_wise_receives.receive_date',
                 'payment_wise_receives.receive_amount as receive_amount',
                 'payment_wise_receives.vat_percentage as receive_vat',
@@ -79,7 +79,7 @@ class VatStatement extends Component
                 $query->where('operators.name', 'like', '%' . $this->operator_name . '%');
                 $query->where('payment_wise_receives.receive_date', 'like', '%' . $this->receive_date . '%');
                 $query->where('fee_types.name', 'like', '%' . $this->fee_type_name . '%');
-                $query->where('payment_wise_receives.period_date', 'like', '%' . $this->period_date . '%');
+                $query->where('payment_wise_receives.period_end_date', 'like', '%' . $this->period_end_date . '%');
                 $query->where('payment_wise_receives.receive_amount', 'like', '%' . $this->receive_amount . '%');
                 $query->where('payment_wise_receives.vat_percentage', 'like', '%' . $this->receive_vat . '%');
             });

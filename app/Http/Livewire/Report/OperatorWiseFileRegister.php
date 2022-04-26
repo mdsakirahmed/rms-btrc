@@ -29,7 +29,7 @@ class OperatorWiseFileRegister extends Component
         ->select('operators.name as operator_name',
         'payments.transaction', 
         'fee_types.name as fee_type_name',
-        'payment_wise_receives.period_date',
+        'payment_wise_receives.period_end_date',
         'payment_wise_receives.receive_date',
         'payment_wise_receives.receive_amount as receive_amount',
         'payment_wise_receives.late_fee_percentage as receive_late_fee',

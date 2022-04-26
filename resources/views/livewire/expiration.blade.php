@@ -45,6 +45,7 @@
                                     <td>{{ $expiration->issue_date->format('d M Y') }}</td>
                                     <td>{{ $expiration->expire_date->format('d M Y') }}</td>
                                     <td style="text-align: center;">
+                                        <button type="button" class="btn btn-primary" wire:click="select_for_periods({{ $expiration->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-period-modal-lg">Periods</button>
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $expiration->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $expiration->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
                                     </td>
@@ -107,6 +108,41 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <div wire:ignore.self class="modal bs-period-modal-lg fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h4 class="modal-title" id="">Periods</h4>
+                            <x-loading />
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table color-table success-table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Serial</th>
+                                            <th>Period</th>
+                                            <th>Fee type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($periods as $period)
+                                        <tr>
+                                            <td>{{ $period->payment_number }}</td>
+                                            <td>{{ $period->period_start_date->format('d M Y') }} - {{ $period->period_end_date->format('d M Y') }}</td>
+                                            <td>{{ $period->fee_type->name ?? 'Not found' }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <!-- /.modal-content -->

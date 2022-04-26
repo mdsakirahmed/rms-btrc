@@ -46,10 +46,11 @@ class PaymentController extends Controller
                     'tax' => $category_wise_fee_type->tax,
                 ]);
 
-                for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' months')){
+                foreach($expiration->expiration_wise_payment_dates as $expiration_wise_payment_date){
                     array_push($fee_type_wise_periods,[
-                        'fee_type' => $category_wise_fee_type->fee_type_id,
-                        'period' => $issue_date->format('m/d/Y'),
+                        'fee_type' => $expiration_wise_payment_date->fee_type_id,
+                        'period_level' => $expiration_wise_payment_date->period_start_date->format('M-Y') .' to '. $expiration_wise_payment_date->period_end_date->format('M-Y'),
+                        'period' => $expiration_wise_payment_date->period_end_date->format('m/d/Y'),
                     ]);
                 }
             }

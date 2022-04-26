@@ -33,7 +33,7 @@
                             <div class="col-12 error_msg" id="error_msg_payment"></div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="form-label">Transaction Number</label>
+                                    <label class="form-label required">Transaction Number</label>
                                     <input type="text" id="transaction" class="form-control transaction"
                                         placeholder="2203-name-01000"
                                         value="{{ date('ym') }}-{{ convert_to_initial(auth()->user()->name) }}-{{ sprintf("%'.05d\n", (App\Models\Payment::latest()->first()->id ?? 0) + 1) }}"
@@ -42,7 +42,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group has-success">
-                                    <label class="form-label" for="category">Category</label>
+                                    <label class="form-label required" for="category">Select Category</label>
                                     <select class="form-control form-select select2 filter category" id="category"
                                         name="category">
                                         <option value="" disabled selected>Select category</option>
@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group has-success">
-                                    <label class="form-label" for="sub_category">Sub Category</label>
+                                    <label class="form-label required" for="sub_category">Sub-Category</label>
                                     <select class="form-control form-select select2 filter sub_category" id="sub_category"
                                         name="sub_category">
                                         <option value="" selected>Select sub category</option>
@@ -70,10 +70,10 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group has-success">
-                                    <label class="form-label">Operator</label>
+                                    <label class="form-label required">Select Operator</label>
                                     <select class="form-control form-select select2 filter operator" id="select_operator"
                                         name="operator">
-                                        <option value="" disabled selected>Select sub category</option>
+                                        <option value="" disabled selected>Select operator</option>
                                         @foreach ($operators as $operator)
                                             <option value="{{ $operator->id }}"
                                                 @if (request()->operator == $operator->id) selected @endif>{{ $operator->name }}
@@ -87,13 +87,13 @@
                                     class="btn waves-effect waves-light w-100 btn-info mt-4">Search</button>
                             </div>
                             <hr class="bg-success" style="height: 10px;">
-                            <h4 class="card-title mt-5">Receive amount</h4>
+                            <h4 class="card-title mt-5">Receive Amount</h4>
                             <div class="col-12 error_msg" id="error_msg_receive"></div>
                             <div class="col-12 column receive_col">
                                 <div class="row receive_row">
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="fee_type">Fee type</label>
+                                            <label class="form-label required" for="fee_type">Fee Type</label>
                                             <select class="form-control form-select select2 fee_type"
                                                 name="fee_type">
                                                 <option value="" disabled selected>Select fee type</option>
@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="period">Select period</label>
+                                            <label class="form-label required" for="period">Select Period</label>
                                             <select class="form-control form-select select2 period" id="" name="period">
                                                 <option value="" disabled selected>Select period</option>
                                             </select>
@@ -116,14 +116,14 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">Receive date</label>
+                                            <label class="form-label required" for="">Receive Date</label>
                                             <input type="date" class="form-control receive_date" id=""
                                                 name="receive_date">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">Receive amount ( <b
+                                            <label class="form-label required" for="">Receive Amount ( <b
                                                     class="text-success receive_amount_title">--</b> )</label>
                                             <input type="number" class="form-control receive_amount" id=""
                                                 name="receive_amount">
@@ -131,7 +131,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">Late (%)</label>
+                                            <label class="form-label required" for="">Late (%)</label>
                                             <input type="number" class="form-control late_fee" id="" name="late_fee">
                                             <input type="hidden" class="late_fee_hidden">
                                             <input type="hidden" class="differ_from_period_day_hidden">
@@ -140,13 +140,13 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">VAT (%)</label>
+                                            <label class="form-label required" for="">VAT (%)</label>
                                             <input type="number" class="form-control vat" id="" name="vat">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">TAX (%)</label>
+                                            <label class="form-label required" for="">TAX (%)</label>
                                             <input type="number" class="form-control tax" id="" name="tax">
                                         </div>
                                     </div>
@@ -157,36 +157,36 @@
                                 </div>
                             </div>
                             <div class="col-12 d-flex flex-row-reverse bd-highlight">
-                                <div class="p-2 bd-highlight fw-bold">Total receive amount is: <b
+                                <div class="p-2 bd-highlight fw-bold">Total Receive Amount is: <b
                                         id="total_amount_of_receive">0</b> BDT</div>
                             </div>
-                            <h4 class="card-title mt-5">Pay order</h4>
+                            <h4 class="card-title mt-5">Pay Order</h4>
                             <div class="col-12 error_msg" id="error_msg_pay_order"></div>
                             <div class="col-12 column pay_order_col">
                                 <div class="row pay_order_row">
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">PO Amount</label>
+                                            <label class="form-label required" for="">PO Amount</label>
                                             <input type="number" class="form-control po_amount" id="" name="po_amount">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">PO Number</label>
+                                            <label class="form-label required" for="">PO Number</label>
                                             <input type="number" class="form-control po_number" id="" name="po_number">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">PO Date</label>
+                                            <label class="form-label required" for="">PO Date</label>
                                             <input type="date" class="form-control po_date" id="" name="po_date">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="po_bank">PO Bank</label>
+                                            <label class="form-label required" for="po_bank">PO Bank</label>
                                             <select class="form-control form-select select2 po_bank" name="po_bank">
-                                                <option value="" disabled selected>Selectbank</option>
+                                                <option value="" disabled selected>Select Bank</option>
                                                 @foreach ($banks as $bank)
                                                     <option value="{{ $bank->id }}">{{ $bank->name }}
                                                     </option>
@@ -201,7 +201,7 @@
                                 </div>
                             </div>
                             <div class="col-12 d-flex flex-row-reverse bd-highlight">
-                                <div class="p-2 bd-highlight fw-bold">Total pay order amount is: <b
+                                <div class="p-2 bd-highlight fw-bold">Total Pay Order Amount is: <b
                                         id="total_amount_of_pay_order">0</b> BDT</div>
                             </div>
                             <h4 class="card-title mt-5">Deposit</h4>
@@ -210,30 +210,30 @@
                                 <div class="row deposit_row">
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">Deposit amount</label>
+                                            <label class="form-label required" for="">Deposit Amount</label>
                                             <input type="number" class="form-control deposit_amount" id=""
                                                 placeholder="Deposit amount" name="deposit_amount">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">Deposit Journal No</label>
+                                            <label class="form-label required" for="">Deposit Journal No</label>
                                             <input type="text" class="form-control journal_number" id=""
                                                 placeholder="Journal number" name="journal_number">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="">Deposit Date</label>
+                                            <label class="form-label required" for="">Deposit Date</label>
                                             <input type="date" class="form-control daposit_date" id="" name="daposit_date">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
-                                            <label class="form-label" for="deposit_bank">Deposit Bank</label>
+                                            <label class="form-label required" for="deposit_bank">Select Bank</label>
                                             <select class="form-control form-select select2 deposit_bank"
                                                 name="deposit_bank">
-                                                <option value="" disabled selected>Select fee type</option>
+                                                <option value="" disabled selected>Select Bank</option>
                                                 @foreach ($banks as $bank)
                                                     <option value="{{ $bank->id }}">{{ $bank->name }}</option>
                                                 @endforeach
@@ -247,7 +247,7 @@
                                 </div>
                             </div>
                             <div class="col-12 d-flex flex-row-reverse bd-highlight">
-                                <div class="p-2 bd-highlight fw-bold">Total deposit amount is: <b
+                                <div class="p-2 bd-highlight fw-bold">Total Deposit Amount is: <b
                                         id="total_amount_of_deposit">0</b> BDT</div>
                             </div>
                             <div class="col-12 text-center">
@@ -283,7 +283,7 @@
                 period = $(this).closest(".receive_row").find('.period');
                 period.html('<option value="" disabled selected>Select period</option>');
                 $.each(this_fee_type_wise_periods, function(key, value) {
-                    period.append('<option value="' + value.period + '">' + value.period +
+                    period.append('<option value="' + value.period + '">' + value.period_level +
                         '</option>');
                 });
                 let amount = late_fee = vat = tax = 0;

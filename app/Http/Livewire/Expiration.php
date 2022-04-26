@@ -15,6 +15,7 @@ class Expiration extends Component
 {
     public $issue_date, $expire_date, $duration_year, $duration_month;
     public $operator, $expiration;
+    public $periods = [];
 
     public function mount(Operator $operator)
     {
@@ -58,7 +59,8 @@ class Expiration extends Component
                    'fee_type_id' => $category_wise_fee_type->fee_type_id,
                    'paid' => false,
                    'payment_number' => $counter,
-                   'period_date' => $issue_date,
+                   'period_start_date' => $issue_date,
+                   'period_end_date' => $issue_date->modify('+'.$category_wise_fee_type->period_month.' month'),
                ]);
                $counter ++;
             }
@@ -72,6 +74,11 @@ class Expiration extends Component
         $this->expiration = $expiration;
         $this->issue_date = $expiration->issue_date;
         $this->expire_date = $expiration->expire_date;
+    }
+
+    public function select_for_periods(ModelsExpiration $expiration)
+    {
+        $this->periods = ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->get();
     }
 
     public function delete(ModelsExpiration $expiration)

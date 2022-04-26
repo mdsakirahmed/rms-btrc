@@ -19,7 +19,8 @@ class CreateExpirationWisePaymentDatesTable extends Migration
             $table->foreignId('fee_type_id');
             $table->boolean('paid')->default(false);
             $table->integer('payment_number');
-            $table->date('period_date');
+            $table->date('period_start_date');
+            $table->date('period_end_date');
             $table->timestamps();
         });
     }

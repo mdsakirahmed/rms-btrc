@@ -301,8 +301,8 @@
                 $(this).closest(".receive_row").find('.tax').val(tax);
 
                 let receive_date = $(this).closest(".receive_row").find('.receive_date').val();
-                let period_end_date = $(this).closest(".receive_row").find('.period').val();
-                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0, 0, 0)) {
+                let period_date = $(this).closest(".receive_row").find('.period').val();
+                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_date).setHours(0, 0, 0, 0)) {
                     // Date is past and late fee applicable
                     $(this).closest(".receive_row").find('.late_fee').val(late_fee);
                     let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find('.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
@@ -316,8 +316,8 @@
             $('.receive_col').on('change', '.receive_date', function() {
                 let receive_date = $(this).val();
                 let late_fee =  $(this).closest( ".receive_row" ).find('.late_fee_hidden').val();
-                let period_end_date = $(this).closest(".receive_row").find('.period').val();
-                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0, 0, 0)) {
+                let period_date = $(this).closest(".receive_row").find('.period').val();
+                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_date).setHours(0, 0, 0, 0)) {
                     // Date is past and late fee applicable
                     $(this).closest(".receive_row").find('.late_fee').val(late_fee);
                     let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find('.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));

@@ -42,11 +42,11 @@ class PaymentFilter extends Component
     {
         $this->category_wise_fee_type_id = $category_wise_fee_type->id;
         $expiration = Expiration::where('operator_id', $this->operator_id)->first();
-        $payment_period_end_dates = [];
+        $payment_period_dates = [];
         for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' month')){
-            array_push($payment_period_end_dates, $issue_date->format('d-m-Y'));
+            array_push($payment_period_dates, $issue_date->format('d-m-Y'));
         }
-        $this->dispatchBrowserEvent('payment_period_data_event', ['payment_period_data' => $payment_period_end_dates]);
+        $this->dispatchBrowserEvent('payment_period_data_event', ['payment_period_data' => $payment_period_dates]);
         $this->dispatchBrowserEvent('category_wise_selected_fee_type_data_event', ['category_wise_selected_fee_type_data' => $category_wise_fee_type]);
     }
 

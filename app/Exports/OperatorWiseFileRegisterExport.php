@@ -29,7 +29,7 @@ class OperatorWiseFileRegisterExport implements FromCollection, WithHeadings, Wi
             date('d-m-Y', strtotime($collection->receive_date)),
             $collection->operator_name,
             $collection->fee_type_name,
-            date('d-m-Y', strtotime($collection->period_end_date)),
+            date('d-m-Y', strtotime($collection->period_date)),
             $collection->receive_amount,
             $collection->receive_vat,
             $collection->receive_late_fee,

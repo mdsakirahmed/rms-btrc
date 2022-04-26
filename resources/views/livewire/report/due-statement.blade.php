@@ -57,7 +57,7 @@
                                     <th><input wire:model="search_for_sub_category_name" type="text" class="form-control" placeholder="Category"></th>
                                     <th><input wire:model="search_for_operator_name" type="text" class="form-control" placeholder="Operator"></th>
                                     <th><input wire:model="search_for_receive_fee_type_name" type="text" class="form-control" placeholder="Fee type"></th>
-                                    <th><input wire:model="search_for_receive_period_end_date" type="text" class="form-control" placeholder="Due date"></th>
+                                    <th><input wire:model="search_for_receive_period_date" type="text" class="form-control" placeholder="Due date"></th>
                                 </tr>
                                 @foreach ($operators as $operator)
                                     <tr>
@@ -66,7 +66,7 @@
                                         <td>{{ $operator->sub_category_name }}</td>
                                         <td>{{ $operator->name }}</td>
                                         <td>{{ $operator->fee_type_name }}</td>
-                                        <td>{{ date('d-m-Y', strtotime($operator->period_end_date)) }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($operator->period_date)) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

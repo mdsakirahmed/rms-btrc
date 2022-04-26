@@ -16,7 +16,7 @@ class DueStatement extends Component
 
     public $selected_category, $selected_sub_category, 
     $search_for_category_name, $search_for_sub_category_name, $search_for_operator_name,
-    $search_for_receive_fee_type_name, $search_for_receive_period_end_date;
+    $search_for_receive_fee_type_name, $search_for_receive_period_date;
 
     public function setPage($url)
     {
@@ -54,7 +54,7 @@ class DueStatement extends Component
         ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
         ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
         ->join('expirations', 'operators.id', '=', 'expirations.operator_id')
-        ->join('expiration_wise_payment_dates', 'expirations.id', '=', 'expiration_wise_payment_dates.expiration_id')->where('paid', false)->where('period_end_date', '<', date('Y-m-d'))
+        ->join('expiration_wise_payment_dates', 'expirations.id', '=', 'expiration_wise_payment_dates.expiration_id')->where('paid', false)->where('period_date', '<', date('Y-m-d'))
         ->join('fee_types', 'expiration_wise_payment_dates.fee_type_id', '=', 'fee_types.id')
         ->select(
             'operators.*',
@@ -64,7 +64,7 @@ class DueStatement extends Component
             'sub_categories.name as sub_category_name',
             'sub_categories.id as sub_category_id',
             'fee_types.name as fee_type_name',
-            'expiration_wise_payment_dates.period_end_date as period_end_date',
+            'expiration_wise_payment_dates.period_date as period_date',
         )->where(function ($query) {
             if ($this->selected_category != 'all') {
                 $query->where('categories.id', $this->selected_category);
@@ -76,7 +76,7 @@ class DueStatement extends Component
             $query->where('sub_categories.name', 'like', '%' . $this->search_for_sub_category_name . '%');
             $query->where('operators.name', 'like', '%' . $this->search_for_operator_name . '%');
             $query->where('fee_types.name', 'like', '%' . $this->search_for_receive_fee_type_name . '%');
-            $query->where('expiration_wise_payment_dates.period_end_date', 'like', '%' . $this->search_for_receive_period_end_date . '%');
+            $query->where('expiration_wise_payment_dates.period_date', 'like', '%' . $this->search_for_receive_period_date . '%');
         });
     }
 

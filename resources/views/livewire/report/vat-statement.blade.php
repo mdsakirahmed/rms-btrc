@@ -61,7 +61,7 @@
                                     <th><input wire:model="operator_name" type="text" class="form-control" placeholder="Operator"></th>
                                     <th><input wire:model="receive_date" type="text" class="form-control" placeholder="Receive date"></th>
                                     <th><input wire:model="fee_type_name" type="text" class="form-control" placeholder="Particular"></th>
-                                    <th><input wire:model="period_date" type="text" class="form-control" placeholder="Period"></th>
+                                    <th><input wire:model="period_end_date" type="text" class="form-control" placeholder="Period"></th>
                                     <th><input wire:model="receive_amount" type="text" class="form-control" placeholder="Fee"></th>
                                     <th><input wire:model="receive_vat" type="text" class="form-control" placeholder="VAT %"></th>
                                 </tr>
@@ -73,7 +73,7 @@
                                         <td>{{ $payment->operator_name }}</td>
                                         <td>{{ $payment->receive_date }}</td>
                                         <td>{{ $payment->fee_type_name }}</td>
-                                        <td>{{ $payment->period_date }}</td>
+                                        <td>{{ $payment->period_end_date }}</td>
                                         <td>{{ $payment->receive_amount }}</td>
                                         <td>{{ $payment->receive_vat }} %</td>
                                     </tr>

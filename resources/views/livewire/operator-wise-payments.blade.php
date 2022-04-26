@@ -40,7 +40,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $recive->fee_type->name ?? 'Not Found' }}</td>
-                                    <td>{{ $recive->period_date }}</td>
+                                    <td>{{ $recive->period_end_date }}</td>
                                     <td>{{ $recive->receive_date }}</td>
                                     <td>{{ $recive->receive_amount }}</td>
                                     <td>{{ $recive->late_fee_percentage }}</td>

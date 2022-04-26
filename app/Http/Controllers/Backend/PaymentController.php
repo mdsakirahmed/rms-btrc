@@ -89,7 +89,7 @@ class PaymentController extends Controller
                 PaymentWiseReceive::create([
                     'payment_id' => $payment->id,
                     'fee_type_id' => $receive['fee_type'],
-                    'period_date' => date('Y-m-d', strtotime($receive['period'])),
+                    'period_end_date' => date('Y-m-d', strtotime($receive['period'])),
                     'receive_date' => $receive['receive_date'],
                     'receive_amount' => $receive['receive_amount'] ?? 0,
                     'late_fee_percentage' => $receive['late_fee'] ?? 0,
@@ -102,7 +102,7 @@ class PaymentController extends Controller
                 //Update expiration wise payment date status
                 ExpirationWisePaymentDate::where('expiration_id', $expiration->id)
                 ->where('fee_type_id', $receive['fee_type'])
-                ->where('period_date', date('Y-m-d', strtotime($receive['period'])))
+                ->where('period_end_date', date('Y-m-d', strtotime($receive['period'])))
                 ->update(['paid' => true]);
                 
                 // If all period of payment is done than this expiration will be done

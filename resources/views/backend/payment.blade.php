@@ -126,13 +126,13 @@
                                             <label class="form-label required" for="">Receive Amount ( <b
                                                     class="text-success receive_amount_title">--</b> )</label>
                                             <input type="number" class="form-control receive_amount" id=""
-                                                name="receive_amount">
+                                                name="receive_amount" step="0.001">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">Late (%)</label>
-                                            <input type="number" class="form-control late_fee" id="" name="late_fee">
+                                            <input type="number" class="form-control late_fee" id="" name="late_fee" step="0.001">
                                             <input type="hidden" class="late_fee_hidden">
                                             <input type="hidden" class="differ_from_period_day_hidden">
                                             <input type="hidden" class="late_fee_amount_of_due_days_hidden">
@@ -141,13 +141,13 @@
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">VAT (%)</label>
-                                            <input type="number" class="form-control vat" id="" name="vat">
+                                            <input type="number" class="form-control vat" id="" name="vat" step="0.001">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">TAX (%)</label>
-                                            <input type="number" class="form-control tax" id="" name="tax">
+                                            <input type="number" class="form-control tax" id="" name="tax" step="0.001">
                                         </div>
                                     </div>
                                     <div class="col-2 cln__or_rm_div">
@@ -167,13 +167,13 @@
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">PO Amount</label>
-                                            <input type="number" class="form-control po_amount" id="" name="po_amount">
+                                            <input type="number" class="form-control po_amount" id="" name="po_amount" step="0.001">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">PO Number</label>
-                                            <input type="number" class="form-control po_number" id="" name="po_number">
+                                            <input type="text" class="form-control po_number" id="" name="po_number">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -212,7 +212,7 @@
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">Deposit Amount</label>
                                             <input type="number" class="form-control deposit_amount" id=""
-                                                placeholder="Deposit amount" name="deposit_amount">
+                                                placeholder="Deposit amount" name="deposit_amount" step="0.001">
                                         </div>
                                     </div>
                                     <div class="col-md-3">

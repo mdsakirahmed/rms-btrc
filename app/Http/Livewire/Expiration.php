@@ -53,14 +53,16 @@ class Expiration extends Component
         }
         foreach($this->operator->category->category_wise_fees as $category_wise_fee_type){
             $counter = 1;
-            for($issue_date = $expiration->issue_date; $issue_date < $expiration->expire_date; $issue_date->modify('+'.$category_wise_fee_type->period_month.' month')){
-               ExpirationWisePaymentDate::create([
+            $issue_date = Carbon::create($expiration->issue_date);
+            for($issue_date; $issue_date <= $expiration->expire_date; $issue_date->addMonths($category_wise_fee_type->period_month)){
+                ExpirationWisePaymentDate::create([
                    'expiration_id' => $expiration->id,
                    'fee_type_id' => $category_wise_fee_type->fee_type_id,
                    'paid' => false,
                    'payment_number' => $counter,
                    'period_start_date' => $issue_date,
-                   'period_end_date' => $issue_date->modify('+'.$category_wise_fee_type->period_month.' month'),
+                   'period_end_date' => $period_end_date = date("Y-m-d", strtotime($issue_date."+".$category_wise_fee_type->period_month." months")),
+                   'period_schedule_date' => date("Y-m-d", strtotime($period_end_date."+".$category_wise_fee_type->schedule_day." days")),
                ]);
                $counter ++;
             }

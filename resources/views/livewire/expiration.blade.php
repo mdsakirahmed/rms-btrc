@@ -129,6 +129,7 @@
                                         <tr>
                                             <th>Serial</th>
                                             <th>Period</th>
+                                            <th>Schedule Date</th>
                                             <th>Fee type</th>
                                         </tr>
                                     </thead>
@@ -137,6 +138,7 @@
                                         <tr>
                                             <td>{{ $period->payment_number }}</td>
                                             <td>{{ $period->period_start_date->format('d M Y') }} - {{ $period->period_end_date->format('d M Y') }}</td>
+                                            <td>{{ $period->period_schedule_date->format('d M Y') }}</td>
                                             <td>{{ $period->fee_type->name ?? 'Not found' }}</td>
                                         </tr>
                                         @endforeach

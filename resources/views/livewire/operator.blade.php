@@ -156,7 +156,7 @@
                                         <x-error name="category_id" />
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="sub_category_id">Sub Category</label>
+                                        <label for="sub_category_id" class="required">Sub Category</label>
                                         <select name="" id="sub_category_id" class="form-control" wire:model="sub_category_id">
                                             <option value="" selected disabled>Select sub category</option>
                                             @foreach ($sub_categories as $sub_category)

@@ -33,7 +33,7 @@ class Operator extends Component
     {
         $validate_data = $this->validate([
             'category_id' => 'required|exists:license_categories,id',
-            'sub_category_id' => 'nullable|numeric',
+            'sub_category_id' => 'required|exists:license_sub_categories,id',
             'name' => 'required|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|string',
@@ -44,6 +44,9 @@ class Operator extends Component
             'contact_person_designation' => 'nullable|string',
             'contact_person_phone' => 'nullable|string',
             'contact_person_email' => 'nullable|string',
+        ],[],[
+            'category_id' => 'Category',
+            'sub_category_id' => 'Sub category',
         ]);
         if ($this->operator) {
             $this->validate([

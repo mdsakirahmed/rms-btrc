@@ -18,7 +18,7 @@
         <div class="col-12">
             <div class="card text-center">
                 <div class="card-body">
-                    <h4 class="card-title">Operarot Information</h4>
+                    <h4 class="card-title">Operator Information</h4>
                     <b>Operator: </b> {{ $operator->name }} <br>
                     <b>Category: </b> {{ $operator->category->name ?? 'Not Found' }} <br>
                     <b>Sub Category: </b> {{ $operator->sub_category->name ?? 'Not Found' }}

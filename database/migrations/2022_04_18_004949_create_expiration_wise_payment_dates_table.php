@@ -21,6 +21,7 @@ class CreateExpirationWisePaymentDatesTable extends Migration
             $table->integer('payment_number');
             $table->date('period_start_date');
             $table->date('period_end_date');
+            $table->date('period_schedule_date');
             $table->timestamps();
         });
     }

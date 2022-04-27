@@ -11,70 +11,6 @@ class LicenseCategorywiseFee extends Component
 {
     public $license_category, $selected_category_wise_fee;
 
-    public function create()
-    {
-        $this->fee_type = $this->period_month = $this->amount = $this->late_fee = $this->vat = $this->tax = $this->selected_category_wise_fee = null;
-    }
-
-    public function submit()
-    {
-        $this->validate([
-            'fee_type' => 'required|numeric|exists:fee_types,id',
-            'period_month' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'late_fee' => 'required|numeric',
-            'vat' => 'required|numeric',
-            'tax' => 'required|numeric',
-        ]);
-
-        if ($this->selected_category_wise_fee) {
-            $this->selected_category_wise_fee->update([
-                'category_id' => $this->license_category->id,
-                'fee_type_id' => $this->fee_type,
-                'period_month' => $this->period_month,
-                'amount' => $this->amount,
-                'late_fee' => $this->late_fee,
-                'vat' => $this->vat,
-                'tax' => $this->tax,
-            ]);
-            $this->create();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully updated !']);
-        } else {
-            if (LicenseCategoryWiseFeeType::where('category_id', $this->license_category->id)->where('fee_type_id', $this->fee_type)->count() > 0) {
-                $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Already exist with this fee type!']);
-            } else {
-                LicenseCategoryWiseFeeType::create([
-                    'category_id' => $this->license_category->id,
-                    'fee_type_id' => $this->fee_type,
-                    'period_month' => $this->period_month,
-                    'amount' => $this->amount,
-                    'late_fee' => $this->late_fee,
-                    'vat' => $this->vat,
-                    'tax' => $this->tax,
-                ]);
-                $this->create();
-                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully added !']);
-            }
-        }
-    }
-
-    public function selectForEdit(LicenseCategoryWiseFeeType $licenseCategoryWiseFeeType)
-    {
-        $this->selected_category_wise_fee = $licenseCategoryWiseFeeType;
-        $this->fee_type = $this->selected_category_wise_fee->fee_type_id;
-        $this->period_month = $this->selected_category_wise_fee->period_month;
-        $this->amount = $this->selected_category_wise_fee->amount;
-        $this->late_fee = $this->selected_category_wise_fee->late_fee;
-        $this->vat = $this->selected_category_wise_fee->vat;
-        $this->tax = $this->selected_category_wise_fee->tax;
-    }
-
-    public function delete(LicenseCategoryWiseFeeType $licenseCategoryWiseFeeType)
-    {
-        $licenseCategoryWiseFeeType->delete();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully deleted !']);
-    }
-
     public function mount(LicenseCategory $license_category)
     {
         $this->license_category = $license_category;
@@ -88,4 +24,58 @@ class LicenseCategorywiseFee extends Component
             ->extends('layouts.backend.app', ['title' => 'License category wise fee'])
             ->section('content');
     }
+
+    public function create()
+    {
+        $this->fee_type_id = $this->period_month = $this->schedule_day = $this->amount = $this->late_fee = $this->vat = $this->tax = $this->selected_category_wise_fee = null;
+    }
+
+    public function submit()
+    {
+        $this->category_id = $this->license_category->id;        
+        $data = $this->validate([
+            'category_id' => 'required|exists:license_categories,id|unique:license_category_wise_fee_types,category_id,'.($this->selected_category_wise_fee->id ?? '' ).',id,fee_type_id,'.$this->fee_type_id,
+            'fee_type_id' => 'required|exists:fee_types,id',
+            'period_month' => 'required|numeric',
+            'schedule_day' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'late_fee' => 'required|numeric',
+            'vat' => 'required|numeric',
+            'tax' => 'required|numeric',
+        ],[
+            'category_id.unique' => 'Alreary exist this fee type for this category'
+        ],[
+            'category_id' => 'Category',
+            'fee_type_id' => 'Fee type',
+        ]);
+
+        if ($this->selected_category_wise_fee) {
+            $this->selected_category_wise_fee->update($data);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully updated !']);
+        } else {
+            LicenseCategoryWiseFeeType::create($data);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully added !']);
+        }            
+        $this->create();
+    }
+
+    public function selectForEdit(LicenseCategoryWiseFeeType $licenseCategoryWiseFeeType)
+    {
+        $this->selected_category_wise_fee = $licenseCategoryWiseFeeType;
+        $this->fee_type_id = $this->selected_category_wise_fee->fee_type_id;
+        $this->period_month = $this->selected_category_wise_fee->period_month;
+        $this->schedule_day = $this->selected_category_wise_fee->schedule_day;
+        $this->amount = $this->selected_category_wise_fee->amount;
+        $this->late_fee = $this->selected_category_wise_fee->late_fee;
+        $this->vat = $this->selected_category_wise_fee->vat;
+        $this->tax = $this->selected_category_wise_fee->tax;
+    }
+
+    public function delete(LicenseCategoryWiseFeeType $licenseCategoryWiseFeeType)
+    {
+        $licenseCategoryWiseFeeType->delete();
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully deleted !']);
+    }
+
+   
 }

@@ -134,15 +134,9 @@ class PaymentController extends Controller
                     'date' => $deposit['daposit_date'],
                 ]);
             }
-
-            $file_path_and_name = public_path('pdf/payment-receipts/') . 'pdf.' . 'pdf';
-            PDF::loadView('pdf.payment-receipt', [
-                'file_name' => 'Payment receipt',
-            ])->save($file_path_and_name);
-
             return [
                 'error' => false,
-                'receipt' => $file_path_and_name
+                'receipt_url' => route('payment_receipt', $payment->id)
             ];
         } catch (\Exception $expiration) {
             return [
@@ -200,5 +194,14 @@ class PaymentController extends Controller
         return [
             'error' => false
         ];
+    }
+
+    // Print
+    public function payment_receipt(Payment $payment)
+    {
+        $pdf = PDF::loadView('pdf.payment-receipt', [
+            'file_name' => 'Payment receipt',
+        ]);
+        return $pdf->stream('document.pdf');
     }
 }

@@ -94,8 +94,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="fee_type">Fee Type</label>
-                                            <select class="form-control form-select select2 fee_type"
-                                                name="fee_type">
+                                            <select class="form-control form-select select2 fee_type" name="fee_type">
                                                 <option value="" disabled selected>Select fee type</option>
                                                 @foreach ($fee_types as $fee_type)
                                                     <option value="{{ $fee_type->fee_type->id }}"
@@ -117,15 +116,14 @@
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label" for="">Schedule Date</label>
-                                            <input type="text" class="form-control schedule_date" id=""
-                                                name="schedule_date" disabled>
+                                            <input type="text" class="form-control schedule_date" id="" name="schedule_date"
+                                                disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">Receive Date</label>
-                                            <input type="date" class="form-control receive_date" id=""
-                                                name="receive_date">
+                                            <input type="date" class="form-control receive_date" id="" name="receive_date">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -139,7 +137,8 @@
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">Late (%)</label>
-                                            <input type="number" class="form-control late_fee" id="" name="late_fee" step="0.001">
+                                            <input type="number" class="form-control late_fee" id="" name="late_fee"
+                                                step="0.001">
                                             <input type="hidden" class="late_fee_hidden">
                                             <input type="hidden" class="differ_from_period_day_hidden">
                                             <input type="hidden" class="late_fee_amount_of_due_days_hidden">
@@ -174,7 +173,8 @@
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">PO Amount</label>
-                                            <input type="number" class="form-control po_amount" id="" name="po_amount" step="0.001">
+                                            <input type="number" class="form-control po_amount" id="" name="po_amount"
+                                                step="0.001">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -271,6 +271,26 @@
             </div>
         </div>
     </div>
+    <!-- sample modal content -->
+    <div class="modal bs-example-modal-lg fade" id="payment_repeipt_modal" tabindex="-1" data-backdrop="static"
+        data-keyboard="false" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title" id="">Payment Receipt</h4>
+                    <button type="button" class="btn-close" onClick="window.location.reload()" data-bs-dismiss="modal"
+                        aria-hidden="true"></button>
+                </div>
+                <div class="modal-body" style="height: 6in;">
+                    {{-- Show receipt by jquery --}}
+                    <iframe src="" frameborder="0" id="payment_repeipt_iframe" height="100%" width="100%"></iframe>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
     {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
     {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
@@ -290,7 +310,8 @@
                 period = $(this).closest(".receive_row").find('.period');
                 period.html('<option value="" disabled selected>Select period</option>');
                 $.each(this_fee_type_wise_periods, function(key, value) {
-                    period.append('<option value="' + value.period + '">' + value.period_level + '</option>');
+                    period.append('<option value="' + value.period + '">' + value.period_level +
+                        '</option>');
                 });
                 let amount = late_fee = vat = tax = 0;
                 $.grep({!! collect($fee_type_wise_pre_set_amount) !!}, function(value) {
@@ -302,7 +323,7 @@
                     }
                 });
                 $(this).closest(".receive_row").find('.receive_amount_title').text(amount);
-                $(this).closest( ".receive_row" ).find('.late_fee_hidden').val(late_fee);
+                $(this).closest(".receive_row").find('.late_fee_hidden').val(late_fee);
                 $(this).closest(".receive_row").find('.vat').val(vat);
                 $(this).closest(".receive_row").find('.tax').val(tax);
 
@@ -310,11 +331,16 @@
 
                 let receive_date = $(this).closest(".receive_row").find('.receive_date').val();
                 let period_end_date = $(this).closest(".receive_row").find('.period').val();
-                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0, 0, 0)) {
+                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0,
+                        0, 0)) {
                     // Date is past and late fee applicable
                     $(this).closest(".receive_row").find('.late_fee').val(late_fee);
-                    let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find('.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
-                    $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(differ_from_period_day);
+                    let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find(
+                        '.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(
+                        ".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 *
+                        60 * 24));
+                    $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(
+                        differ_from_period_day);
                 } else {
                     // Date is not past and late fee is not applicable
                     $(this).closest(".receive_row").find('.late_fee').val(0);
@@ -327,14 +353,19 @@
 
             $('.receive_col').on('change', '.receive_date', function() {
                 let receive_date = $(this).val();
-                let late_fee =  $(this).closest( ".receive_row" ).find('.late_fee_hidden').val();
+                let late_fee = $(this).closest(".receive_row").find('.late_fee_hidden').val();
                 let period_end_date = $(this).closest(".receive_row").find('.period').val();
-                
-                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0, 0, 0)) {
+
+                if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0,
+                        0, 0)) {
                     // Date is past and late fee applicable
                     $(this).closest(".receive_row").find('.late_fee').val(late_fee);
-                    let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find('.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
-                    $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(differ_from_period_day);
+                    let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find(
+                        '.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(
+                        ".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 *
+                        60 * 24));
+                    $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(
+                        differ_from_period_day);
                 } else {
                     // Date is not past and late fee is not applicable
                     $(this).closest(".receive_row").find('.late_fee').val(0);
@@ -348,7 +379,7 @@
             // clone_div.find("select").select2();
             clone_div.find(".cln__or_rm_div").html(
                 `<button type="button" class="btn btn-danger w-100 mt-4 rm_btn" title="Remove this one"><i class="fa fa-times text-white"></i></button>`
-                );
+            );
             $(this).closest(".column").append(clone_div);
         });
 
@@ -369,13 +400,13 @@
                 let vat = (receive_amount / 100) * $(obj).find('.vat').val();
                 let tax = (receive_amount / 100) * $(obj).find('.tax').val();
                 let differ_from_period_day = $(obj).find('.differ_from_period_day_hidden').val();
-                let late_fee_amount_of_due_days = (late_fee_amount/365) * differ_from_period_day;
+                let late_fee_amount_of_due_days = (late_fee_amount / 365) * differ_from_period_day;
                 $(obj).find('.late_fee_amount_of_due_days_hidden').val(late_fee_amount_of_due_days)
-                total_amount_of_receive += 
-                parseFloat(receive_amount) 
-                + parseFloat(late_fee_amount_of_due_days) 
-                + parseFloat(vat) 
-                + parseFloat(tax);
+                total_amount_of_receive +=
+                    parseFloat(receive_amount) +
+                    parseFloat(late_fee_amount_of_due_days) +
+                    parseFloat(vat) +
+                    parseFloat(tax);
 
                 // console.log("Total late fee (in 365 days) :" + late_fee_amount + "Taka")
                 // console.log("Total late fee 1 day :" + (late_fee_amount/365) + "Taka")
@@ -397,17 +428,25 @@
             $('#total_amount_of_deposit').text(total_amount_of_deposit);
 
             $('#payment_form input').each(function(index, obj) {
-                if($(obj).val()){
-                    $(obj).css({"backgroundColor" : "#EFFCF3"});
-                }else{
-                    $(obj).css({"backgroundColor" : "#FCF0EF"});
+                if ($(obj).val()) {
+                    $(obj).css({
+                        "backgroundColor": "#EFFCF3"
+                    });
+                } else {
+                    $(obj).css({
+                        "backgroundColor": "#FCF0EF"
+                    });
                 }
             });
             $('#payment_form select').each(function(index, obj) {
-                if($(obj).val()){
-                    $(obj).css({"backgroundColor" : "#EFFCF3"});
-                }else{
-                    $(obj).css({"backgroundColor" : "#FCF0EF"});
+                if ($(obj).val()) {
+                    $(obj).css({
+                        "backgroundColor": "#EFFCF3"
+                    });
+                } else {
+                    $(obj).css({
+                        "backgroundColor": "#FCF0EF"
+                    });
                 }
             });
         }
@@ -432,7 +471,8 @@
                     vat: $(obj).find('.vat').val(),
                     tax: $(obj).find('.tax').val(),
                     differ_from_period_day: $(obj).find('.differ_from_period_day_hidden').val(),
-                    late_fee_amount_of_due_days: $(obj).find('.late_fee_amount_of_due_days_hidden').val(),
+                    late_fee_amount_of_due_days: $(obj).find('.late_fee_amount_of_due_days_hidden')
+                        .val(),
                 });
             });
 
@@ -456,7 +496,8 @@
                 });
             });
 
-            if ($('#total_amount_of_receive').text() != $('#total_amount_of_pay_order').text() || $('#total_amount_of_receive').text() != $('#total_amount_of_deposit').text()) {
+            if ($('#total_amount_of_receive').text() != $('#total_amount_of_pay_order').text() || $(
+                    '#total_amount_of_receive').text() != $('#total_amount_of_deposit').text()) {
                 $('.error_msg').html("");
                 toastr['error']('Receive, PO, Deposit amount is not equal', 'Amount'), toastr.options = {
                     "closeButton": true,
@@ -489,7 +530,14 @@
                                 "closeButton": true,
                                 "progressBar": true,
                             }
-                            location.reload();
+                            // Receipt open
+                            $('#payment_repeipt_iframe').attr('src', response.receipt_url);
+                            $('#payment_repeipt_modal').modal({
+                                backdrop: 'static',
+                                keyboard: true,
+                                show: true
+                            });
+                            $('#payment_repeipt_modal').modal('show');
                         }
                     }
                 });

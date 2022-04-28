@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('payment', [PaymentController::class, 'index'])->name('payment')->middleware(['permission:payment']);
     Route::post('payment', [PaymentController::class, 'store'])->middleware(['permission:payment']);
+    Route::get('payment-receipt/{payment}', [PaymentController::class, 'payment_receipt'])->name('payment_receipt')->middleware(['permission:payment']);
 
     Route::get('operator-wise-file-register', OperatorWiseFileRegister::class)->name('operator-wise-file-register')->middleware(['permission:report']);
     Route::get('operator-detail', OperatorDetail::class)->name('operator-detail')->middleware(['permission:report']);

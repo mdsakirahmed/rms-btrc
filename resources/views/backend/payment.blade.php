@@ -535,7 +535,7 @@
                             $('#payment_repeipt_modal').modal({
                                 backdrop: 'static',
                                 keyboard: true,
-                                show: true
+                                // show: true
                             });
                             $('#payment_repeipt_modal').modal('show');
                         }

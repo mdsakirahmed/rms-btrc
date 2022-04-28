@@ -16,66 +16,69 @@ use App\Models\PaymentWisePayOrder;
 use App\Models\PaymentWiseReceive;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class PaymentController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $operators = $sub_categories = $fee_type_wise_periods = $fee_type_wise_pre_set_amount = [];
 
-        if(request()->category){
+        if (request()->category) {
             // $operators = Operator::where('category_id', request()->category)->get();
             $sub_categories = LicenseSubCategory::all();
             $operators = Operator::where('category_id', request()->category)
-            ->whereHas('expirations', function($query){
-                $query->where('expire_date', '>=', Carbon::today());
-            })->where('sub_category_id', request()->sub_category ?? null)->get();
+                ->whereHas('expirations', function ($query) {
+                    $query->where('expire_date', '>=', Carbon::today());
+                })->where('sub_category_id', request()->sub_category ?? null)->get();
         }
 
-        if(request()->category && request()->operator){
+        if (request()->category && request()->operator) {
             $category_wise_fee_types = LicenseCategoryWiseFeeType::where('category_id', request()->category)->with('fee_type')->get();
             $expiration = Expiration::where('all_payment_completed', false)
-            ->where('operator_id', request()->operator)
-            ->first();
-            if($expiration)
-            foreach($category_wise_fee_types as $category_wise_fee_type){
-                array_push($fee_type_wise_pre_set_amount,[
-                    'fee_type' => $category_wise_fee_type->fee_type_id,
-                    'amount' => $category_wise_fee_type->amount,
-                    'late_fee' => $category_wise_fee_type->late_fee,
-                    'vat' => $category_wise_fee_type->vat,
-                    'tax' => $category_wise_fee_type->tax,
-                ]);
-
-                foreach($expiration->expiration_wise_payment_dates as $expiration_wise_payment_date){
-                    array_push($fee_type_wise_periods,[
-                        'fee_type' => $expiration_wise_payment_date->fee_type_id,
-                        'period_level' => $expiration_wise_payment_date->period_start_date->format('M-Y') .' to '. $expiration_wise_payment_date->period_end_date->format('M-Y'),
-                        'period' => $expiration_wise_payment_date->period_schedule_date->format('m/d/Y'),
+                ->where('operator_id', request()->operator)
+                ->first();
+            if ($expiration)
+                foreach ($category_wise_fee_types as $category_wise_fee_type) {
+                    array_push($fee_type_wise_pre_set_amount, [
+                        'fee_type' => $category_wise_fee_type->fee_type_id,
+                        'amount' => $category_wise_fee_type->amount,
+                        'late_fee' => $category_wise_fee_type->late_fee,
+                        'vat' => $category_wise_fee_type->vat,
+                        'tax' => $category_wise_fee_type->tax,
                     ]);
+
+                    foreach ($expiration->expiration_wise_payment_dates as $expiration_wise_payment_date) {
+                        array_push($fee_type_wise_periods, [
+                            'fee_type' => $expiration_wise_payment_date->fee_type_id,
+                            'period_level' => $expiration_wise_payment_date->period_start_date->format('M-Y') . ' to ' . $expiration_wise_payment_date->period_end_date->format('M-Y'),
+                            'period' => $expiration_wise_payment_date->period_schedule_date->format('m/d/Y'),
+                        ]);
+                    }
                 }
-            }
         }
         return view('backend.payment', [
             'banks' => Bank::all(),
             'categories' => LicenseCategory::all(),
             'sub_categories' => $sub_categories,
-            'operators' =>$operators,
-            'fee_types' =>$category_wise_fee_types ?? [],
-            'fee_type_wise_periods' =>$fee_type_wise_periods,
-            'fee_type_wise_pre_set_amount' =>$fee_type_wise_pre_set_amount,
+            'operators' => $operators,
+            'fee_types' => $category_wise_fee_types ?? [],
+            'fee_type_wise_periods' => $fee_type_wise_periods,
+            'fee_type_wise_pre_set_amount' => $fee_type_wise_pre_set_amount,
         ]);
     }
 
-    public function store(Request $request){
-        try{
+    public function store(Request $request)
+    {
+        try {
             // Check validation
             $validation_response = $this->check_validation($request);
 
             // Validation error response
-            if($validation_response['error']){
+            if ($validation_response['error']) {
                 return  $validation_response;
             }
-           
+
             // Payment
             $payment = Payment::create([
                 'operator_id' => $request->payment[0]['operator'],
@@ -85,7 +88,7 @@ class PaymentController extends Controller
                 ->where('operator_id', $request->payment[0]['operator'])
                 ->first();
             // Receive
-            foreach($request->receives as $receive){
+            foreach ($request->receives as $receive) {
                 PaymentWiseReceive::create([
                     'payment_id' => $payment->id,
                     'fee_type_id' => $receive['fee_type'],
@@ -98,21 +101,21 @@ class PaymentController extends Controller
                     'differ_from_period_day' => $receive['differ_from_period_day'] ?? 0,
                     'late_fee_amount' => $receive['late_fee_amount_of_due_days'] ?? 0,
                 ]);
-                
+
                 //Update expiration wise payment date status
                 ExpirationWisePaymentDate::where('expiration_id', $expiration->id)
-                ->where('fee_type_id', $receive['fee_type'])
-                ->where('period_end_date', date('Y-m-d', strtotime($receive['period'])))
-                ->update(['paid' => true]);
-                
+                    ->where('fee_type_id', $receive['fee_type'])
+                    ->where('period_end_date', date('Y-m-d', strtotime($receive['period'])))
+                    ->update(['paid' => true]);
+
                 // If all period of payment is done than this expiration will be done
-                if(ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->where('paid', false)->count() == 0){
+                if (ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->where('paid', false)->count() == 0) {
                     $expiration->update(['all_payment_completed' => true]);
                 }
             }
 
             // pay_order
-            foreach($request->pay_orders as $pay_order){
+            foreach ($request->pay_orders as $pay_order) {
                 PaymentWisePayOrder::create([
                     'payment_id' => $payment->id,
                     'amount' => $pay_order['po_amount'] ?? 0,
@@ -121,8 +124,8 @@ class PaymentController extends Controller
                     'bank_id' => $pay_order['po_bank'],
                 ]);
             }
-            
-            foreach($request->deposits as $deposit){
+
+            foreach ($request->deposits as $deposit) {
                 PaymentWiseDeposit::create([
                     'payment_id' => $payment->id,
                     'amount' => $deposit['deposit_amount'] ?? 0,
@@ -131,21 +134,28 @@ class PaymentController extends Controller
                     'date' => $deposit['daposit_date'],
                 ]);
             }
+
+            $file_path_and_name = public_path('pdf/payment-receipts/') . 'pdf.' . 'pdf';
+            PDF::loadView('pdf.payment-receipt', [
+                'file_name' => 'Payment receipt',
+            ])->save($file_path_and_name);
+
             return [
                 'error' => false,
+                'receipt' => $file_path_and_name
             ];
-        }catch(\Exception $expiration){
+        } catch (\Exception $expiration) {
             return [
                 'message' => $expiration->getMessage()
             ];
         }
-       
     }
 
     // Helper function for payment store and validation
-    public function check_validation(Request $request){
+    public function check_validation(Request $request)
+    {
         // Payment
-        if(!$request->payment[0]['operator'] || !$request->payment[0]['transaction']){
+        if (!$request->payment[0]['operator'] || !$request->payment[0]['transaction']) {
             return [
                 'error' => true,
                 'area' => 'payment',
@@ -154,8 +164,8 @@ class PaymentController extends Controller
         }
 
         // receive
-        foreach($request->receives as $receive){
-            if(is_null($receive['fee_type']) || is_null($receive['period']) || is_null($receive['receive_date']) || is_null($receive['receive_amount']) || is_null($receive['late_fee']) || is_null($receive['vat']) || is_null($receive['tax'])){
+        foreach ($request->receives as $receive) {
+            if (is_null($receive['fee_type']) || is_null($receive['period']) || is_null($receive['receive_date']) || is_null($receive['receive_amount']) || is_null($receive['late_fee']) || is_null($receive['vat']) || is_null($receive['tax'])) {
                 return [
                     'error' => true,
                     'area' => 'receive',
@@ -166,8 +176,8 @@ class PaymentController extends Controller
         }
 
         // pay_order
-        foreach($request->pay_orders as $pay_order){
-            if(is_null($pay_order['po_amount']) || is_null($pay_order['po_number']) || is_null($pay_order['po_date']) || is_null($pay_order['po_bank'])){
+        foreach ($request->pay_orders as $pay_order) {
+            if (is_null($pay_order['po_amount']) || is_null($pay_order['po_number']) || is_null($pay_order['po_date']) || is_null($pay_order['po_bank'])) {
                 return [
                     'error' => true,
                     'area' => 'pay_order',
@@ -175,10 +185,10 @@ class PaymentController extends Controller
                 ];
             }
         }
-        
+
         // deposit
-        foreach($request->deposits as $deposit){
-            if(is_null($deposit['deposit_amount']) || is_null($deposit['journal_number']) || is_null($deposit['daposit_date']) || is_null($deposit['deposit_bank'])){
+        foreach ($request->deposits as $deposit) {
+            if (is_null($deposit['deposit_amount']) || is_null($deposit['journal_number']) || is_null($deposit['daposit_date']) || is_null($deposit['deposit_bank'])) {
                 return [
                     'error' => true,
                     'area' => 'deposit',

@@ -91,7 +91,7 @@
                             <div class="col-12 error_msg" id="error_msg_receive"></div>
                             <div class="col-12 column receive_col">
                                 <div class="row receive_row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="fee_type">Fee Type</label>
                                             <select class="form-control form-select select2 fee_type"
@@ -106,7 +106,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="period">Select Period</label>
                                             <select class="form-control form-select select2 period" id="" name="period">
@@ -114,7 +114,14 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="form-group has-success">
+                                            <label class="form-label" for="">Schedule Date</label>
+                                            <input type="text" class="form-control schedule_date" id=""
+                                                name="schedule_date" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">Receive Date</label>
                                             <input type="date" class="form-control receive_date" id=""
@@ -283,8 +290,7 @@
                 period = $(this).closest(".receive_row").find('.period');
                 period.html('<option value="" disabled selected>Select period</option>');
                 $.each(this_fee_type_wise_periods, function(key, value) {
-                    period.append('<option value="' + value.period + '">' + value.period_level +
-                        '</option>');
+                    period.append('<option value="' + value.period + '">' + value.period_level + '</option>');
                 });
                 let amount = late_fee = vat = tax = 0;
                 $.grep({!! collect($fee_type_wise_pre_set_amount) !!}, function(value) {
@@ -300,6 +306,8 @@
                 $(this).closest(".receive_row").find('.vat').val(vat);
                 $(this).closest(".receive_row").find('.tax').val(tax);
 
+                $(this).closest(".receive_row").find('.schedule_date').val("");
+
                 let receive_date = $(this).closest(".receive_row").find('.receive_date').val();
                 let period_end_date = $(this).closest(".receive_row").find('.period').val();
                 if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0, 0, 0)) {
@@ -313,10 +321,15 @@
                 }
             });
 
+            $('.receive_col').on('change', '.period', function() {
+                $(this).closest(".receive_row").find('.schedule_date').val($(this).val());
+            });
+
             $('.receive_col').on('change', '.receive_date', function() {
                 let receive_date = $(this).val();
                 let late_fee =  $(this).closest( ".receive_row" ).find('.late_fee_hidden').val();
                 let period_end_date = $(this).closest(".receive_row").find('.period').val();
+                
                 if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0, 0, 0)) {
                     // Date is past and late fee applicable
                     $(this).closest(".receive_row").find('.late_fee').val(late_fee);

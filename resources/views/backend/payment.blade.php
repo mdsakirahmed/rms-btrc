@@ -10,6 +10,38 @@
             paddind: 100px;
         }
 
+        input[type="date"]::-webkit-datetime-edit,
+        input[type="date"]::-webkit-inner-spin-button,
+        input[type="date"]::-webkit-clear-button {
+            color: #fff;
+            position: relative;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-year-field {
+            position: absolute !important;
+            border-left: 1px solid #8c8c8c;
+            padding: 2px;
+            color: #000;
+            left: 56px;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-month-field {
+            position: absolute !important;
+            border-left: 1px solid #8c8c8c;
+            padding: 2px;
+            color: #000;
+            left: 26px;
+        }
+
+
+        input[type="date"]::-webkit-datetime-edit-day-field {
+            position: absolute !important;
+            color: #000;
+            padding: 2px;
+            left: 4px;
+
+        }
+
     </style>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
@@ -351,7 +383,9 @@
             });
 
             $('.receive_col').on('change', '.period', function() {
-                $(this).closest(".receive_row").find('.schedule_date').val($(this).val());
+                const this_date = new Date($(this).val());
+                $(this).closest(".receive_row").find('.schedule_date').val(this_date.getDate() + '/' + (
+                    this_date.getMonth() + 1) + '/' + this_date.getFullYear());
             });
 
             $('.receive_col').on('change', '.receive_date', function() {
@@ -405,7 +439,8 @@
                 let differ_from_period_day = $(obj).find('.differ_from_period_day_hidden').val();
                 let late_fee_amount_of_due_days = (late_fee_amount / 365) * differ_from_period_day;
                 $(obj).find('.late_fee_amount_of_due_days_hidden').val(late_fee_amount_of_due_days);
-                $(obj).find('.late_fee_help_line').text(differ_from_period_day +' day = '+ Math.round(late_fee_amount_of_due_days) + ' BDT'); //help text
+                $(obj).find('.late_fee_help_line').text(differ_from_period_day + ' day = ' + Math.round(
+                    late_fee_amount_of_due_days) + ' BDT'); //help text
                 $(obj).find('.vat_help_line').text(Math.round(vat) + ' BDT'); //help text
                 $(obj).find('.tax_help_line').text(Math.round(tax) + ' BDT'); //help text
                 total_amount_of_receive +=

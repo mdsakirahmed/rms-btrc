@@ -66,7 +66,7 @@
                                         <td>{{ $operator->sub_category_name }}</td>
                                         <td>{{ $operator->name }}</td>
                                         <td>{{ $operator->fee_type_name }}</td>
-                                        <td>{{ date('d-m-Y', strtotime($operator->period_end_date)) }}</td>
+                                        <td title="d-m-Y">{{ date('d-m-Y', strtotime($operator->period_end_date)) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

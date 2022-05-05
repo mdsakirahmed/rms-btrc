@@ -45,10 +45,10 @@
                                 @foreach ($payments as $payment)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $payment->receive_date }}</td>
+                                        <td title="d-m-Y">{{ date('d-m-Y', strtotime($payment->receive_date)) }}</td>
                                         <td>{{ $payment->operator_name }}</td>
                                         <td>{{ $payment->fee_type_name }}</td>
-                                        <td>{{ $payment->period_end_date }}</td>
+                                        <td title="d-m-Y">{{ date('d-m-Y', strtotime($payment->period_end_date)) }}</td>
                                         <td>{{ $payment->receive_amount }}</td>
                                         <td>{{ $payment->receive_vat }}</td>
                                         <td>{{ $payment->receive_late_fee }}</td>
@@ -58,7 +58,7 @@
                                         <td>{{ $payment->po_date }}</td>
                                         <td>{{ $payment->deposit_journal_number }}</td>
                                         <td>{{ $payment->deposit_bank_name }}</td>
-                                        <td>{{ $payment->deposit_date }}</td>
+                                        <td title="d-m-Y">{{ date('d-m-Y', strtotime($payment->deposit_date)) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

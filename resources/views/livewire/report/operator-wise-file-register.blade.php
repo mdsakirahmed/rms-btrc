@@ -32,7 +32,6 @@
                                     <th>Fee</th>
                                     <th>VAT</th>
                                     <th>Late Fee</th>
-                                    <th>Receive total</th>
                                     <th>PO Bank</th>
                                     <th>PO NO</th>
                                     <th>PO Date</th>
@@ -52,7 +51,6 @@
                                         <td>{{ $payment->receive_amount }}</td>
                                         <td>{{ $payment->receive_vat }}</td>
                                         <td>{{ $payment->receive_late_fee }}</td>
-                                        <td>Total need work</td>
                                         <td>{{ $payment->po_bank_name }}</td>
                                         <td>{{ $payment->po_number }}</td>
                                         <td>{{ $payment->po_date }}</td>

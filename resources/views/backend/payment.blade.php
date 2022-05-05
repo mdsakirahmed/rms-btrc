@@ -149,12 +149,14 @@
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">VAT (%)</label>
                                             <input type="number" class="form-control vat" id="" name="vat" step="0.001">
+                                            <p class="text-danger vat_help_line"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group has-success">
                                             <label class="form-label required" for="">TAX (%)</label>
                                             <input type="number" class="form-control tax" id="" name="tax" step="0.001">
+                                            <p class="text-danger tax_help_line"></p>
                                         </div>
                                     </div>
                                     <div class="col-2 cln__or_rm_div">
@@ -403,7 +405,9 @@
                 let differ_from_period_day = $(obj).find('.differ_from_period_day_hidden').val();
                 let late_fee_amount_of_due_days = (late_fee_amount / 365) * differ_from_period_day;
                 $(obj).find('.late_fee_amount_of_due_days_hidden').val(late_fee_amount_of_due_days);
-                $(obj).find('.late_fee_help_line').text(Math.round(late_fee_amount_of_due_days) + ' BDT');
+                $(obj).find('.late_fee_help_line').text(differ_from_period_day +' day = '+ Math.round(late_fee_amount_of_due_days) + ' BDT'); //help text
+                $(obj).find('.vat_help_line').text(Math.round(vat) + ' BDT'); //help text
+                $(obj).find('.tax_help_line').text(Math.round(tax) + ' BDT'); //help text
                 total_amount_of_receive +=
                     parseFloat(receive_amount) +
                     parseFloat(late_fee_amount_of_due_days) +

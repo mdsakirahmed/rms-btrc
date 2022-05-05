@@ -142,6 +142,7 @@
                                             <input type="hidden" class="late_fee_hidden">
                                             <input type="hidden" class="differ_from_period_day_hidden">
                                             <input type="hidden" class="late_fee_amount_of_due_days_hidden">
+                                            <p class="text-danger late_fee_help_line"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -401,7 +402,8 @@
                 let tax = (receive_amount / 100) * $(obj).find('.tax').val();
                 let differ_from_period_day = $(obj).find('.differ_from_period_day_hidden').val();
                 let late_fee_amount_of_due_days = (late_fee_amount / 365) * differ_from_period_day;
-                $(obj).find('.late_fee_amount_of_due_days_hidden').val(late_fee_amount_of_due_days)
+                $(obj).find('.late_fee_amount_of_due_days_hidden').val(late_fee_amount_of_due_days);
+                $(obj).find('.late_fee_help_line').text(Math.round(late_fee_amount_of_due_days) + ' BDT');
                 total_amount_of_receive +=
                     parseFloat(receive_amount) +
                     parseFloat(late_fee_amount_of_due_days) +

@@ -30,4 +30,9 @@
         color: red;
         font-size: 18px;
     }
+
+    .sidebar-nav ul li a{
+        background-color:#2361824d;
+        border-radius: 0px 10px 10px 0px;;
+    }
 </style>

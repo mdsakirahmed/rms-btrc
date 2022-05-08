@@ -33,6 +33,7 @@
 
     .sidebar-nav ul li a{
         background-color:#2361824d;
-        border-radius: 0px 10px 10px 0px;;
+        border-radius: 0px 10px 10px 0px;
+        margin-top: -5px;
     }
 </style>

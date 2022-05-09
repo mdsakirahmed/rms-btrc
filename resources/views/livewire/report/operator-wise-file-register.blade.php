@@ -53,7 +53,7 @@
                                         <td>{{ $payment->receive_late_fee }}</td>
                                         <td>{{ $payment->po_bank_name }}</td>
                                         <td>{{ $payment->po_number }}</td>
-                                        <td>{{ $payment->po_date }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($payment->po_date)) }}</td>
                                         <td>{{ $payment->deposit_journal_number }}</td>
                                         <td>{{ $payment->deposit_bank_name }}</td>
                                         <td title="d-m-Y">{{ date('d-m-Y', strtotime($payment->deposit_date)) }}</td>

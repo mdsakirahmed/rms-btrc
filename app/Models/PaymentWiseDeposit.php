@@ -9,13 +9,8 @@ use Wildside\Userstamps\Userstamps;
 class PaymentWiseDeposit extends Model
 {
     use HasFactory, Userstamps;
-    
-    protected $fillable = [
-        'payment_id',
-        'bank_id',
-        'journal_number',
-        'date',
-    ];
+
+    protected $guarded = [];
 
     public function bank(){
         return $this->belongsTo(Bank::class, 'bank_id', 'id');

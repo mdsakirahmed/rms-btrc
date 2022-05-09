@@ -128,10 +128,10 @@ class PaymentController extends Controller
             foreach ($request->deposits as $deposit) {
                 PaymentWiseDeposit::create([
                     'payment_id' => $payment->id,
-                    'amount' => $deposit['deposit_amount'] ?? 0,
+                    'amount' => $deposit['deposit_amount'],
                     'bank_id' => $deposit['deposit_bank'],
                     'journal_number' => $deposit['journal_number'],
-                    'date' => $deposit['daposit_date'],
+                    'date' => $deposit['deposit_date'],
                 ]);
             }
             return [
@@ -182,7 +182,7 @@ class PaymentController extends Controller
 
         // deposit
         foreach ($request->deposits as $deposit) {
-            if (is_null($deposit['deposit_amount']) || is_null($deposit['journal_number']) || is_null($deposit['daposit_date']) || is_null($deposit['deposit_bank'])) {
+            if (is_null($deposit['deposit_amount']) || is_null($deposit['journal_number']) || is_null($deposit['deposit_date']) || is_null($deposit['deposit_bank'])) {
                 return [
                     'error' => true,
                     'area' => 'deposit',
@@ -201,6 +201,7 @@ class PaymentController extends Controller
     {
         $pdf = PDF::loadView('pdf.payment-receipt', [
             'file_name' => 'Payment receipt',
+            'payment' => $payment
         ]);
         return $pdf->stream('document.pdf');
     }

@@ -36,16 +36,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($payment->recives as $recive)
+                                @foreach ($payment->receives as $receive)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $recive->fee_type->name ?? 'Not Found' }}</td>
-                                    <td>{{ $recive->period_end_date }}</td>
-                                    <td>{{ $recive->receive_date }}</td>
-                                    <td>{{ $recive->receive_amount }}</td>
-                                    <td>{{ $recive->late_fee_percentage }}</td>
-                                    <td>{{ $recive->vat_percentage }}</td>
-                                    <td>{{ $recive->tax_percentage }}</td>
+                                    <td>{{ $receive->fee_type->name ?? 'Not Found' }}</td>
+                                    <td>{{ $receive->period_end_date }}</td>
+                                    <td>{{ $receive->receive_date }}</td>
+                                    <td>{{ $receive->receive_amount }}</td>
+                                    <td>{{ $receive->late_fee_percentage }}</td>
+                                    <td>{{ $receive->vat_percentage }}</td>
+                                    <td>{{ $receive->tax_percentage }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

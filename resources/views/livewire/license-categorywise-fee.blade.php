@@ -89,7 +89,7 @@
                                 <x-error name="fee_type_id" />
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="period_month" class="required">Fee Cycle</label>
+                                <label for="period_month" class="required">Fee Cycle (months)</label>
                                 <input type="number" class="form-control" id="period_month" placeholder="Months" min="0" step="1" title="Months" wire:model="period_month">
                                 <x-error name="period_month" />
                             </div>

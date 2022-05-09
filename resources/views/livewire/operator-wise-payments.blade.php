@@ -40,8 +40,8 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $receive->fee_type->name ?? 'Not Found' }}</td>
-                                    <td>{{ $receive->period_end_date }}</td>
-                                    <td>{{ $receive->receive_date }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($receive->period_end_date)) }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($receive->receive_date)) }}</td>
                                     <td>{{ $receive->receive_amount }}</td>
                                     <td>{{ $receive->late_fee_percentage }}</td>
                                     <td>{{ $receive->vat_percentage }}</td>
@@ -73,7 +73,7 @@
                                     <td>{{ $pay_order->bank->name ?? 'Not Found' }}</td>
                                     <td>{{ $pay_order->amount }}</td>
                                     <td>{{ $pay_order->number }}</td>
-                                    <td>{{ $pay_order->date }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($pay_order->date)) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -99,7 +99,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $deposit->bank->name ?? 'Not Found' }}</td>
                                     <td>{{ $deposit->journal_number }}</td>
-                                    <td>{{ $deposit->date }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($deposit->date)) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

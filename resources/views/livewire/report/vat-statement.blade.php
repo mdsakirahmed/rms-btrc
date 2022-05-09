@@ -71,7 +71,7 @@
                                         <td>{{ $payment->category_name }}</td>
                                         <td>{{ $payment->sub_category_name }}</td>
                                         <td>{{ $payment->operator_name }}</td>
-                                        <td>{{ $payment->receive_date }}</td>
+                                        <td title="d-m-Y">{{ date('d-m-Y', strtotime($payment->receive_date)) }}</td>
                                         <td>{{ $payment->fee_type_name }}</td>
                                         <td title="d-m-Y">{{ date('d-m-Y', strtotime($payment->period_end_date)) }}</td>
                                         <td>{{ $payment->receive_amount }}</td>

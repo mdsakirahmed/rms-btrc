@@ -325,7 +325,7 @@
                 <div class="modal-header bg-primary text-white">
                     <h4 class="modal-title" id="">Payment Receipt</h4>
                     <button type="button" class="btn-close"
-                            {{--onClick="window.location.reload()"--}} data-bs-dismiss="modal"
+                            onClick="window.location.reload()" data-bs-dismiss="modal"
                             aria-hidden="true"></button>
                 </div>
                 <div class="modal-body" style="height: 6in;">

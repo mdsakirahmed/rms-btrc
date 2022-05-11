@@ -14,6 +14,7 @@ class LicenseSubCategorySeeder extends Seeder
      */
     public function run()
     {
+        LicenseSubCategory::create(['name' => 'No Sub Category']);
         LicenseSubCategory::create(['name' => 'Sub Category 1']);
         LicenseSubCategory::create(['name' => 'Sub Category 2']);
         LicenseSubCategory::create(['name' => 'Sub Category 3']);

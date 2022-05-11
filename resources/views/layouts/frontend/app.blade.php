@@ -1,56 +1,18 @@
-<!DOCTYPE html>
-
-<html lang="en">
+<!doctype html>
+<html lang="en" class="no-js">
 <head>
-	@include('layouts.frontend.partials.head')
+    <meta charset="UTF-8"/>
+    <title>BTRC-RMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/style.css') }}"/>
+    <script type='text/javascript' src='{{ asset('assets/frontend/js/jquery.particleground.js') }}'></script>
 </head>
 
-<body id="bg">
-
-	<div class="page-wraper">
-
-        <!-- HEADER START -->
-        @include('layouts.frontend.partials.header')
-        <!-- HEADER END -->
-
-        <!-- CONTENT START -->
-        <div class="page-content">
-
-            @yield('content')
-
-        </div>
-        <!-- CONTENT END -->
-
-        <!-- FOOTER START -->
-        {{-- @include('layouts.frontend.partials.footer') --}}
-        <!-- FOOTER END -->
-
-
-        <!-- BUTTON TOP START -->
-        <button class="scroltop"><span class=" iconmoon-house relative" id="btn-vibrate"></span>Top</button>
-
-        {{-- @include('layouts.frontend.partials.modal') --}}
-
-    </div>
-
-<!-- LOADING AREA START ===== -->
-<div class="loading-area">
-    <div class="loading-box"></div>
-    <div class="loading-pic">
-        <div class="cssload-container">
-            <div class="cssload-dot bg-primary"><i class="fa fa-bitcoin"></i></div>
-            <div class="step" id="cssload-s1"></div>
-            <div class="step" id="cssload-s2"></div>
-            <div class="step" id="cssload-s3"></div>
-        </div>
+<body style="background-image: url('assets/frontend/images/background.jpg')">
+<div id="particles">
+    <div id="intro" style="height: 100%;">
+        @yield('content')
     </div>
 </div>
-<!-- LOADING AREA  END ====== -->
-@include('layouts.frontend.partials.foot')
-
-<!-- STYLE SWITCHER  ======= -->
-{{-- @include('layouts.frontend.partials.styleswitcher') --}}
-<!-- STYLE SWITCHER END ==== -->
-
 </body>
 </html>

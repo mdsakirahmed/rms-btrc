@@ -6,7 +6,7 @@
         <table>
             <tr>
                 <td>
-                    <img src="{{ assert('assets/frontend/images/logo-light.png') }}" alt="BTRC Logo" style="height: 80px; weight: 80px; margin-right: 25px;">
+                    <img src="{{ asset('assets/frontend/images/logo-light.png') }}" alt="BTRC Logo" style="height: 80px; weight: 80px; margin-right: 25px;">
                 </td>
                 <td>
                     <h3>Bangladesh Telecommunication Regulatory Commission</h3>

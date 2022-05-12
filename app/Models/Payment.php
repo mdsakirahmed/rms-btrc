@@ -28,4 +28,14 @@ class Payment extends Model
     public function deposits(){
         return $this->hasMany(PaymentWiseDeposit::class, 'payment_id', 'id');
     }
+
+    // Auto delete depend data
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($invoice) { // this model
+            $invoice->receives()->delete(); // depended 1
+            $invoice->pay_orders()->delete(); // depended 2
+            $invoice->deposits()->delete(); // depended 3
+        });
+    }
 }

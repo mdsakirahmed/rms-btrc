@@ -41,4 +41,14 @@ class Operator extends Model
         // return $this->hasMany(Payment::class, 'operator_id', 'id');
         return $this->hasMany(Payment::class, 'operator_id', 'id')->latest();
     }
+
+    // Auto delete depend data
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($invoice) { // this model
+            $invoice->expirations()->delete(); // depended 1
+            $invoice->payments()->delete(); // depended 2
+        });
+    }
+
 }

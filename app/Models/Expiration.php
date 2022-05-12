@@ -19,9 +19,6 @@ class Expiration extends Model
 
     protected $dates = ['issue_date', 'expire_date'];
 
-    public function payments(){
-        return $this->hasMany(Payment::class, 'expiration_id', 'id');
-    }
 
     public function operator(){
         return $this->belongsTo(Operator::class, 'operator_id', 'id');
@@ -29,5 +26,13 @@ class Expiration extends Model
 
     public function expiration_wise_payment_dates(){
         return $this->hasMany(ExpirationWisePaymentDate::class, 'expiration_id', 'id');
+    }
+
+    // Auto delete depend data
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($invoice) { // this model
+            $invoice->expiration_wise_payment_dates()->delete(); // depended 1
+        });
     }
 }

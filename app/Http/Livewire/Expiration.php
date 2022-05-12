@@ -54,14 +54,14 @@ class Expiration extends Component
         foreach($this->operator->category->category_wise_fees as $category_wise_fee_type){
             $counter = 1;
             $issue_date = Carbon::create($expiration->issue_date);
-            for($issue_date; $issue_date <= $expiration->expire_date; $issue_date->addMonths($category_wise_fee_type->period_month)){
+            for($issue_date; $issue_date < $expiration->expire_date; $issue_date->addMonths($category_wise_fee_type->period_month)){
                 ExpirationWisePaymentDate::create([
                    'expiration_id' => $expiration->id,
                    'fee_type_id' => $category_wise_fee_type->fee_type_id,
                    'paid' => false,
                    'payment_number' => $counter,
                    'period_start_date' => $issue_date,
-                   'period_end_date' => $period_end_date = date("Y-m-d", strtotime($issue_date."+".$category_wise_fee_type->period_month." months")),
+                   'period_end_date' => $period_end_date = date("Y-m-d", strtotime($issue_date."+".$category_wise_fee_type->period_month." months - 1 days")),
                    'period_schedule_date' => date("Y-m-d", strtotime($period_end_date."+".$category_wise_fee_type->schedule_day." days")),
                ]);
                $counter ++;
@@ -93,7 +93,7 @@ class Expiration extends Component
     public function calculate_iteration()
     {
         $this->iteration = Carbon::parse($this->issue_date)->diffInMonths(Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)) / 2;
-        $this->expire_date = Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)->format('Y-m-d');
+        $this->expire_date = Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)->subDays(1)->format('Y-m-d');
     }
 
     public function render()

@@ -30,7 +30,7 @@
                                     <th>Period date</th>
                                     <th>Receive date</th>
                                     <th>Receive amount</th>
-                                    <th>Late Fee %</th>
+                                    <th>Late Fee</th>
                                     <th>VAT %</th>
                                     <th>TAX %</th>
                                 </tr>
@@ -43,7 +43,7 @@
                                     <td>{{ date('d-m-Y', strtotime($receive->period_end_date)) }}</td>
                                     <td>{{ date('d-m-Y', strtotime($receive->receive_date)) }}</td>
                                     <td>{{ $receive->receive_amount }}</td>
-                                    <td>{{ $receive->late_fee_percentage }}</td>
+                                    <td>{{ $receive->late_fee_receive_amount }}</td>
                                     <td>{{ $receive->vat_percentage }}</td>
                                     <td>{{ $receive->tax_percentage }}</td>
                                 </tr>

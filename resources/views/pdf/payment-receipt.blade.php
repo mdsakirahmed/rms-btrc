@@ -36,7 +36,7 @@
                     <td>{{ date('d-m-Y', strtotime($receive->period_end_date)) }}</td>
                     <td>{{ date('d-m-Y', strtotime($receive->receive_date)) }}</td>
                     <td>{{ $receive->receive_amount }}</td>
-                    <td>{{ round($receive->late_fee_amount) }}</td>
+                    <td>{{ round($receive->late_fee_receive_amount) }}</td>
                     <td>{{ round(($receive->vat_percentage/100) * $receive->receive_amount) }}</td>
                     <td>{{ round(($receive->tax_percentage/100) * $receive->receive_amount) }}</td>
                 </tr>

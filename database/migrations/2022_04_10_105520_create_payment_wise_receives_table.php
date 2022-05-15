@@ -21,6 +21,7 @@ class CreatePaymentWiseReceivesTable extends Migration
             $table->date('receive_date');
             $table->integer('differ_from_period_day')->default(0)->comment('receive_date - period_end_date');
             $table->double('receive_amount')->default(0);
+            $table->double('late_fee_receive_amount')->default(0);
             $table->double('late_fee_percentage')->default(0);
             $table->double('late_fee_amount')->default(0)->comment('Due days wise count');
             $table->double('vat_percentage')->default(0);

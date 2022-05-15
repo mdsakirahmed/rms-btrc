@@ -57,7 +57,7 @@ class PaymentController extends Controller
                     }
                 }
         }
-        return view('backend.payment', [
+        return view('backend.payment.index', [
             'banks' => Bank::all(),
             'categories' => LicenseCategory::all(),
             'sub_categories' => $sub_categories,
@@ -96,6 +96,7 @@ class PaymentController extends Controller
                     'receive_date' => $receive['receive_date'],
                     'receive_amount' => $receive['receive_amount'] ?? 0,
                     'late_fee_percentage' => $receive['late_fee'] ?? 0,
+                    'late_fee_receive_amount' => $receive['late_fee_receive'] ?? 0,
                     'vat_percentage' => $receive['vat'] ?? 0,
                     'tax_percentage' => $receive['tax'] ?? 0,
                     'differ_from_period_day' => $receive['differ_from_period_day'] ?? 0,

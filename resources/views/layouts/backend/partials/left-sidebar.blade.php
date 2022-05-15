@@ -32,7 +32,7 @@
                 <li> <a class="waves-effect waves-dark" href="{{ route('operator') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Operator</span></a></li>
                 @endcan
                 @can('payment')
-                <li> <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
+                <li class="{{ request()->is('payment*') ? 'active' : '' }}"> <a class="waves-effect waves-dark {{ request()->is('payment*') ? 'active' : '' }}" href="{{ route('payment') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Payment</span></a></li>
                 @endcan
                 @can('document')
                 <li> <a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i class="far fa-circle text-info"></i><span class="hide-menu">Document</span></a></li>

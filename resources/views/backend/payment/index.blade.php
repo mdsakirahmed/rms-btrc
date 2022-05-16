@@ -132,14 +132,14 @@
                     let receive_amount = $(obj).find('.receive_amount').val();
                     let late_fee_receive_amount = $(obj).find('.late_fee_receive').val();
                     let late_fee_amount = (receive_amount / 100) * $(obj).find('.late_fee_title').text();
-                    let vat = (receive_amount / 100) * $(obj).find('.vat').val();
-                    let tax = (receive_amount / 100) * $(obj).find('.tax').val();
+                    let vat = (receive_amount / 100) * $(obj).find('.vat_title').text();
+                    let tax = (receive_amount / 100) * $(obj).find('.tax_title').text();
                     let differ_from_period_day = $(obj).find('.differ_from_period_day_hidden').val();
                     let late_fee_amount_of_due_days = (late_fee_amount / 365) * differ_from_period_day;
                     $(obj).find('.late_fee_amount_of_due_days_hidden').val(late_fee_amount_of_due_days);
                     $(obj).find('.late_fee_help_line').text((differ_from_period_day ?? 0) + ' day = ' + Math.round(late_fee_amount_of_due_days) + ' BDT'); //help text
-                    $(obj).find('.vat_help_line').text(Math.round(vat) + ' BDT'); //help text
-                    $(obj).find('.tax_help_line').text(Math.round(tax) + ' BDT'); //help text
+                    $(obj).find('.vat').val(Math.round(vat));
+                    $(obj).find('.tax').val(Math.round(tax));
                     total_amount_of_receive +=
                         parseFloat(receive_amount) +
                         parseFloat(late_fee_receive_amount) +
@@ -201,8 +201,8 @@
                         receive_amount: $(obj).find('.receive_amount').val(),
                         late_fee: $(obj).find('.late_fee_title').text(),
                         late_fee_receive: $(obj).find('.late_fee_receive').val(),
-                        vat: $(obj).find('.vat').val(),
-                        tax: $(obj).find('.tax').val(),
+                        vat: $(obj).find('.vat_title').text(),
+                        tax: $(obj).find('.tax_title').text(),
                         differ_from_period_day: $(obj).find('.differ_from_period_day_hidden').val(),
                         late_fee_amount_of_due_days: $(obj).find('.late_fee_amount_of_due_days_hidden').val(),
                     });

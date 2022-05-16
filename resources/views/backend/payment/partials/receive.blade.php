@@ -48,8 +48,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group has-success">
-                <label class="form-label required" for="">Late ( <b
-                        class="text-success late_fee_title">--</b>%)</label>
+                <label class="form-label required" for="">Late ( <b class="text-success late_fee_title">--</b>%)</label>
                 <input type="number" class="form-control late_fee_receive" id="" name="late_fee_receive" step="0.001">
                 <input type="hidden" class="differ_from_period_day_hidden">
                 <input type="hidden" class="late_fee_amount_of_due_days_hidden">
@@ -58,14 +57,13 @@
         </div>
         <div class="col-md-2">
             <div class="form-group has-success">
-                <label class="form-label required" for="">VAT (%)</label>
+                <label class="form-label required" for="">VAT (<b class="text-success vat_title">--</b>%)</label>
                 <input type="number" class="form-control vat" id="" name="vat" step="0.001" disabled>
-                <p class="text-danger vat_help_line"></p>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group has-success">
-                <label class="form-label required" for="">TAX (%)</label>
+                <label class="form-label required" for="">TAX (<b class="text-success tax_title">--</b>%)</label>
                 <input type="number" class="form-control tax" id="" name="tax" step="0.001" disabled>
                 <p class="text-danger tax_help_line"></p>
             </div>
@@ -106,8 +104,10 @@
             });
             $(this).closest(".receive_row").find('.receive_amount_title').text(amount);
             $(this).closest(".receive_row").find('.late_fee_title').text(late_fee);
-            $(this).closest(".receive_row").find('.vat').val(vat);
-            $(this).closest(".receive_row").find('.tax').val(tax);
+            $(this).closest(".receive_row").find('.vat_title').text(vat);
+            $(this).closest(".receive_row").find('.tax_title').text(tax);
+            $(this).closest(".receive_row").find('.vat').val("");
+            $(this).closest(".receive_row").find('.tax').val("");
             $(this).closest(".receive_row").find('.schedule_date').val("");
         });
         $('.receive_col').on('change', '.period', function () {

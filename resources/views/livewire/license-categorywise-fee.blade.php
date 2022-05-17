@@ -1,14 +1,14 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Fee types setting</h4>
+            <h4 class="text-themecolor">Fee Types Setting</h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('license-category') }}">{{ $license_category->name }}</a></li>
-                    <li class="breadcrumb-item active">Fees types setting</li>
+                    <li class="breadcrumb-item active">Fees Types Setting</li>
                 </ol>
                 <button type="button" class="btn btn-dark d-none d-lg-block m-l-15" wire:click="create" alt="default" data-bs-toggle="modal" data-bs-target="#create_and_edit_modal"><i class="fa fa-plus-circle"></i>Create New</button>
             </div>
@@ -19,8 +19,8 @@
             <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Category: {{ $license_category->name }}</h5>
-                  <h5 class="">Duration year: {{ $license_category->duration_year }}</h5>
-                  <h5 class="">Duration month: {{ $license_category->duration_month }}</h5>
+                  <h5 class="">Duration Year: {{ $license_category->duration_year }}</h5>
+                  <h5 class="">Duration Month: {{ $license_category->duration_month }}</h5>
                 </div>
               </div>
             <div class="card">
@@ -30,7 +30,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Fee type name</th>
+                                    <th>Fee Type Name</th>
                                     <th>Fee Cycle</th>
                                     <th>Schedule</th>
                                     <th>Amount</th>

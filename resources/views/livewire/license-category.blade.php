@@ -36,7 +36,7 @@
                                     <td>{{ $licenseCategory->duration_year }} year</td>
                                     <td>{{ $licenseCategory->duration_month }} month</td>
                                     <td>
-                                        <a href="{{ route('licenseCategorywiseFee', $licenseCategory->id) }}" class="btn btn-primary">Fee types</a>
+                                        <a href="{{ route('licenseCategorywiseFee', $licenseCategory->id) }}" class="btn btn-primary">Fee Types</a>
                                         <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $licenseCategory->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#create_and_edit_modal">Edit</button>
                                         <button type="button" class="btn btn-danger text-white confirmation_btn" wire:click="delete({{ $licenseCategory->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
                                     </td>
@@ -62,22 +62,22 @@
                     <form wire:submit.prevent="submit">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="name">License category name</label>
-                                <input type="text" class="form-control" id="name" placeholder="License category name" wire:model="name">
+                                <label for="name">License Category Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="License Category Name" wire:model="name">
                                 <x-error name="name" />
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="duration_year">Duration year</label>
+                                <label for="duration_year">Duration Year</label>
                                 <input type="number" class="form-control" id="duration_year" placeholder="Year" wire:model="duration_year">
                                 <x-error name="duration_year" />
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="duration_month">Duration month</label>
+                                <label for="duration_month">Duration Month</label>
                                 <input type="number" class="form-control" id="duration_month" placeholder="Month" wire:model="duration_month">
                                 <x-error name="duration_month" />
                             </div>
                         </div>
-                        <button class="btn btn-lg btn-info" type="submit">Submit now</button>
+                        <button class="btn btn-lg btn-info" type="submit">Submit Now</button>
                     </form>
                 </div>
             </div>

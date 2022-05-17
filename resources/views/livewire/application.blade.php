@@ -24,8 +24,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th style="text-align: right;">Application fee</th>
-                                    <th style="text-align: right;">Processing fee</th>
+                                    <th style="text-align: right;">Application Fee</th>
+                                    <th style="text-align: right;">Processing Fee</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
@@ -73,14 +73,14 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="application_fee" wire:model="application_fee" placeholder="Application fee">
-                                            <label for="application_fee">Application fee</label>
+                                            <label for="application_fee">Application Fee</label>
                                         </div>
                                         <x-error name="application_fee" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="processing_fee" wire:model="processing_fee" placeholder="Processing fee">
-                                            <label for="processing_fee">Processing fee</label>
+                                            <label for="processing_fee">Processing Fee</label>
                                         </div>
                                         <x-error name="processing_fee" />
                                     </div>

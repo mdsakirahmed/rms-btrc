@@ -40,7 +40,7 @@
     </div>
 </div>
 <div class="col-12 d-flex flex-row-reverse bd-highlight">
-    <div class="p-2 bd-highlight fw-bold">Total Pay Order Amount is: <b
+    <div class="p-2 bd-highlight fw-bold">Total Pay Order Amount Is: <b
             id="total_amount_of_pay_order">0</b> BDT
     </div>
 </div>

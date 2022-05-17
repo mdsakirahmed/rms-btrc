@@ -21,9 +21,9 @@
                     <form wire:submit.prevent="submit">
                         <div class="row">
                             <div class="col-lg-6">
-                                <label for="name">License sub category name</label>
+                                <label for="name">License Sub Category Name</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control form-control-lg" id="name" placeholder="License sub category name" aria-label="" wire:model="name">
+                                    <input type="text" class="form-control form-control-lg" id="name" placeholder="License Sub Category Name" aria-label="" wire:model="name">
 
                                     <div class="input-group-append">
                                         <button class="btn btn-lg btn-info" type="submit">Save!</button>

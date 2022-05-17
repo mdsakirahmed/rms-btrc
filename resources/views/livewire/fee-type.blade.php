@@ -1,13 +1,13 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Fee type Page</h4>
+            <h4 class="text-themecolor">Fee Type Page</h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">Fee type Page</li>
+                    <li class="breadcrumb-item active">Fee Type Page</li>
                 </ol>
                 <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"><i class="fa fa-plus-circle"></i> Create New</button>
             </div>
@@ -52,7 +52,7 @@
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
-                            <h4 class="modal-title" id="">Fee type Form</h4>
+                            <h4 class="modal-title" id="">Fee Type Form</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
                         <div class="modal-body">
@@ -60,7 +60,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
+                                            <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name Here">
                                             <label for="name">Name</label>
                                         </div>
                                         <x-error name="name" />

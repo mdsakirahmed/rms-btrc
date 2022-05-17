@@ -6,7 +6,7 @@
             <div class="form-group has-success">
                 <label class="form-label required" for="fee_type">Fee Type</label>
                 <select class="form-control form-select select2 fee_type" name="fee_type">
-                    <option value="" disabled selected>Select fee type</option>
+                    <option value="" disabled selected>Select Fee Type</option>
                     @foreach ($fee_types as $fee_type)
                         <option value="{{ $fee_type->fee_type->id }}" @if (request()->fee_type ==
                                                 $fee_type->fee_type->id) selected @endif>
@@ -20,7 +20,7 @@
             <div class="form-group has-success">
                 <label class="form-label required" for="period">Select Period</label>
                 <select class="form-control form-select select2 period auto_fill_late_fee_amount" id="" name="period">
-                    <option value="" disabled selected>Select period</option>
+                    <option value="" disabled selected>Select Period</option>
                 </select>
             </div>
         </div>
@@ -75,7 +75,7 @@
     </div>
 </div>
 <div class="col-12 d-flex flex-row-reverse bd-highlight">
-    <div class="p-2 bd-highlight fw-bold">Total Receive Amount is: <b
+    <div class="p-2 bd-highlight fw-bold">Total Receive Amount Is: <b
             id="total_amount_of_receive">0</b> BDT
     </div>
 </div>

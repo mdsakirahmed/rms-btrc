@@ -17,8 +17,6 @@ class CreateLicenseCategoryWiseFeeTypesTable extends Migration
             $table->id();
             $table->foreignId('category_id')->comment('id of license_categories table');
             $table->foreignId('fee_type_id')->comment('id of fee_types table');
-            $table->integer('period_month')->default(0)->comment('month count'); //
-            $table->integer('schedule_day')->default(0)->comment('day count');
             $table->double('amount')->default(0)->comment('total amount');
             $table->double('late_fee')->default(0)->comment('in percentage');
             $table->double('vat')->default(0)->comment('in percentage');

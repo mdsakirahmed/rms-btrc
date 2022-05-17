@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Expiration as ModelsExpiration;
 use App\Models\ExpirationWisePaymentDate;
+use App\Models\FeeTypeWisePeriod;
 use App\Models\Operator;
 use App\Models\Payment;
 use Carbon\Carbon;
@@ -42,8 +43,7 @@ class Expiration extends Component
                 'issue_date' => $this->issue_date,
                 'expire_date' => $this->expire_date
             ]);
-            $expiration = $this->expiration;
-            $expiration->expiration_wise_payment_dates()->delete();
+            $this->expiration->expiration_wise_payment_dates()->delete();
         } else {
             $expiration = ModelsExpiration::create([
                 'operator_id' => $this->operator->id,
@@ -51,20 +51,34 @@ class Expiration extends Component
                 'expire_date' => $this->expire_date
             ]);
         }
-        foreach($this->operator->category->category_wise_fees as $category_wise_fee_type){
-            $counter = 1;
-            $issue_date = Carbon::create($expiration->issue_date);
-            for($issue_date; $issue_date < $expiration->expire_date; $issue_date->addMonths($category_wise_fee_type->period_month)){
-                ExpirationWisePaymentDate::create([
-                   'expiration_id' => $expiration->id,
-                   'fee_type_id' => $category_wise_fee_type->fee_type_id,
-                   'paid' => false,
-                   'payment_number' => $counter,
-                   'period_start_date' => $issue_date,
-                   'period_end_date' => $period_end_date = date("Y-m-d", strtotime($issue_date."+".$category_wise_fee_type->period_month." months - 1 days")),
-                   'period_schedule_date' => date("Y-m-d", strtotime($period_end_date."+".$category_wise_fee_type->schedule_day." days")),
-               ]);
-               $counter ++;
+
+
+        $issue_m = Carbon::create($expiration->issue_date)->format('m');
+        $issue_y = Carbon::create($expiration->issue_date)->format('Y');
+        $expire_m = Carbon::create($expiration->expire_date)->format('m');
+        $expire_y = Carbon::create($expiration->expire_date)->format('Y');
+
+        foreach ($this->operator->category->category_wise_fees as $category_wise_fee_type) {
+            for ($issue_y; $issue_y <= $expire_y; $issue_y++) {
+                $counter = 1;
+                if($issue_y == $expire_y){
+                    $periods = $category_wise_fee_type->fee_type->periods()->where('starting_month', '<=', $expire_m)->orWhere('ending_month', '<=', $expire_m)->get();
+                }else{
+                    $periods = $category_wise_fee_type->fee_type->periods()->where('starting_month', '>=', $issue_m)->orWhere('ending_month', '>=', $issue_m)->get();
+                }
+                foreach ($periods as $period) {
+                    ExpirationWisePaymentDate::create([
+                        'expiration_id' => $expiration->id,
+                        'fee_type_id' => $period->fee_type_id,
+                        'paid' => false,
+                        'payment_number' => $counter,
+                        'period_start_date' => $issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01',
+                        'period_end_date' => Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth(),
+                        'period_schedule_date' => Carbon::parse($issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01')->addDays($period->schedule_day)->addMonths($period->schedule_month)->subDays(1),
+                    ]);
+                    $counter++;
+                }
+                $issue_m = 1;
             }
         }
         $this->create();

@@ -31,8 +31,6 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Fee type name</th>
-                                    <th>Fee Cycle</th>
-                                    <th>Schedule</th>
                                     <th>Amount</th>
                                     <th>Late Fee</th>
                                     <th>VAT</th>
@@ -45,8 +43,6 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category_wise_fee->fee_type->name ?? 'Not found' }}</td>
-                                    <td>{{ $category_wise_fee->period_month }} month </td>
-                                    <td>{{ $category_wise_fee->schedule_day }} days </td>
                                     <td>{{ $category_wise_fee->amount }} BDT</td>
                                     <td>{{ $category_wise_fee->late_fee }} %</td>
                                     <td>{{ $category_wise_fee->vat }} %</td>
@@ -78,7 +74,7 @@
                     
                         <div class="row">
                             <x-error name="category_id" />
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="fee_type_id" class="required">Fee type</label>
                                 <select class="form-control" id="fee_type_id" wire:model="fee_type_id">
                                     <option value="">Select fee type</option>
@@ -88,32 +84,22 @@
                                 </select>
                                 <x-error name="fee_type_id" />
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="period_month" class="required">Fee Cycle (months)</label>
-                                <input type="number" class="form-control" id="period_month" placeholder="Months" min="0" step="1" title="Months" wire:model="period_month">
-                                <x-error name="period_month" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="schedule_day" class="required">Schedule day</label>
-                                <input type="number" class="form-control" id="schedule_day" placeholder="Days" min="0" step="1" title="Days" wire:model="schedule_day">
-                                <x-error name="schedule_day" />
-                            </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
                                 <label for="amount" class="required">Amount</label>
                                 <input type="number" class="form-control" id="amount" placeholder="amount" min="0" step="0.001" wire:model="amount">
                                 <x-error name="amount" />
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="late_fee" class="required">Late Fee %</label>
                                 <input type="number" class="form-control" id="late_fee" placeholder="Late Fee" min="0" step="0.001" wire:model="late_fee">
                                 <x-error name="late_fee" />
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="vat" class="required">VAT %</label>
                                 <input type="number" class="form-control" id="vat" placeholder="vat" min="0" step="0.001" wire:model="vat">
                                 <x-error name="vat" />
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="tax" class="required">Tax %</label>
                                 <input type="number" class="form-control" id="tax" placeholder="tax" min="0" step="0.001" wire:model="tax">
                                 <x-error name="tax" />

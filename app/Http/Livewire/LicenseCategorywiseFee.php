@@ -27,7 +27,7 @@ class LicenseCategorywiseFee extends Component
 
     public function create()
     {
-        $this->fee_type_id = $this->period_month = $this->schedule_day = $this->amount = $this->late_fee = $this->vat = $this->tax = $this->selected_category_wise_fee = null;
+        $this->fee_type_id = $this->amount = $this->late_fee = $this->vat = $this->tax = $this->selected_category_wise_fee = null;
     }
 
     public function submit()
@@ -36,8 +36,6 @@ class LicenseCategorywiseFee extends Component
         $data = $this->validate([
             'category_id' => 'required|exists:license_categories,id|unique:license_category_wise_fee_types,category_id,'.($this->selected_category_wise_fee->id ?? '' ).',id,fee_type_id,'.$this->fee_type_id,
             'fee_type_id' => 'required|exists:fee_types,id',
-            'period_month' => 'required|numeric',
-            'schedule_day' => 'required|numeric',
             'amount' => 'required|numeric',
             'late_fee' => 'required|numeric',
             'vat' => 'required|numeric',
@@ -63,8 +61,6 @@ class LicenseCategorywiseFee extends Component
     {
         $this->selected_category_wise_fee = $licenseCategoryWiseFeeType;
         $this->fee_type_id = $this->selected_category_wise_fee->fee_type_id;
-        $this->period_month = $this->selected_category_wise_fee->period_month;
-        $this->schedule_day = $this->selected_category_wise_fee->schedule_day;
         $this->amount = $this->selected_category_wise_fee->amount;
         $this->late_fee = $this->selected_category_wise_fee->late_fee;
         $this->vat = $this->selected_category_wise_fee->vat;

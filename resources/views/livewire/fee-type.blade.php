@@ -24,6 +24,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Periods</th>
+                                    <th>Schedule</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
@@ -32,7 +34,17 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $fee_type->name }} &nbsp;
+                                        {{ $fee_type->name }}
+                                    </td>
+                                    <td>
+                                        @foreach ($fee_type->periods as $period)
+                                        <span class="badge bg-primary">{{ $period->starting_month.' - '.$period->ending_month }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @if($fee_type->periods->first())
+                                        {{ $fee_type->periods->first()->schedule_day }} days {{ $fee_type->periods->first()->schedule_month }} months
+                                        @endif
                                     </td>
                                     <td style="text-align: center;">
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $fee_type->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>

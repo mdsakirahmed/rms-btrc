@@ -102,45 +102,49 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group has-success">
-                            <label class="form-label" for="">Schedule Date</label>
+                            <label class="form-label">Schedule Date</label>
                             <input type="text" class="form-control mt-1" disabled wire:model="receive_section_array.{{ $key }}.schedule_date">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group has-success">
-                            <label class="form-label required" for="">Receive Date</label>
-                            <input type="date" class="form-control receive_date auto_fill_late_fee_amount" id="" name="receive_date">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group has-success">
-                            <label class="form-label required" for="">Receive Amount ( <b class="text-success receive_amount_title">--</b> )</label>
-                            <input type="number" class="form-control receive_amount auto_fill_late_fee_amount" id="" name="receive_amount" step="0.001">
+                            <label class="form-label required">Receive Date</label>
+                            <input type="date" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group has-success">
-                            <label class="form-label required" for="">Late ( <b class="text-success late_fee_title">--</b>%)</label>
-                            <input type="number" class="form-control late_fee_receive" id="" name="late_fee_receive" step="0.001">
-                            <input type="hidden" class="differ_from_period_day_hidden">
-                            <input type="hidden" class="late_fee_amount_of_due_days_hidden">
+                            <label class="form-label required">Receivable</label>
+                            <input type="number" class="form-control" disabled wire:model="receive_section_array.{{ $key }}.receivable">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group has-success">
+                            <label class="form-label required">Receive</label>
+                            <input type="number" class="form-control" step="0.001" wire:model="receive_section_array.{{ $key }}.receive_amount">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group has-success">
+                            <label class="form-label required">Late Fee( <b class="text-success late_fee_title">@if(isset($receive_section_array[$key]['late_fee_percentage'])) {{ $receive_section_array[$key]['late_fee_percentage'] ?? 0 }} @endif</b>%)</label>
+                            <input type="number" class="form-control" step="0.001" wire:model="receive_section_array.{{ $key }}.late_fee_receive_amount">
                             <p class="text-danger late_fee_help_line"></p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group has-success">
-                            <label class="form-label required" for="">VAT (<b class="text-success vat_title">--</b>%)</label>
-                            <input type="number" class="form-control vat" id="" name="vat" step="0.001" disabled>
+                            <label class="form-label required">VAT (<b class="text-success vat_title">@if(isset($receive_section_array[$key]['vat_percentage'])) {{ $receive_section_array[$key]['vat_percentage'] ?? 0 }} @endif</b>%)</label>
+                            <input type="number" class="form-control" step="0.001" disabled  wire:model="receive_section_array.{{ $key }}.vat_receive_amount">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group has-success">
-                            <label class="form-label required" for="">TAX (<b class="text-success tax_title">--</b>%)</label>
-                            <input type="number" class="form-control tax" id="" name="tax" step="0.001" disabled>
+                            <label class="form-label required">TAX (<b class="text-success tax_title">@if(isset($receive_section_array[$key]['tax_percentage'])) {{ $receive_section_array[$key]['tax_percentage'] ?? 0 }} @endif</b>%)</label>
+                            <input type="number" class="form-control" step="0.001" disabled  wire:model="receive_section_array.{{ $key }}.tax_receive_amount">
                             <p class="text-danger tax_help_line"></p>
                         </div>
                     </div>
-                    <div class="col-2 cln__or_rm_div">
+                    <div class="col-2 mt-2">
                         <button type="button" class="btn btn-warning w-100 mt-4 cln_btn" title="Remove this one" wire:click="add_or_rm_section_array('receive', {{ $key }})"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="col-12 d-flex flex-row-reverse bd-highlight">

@@ -152,9 +152,7 @@
             let receive_amount = $(this).closest(".receive_row").find('.receive_amount').val();
             let late_fee_percentage = $(this).closest(".receive_row").find('.late_fee_title').text();
 
-            $(this).closest(".receive_row").find('.late_fee_receive').val(Math.round(
-                (((receive_amount / 100) * late_fee_percentage) / 365) * $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val()
-                ));
+            $(this).closest(".receive_row").find('.late_fee_receive').val(Math.round((((receive_amount / 100) * late_fee_percentage) / 365) * $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val()));
         });
     });
 

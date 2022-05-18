@@ -6,6 +6,7 @@ use App\Models\Expiration;
 use App\Models\ExpirationWisePaymentDate;
 use App\Models\FeeType;
 use App\Models\LicenseCategory;
+use App\Models\LicenseCategoryWiseFeeType;
 use App\Models\LicenseSubCategory;
 use App\Models\Operator;
 use App\Models\Payment as ModelsPayment;
@@ -13,7 +14,7 @@ use Livewire\Component;
 
 class Payment extends Component
 {
-    public $selected_category, $selected_sub_category, $selected_operator, $selected_fee_type;
+    public $selected_category, $selected_sub_category, $selected_operator;
     public $receive_section_array = [], $po_section_array = [], $deposit_section_array = [], $periods = [];
 
     public function add_or_rm_section_array($section, $rm_array_key = null)
@@ -37,8 +38,6 @@ class Payment extends Component
                 unset($this->deposit_section_array[$rm_array_key]);
             }
         }
-
-        // $this->receive_section_array = array_values($this->receive_section_array);
     }
 
     public function render()
@@ -71,16 +70,30 @@ class Payment extends Component
     }
 
     public function fee_type_change($array_key){
-        $this->periods = ExpirationWisePaymentDate::where(function ($query) use ($array_key) {
-            if ($this->selected_operator && $this->receive_section_array[$array_key]['selected_fee_type'] && $expiration = Expiration::where('operator_id', $this->selected_operator)->where('all_payment_completed', false)->first()) {
-                $query->where('expiration_id', $expiration->id)->where('fee_type_id', $this->receive_section_array[$array_key]['selected_fee_type']);
+        $fee_type_id = $this->receive_section_array[$array_key]['selected_fee_type'];
+        $this->periods = ExpirationWisePaymentDate::where(function ($query) use ($fee_type_id) {
+            if ($this->selected_operator && $fee_type_id && $expiration = Expiration::where('operator_id', $this->selected_operator)->where('all_payment_completed', false)->first()) {
+                $query->where('expiration_id', $expiration->id)->where('fee_type_id', $fee_type_id);
             } else {
                 $query->where('expiration_id', null);
             }
         })->get();
+        
+        $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)
+        ->where('fee_type_id', $fee_type_id)
+        ->first();
+        $this->receive_section_array[$array_key]['receivable'] =  $category_wise_fee_type->amount ?? 0;
+        $this->receive_section_array[$array_key]['receive_amount'] =  $category_wise_fee_type->amount ?? 0;
+        $this->receive_section_array[$array_key]['late_fee_percentage'] =  $category_wise_fee_type->late_fee ?? 0;
+        $this->receive_section_array[$array_key]['vat_percentage'] =  $category_wise_fee_type->vat ?? 0;
+        $this->receive_section_array[$array_key]['tax_percentage'] =  $category_wise_fee_type->tax ?? 0;
+        $this->receive_section_array[$array_key]['vat_receive_amount'] =  ($category_wise_fee_type->amount / 100) * $category_wise_fee_type->vat ?? 0;
+        $this->receive_section_array[$array_key]['tax_receive_amount'] =  ($category_wise_fee_type->amount / 100) * $category_wise_fee_type->tax ?? 0;
     }
     
     public function period_change($array_key){
-        $this->receive_section_array[$array_key]['schedule_date'] = ExpirationWisePaymentDate::find($this->receive_section_array[$array_key]['selected_period'])->period_schedule_date->format('d-M-Y');
+        $expirationWisePaymentDate = ExpirationWisePaymentDate::find($this->receive_section_array[$array_key]['selected_period']);
+        $this->receive_section_array[$array_key]['schedule_date'] = $expirationWisePaymentDate->period_schedule_date->format('d-M-Y');
+        // $this->receive_section_array[$array_key]['receivable'] = $expirationWisePaymentDate->;
     }
 }

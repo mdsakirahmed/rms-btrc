@@ -31,8 +31,8 @@ class Expiration extends Model
     // Auto delete depend data
     public static function boot() {
         parent::boot();
-        static::deleting(function($invoice) { // this model
-            $invoice->expiration_wise_payment_dates()->delete(); // depended 1
+        static::deleting(function($model) { // this model
+            $model->expiration_wise_payment_dates()->delete(); // depended 1
         });
     }
 }

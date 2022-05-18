@@ -15,23 +15,19 @@ class FeeTypeSeeder extends Seeder
      */
     public function run()
     {
-        $fee_type = FeeType::create(['name' => 'License Fee']);
+        $fee_type = FeeType::create(['name' => 'License Fee', 'schedule_day' => 0, 'schedule_month' => 2]);
         FeeTypeWisePeriod::create([
             'fee_type_id' => $fee_type->id,
             'starting_month' => 1,
             'ending_month' => 12,
-            'schedule_day' => 0,
-            'schedule_month' => 2,
         ]);
 
         //1
-        $fee_type =  FeeType::create(['name' => 'Revenue']);
+        $fee_type =  FeeType::create(['name' => 'Revenue Sharing', 'schedule_day' => 20, 'schedule_month' => 0]);
         FeeTypeWisePeriod::create([
             'fee_type_id' => $fee_type->id,
             'starting_month' => 1,
             'ending_month' => 2,
-            'schedule_day' => 20,
-            'schedule_month' => 0,
         ]);
 
         //2
@@ -39,8 +35,6 @@ class FeeTypeSeeder extends Seeder
             'fee_type_id' => $fee_type->id,
             'starting_month' => 3,
             'ending_month' => 4,
-            'schedule_day' => 20,
-            'schedule_month' => 0,
         ]);
 
         //3
@@ -48,8 +42,6 @@ class FeeTypeSeeder extends Seeder
             'fee_type_id' => $fee_type->id,
             'starting_month' => 5,
             'ending_month' => 6,
-            'schedule_day' => 20,
-            'schedule_month' => 0,
         ]);
 
         //4
@@ -57,8 +49,6 @@ class FeeTypeSeeder extends Seeder
             'fee_type_id' => $fee_type->id,
             'starting_month' => 7,
             'ending_month' => 8,
-            'schedule_day' => 20,
-            'schedule_month' => 0,
         ]);
 
         //5
@@ -66,8 +56,6 @@ class FeeTypeSeeder extends Seeder
             'fee_type_id' => $fee_type->id,
             'starting_month' => 9,
             'ending_month' => 10,
-            'schedule_day' => 20,
-            'schedule_month' => 0,
         ]);
 
         //6
@@ -75,10 +63,32 @@ class FeeTypeSeeder extends Seeder
             'fee_type_id' => $fee_type->id,
             'starting_month' => 11,
             'ending_month' => 12,
-            'schedule_day' => 20,
-            'schedule_month' => 0,
         ]);
 
-        FeeType::create(['name' => 'Spectrum']);
+        $fee_type = FeeType::create(['name' => 'Spectrum Charge', 'schedule_day' => 20, 'schedule_month' => 0]);
+        //1
+        FeeTypeWisePeriod::create([
+            'fee_type_id' => $fee_type->id,
+            'starting_month' => 1,
+            'ending_month' => 3,
+        ]);
+        //2
+        FeeTypeWisePeriod::create([
+            'fee_type_id' => $fee_type->id,
+            'starting_month' => 4,
+            'ending_month' => 6,
+        ]);
+        //3
+        FeeTypeWisePeriod::create([
+            'fee_type_id' => $fee_type->id,
+            'starting_month' => 7,
+            'ending_month' => 9,
+        ]);
+        //4
+        FeeTypeWisePeriod::create([
+            'fee_type_id' => $fee_type->id,
+            'starting_month' => 10,
+            'ending_month' => 12,
+        ]);
     }
 }

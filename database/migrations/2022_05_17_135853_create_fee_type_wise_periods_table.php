@@ -18,8 +18,6 @@ class CreateFeeTypeWisePeriodsTable extends Migration
             $table->foreignId('fee_type_id');
             $table->integer('starting_month')->default(0);
             $table->integer('ending_month')->default(0);
-            $table->integer('schedule_day')->default(0);
-            $table->integer('schedule_month')->default(0);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

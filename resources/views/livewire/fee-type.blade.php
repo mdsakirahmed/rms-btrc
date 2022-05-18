@@ -42,9 +42,7 @@
                                         @endforeach
                                     </td>
                                     <td>
-                                        @if($fee_type->periods->first())
-                                        {{ $fee_type->periods->first()->schedule_day }} days {{ $fee_type->periods->first()->schedule_month }} months
-                                        @endif
+                                        {{ $fee_type->schedule_day }} days {{ $fee_type->schedule_month }} months
                                     </td>
                                     <td style="text-align: center;">
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $fee_type->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
@@ -70,12 +68,86 @@
                         <div class="modal-body">
                             <form wire:submit.prevent="submit">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
                                             <label for="name">Name</label>
                                         </div>
                                         <x-error name="name" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select name="period_format" id="period_format" class="form-control" wire:model="period_format">
+                                                <option value="">Chose Period Format</option>
+                                                <option value="1">Jan/2022-2023</option>
+                                                <option value="2">Jan-Feb/2022</option>
+                                                <option value="2">Jan-Mar/2022</option>
+                                            </select>
+                                            <label for="period_format">Period Format</label>
+                                        </div>
+                                        <x-error name="period_format" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="schedule_day" wire:model="schedule_day" placeholder="Enter Schedule Day Here">
+                                            <label for="schedule_day">Schedule Day</label>
+                                        </div>
+                                        <x-error name="schedule_day" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="schedule_month" wire:model="schedule_month" placeholder="Enter Schedule Month Here">
+                                            <label for="schedule_month">Schedule Month</label>
+                                        </div>
+                                        <x-error name="schedule_month" />
+                                    </div>
+                                    @foreach ($periods as $key => $period)
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select name="periods.{{ $key }}.start_month" id="periods.{{ $key }}.start_month" class="form-control" wire:model="periods.{{ $key }}.start_month">
+                                                <option value="">Chose Period Start Month</option>
+                                                <option value="1">1-Jan</option>
+                                                <option value="2">2-Feb</option>
+                                                <option value="3">3-Mar</option>
+                                                <option value="4">4-Apr</option>
+                                                <option value="5">5-May</option>
+                                                <option value="6">6-Jun</option>
+                                                <option value="7">7-Jul</option>
+                                                <option value="8">8-Aug</option>
+                                                <option value="9">9-Sep</option>
+                                                <option value="10">10-Oct</option>
+                                                <option value="11">11-Nov</option>
+                                                <option value="12">12-Dec</option>
+                                            </select>
+                                            <label for="periods.{{ $key }}.start_month">Period Start Month</label>
+                                        </div>
+                                        <x-error name="periods.{{ $key }}.start_month" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select name="periods.{{ $key }}.end_month" id="periods.{{ $key }}.end_month" class="form-control" wire:model="periods.{{ $key }}.end_month">
+                                                <option value="">Chose Period End Month</option>
+                                                <option value="1">1-Jan</option>
+                                                <option value="2">2-Feb</option>
+                                                <option value="3">3-Mar</option>
+                                                <option value="4">4-Apr</option>
+                                                <option value="5">5-May</option>
+                                                <option value="6">6-Jun</option>
+                                                <option value="7">7-Jul</option>
+                                                <option value="8">8-Aug</option>
+                                                <option value="9">9-Sep</option>
+                                                <option value="10">10-Oct</option>
+                                                <option value="11">11-Nov</option>
+                                                <option value="12">12-Dec</option>
+                                            </select>
+                                            <label for="periods.{{ $key }}.end_month">Period End Month</label>
+                                        </div>
+                                        <x-error name="periods.{{ $key }}.end_month" />
+                                    </div>
+                                    @endforeach
+                                    <div class="btn-group btn-group-lg col-12" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-info" wire:click="add_or_remove_period('add')">+</button>
+                                        <button type="button" class="btn btn-warning" wire:click="add_or_remove_period()">-</button>
                                     </div>
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">

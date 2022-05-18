@@ -32,10 +32,10 @@ class Payment extends Model
     // Auto delete depend data
     public static function boot() {
         parent::boot();
-        static::deleting(function($invoice) { // this model
-            $invoice->receives()->delete(); // depended 1
-            $invoice->pay_orders()->delete(); // depended 2
-            $invoice->deposits()->delete(); // depended 3
+        static::deleting(function($model) { // this model
+            $model->receives()->delete(); // depended 1
+            $model->pay_orders()->delete(); // depended 2
+            $model->deposits()->delete(); // depended 3
         });
     }
 }

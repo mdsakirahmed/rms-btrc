@@ -45,9 +45,9 @@ class Operator extends Model
     // Auto delete depend data
     public static function boot() {
         parent::boot();
-        static::deleting(function($invoice) { // this model
-            $invoice->expirations()->delete(); // depended 1
-            $invoice->payments()->delete(); // depended 2
+        static::deleting(function($model) { // this model
+            $model->expirations()->delete(); // depended 1
+            $model->payments()->delete(); // depended 2
         });
     }
 

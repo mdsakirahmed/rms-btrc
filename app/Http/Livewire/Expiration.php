@@ -4,12 +4,9 @@ namespace App\Http\Livewire;
 
 use App\Models\Expiration as ModelsExpiration;
 use App\Models\ExpirationWisePaymentDate;
-use App\Models\FeeTypeWisePeriod;
 use App\Models\Operator;
-use App\Models\Payment;
 use Carbon\Carbon;
 use Livewire\Component;
-use DateTime;
 use PDF;
 
 class Expiration extends Component
@@ -28,7 +25,6 @@ class Expiration extends Component
     public function create()
     {
         $this->issue_date = $this->expire_date = null;
-        // $this->duration_year = $this->duration_month = null;
     }
 
     public function submit()
@@ -61,9 +57,9 @@ class Expiration extends Component
         foreach ($this->operator->category->category_wise_fees as $category_wise_fee_type) {
             for ($issue_y; $issue_y <= $expire_y; $issue_y++) {
                 $counter = 1;
-                if($issue_y == $expire_y){
+                if ($issue_y == $expire_y) {
                     $periods = $category_wise_fee_type->fee_type->periods()->where('starting_month', '<=', $expire_m)->orWhere('ending_month', '<=', $expire_m)->get();
-                }else{
+                } else {
                     $periods = $category_wise_fee_type->fee_type->periods()->where('starting_month', '>=', $issue_m)->orWhere('ending_month', '>=', $issue_m)->get();
                 }
                 foreach ($periods as $period) {
@@ -74,13 +70,14 @@ class Expiration extends Component
                         'payment_number' => $counter,
                         'period_start_date' => $issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01',
                         'period_end_date' => Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth(),
-                        'period_schedule_date' => Carbon::parse($issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01')->addDays($period->schedule_day)->addMonths($period->schedule_month)->subDays(1),
+                        'period_schedule_date' => Carbon::parse($issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01')->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month)->subDays(1),
                     ]);
                     $counter++;
                 }
                 $issue_m = 1;
             }
         }
+
         $this->create();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }

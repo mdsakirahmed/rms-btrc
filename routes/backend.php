@@ -16,6 +16,7 @@ use App\Http\Livewire\Expiration;
 use App\Http\Livewire\FeeType;
 use App\Http\Livewire\LicenseCategorywiseFee;
 use App\Http\Livewire\OperatorWisePayments;
+use App\Http\Livewire\Payment;
 use App\Http\Livewire\Profile;
 use App\Http\Livewire\Report\DueStatement;
 use App\Http\Livewire\Report\OperatorDetail;
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     
     Route::get('payment', [PaymentController::class, 'index'])->name('payment')->middleware(['permission:payment']);
+    Route::get('payment2', Payment::class)->middleware(['permission:payment']);
     Route::post('payment', [PaymentController::class, 'store'])->middleware(['permission:payment']);
     Route::get('payment-receipt/{payment}', [PaymentController::class, 'payment_receipt'])->name('payment_receipt')->middleware(['permission:payment']);
 

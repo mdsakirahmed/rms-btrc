@@ -16,7 +16,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body p-b-0">
-                    <h4 class="card-title">Role and permission management</h4>
+                    <h4 class="card-title">Role and Permission Management</h4>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs customtab2" role="tablist">
                         <li class="nav-item" wire:click="tabChange('role')"> <a class="nav-link @if($tab == 'role') active @endif" data-bs-toggle="tab" href="#role" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-role"></i></span> <span class="hidden-xs-down">Role</span></a> </li>

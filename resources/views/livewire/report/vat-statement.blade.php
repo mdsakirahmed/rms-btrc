@@ -46,7 +46,7 @@
                                     <th>Sub Category</th>
                                     <th>Category</th>
                                     <th>Operator</th>
-                                    <th>Receive date</th>
+                                    <th>Receive Date</th>
                                     <th>Particular</th>
                                     <th>Period</th>
                                     <th>Fee</th>
@@ -59,7 +59,7 @@
                                     <th><input wire:model="category_name" type="text" class="form-control" placeholder="Sub Category"></th>
                                     <th><input wire:model="sub_category_name" type="text" class="form-control" placeholder="Category"></th>
                                     <th><input wire:model="operator_name" type="text" class="form-control" placeholder="Operator"></th>
-                                    <th><input wire:model="receive_date" type="text" class="form-control" placeholder="Receive date"></th>
+                                    <th><input wire:model="receive_date" type="text" class="form-control" placeholder="Receive Date"></th>
                                     <th><input wire:model="fee_type_name" type="text" class="form-control" placeholder="Particular"></th>
                                     <th><input wire:model="period_end_date" type="text" class="form-control" placeholder="Period"></th>
                                     <th><input wire:model="receive_amount" type="text" class="form-control" placeholder="Fee"></th>

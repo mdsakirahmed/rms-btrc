@@ -1,13 +1,13 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Operator wise payments</h4>
+            <h4 class="text-themecolor">Operator Wise Payments</h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">Operator wise payments</li>
+                    <li class="breadcrumb-item active">Operator Wise Payments</li>
                 </ol>
             </div>
         </div>
@@ -26,10 +26,10 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Fee type</th>
-                                    <th>Period date</th>
-                                    <th>Receive date</th>
-                                    <th>Receive amount</th>
+                                    <th>Fee Type</th>
+                                    <th>Period Date</th>
+                                    <th>Receive Date</th>
+                                    <th>Receive Amount</th>
                                     <th>Late Fee</th>
                                     <th>VAT %</th>
                                     <th>TAX %</th>
@@ -89,7 +89,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Bank</th>
-                                    <th>Journal number</th>
+                                    <th>Journal Number</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>

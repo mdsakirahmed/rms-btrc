@@ -1,13 +1,13 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Operator details</h4>
+            <h4 class="text-themecolor">Operator Details</h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">Operator details</li>
+                    <li class="breadcrumb-item active">Operator Details</li>
                 </ol>
             </div>
         </div>
@@ -46,7 +46,7 @@
                             </select>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" wire:model.debounce.500ms="search" placeholder="Search by name">
+                            <input type="text" class="form-control" wire:model.debounce.500ms="search" placeholder="Search by Name">
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -55,17 +55,17 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Category</th>
-                                    <th>Sub category</th>
+                                    <th>Sub-Category</th>
                                     <th>Name</th>
                                     <th>Phone</th>
                                     <th>Email</th>
                                     <th>Website</th>
                                     <th>Address</th>
                                     <th>Note</th>
-                                    <th>Contact person name</th>
-                                    <th>Contact person designation</th>
-                                    <th>Contact person phone</th>
-                                    <th>Contact person email</th>
+                                    <th>Contact Person Name</th>
+                                    <th>Contact Person Designation</th>
+                                    <th>Contact Person Phone</th>
+                                    <th>Contact Person Email</th>
                                 </tr>
                             </thead>
                             <tbody>

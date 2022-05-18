@@ -12,7 +12,7 @@
         <label class="form-label required" for="category">Select Category</label>
         <select class="form-control form-select select2 filter category" id="category"
                 name="category">
-            <option value="" disabled selected>Select category</option>
+            <option value="" disabled selected>Select Category</option>
             @foreach ($categories as $category)
                 <option value="{{ $category->id }}"
                         @if (request()->category == $category->id)
@@ -27,7 +27,7 @@
         <label class="form-label required" for="sub_category">Sub-Category</label>
         <select class="form-control form-select select2 filter sub_category"
                 id="sub_category" name="sub_category">
-            <option value="" selected>Select sub category</option>
+            <option value="" selected>Select Sub Category</option>
             @foreach ($sub_categories as $sub_category)
                 <option value="{{ $sub_category->id }}" @if (request()->sub_category ==
                                         $sub_category->id) selected @endif>
@@ -41,7 +41,7 @@
         <label class="form-label required">Select Operator</label>
         <select class="form-control form-select select2 filter operator"
                 id="select_operator" name="operator">
-            <option value="" disabled selected>Select operator</option>
+            <option value="" disabled selected>Select Operator</option>
             @foreach ($operators as $operator)
                 <option value="{{ $operator->id }}"
                         @if (request()->operator == $operator->id)

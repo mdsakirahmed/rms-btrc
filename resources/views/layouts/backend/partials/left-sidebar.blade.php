@@ -43,7 +43,7 @@
                         <li> <a href="{{ route('user') }}">User</a></li>
                         @endcan
                         @can('permission-management')
-                        <li> <a href="{{ route('permission-management') }}">Permission management</a></li>
+                        <li> <a href="{{ route('permission-management') }}">Permission Management</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -53,7 +53,7 @@
                         <li> <a href="{{ route('bank') }}">Bank</a></li>
                         @endcan
                         @can('fee-type')
-                        <li> <a href="{{ route('fee-type') }}">Fee type</a></li>
+                        <li> <a href="{{ route('fee-type') }}">Fee Type</a></li>
                         @endcan
                         @can('license-category')
                         <li> <a href="{{ route('license-category') }}">Category</a></li>
@@ -66,10 +66,10 @@
                 @can('report')
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-layout-media-right-alt"></i><span class="hide-menu">Report</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        <li> <a href="{{ route('operator-wise-file-register') }}">Operator wise file register</a></li>
-                        <li> <a href="{{ route('operator-detail') }}">Operator detail</a></li>
-                        <li> <a href="{{ route('vat-statement') }}">VAT statement</a></li>
-                        <li> <a href="{{ route('due-statement') }}">Due statement</a></li>
+                        <li> <a href="{{ route('operator-wise-file-register') }}">Operator Wise File Register</a></li>
+                        <li> <a href="{{ route('operator-detail') }}">Operator Detail</a></li>
+                        <li> <a href="{{ route('vat-statement') }}">VAT Statement</a></li>
+                        <li> <a href="{{ route('due-statement') }}">Due Statement</a></li>
                     </ul>
                 </li>
                 @endcan

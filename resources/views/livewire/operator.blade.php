@@ -74,81 +74,81 @@
 
                             <form wire:submit.prevent="submit" id="operator_form">
                                 <div class="row">
-                                    <h4 class="card-title fw-bold">Operator information</h4>
+                                    <h4 class="card-title fw-bold">Operator Information</h4>
                                     <div class="col-md-3">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
+                                            <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name Here">
                                             <label for="name" class="required">Name</label>
                                         </div>
                                         <x-error name="name" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="phone" wire:model="phone" placeholder="Enter phone here">
+                                            <input type="text" class="form-control" id="phone" wire:model="phone" placeholder="Enter Phone Here">
                                             <label for="phone">Phone</label>
                                         </div>
                                         <x-error name="phone" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="email" wire:model="email" placeholder="Enter email here">
+                                            <input type="text" class="form-control" id="email" wire:model="email" placeholder="Enter Email Here">
                                             <label for="email">Email</label>
                                         </div>
                                         <x-error name="email" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="website" wire:model="website" placeholder="Enter website here">
+                                            <input type="text" class="form-control" id="website" wire:model="website" placeholder="Enter Website Here">
                                             <label for="website">Website</label>
                                         </div>
                                         <x-error name="website" />
                                     </div>
                                     <div class="col-md-6 mt-3">
                                         <label for="address">Address</label>
-                                        <textarea cols="30" rows="3" class="form-control" id="address" wire:model="address" placeholder="Enter address here"></textarea>
+                                        <textarea cols="30" rows="3" class="form-control" id="address" wire:model="address" placeholder="Enter Address Here"></textarea>
                                         <x-error name="address" />
                                     </div>
                                     <div class="col-md-6 mt-3">
                                         <label for="note">Note</label>
-                                        <textarea cols="30" rows="3" class="form-control" id="note" wire:model="note" placeholder="Enter note here"></textarea>
+                                        <textarea cols="30" rows="3" class="form-control" id="note" wire:model="note" placeholder="Enter Note Here"></textarea>
                                         <x-error name="note" />
                                     </div>
                                     {{-- Contact person --}}
-                                    <h4 class="card-title mt-5 fw-bold">Contact person</h4>
+                                    <h4 class="card-title mt-5 fw-bold">Contact Person</h4>
                                     <div class="col-md-3">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="contact_person_name" wire:model="contact_person_name" placeholder="Enter name here">
+                                            <input type="text" class="form-control" id="contact_person_name" wire:model="contact_person_name" placeholder="Enter Name Here">
                                             <label for="contact_person_name" class="required">Name</label>
                                         </div>
                                         <x-error name="contact_person_name" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="contact_person_designation" wire:model="contact_person_designation" placeholder="Enter designation here">
+                                            <input type="text" class="form-control" id="contact_person_designation" wire:model="contact_person_designation" placeholder="Enter Designation Here">
                                             <label for="contact_person_designation">Designation</label>
                                         </div>
                                         <x-error name="contact_person_designation" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="contact_person_phone" wire:model="contact_person_phone" placeholder="Enter phone here">
+                                            <input type="text" class="form-control" id="contact_person_phone" wire:model="contact_person_phone" placeholder="Enter Phone Here">
                                             <label for="contact_person_phone">Phone</label>
                                         </div>
                                         <x-error name="contact_person_phone" />
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="contact_person_email" wire:model="contact_person_email" placeholder="Enter email here">
+                                            <input type="text" class="form-control" id="contact_person_email" wire:model="contact_person_email" placeholder="Enter Email Here">
                                             <label for="contact_person_email">Email</label>
                                         </div>
                                         <x-error name="contact_person_email" />
                                     </div>
                                     {{-- License mapping --}}
-                                    <h4 class="card-title mt-5 fw-bold">License mapping</h4>
+                                    <h4 class="card-title mt-5 fw-bold">License Mapping</h4>
                                     <div class="col-md-3">
                                         <label for="category_id" class="required">Category</label>
                                         <select name="" id="category_id" class="form-control" wire:model="category_id">
-                                            <option value="">Select category</option>
+                                            <option value="">Select Category</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
@@ -156,9 +156,9 @@
                                         <x-error name="category_id" />
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="sub_category_id" class="required">Sub Category</label>
+                                        <label for="sub_category_id" class="required">Sub-Category</label>
                                         <select name="" id="sub_category_id" class="form-control" wire:model="sub_category_id">
-                                            <option value="">Select sub category</option>
+                                            <option value="">Select Sub Category</option>
                                             @foreach ($sub_categories as $sub_category)
                                                 <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>
                                             @endforeach

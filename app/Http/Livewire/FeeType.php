@@ -22,7 +22,7 @@ class FeeType extends Component
         $validate_data = $this->validate([
             'name' => 'required',
             'period_format' => 'required',
-            'schedule_day' => 'required|numeric|min:0|max:12',
+            'schedule_day' => 'required|numeric|min:0|max:30',
             'schedule_month' => 'required|numeric|min:0|max:12',
         ]);
         if ($this->fee_type) {

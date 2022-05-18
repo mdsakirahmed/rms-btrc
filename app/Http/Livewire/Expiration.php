@@ -63,6 +63,13 @@ class Expiration extends Component
                     $periods = $category_wise_fee_type->fee_type->periods()->where('starting_month', '>=', $issue_m)->orWhere('ending_month', '>=', $issue_m)->get();
                 }
                 foreach ($periods as $period) {
+                    $period_label = '';
+                    if($period->fee_type->period_format == 1){
+                        $period_label = date('M', mktime(0, 0, 0, $period->starting_month, 10)).'/'.$issue_y.'-'.substr($issue_y+1, -2);
+                    }elseif($period->fee_type->period_format == 2){
+                        $period_label = date('M', mktime(0, 0, 0, $period->starting_month, 10)).'-'.date('M', mktime(0, 0, 0, $period->ending_month, 10)).'/'.$issue_y;
+                    }
+                    
                     ExpirationWisePaymentDate::create([
                         'expiration_id' => $expiration->id,
                         'fee_type_id' => $period->fee_type_id,
@@ -71,6 +78,7 @@ class Expiration extends Component
                         'period_start_date' => $issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01',
                         'period_end_date' => Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth(),
                         'period_schedule_date' => Carbon::parse($issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01')->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month)->subDays(1),
+                        'period_label' => $period_label,
                     ]);
                     $counter++;
                 }

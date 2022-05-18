@@ -22,6 +22,7 @@ class CreateExpirationWisePaymentDatesTable extends Migration
             $table->date('period_start_date');
             $table->date('period_end_date');
             $table->date('period_schedule_date');
+            $table->string('period_label');
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

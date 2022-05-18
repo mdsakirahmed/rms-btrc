@@ -51,7 +51,7 @@ class PaymentController extends Controller
                     foreach ($expiration->expiration_wise_payment_dates as $expiration_wise_payment_date) {
                         array_push($fee_type_wise_periods, [
                             'fee_type' => $expiration_wise_payment_date->fee_type_id,
-                            'period_level' => $expiration_wise_payment_date->period_start_date->format('M-Y') . ' to ' . $expiration_wise_payment_date->period_end_date->format('M-Y'),
+                            'period_level' => $expiration_wise_payment_date->period_label,
                             'period' => $expiration_wise_payment_date->period_schedule_date->format('m/d/Y'),
                         ]);
                     }

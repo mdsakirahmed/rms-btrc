@@ -26,6 +26,7 @@
                                     <th>Name</th>
                                     <th>Periods</th>
                                     <th>Schedule</th>
+                                    <th>Period Format</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
@@ -38,11 +39,14 @@
                                     </td>
                                     <td>
                                         @foreach ($fee_type->periods as $period)
-                                        <span class="badge bg-primary">{{ $period->starting_month.' - '.$period->ending_month }}</span>
+                                        <span class="badge bg-primary">{{ date('M', mktime(0, 0, 0, $period->starting_month, 10)).' - '.date('M', mktime(0, 0, 0, $period->ending_month, 10)) }}</span>
                                         @endforeach
                                     </td>
                                     <td>
                                         {{ $fee_type->schedule_day }} days {{ $fee_type->schedule_month }} months
+                                    </td>
+                                    <td>
+                                        @if($fee_type->period_format == 1) Jan/2018-19 @elseif($fee_type->period_format == 2) Jan-Feb/2022 @endif
                                     </td>
                                     <td style="text-align: center;">
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $fee_type->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>

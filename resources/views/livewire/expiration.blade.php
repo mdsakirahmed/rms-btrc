@@ -101,7 +101,7 @@
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">
                                             <div class="ms-auto mt-3 mt-md-0">
-                                                <button type="submit" class="btn btn-success text-white">Submit</button>
+                                                <button type="submit" class="btn btn-success text-white">Generate</button>
                                                 <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
@@ -137,7 +137,7 @@
                                         @foreach ($periods as $period)
                                         <tr>
                                             <td>{{ $period->payment_number }}</td>
-                                            <td>{{ $period->period_start_date->format('d M Y') }} - {{ $period->period_end_date->format('d M Y') }}</td>
+                                            <td>{{ $period->period_label }}</td>
                                             <td>{{ $period->period_schedule_date->format('d M Y') }}</td>
                                             <td>{{ $period->fee_type->name ?? 'Not found' }}</td>
                                         </tr>

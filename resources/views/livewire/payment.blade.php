@@ -20,7 +20,7 @@
                     <!-- Column -->
                     <div class="col-md-6 col-lg-4 col-xlg-2">
                         <div class="card">
-                            <div class="box bg-primary text-center">
+                            <div class="box bg-info text-center">
                                 <h1 class="font-light text-white">{{ array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')) }}</h1>
                                 <h6 class="text-white">Total Receive Amount</h6>
                             </div>
@@ -32,7 +32,7 @@
                     <!-- Column -->
                     <div class="col-md-6 col-lg-4 col-xlg-2">
                         <div class="card">
-                            <div class="box bg-primary text-center">
+                            <div class="box bg-warning text-center">
                                 <h1 class="font-light text-white">{{ array_sum(array_column($po_section_array,'po_amount')) }}</h1>
                                 <h6 class="text-white">Total PO Amount</h6>
                             </div>
@@ -44,7 +44,7 @@
                     <!-- Column -->
                     <div class="col-md-6 col-lg-4 col-xlg-2">
                         <div class="card">
-                            <div class="box bg-primary text-center">
+                            <div class="box bg-success text-center">
                                 <h1 class="font-light text-white">{{ array_sum(array_column($deposit_section_array,'deposit_amount')) }}</h1>
                                 <h6 class="text-white">Total Deposit Amount</h6>
                             </div>
@@ -53,14 +53,13 @@
                             </div>
                         </div>
                     </div>
-                    @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
-                    == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount')))
                     <div class="btn-group btn-group-lg col-12" role="group">
-                        <button type="button" class="btn btn-info" wire:click="change_active_section('all')">Detals</button>
                         <a href="{{ route('payment') }}" class="btn btn-danger text-white">Reset All</a>
+                        {{-- @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
+                        == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount'))) --}}
                         <button type="button" class="btn btn-success" wire:click="submit">Final Submit</button>
+                        {{-- @endif --}}
                     </div>
-                    @endif
                 </div>
             </div>
             <div class="card">
@@ -341,6 +340,13 @@
                         @endif
                     </div>
                 </div>
+            </div>
+            <div class="btn-group btn-group-lg col-12 mb-5 mt-5" role="group">
+                <a href="{{ route('payment') }}" class="btn btn-danger text-white">Reset All</a>
+                {{-- @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
+                == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount'))) --}}
+                <button type="button" class="btn btn-success" wire:click="submit">Final Submit</button>
+                {{-- @endif --}}
             </div>
         </div>
     </div>

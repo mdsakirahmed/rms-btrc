@@ -301,7 +301,7 @@ class Payment extends Component
                 redirect()->to('/payment2');
             }, 'Payment receipt generated at ' . date('d-m-Y- h-i-s') . '.pdf');
         } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => '3 payment section are not equal !']);
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Receive, PO and Deposit are not equal !']);
         }
     }
 }

@@ -204,6 +204,16 @@ class Payment extends Component
             'receive_section_array.*.late_fee_receive_amount' => 'required',
             'receive_section_array.*.vat_receive_amount' => 'required',
             'receive_section_array.*.tax_receive_amount' => 'required',
+
+            'po_section_array.*.po_amount' => 'required',
+            'po_section_array.*.po_number' => 'required',
+            'po_section_array.*.po_date' => 'required',
+            'po_section_array.*.po_bank' => 'required',
+            
+            'deposit_section_array.*.deposit_amount' => 'required',
+            'deposit_section_array.*.deposit_bank' => 'required',
+            'deposit_section_array.*.journal_number' => 'required',
+            'deposit_section_array.*.deposit_date' => 'required',
         ], [], [
             'receive_section_array.*.selected_fee_type' => 'Fee type',
             'receive_section_array.*.selected_period' => 'Period',
@@ -214,6 +224,16 @@ class Payment extends Component
             'receive_section_array.*.late_fee_receive_amount' => 'Late fee',
             'receive_section_array.*.vat_receive_amount' => 'VAT amount',
             'receive_section_array.*.tax_receive_amount' => 'TAX amount',
+
+            'po_section_array.*.po_amount' => 'PO Amount',
+            'po_section_array.*.po_number' => 'PO Number',
+            'po_section_array.*.po_date' => 'PO Date',
+            'po_section_array.*.po_bank' => 'PO Bank',
+            
+            'deposit_section_array.*.deposit_amount' => 'Deposit Amount',
+            'deposit_section_array.*.deposit_bank' => 'Deposit Bank',
+            'deposit_section_array.*.journal_number' => 'Journal Number',
+            'deposit_section_array.*.deposit_date' => 'Deposit Date',
         ]);
 
         if ((array_sum(array_column($this->receive_section_array, 'receive_amount')) + array_sum(array_column($this->receive_section_array, 'late_fee_receive_amount')) + array_sum(array_column($this->receive_section_array, 'vat_receive_amount')))

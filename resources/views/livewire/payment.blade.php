@@ -125,7 +125,7 @@
             </div>
             <div class="card" id="receive">
                 <div class="card-header bg-info text-white">
-                    <h3>Receive details</h3>
+                    <h3>Receive Details</h3>
                 </div>
                 @foreach ($receive_section_array as $key => $receive_section)
                 <div class="card-body">
@@ -229,7 +229,7 @@
             </div>
             <div class="card" id="po">
                 <div class="card-header bg-warning text-white">
-                    <h3>PO details</h3>
+                    <h3>PO Details</h3>
                 </div>
                 @foreach ($po_section_array as $key => $po_section)
                 <div class="card-body">
@@ -286,7 +286,7 @@
             </div>
             <div class="card" id="deposit">
                 <div class="card-header bg-success text-white">
-                    <h3>Deposit details</h3>
+                    <h3>Deposit Details</h3>
                 </div>
                 @foreach ($deposit_section_array as $key => $deposit_section)
                 <div class="card-body">

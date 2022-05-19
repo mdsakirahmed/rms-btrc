@@ -50,7 +50,7 @@
             <div class="form-group has-success">
                 <label class="form-label required" for="">Late ( <b class="text-success late_fee_title">--</b>%)</label>
                 <input type="number" class="form-control late_fee_receive" id="" name="late_fee_receive" step="0.001">
-                <input type="hidden" class="differ_from_period_day_hidden">
+                <input type="hidden" class="late_days_hidden">
                 <input type="hidden" class="late_fee_amount_of_due_days_hidden">
                 <p class="text-danger late_fee_help_line"></p>
             </div>
@@ -123,15 +123,15 @@
                 0, 0)) {
                 // Date is past and late fee applicable
                 $(this).closest(".receive_row").find('.late_fee').val(late_fee);
-                let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find(
+                let late_days = Math.round((new Date($(this).closest(".receive_row").find(
                     '.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(
                     ".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 *
                     60 * 24));
-                $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(differ_from_period_day);
+                $(this).closest(".receive_row").find('.late_days_hidden').val(late_days);
             } else {
                 // Date is not past and late fee is not applicable
                 $(this).closest(".receive_row").find('.late_fee').val(0);
-                $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(0);
+                $(this).closest(".receive_row").find('.late_days_hidden').val(0);
             }
         });
         $('.receive_col').on('change', '.auto_fill_late_fee_amount', function () {
@@ -139,20 +139,20 @@
             let period_end_date = $(this).closest(".receive_row").find('.period').val();
             if (new Date(receive_date).setHours(0, 0, 0, 0) > new Date(period_end_date).setHours(0, 0, 0, 0)) {
                 // Date is past and late fee applicable
-                let differ_from_period_day = Math.round((new Date($(this).closest(".receive_row").find(
+                let late_days = Math.round((new Date($(this).closest(".receive_row").find(
                     '.receive_date').val()).setHours(0, 0, 0, 0) - new Date($(this).closest(
                     ".receive_row").find('.period').val()).setHours(0, 0, 0, 0)) / (1000 * 60 *
                     60 * 24));
-                $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(differ_from_period_day);
+                $(this).closest(".receive_row").find('.late_days_hidden').val(late_days);
             } else {
                 // Date is not past and late fee is not applicable
-                $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val(0);
+                $(this).closest(".receive_row").find('.late_days_hidden').val(0);
             }
 
             let receive_amount = $(this).closest(".receive_row").find('.receive_amount').val();
             let late_fee_percentage = $(this).closest(".receive_row").find('.late_fee_title').text();
 
-            $(this).closest(".receive_row").find('.late_fee_receive').val(Math.round((((receive_amount / 100) * late_fee_percentage) / 365) * $(this).closest(".receive_row").find('.differ_from_period_day_hidden').val()));
+            $(this).closest(".receive_row").find('.late_fee_receive').val(Math.round((((receive_amount / 100) * late_fee_percentage) / 365) * $(this).closest(".receive_row").find('.late_days_hidden').val()));
         });
     });
 

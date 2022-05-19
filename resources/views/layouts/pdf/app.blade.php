@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>PDF</title>
+        <title>{{ $file_name }}</title>
     </head>
     <body>
         <table>
@@ -12,7 +12,6 @@
                     <h3>Bangladesh Telecommunication Regulatory Commission</h3>
                     <p>IRB Bhaban, Ramna, Dhaka-1000</p>
                     <br>
-                    <h4>{{ $file_name }}</h4>
                 </td>
             </tr>
         </table>

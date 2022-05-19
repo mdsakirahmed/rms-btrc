@@ -99,7 +99,7 @@ class PaymentController extends Controller
                     'late_fee_receive_amount' => $receive['late_fee_receive'] ?? 0,
                     'vat_percentage' => $receive['vat'] ?? 0,
                     'tax_percentage' => $receive['tax'] ?? 0,
-                    'differ_from_period_day' => $receive['differ_from_period_day'] ?? 0,
+                    'late_days' => $receive['late_days'] ?? 0,
                     'late_fee_amount' => $receive['late_fee_amount_of_due_days'] ?? 0,
                 ]);
 

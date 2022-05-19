@@ -16,4 +16,8 @@ class ExpirationWisePaymentDate extends Model
         return $this->belongsTo(FeeType::class, 'fee_type_id', 'id');
     }
     
+    public function expiratiorn(){
+        return $this->belongsTo(Expiration::class, 'expiration_id', 'id');
+    }
+    
 }

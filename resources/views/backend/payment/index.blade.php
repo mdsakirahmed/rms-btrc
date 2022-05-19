@@ -134,10 +134,10 @@
                     let late_fee_amount = (receive_amount / 100) * $(obj).find('.late_fee_title').text();
                     let vat = (receive_amount / 100) * $(obj).find('.vat_title').text();
                     let tax = (receive_amount / 100) * $(obj).find('.tax_title').text();
-                    let differ_from_period_day = $(obj).find('.differ_from_period_day_hidden').val();
-                    let late_fee_amount_of_due_days = (late_fee_amount / 365) * differ_from_period_day;
+                    let late_days = $(obj).find('.late_days_hidden').val();
+                    let late_fee_amount_of_due_days = (late_fee_amount / 365) * late_days;
                     $(obj).find('.late_fee_amount_of_due_days_hidden').val(late_fee_amount_of_due_days);
-                    $(obj).find('.late_fee_help_line').text((differ_from_period_day ?? 0) + ' day = ' + Math.round(late_fee_amount_of_due_days) + ' BDT'); //help text
+                    $(obj).find('.late_fee_help_line').text((late_days ?? 0) + ' day = ' + Math.round(late_fee_amount_of_due_days) + ' BDT'); //help text
                     $(obj).find('.vat').val(Math.round(vat));
                     $(obj).find('.tax').val(Math.round(tax));
                     total_amount_of_receive +=
@@ -147,7 +147,7 @@
                         parseFloat(tax);
                     // console.log("Total late fee (in 365 days) :" + late_fee_amount + "Taka")
                     // console.log("Total late fee 1 day :" + (late_fee_amount/365) + "Taka")
-                    // console.log("Total late fee "+differ_from_period_day+" day :" + late_fee_amount_of_due_days + "Taka")
+                    // console.log("Total late fee "+late_days+" day :" + late_fee_amount_of_due_days + "Taka")
                 });
                 let total_amount_of_pay_order = 0;
                 $('.pay_order_row').each(function (index, obj) {
@@ -203,7 +203,7 @@
                         late_fee_receive: $(obj).find('.late_fee_receive').val(),
                         vat: $(obj).find('.vat_title').text(),
                         tax: $(obj).find('.tax_title').text(),
-                        differ_from_period_day: $(obj).find('.differ_from_period_day_hidden').val(),
+                        late_days: $(obj).find('.late_days_hidden').val(),
                         late_fee_amount_of_due_days: $(obj).find('.late_fee_amount_of_due_days_hidden').val(),
                     });
                 });

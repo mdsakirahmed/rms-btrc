@@ -18,6 +18,20 @@
             <div class="card">
                 <div class="card-header bg-info text-white">
                     <h4>Payment 2nd design</h4>
+                    <div wire:loading>
+                        <div class="spinner-grow text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-secondary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-danger" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body row">
                     <div class="col-md-4">
@@ -72,6 +86,28 @@
             </div>
 
             <div class="card">
+                @if($receive_section_done)
+                <button type="button" class="btn btn-info w-100 mt-4 cln_btn" wire:click="receive_make_as_done(0)">Receive Section <i class="fa fa-pen"></i></button>
+                <div class="row m-3">
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-4 col-xlg-2">
+                        
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-4 col-xlg-2">
+                        <div class="card">
+                            <div class="box bg-primary text-center">
+                                <h1 class="font-light text-white">{{ array_sum(array_column($receive_section_array,'receive_amount')) }}</h1>
+                                <h6 class="text-white">Total receive amount</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-4 col-xlg-2">
+                        
+                    </div>
+                </div>
+                @else
                 @foreach ($receive_section_array as $key => $receive_section)
                 <div class="card-body row">
                     <div class="col-md-3">
@@ -85,6 +121,7 @@
                                 </option>
                                 @endforeach
                             </select>
+                            <x-error name="receive_section_array.{{ $key }}.selected_fee_type"/>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -92,68 +129,78 @@
                             <label class="form-label required">Select Period</label>
                             <select class="form-control form-select" wire:model="receive_section_array.{{ $key }}.selected_period" wire:change="period_change({{ $key }})">
                                 <option value="">Select Period</option>
-                                @foreach ($periods as $period)
-                                <option value="{{ $period->id }}">
-                                    {{ $period->period_label }}
+                                @isset($receive_section_array[$key]['periods'])
+                                @foreach ($receive_section_array[$key]['periods'] as $period)
+                                <option value="{{ $period['id'] }}">
+                                    {{ $period['period_label'] }}
                                 </option>
                                 @endforeach
+                                @endisset
                             </select>
+                            <x-error name="receive_section_array.{{ $key }}.selected_period"/>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group has-success">
                             <label class="form-label">Schedule Date</label>
                             <input type="text" class="form-control mt-1" disabled wire:model="receive_section_array.{{ $key }}.schedule_date">
+                            <x-error name="receive_section_array.{{ $key }}.schedule_date"/>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group has-success">
                             <label class="form-label required">Receive Date</label>
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" wire:change="receive_date_change({{ $key }}, $event.target.value)">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group has-success">
                             <label class="form-label required">Receivable</label>
                             <input type="number" class="form-control" disabled wire:model="receive_section_array.{{ $key }}.receivable">
+                            <x-error name="receive_section_array.{{ $key }}.receivable"/>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group has-success">
                             <label class="form-label required">Receive</label>
-                            <input type="number" class="form-control" step="0.001" wire:model="receive_section_array.{{ $key }}.receive_amount">
+                            <input type="number" class="form-control" step="0.001" wire:model="receive_section_array.{{ $key }}.receive_amount" wire:change="receive_amount_change({{ $key }}, $event.target.value)">
+                            <x-error name="receive_section_array.{{ $key }}.receive_amount"/>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group has-success">
-                            <label class="form-label required">Late Fee( <b class="text-success late_fee_title">@if(isset($receive_section_array[$key]['late_fee_percentage'])) {{ $receive_section_array[$key]['late_fee_percentage'] ?? 0 }} @endif</b>%)</label>
+                            <label class="form-label required">
+                                Late Fee( <b class="text-success late_fee_title">@isset($receive_section_array[$key]['late_fee_percentage']) {{ $receive_section_array[$key]['late_fee_percentage'] ?? 0 }} @endisset </b>%
+                                @isset($receive_section_array[$key]['late_days']) for {{ $receive_section_array[$key]['late_days'] }} days @endisset)
+                            </label>
                             <input type="number" class="form-control" step="0.001" wire:model="receive_section_array.{{ $key }}.late_fee_receive_amount">
-                            <p class="text-danger late_fee_help_line"></p>
+                            <x-error name="receive_section_array.{{ $key }}.late_fee_receive_amount"/>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group has-success">
-                            <label class="form-label required">VAT (<b class="text-success vat_title">@if(isset($receive_section_array[$key]['vat_percentage'])) {{ $receive_section_array[$key]['vat_percentage'] ?? 0 }} @endif</b>%)</label>
-                            <input type="number" class="form-control" step="0.001" disabled  wire:model="receive_section_array.{{ $key }}.vat_receive_amount">
+                            <label class="form-label required">VAT (<b class="text-success vat_title">@isset($receive_section_array[$key]['vat_percentage']) {{ $receive_section_array[$key]['vat_percentage'] ?? 0 }} @endisset</b>%)</label>
+                            <input type="number" class="form-control" step="0.001" disabled wire:model="receive_section_array.{{ $key }}.vat_receive_amount">
+                            <x-error name="receive_section_array.{{ $key }}.vat_receive_amount"/>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group has-success">
-                            <label class="form-label required">TAX (<b class="text-success tax_title">@if(isset($receive_section_array[$key]['tax_percentage'])) {{ $receive_section_array[$key]['tax_percentage'] ?? 0 }} @endif</b>%)</label>
-                            <input type="number" class="form-control" step="0.001" disabled  wire:model="receive_section_array.{{ $key }}.tax_receive_amount">
-                            <p class="text-danger tax_help_line"></p>
+                            <label class="form-label required">TAX (<b class="text-success tax_title">@isset($receive_section_array[$key]['tax_percentage']) {{ $receive_section_array[$key]['tax_percentage'] ?? 0 }} @endisset</b>%)</label>
+                            <input type="number" class="form-control" step="0.001" disabled wire:model="receive_section_array.{{ $key }}.tax_receive_amount">
+                            <x-error name="receive_section_array.{{ $key }}.tax_receive_amount"/>                        
                         </div>
                     </div>
                     <div class="col-2 mt-2">
                         <button type="button" class="btn btn-warning w-100 mt-4 cln_btn" title="Remove this one" wire:click="add_or_rm_section_array('receive', {{ $key }})"><i class="fa fa-minus"></i></button>
                     </div>
-                    <div class="col-12 d-flex flex-row-reverse bd-highlight">
-                        <div class="p-2 bd-highlight fw-bold">Total Receive Amount Is: <b id="total_amount_of_receive">0</b> BDT
-                        </div>
-                    </div>
                 </div>
                 @endforeach
                 <button type="button" class="btn btn-info w-100 mt-4 cln_btn" title="Add new one" wire:click="add_or_rm_section_array('receive')"><i class="fa fa-plus"></i></button>
+                @if(count($receive_section_array) > 0)
+                <button type="button" class="btn btn-info w-100 mt-4 cln_btn" wire:click="receive_make_as_done(1)"> Receive Section <i class="fa fa-check"></i></button>
+                @endif
+                @endif
             </div>
         </div>
     </div>

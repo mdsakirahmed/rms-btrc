@@ -15,9 +15,7 @@
 
     <div class="row">
         <div class="col-12">
-            
             <div class="card">
-                @if($active_section == 'display' || $active_section == 'all')
                 <div class="row m-3">
                     <!-- Column -->
                     <div class="col-md-6 col-lg-4 col-xlg-2">
@@ -27,7 +25,7 @@
                                 <h6 class="text-white">Total Receive Amount</h6>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="btn btn-info w-100 mt-4 cln_btn" wire:click="change_active_section('receive')">Receive Section @if(count($receive_section_array) > 0) <i class="fa fa-pen"> @else <i class="fa fa-plus"> @endif </i></button>
+                                <a href="#receive" class="btn btn-info w-100 mt-2">Receive Section <i class="fa fa-pen"></i> </a>
                             </div>
                         </div>
                     </div>
@@ -39,7 +37,7 @@
                                 <h6 class="text-white">Total PO Amount</h6>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="btn btn-info w-100 mt-4 cln_btn" wire:click="change_active_section('po')">PO Section @if(count($po_section_array) > 0) <i class="fa fa-pen"> @else <i class="fa fa-plus"> @endif </i></button>
+                                <a href="#po" class="btn btn-warning w-100 mt-2">PO Section <i class="fa fa-pen"></i> </a>
                             </div>
                         </div>
                     </div>
@@ -51,21 +49,19 @@
                                 <h6 class="text-white">Total Deposit Amount</h6>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="btn btn-info w-100 mt-4 cln_btn" wire:click="change_active_section('deposit')">Deposit Section @if(count($deposit_section_array) > 0) <i class="fa fa-pen"> @else <i class="fa fa-plus"> @endif </i></button>
+                                <a href="#deposit" class="btn btn-success w-100 mt-2">Deposit Section <i class="fa fa-pen"></i></a>
                             </div>
                         </div>
                     </div>
                     @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
                     == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount')))
-
                     <div class="btn-group btn-group-lg col-12" role="group">
                         <button type="button" class="btn btn-info" wire:click="change_active_section('all')">Detals</button>
-                        <button type="button" class="btn btn-primary" wire:click="change_active_section('display')">Less</button>
+                        <a href="{{ route('payment') }}" class="btn btn-danger text-white">Reset All</a>
                         <button type="button" class="btn btn-success" wire:click="submit">Final Submit</button>
                     </div>
                     @endif
                 </div>
-                @endif
             </div>
             <div class="card">
                 <div class="card-header">
@@ -128,10 +124,8 @@
                     </div>
                 </div>
             </div>
-
-            @if($active_section == 'receive' || $active_section == 'all')
-            <div class="card">
-                <div class="card-header">
+            <div class="card" id="receive">
+                <div class="card-header bg-info text-white">
                     <h3>Receive details</h3>
                 </div>
                 @foreach ($receive_section_array as $key => $receive_section)
@@ -229,15 +223,13 @@
                     <div class="btn-group btn-group-lg col-12" role="group">
                         <button type="button" class="btn btn-info" wire:click="add_or_rm_section_array('receive')"><i class="fa fa-plus"></i> Add Payment Receipt</button>
                         @if(count($receive_section_array) > 0)
-                        <button type="button" class="btn btn-primary" wire:click="change_active_section('display')"><i class="fa fa-check"></i> Receive Save</button>
+                        <button type="button" class="btn btn-danger text-white" wire:click="reset_section('receive')"> <i class="fas fa-sync"></i> Reset Receive Information </button>
                         @endif
                     </div>
                 </div>
             </div>
-            @endif
-            @if($active_section == 'po' || $active_section == 'all')
-            <div class="card">
-                <div class="card-header">
+            <div class="card" id="po">
+                <div class="card-header bg-warning text-white">
                     <h3>PO details</h3>
                 </div>
                 @foreach ($po_section_array as $key => $po_section)
@@ -288,17 +280,15 @@
                     <div class="btn-group btn-group-lg col-12" role="group">
                         <button type="button" class="btn btn-info" wire:click="add_or_rm_section_array('po')"><i class="fa fa-plus"></i> Add PO</button>
                         @if(count($po_section_array) > 0)
-                        <button type="button" class="btn btn-primary" wire:click="change_active_section('display')"><i class="fa fa-check"></i> PO Save</button>
+                        <button type="button" class="btn btn-danger text-white" wire:click="reset_section('po')"> <i class="fas fa-sync"></i> Reset PO Information </button>
                         @endif
                     </div>
                 </div>
             </div>
-            @endif
-            @if($active_section == 'deposit' || $active_section == 'all')
-            <div class="card-header">
-                <h3>Deposit details</h3>
-            </div>
-            <div class="card">
+            <div class="card" id="deposit">
+                <div class="card-header bg-success text-white">
+                    <h3>Deposit details</h3>
+                </div>
                 @foreach ($deposit_section_array as $key => $deposit_section)
                 <div class="card-body">
                     <div class="row">
@@ -347,12 +337,11 @@
                     <div class="btn-group btn-group-lg col-12" role="group">
                         <button type="button" class="btn btn-info" wire:click="add_or_rm_section_array('deposit')"><i class="fa fa-plus"></i> Add Deposit</button>
                         @if(count($deposit_section_array) > 0)
-                        <button type="button" class="btn btn-primary" wire:click="change_active_section('display')"><i class="fa fa-check"></i> PO Save</button>
+                        <button type="button" class="btn btn-danger text-white" wire:click="reset_section('deposit')"> <i class="fas fa-sync"></i> Reset Depotit Information </button>
                         @endif
                     </div>
                 </div>
             </div>
-            @endif
         </div>
     </div>
 </div>

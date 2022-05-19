@@ -56,8 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::get('license-category-wise-fee/{license_category}', LicenseCategorywiseFee::class)->name('licenseCategorywiseFee')->middleware(['permission:license-category']);
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     
-    Route::get('payment', [PaymentController::class, 'index'])->name('payment')->middleware(['permission:payment']);
-    Route::get('payment2', Payment::class)->middleware(['permission:payment']);
+    // Route::get('payment', [Payment::class, 'index'])->name('payment')->middleware(['permission:payment']);
+    Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
     Route::post('payment', [PaymentController::class, 'store'])->middleware(['permission:payment']);
     Route::get('payment-receipt/{payment}', [PaymentController::class, 'payment_receipt'])->name('payment_receipt')->middleware(['permission:payment']);
 

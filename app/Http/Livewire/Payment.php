@@ -22,7 +22,6 @@ class Payment extends Component
 {
     public $transaction, $selected_category, $selected_sub_category, $selected_operator;
     public $receive_section_array = [], $po_section_array = [], $deposit_section_array = [];
-    public $active_section = 'all';
 
     public function mount()
     {
@@ -160,48 +159,63 @@ class Payment extends Component
         $this->receive_section_array[$key]['tax_receive_amount'] =  (($this->receive_section_array[$key]['receive_amount'] / 100) * $category_wise_fee_type->tax) ?? 0;
     }
 
-    public function change_active_section($section)
-    {
-        if ($section == 'display') {
-            $this->validate([
-                'transaction' => 'required',
-                'selected_category' => 'required',
-                'selected_sub_category' => 'required',
-                'selected_operator' => 'required',
-                'receive_section_array.*.selected_fee_type' => 'required',
-                'receive_section_array.*.selected_period' => 'required',
-                'receive_section_array.*.schedule_date' => 'required',
-                'receive_section_array.*.receive_date' => 'required',
-                'receive_section_array.*.receivable' => 'required',
-                'receive_section_array.*.receive_amount' => 'required',
-                'receive_section_array.*.late_fee_receive_amount' => 'required',
-                'receive_section_array.*.vat_receive_amount' => 'required',
-                'receive_section_array.*.tax_receive_amount' => 'required',
-            ], [], [
-                'receive_section_array.*.selected_fee_type' => 'Fee type',
-                'receive_section_array.*.selected_period' => 'Period',
-                'receive_section_array.*.schedule_date' => 'Schedule date',
-                'receive_section_array.*.receive_date' => 'Receive date',
-                'receive_section_array.*.receivable' => 'Receivable amount',
-                'receive_section_array.*.receive_amount' => 'Receive amount',
-                'receive_section_array.*.late_fee_receive_amount' => 'Late fee',
-                'receive_section_array.*.vat_receive_amount' => 'VAT amount',
-                'receive_section_array.*.tax_receive_amount' => 'TAX amount',
-            ]);
+    public function reset_section($section){
+        if($section == 'receive'){
+            foreach($this->receive_section_array as $key => $receive){
+                $this->receive_section_array[$key]['selected_fee_type'] = '';
+                $this->receive_section_array[$key]['selected_period'] = '';
+                $this->receive_section_array[$key]['schedule_date'] = null;
+                $this->receive_section_array[$key]['receive_date'] = null;
+                $this->receive_section_array[$key]['receive_amount'] = 0;
+                $this->receive_section_array[$key]['late_fee_receive_amount'] = 0;
+            }
         }
-
-        // $this->active_section = $section;
-        $this->active_section = 'all';
-
-        // if((array_sum(array_column($this->receive_section_array,'receive_amount')) + array_sum(array_column($this->receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($this->receive_section_array,'vat_receive_amount'))) 
-        // == array_sum(array_column($this->po_section_array,'po_amount')) && array_sum(array_column($this->po_section_array,'po_amount')) == array_sum(array_column($this->deposit_section_array,'deposit_amount'))){
-        //     $this->active_section = 'all';
-        // }
+        if($section == 'po'){
+            foreach($this->po_section_array as $key => $po){
+                $this->po_section_array[$key]['po_amount'] = 0;
+                $this->po_section_array[$key]['po_number'] = null;
+                $this->po_section_array[$key]['po_date'] = null;
+                $this->po_section_array[$key]['po_bank'] = '';
+            }
+        }
+        if($section == 'deposit'){
+            foreach($this->po_section_array as $key => $po){
+                $this->deposit_section_array[$key]['deposit_amount'] = 0;
+                $this->deposit_section_array[$key]['deposit_bank'] = '';
+                $this->deposit_section_array[$key]['journal_number'] = null;
+                $this->deposit_section_array[$key]['deposit_date'] = null;
+            }
+        }
     }
-
 
     public function submit()
     {
+        $this->validate([
+            'transaction' => 'required',
+            'selected_category' => 'required',
+            'selected_sub_category' => 'required',
+            'selected_operator' => 'required',
+            'receive_section_array.*.selected_fee_type' => 'required',
+            'receive_section_array.*.selected_period' => 'required',
+            'receive_section_array.*.schedule_date' => 'required',
+            'receive_section_array.*.receive_date' => 'required',
+            'receive_section_array.*.receivable' => 'required',
+            'receive_section_array.*.receive_amount' => 'required',
+            'receive_section_array.*.late_fee_receive_amount' => 'required',
+            'receive_section_array.*.vat_receive_amount' => 'required',
+            'receive_section_array.*.tax_receive_amount' => 'required',
+        ], [], [
+            'receive_section_array.*.selected_fee_type' => 'Fee type',
+            'receive_section_array.*.selected_period' => 'Period',
+            'receive_section_array.*.schedule_date' => 'Schedule date',
+            'receive_section_array.*.receive_date' => 'Receive date',
+            'receive_section_array.*.receivable' => 'Receivable amount',
+            'receive_section_array.*.receive_amount' => 'Receive amount',
+            'receive_section_array.*.late_fee_receive_amount' => 'Late fee',
+            'receive_section_array.*.vat_receive_amount' => 'VAT amount',
+            'receive_section_array.*.tax_receive_amount' => 'TAX amount',
+        ]);
+
         if ((array_sum(array_column($this->receive_section_array, 'receive_amount')) + array_sum(array_column($this->receive_section_array, 'late_fee_receive_amount')) + array_sum(array_column($this->receive_section_array, 'vat_receive_amount')))
             == array_sum(array_column($this->po_section_array, 'po_amount')) && array_sum(array_column($this->po_section_array, 'po_amount')) == array_sum(array_column($this->deposit_section_array, 'deposit_amount'))
         ) {

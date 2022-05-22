@@ -17,7 +17,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header bg-info text-white">
-                    <h4>Profile information</h4>
+                    <h4>Profile Information</h4>
                 </div>
                 <div class="card-body">
                     <form wire:submit.prevent="info_update">
@@ -45,7 +45,7 @@
             </div>
             <div class="card">
                 <div class="card-header bg-info text-white">
-                    <h4>Profile security</h4>
+                    <h4>Profile Security</h4>
                 </div>
                 <div class="card-body">
                     <form wire:submit.prevent="password_update">
@@ -53,7 +53,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <input required type="password" class="form-control @if($old_password_correct) bg-success @else bg-danger @endif text-white" id="old_password" wire:model="old_password" placeholder="Old password">
-                                    <label for="old_password">Old password</label>
+                                    <label for="old_password">Old Password</label>
                                 </div>
                                 <x-error name="old_password" />
                                 @if($password_message)
@@ -65,14 +65,14 @@
                             <div class="col-md-3">
                                 <div class="form-floating mb-3">
                                     <input required type="password" class="form-control @if($new_and_confirm_password_are_same) bg-success @else bg-danger @endif text-white" id="new_password" wire:model="new_password" placeholder="New password">
-                                    <label for="new_password">New password</label>
+                                    <label for="new_password">New Password</label>
                                 </div>
                                 <x-error name="new_password" />
                             </div>
                             <div class="col-md-3">
                                 <div class="form-floating mb-3">
                                     <input required type="password" class="form-control @if($new_and_confirm_password_are_same) bg-success @else bg-danger @endif text-white" id="confirm_password" wire:model="confirm_password" placeholder="Confirm password">
-                                    <label for="confirm_password">Confirm password</label>
+                                    <label for="confirm_password">Confirm Password</label>
                                 </div>
                                 <x-error name="confirm_password" />
                             </div>

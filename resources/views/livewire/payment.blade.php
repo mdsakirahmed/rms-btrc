@@ -222,6 +222,7 @@
                     <div class="btn-group btn-group-lg col-12" role="group">
                         <button type="button" class="btn btn-info" wire:click="add_or_rm_section_array('receive')"><i class="fa fa-plus"></i> Add Payment Receipt</button>
                         @if(count($receive_section_array) > 0)
+                        <button type="button" class="btn btn-primary text-white" id="receive-done-btn"> <i class="fas fa-check"></i> Done </button>
                         <button type="button" class="btn btn-danger text-white" wire:click="reset_section('receive')"> <i class="fas fa-sync"></i> Reset Receive Information </button>
                         @endif
                     </div>
@@ -279,6 +280,7 @@
                     <div class="btn-group btn-group-lg col-12" role="group">
                         <button type="button" class="btn btn-info" wire:click="add_or_rm_section_array('po')"><i class="fa fa-plus"></i> Add PO</button>
                         @if(count($po_section_array) > 0)
+                        <button type="button" class="btn btn-primary text-white" id="po-done-btn"> <i class="fas fa-check"></i> Done </button>
                         <button type="button" class="btn btn-danger text-white" wire:click="reset_section('po')"> <i class="fas fa-sync"></i> Reset PO Information </button>
                         @endif
                     </div>
@@ -336,6 +338,7 @@
                     <div class="btn-group btn-group-lg col-12" role="group">
                         <button type="button" class="btn btn-info" wire:click="add_or_rm_section_array('deposit')"><i class="fa fa-plus"></i> Add Deposit</button>
                         @if(count($deposit_section_array) > 0)
+                        <button type="button" class="btn btn-primary text-white" id="deposit-done-btn"> <i class="fas fa-check"></i> Done </button>
                         <button type="button" class="btn btn-danger text-white" wire:click="reset_section('deposit')"> <i class="fas fa-sync"></i> Reset Depotit Information </button>
                         @endif
                     </div>
@@ -350,4 +353,15 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#receive-done-btn').click(function (e) { 
+            $("#receive .form-control").prop("disabled", true);
+        });
+        $('#po-done-btn').click(function (e) { 
+            $("#po .form-control").prop("disabled", true);
+        });
+        $('#deposit-done-btn').click(function (e) { 
+            $("#deposit .form-control").prop("disabled", true);
+        });
+    </script>
 </div>

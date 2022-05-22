@@ -20,7 +20,7 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf as PDF;
 
 class Payment extends Component
 {
-    public $transaction, $selected_category, $selected_sub_category, $selected_operator;
+    public $transaction, $selected_category, $selected_sub_category, $selected_operator, $receivable_field_disabled = false;
     public $receive_section_array = [], $po_section_array = [], $deposit_section_array = [];
 
     public function mount()
@@ -107,6 +107,9 @@ class Payment extends Component
     public function period_change($key)
     {
         $this->receive_section_array[$key]['schedule_date'] = ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date->format('d-M-Y');
+        if(ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->total_receivable > 0){
+            $this->receivable_field_disabled = true;
+        }
     }
 
     // Late fee effected
@@ -263,11 +266,10 @@ class Payment extends Component
 
                 //Update expiration wise payment date status
                 $expirationWisePaymentDate = ExpirationWisePaymentDate::find($receive['selected_period']);
-                $expirationWisePaymentDate->update(['paid' => true]);
-
-                // If all period of payment is done than this expiration will be done
-                if ($expirationWisePaymentDate->expiratiorn->expiration_wise_payment_dates()->where('paid', false)->count() == 0) {
-                    $expirationWisePaymentDate->expiratiorn->update(['all_payment_completed' => true]);
+                if($expirationWisePaymentDate->total_receivable <= 0){
+                    $expirationWisePaymentDate->update([
+                        'total_receivable' => $receive['receivable']
+                    ]);
                 }
             }
 
@@ -298,7 +300,7 @@ class Payment extends Component
                     'payment' => $payment
                 ])->download();
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
-                redirect()->to('/payment2');
+                // redirect()->to('/payment');
             }, 'Payment receipt generated at ' . date('d-m-Y- h-i-s') . '.pdf');
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Receive, PO and Deposit are not equal !']);

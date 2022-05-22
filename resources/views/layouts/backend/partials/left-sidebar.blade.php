@@ -70,6 +70,7 @@
                         <li> <a href="{{ route('operator-detail') }}">Operator Detail</a></li>
                         <li> <a href="{{ route('vat-statement') }}">VAT Statement</a></li>
                         <li> <a href="{{ route('due-statement') }}">Due Statement</a></li>
+                        <li> <a href="{{ route('revenue-sharing-statement') }}">Revenue Sharing Statement</a></li>
                     </ul>
                 </li>
                 @endcan

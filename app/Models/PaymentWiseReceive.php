@@ -13,6 +13,6 @@ class PaymentWiseReceive extends Model
     protected $guarded = [];
 
     public function period(){
-        return $this->belongsTo(ExpirationWisePaymentDate::class, 'expiration_wise_payment_date_id', 'id');
+        return $this->belongsTo(ExpirationWisePaymentDate::class, 'period_id', 'id');
     }
 }

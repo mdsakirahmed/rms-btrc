@@ -73,12 +73,11 @@ class Expiration extends Component
                     ExpirationWisePaymentDate::create([
                         'expiration_id' => $expiration->id,
                         'fee_type_id' => $period->fee_type_id,
-                        'paid' => false,
                         'payment_number' => $counter,
                         'period_start_date' => $issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01',
                         'period_end_date' => Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth(),
                         'period_schedule_date' => Carbon::parse($issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01')->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month)->subDays(1),
-                        'period_label' => $period_label,
+                        'period_label' => $period_label
                     ]);
                     $counter++;
                 }

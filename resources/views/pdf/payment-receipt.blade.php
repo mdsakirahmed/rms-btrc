@@ -41,7 +41,7 @@
                     <td>{{ date('d-m-Y', strtotime($receive->receive_date)) }}</td>
                     <td>{{ $receive->receive_amount }}</td>
                     <td>{{ $receive->period->total_receivable ?? 0 }}</td>
-                    <td>{{ $receive->period->total_receivable - $receive->period->payment_receives()->sum('receive_amount') }}</td>
+                    <td>{{ $receive->period->total_due_amount() }}</td>
                     <td>{{ round($receive->late_fee_receive_amount) }}</td>
                     <td>{{ round(($receive->vat_percentage/100) * $receive->receive_amount) }}</td>
                     <td>{{ round(($receive->tax_percentage/100) * $receive->receive_amount) }}</td>

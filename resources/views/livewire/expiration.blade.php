@@ -131,6 +131,9 @@
                                             <th>Period</th>
                                             <th>Schedule Date</th>
                                             <th>Fee type</th>
+                                            <th style="text-align: right;">Receivable</th>
+                                            <th style="text-align: right;">Receive</th>
+                                            <th style="text-align: right;">DUE</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -140,6 +143,9 @@
                                             <td>{{ $period->period_label }}</td>
                                             <td>{{ $period->period_schedule_date->format('d M Y') }}</td>
                                             <td>{{ $period->fee_type->name ?? 'Not found' }}</td>
+                                            <td style="text-align: right;">{{ $period->total_receivable }}</td>
+                                            <td style="text-align: right;">{{ $period->total_paid_amount() }}</td>
+                                            <td style="text-align: right;">{{ $period->total_due_amount() }}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

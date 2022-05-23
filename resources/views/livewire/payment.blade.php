@@ -177,7 +177,7 @@
                         <div class="col-md-2">
                             <div class="form-group has-success">
                                 <label class="form-label required">Receivable</label>
-                                <input type="number" class="form-control" @if($receivable_field_disabled) disabled @endif wire:model="receive_section_array.{{ $key }}.receivable">
+                                <input type="number" class="form-control" @if($receive_section_array[$key]['receivable_field_disabled'] ?? false) disabled @endif wire:model="receive_section_array.{{ $key }}.receivable">
                                 <x-error name="receive_section_array.{{ $key }}.receivable" />
                             </div>
                         </div>

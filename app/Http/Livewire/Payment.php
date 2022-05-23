@@ -20,7 +20,7 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf as PDF;
 
 class Payment extends Component
 {
-    public $transaction, $selected_category, $selected_sub_category, $selected_operator, $receivable_field_disabled = false;
+    public $transaction, $selected_category, $selected_sub_category, $selected_operator;
     public $receive_section_array = [], $po_section_array = [], $deposit_section_array = [];
 
     public function mount()
@@ -108,7 +108,11 @@ class Payment extends Component
     {
         $this->receive_section_array[$key]['schedule_date'] = ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date->format('d-M-Y');
         if(ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->total_receivable > 0){
-            $this->receivable_field_disabled = true;
+            $this->receive_section_array[$key]['receivable_field_disabled'] = true;
+            $this->receive_section_array[$key]['receivable'] =  ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->total_due_amount();
+        }else{
+            $this->receive_section_array[$key]['receivable_field_disabled'] = false;
+            $this->fee_type_change($key);
         }
     }
 

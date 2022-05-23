@@ -24,4 +24,11 @@ class ExpirationWisePaymentDate extends Model
         return $this->hasMany(PaymentWiseReceive::class, 'period_id', 'id');
     }
     
+    public function total_paid_amount(){
+        return $this->payment_receives->sum('receive_amount');
+    }
+
+    public function total_due_amount(){
+        return ($this->total_receivable - $this->total_paid_amount());
+    }
 }

@@ -51,20 +51,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                {{-- <tr>
                                     <th>#</th>
                                     <th><input wire:model="category_name" type="text" class="form-control" placeholder="Operator"></th>
                                     <th><input style="text-align: right" wire:model="sub_category_name" type="text" class="form-control" placeholder="Receivable"></th>
                                     <th><input style="text-align: right" wire:model="operator_name" type="text" class="form-control" placeholder="Receive"></th>
                                     <th><input style="text-align: right" wire:model="receive_date" type="text" class="form-control" placeholder="Outstanding"></th>
-                                </tr>
+                                </tr> --}}
                                 @foreach ($exp_wise_payment_dates as $exp_wise_payment_date)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $exp_wise_payment_date->expiration->operator->name ?? 'Not found' }}</td>
                                         <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->total_receivable) }}</td>
-                                        <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->payment_receives()->sum('receive_amount')) }}</td>
-                                        <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->payment_receives()->sum('receive_amount') - $exp_wise_payment_date->total_receive) }}</td>
+                                        <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->total_paid_amount()) }}</td>
+                                        <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->total_due_amount()) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

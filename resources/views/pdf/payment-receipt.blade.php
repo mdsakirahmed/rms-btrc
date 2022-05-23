@@ -11,7 +11,6 @@
         }
     </style>
     <div class="pdf_content" style="width: 100%;">
-        <h1 style="text-align:center;">Payment</h1>
         <h5>Transaction number : {{ $payment->transaction }}</h5>
         <h5>Operator : {{ $payment->operator->name ?? 'Not found' }}</h5>
         <h5>Category : {{ $payment->operator->category->name ?? 'Not found' }} </h5>

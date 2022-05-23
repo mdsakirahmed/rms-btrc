@@ -18,6 +18,7 @@
         <br>
         <hr>
         <br>
+        <h1 style="text-align:center;">{{ $file_name }}</h1>
         @yield('content')
     </body>
 </html>

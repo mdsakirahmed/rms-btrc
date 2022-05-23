@@ -28,6 +28,22 @@ class Expiration extends Model
         return $this->hasMany(ExpirationWisePaymentDate::class, 'expiration_id', 'id');
     }
 
+    public function total_due_amount(){
+        $due = 0;
+        foreach($this->expiration_wise_payment_dates as $period){
+            $due += $period->total_due_amount();
+        }
+        return $due;
+    }
+
+    public function fee_type_wise_total_due_amount($fee_type_id){
+        $due = 0;
+        foreach($this->expiration_wise_payment_dates()->where('fee_type_id', $fee_type_id)->get() as $period){
+            $due += $period->total_due_amount();
+        }
+        return $due;
+    }
+
     // Auto delete depend data
     public static function boot() {
         parent::boot();

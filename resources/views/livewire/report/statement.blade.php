@@ -1,13 +1,13 @@
 <div>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Statement Statement</h4>
+            <h4 class="text-themecolor">Statement</h4>
         </div>
         <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">Statement Statement</li>
+                    <li class="breadcrumb-item active">Statement</li>
                 </ol>
             </div>
         </div>
@@ -48,6 +48,7 @@
                                     <th style="text-align: right">Receivable</th>
                                     <th style="text-align: right">Receive</th>
                                     <th style="text-align: right">Outstanding</th>
+                                    <th style="text-align: right">Previous Due</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,15 +66,11 @@
                                         <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->total_receivable) }}</td>
                                         <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->total_paid_amount()) }}</td>
                                         <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->total_due_amount()) }}</td>
+                                        <td style="text-align: right">{{ money_format_india($exp_wise_payment_date->expiration->fee_type_wise_total_due_amount($selected_fee_type)) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- @if ($payments->hasPages())
-                        <div class="pagination-wrapper">
-                            {{ $payments->links('livewire.widget.custom-pagination') }}
-                        </div>
-                        @endif --}}
                     </div>
                 </div>
             </div>

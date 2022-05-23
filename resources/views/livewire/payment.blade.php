@@ -230,6 +230,7 @@
             </div>
             <div class="card" id="po">
                 <div class="card-header bg-warning text-white">
+                    {{-- <h3>PO Details {{ array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')) - array_sum(array_column($po_section_array,'po_amount')) }}</h3> --}}
                     <h3>PO Details</h3>
                 </div>
                 @foreach ($po_section_array as $key => $po_section)
@@ -288,6 +289,7 @@
             </div>
             <div class="card" id="deposit">
                 <div class="card-header bg-success text-white">
+                    {{-- <h3>Deposit Details {{ array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')) - array_sum(array_column($po_section_array,'deposit_amount')) }}</h3> --}}
                     <h3>Deposit Details</h3>
                 </div>
                 @foreach ($deposit_section_array as $key => $deposit_section)
@@ -336,10 +338,10 @@
                 @endforeach
                 <div class="card-footer">
                     <div class="btn-group btn-group-lg col-12" role="group">
-                        <button type="button" class="btn btn-info" wire:click="add_or_rm_section_array('deposit')"><i class="fa fa-plus"></i> Add Deposit</button>
+                        <button type="button" class="btn btn-info btn-xs" wire:click="add_or_rm_section_array('deposit')"><i class="fa fa-plus"></i> Add Deposit</button>
                         @if(count($deposit_section_array) > 0)
-                        <button type="button" class="btn btn-primary text-white" id="deposit-done-btn"> <i class="fas fa-check"></i> Done </button>
-                        <button type="button" class="btn btn-danger text-white" wire:click="reset_section('deposit')"> <i class="fas fa-sync"></i> Reset Depotit Information </button>
+                        <button type="button" class="btn btn-primary btn-xs text-white" id="deposit-done-btn"> <i class="fas fa-check"></i> Done </button>
+                        <button type="button" class="btn btn-danger btn-xs text-white" wire:click="reset_section('deposit')"> <i class="fas fa-sync"></i> Reset Depotit Information </button>
                         @endif
                     </div>
                 </div>

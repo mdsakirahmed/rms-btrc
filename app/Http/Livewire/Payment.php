@@ -304,7 +304,7 @@ class Payment extends Component
                     'payment' => $payment
                 ])->download();
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
-                // redirect()->to('/payment');
+                redirect()->to('/payment');
             }, 'Payment receipt generated at ' . date('d-m-Y- h-i-s') . '.pdf');
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Receive, PO and Deposit are not equal !']);

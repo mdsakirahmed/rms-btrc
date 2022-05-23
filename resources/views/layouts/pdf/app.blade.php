@@ -20,5 +20,9 @@
         <br>
         <h1 style="text-align:center;">{{ $file_name }}</h1>
         @yield('content')
+        <htmlpagefooter name="footer">
+            <p style="text-align:center;">Claiming the document is computer generated and hence, does not require any signature</p>
+        </htmlpagefooter>
+        <sethtmlpagefooter name="footer" value="on" />
     </body>
 </html>

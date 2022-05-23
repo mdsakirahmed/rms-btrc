@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\Report;
 
+use App\Exports\Statement as ExportsStatement;
 use App\Models\ExpirationWisePaymentDate;
 use App\Models\FeeType;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Statement extends Component
 {
@@ -24,6 +26,12 @@ class Statement extends Component
 
         ])->extends('layouts.backend.app', ['title' => 'Revenue Sharing Statement'])
             ->section('content');
+    }
+
+    public function export_as_excel(){
+        $file_name = FeeType::where('id', $this->selected_fee_type)->first()->name ?? 'No Fee Type';
+        $collection = ExpirationWisePaymentDate::where('period_label', $this->selected_period)->get();
+        return Excel::download(new ExportsStatement($collection, $this->selected_fee_type), $file_name.' '.date('d-m-Y h-i-s a').'.xlsx');
     }
 
     public function export_as_pdf()

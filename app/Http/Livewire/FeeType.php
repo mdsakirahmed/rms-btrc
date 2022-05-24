@@ -14,7 +14,7 @@ class FeeType extends Component
     public function create()
     {
         $this->periods = [];
-        $this->name = $this->period_format = $this->schedule_day = $this->schedule_month = $this->fee_type = null;
+        $this->name = $this->period_format = $this->schedule_include_to_beginning_of_period = $this->schedule_day = $this->schedule_month = $this->fee_type = null;
     }
 
     public function submit()
@@ -24,6 +24,7 @@ class FeeType extends Component
             'period_format' => 'required',
             'schedule_day' => 'required|numeric|min:0|max:30',
             'schedule_month' => 'required|numeric|min:0|max:12',
+            'schedule_include_to_beginning_of_period' => 'required|boolean'
         ]);
         if ($this->fee_type) {
              $this->fee_type->update($validate_data);
@@ -49,7 +50,7 @@ class FeeType extends Component
         $this->period_format = $fee_type->period_format;
         $this->schedule_day = $fee_type->schedule_day;
         $this->schedule_month = $fee_type->schedule_month;
-        $this->fee_type = $fee_type;
+        $this->schedule_include_to_beginning_of_period = $fee_type->schedule_include_to_beginning_of_period;
         $this->periods = [];
         foreach($fee_type->periods as $period){
             array_push($this->periods,[
@@ -57,6 +58,7 @@ class FeeType extends Component
                 'end_month' => $period->ending_month,
             ]);
         }
+        $this->fee_type = $fee_type;
     }
 
     public function delete(ModelsFeeType $fee_type)

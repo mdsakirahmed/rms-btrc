@@ -43,6 +43,7 @@
                                         @endforeach
                                     </td>
                                     <td>
+                                        <b>#@if($fee_type->schedule_include_to_beginning_of_period) B @else E @endif</b>
                                         {{ $fee_type->schedule_day }} days {{ $fee_type->schedule_month }} months
                                     </td>
                                     <td>
@@ -90,6 +91,16 @@
                                             <label for="period_format">Period Format</label>
                                         </div>
                                         <x-error name="period_format" />
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <select name="schedule_include_to_beginning_of_period" id="schedule_include_to_beginning_of_period" class="form-control" wire:model="schedule_include_to_beginning_of_period">
+                                                <option value="1">Beginning of the Period</option>
+                                                <option value="0">End of the Period</option>
+                                            </select>
+                                            <label for="schedule_include_to_beginning_of_period">Schedule Beginning/End of Period </label>
+                                        </div>
+                                        <x-error name="schedule_include_to_beginning_of_period" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">

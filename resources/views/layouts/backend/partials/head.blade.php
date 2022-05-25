@@ -32,8 +32,7 @@
     }
 
     .sidebar-nav ul li a{
-        background-color:#2361824d;
-        border-radius: 0px 10px 10px 0px;
+        background-color:#23618213;
         margin-top: -5px;
     }
 </style>

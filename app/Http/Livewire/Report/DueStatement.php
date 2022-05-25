@@ -54,7 +54,7 @@ class DueStatement extends Component
         ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
         ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
         ->join('expirations', 'operators.id', '=', 'expirations.operator_id')
-        ->join('expiration_wise_payment_dates', 'expirations.id', '=', 'expiration_wise_payment_dates.expiration_id')->where('paid', false)->where('period_end_date', '<', date('Y-m-d'))
+        ->join('expiration_wise_payment_dates', 'expirations.id', '=', 'expiration_wise_payment_dates.expiration_id')->where('period_end_date', '<', date('Y-m-d'))
         ->join('fee_types', 'expiration_wise_payment_dates.fee_type_id', '=', 'fee_types.id')
         ->select(
             'operators.*',

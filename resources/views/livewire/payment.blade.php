@@ -183,11 +183,11 @@
                         </div>
                         <div class="col mt-4">
                             @if($loop->first)
-                            <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('receive')" style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i> Add</button>
+                            <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('receive')" style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i></button>
                             @else
-                            <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('receive', {{ $key }})" style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i> Remove</button>
+                            <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('receive', {{ $key }})" style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i></button>
                             @endif
-                            <button type="button" class="btn text-white fw-bold receive-done-btn" style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i> Lock</button>                        
+                            <button type="button" class="btn text-white fw-bold receive-done-btn" style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>                        
                         </div>
                     </div>
                     @endforeach
@@ -201,7 +201,7 @@
                         <h6 class="fw-bold">PO Details</h6>
                         <button type="button" class="btn text-white" wire:click="reset_section('po')"  style="background:#D4D4D4;"> <i class="fas fa-sync"></i> Reset </button>
                     </div>
-                    @foreach ($po_section_array as $key => $po_section)
+                    @foreach (array_reverse($po_section_array, true) as $key => $po_section)
                     <div class="row">
                         <div class="col">
                             <div class="form-group @error("po_section_array.$key.po_amount") has-danger @enderror">
@@ -236,11 +236,11 @@
                         </div>
                         <div class="col mt-4">
                             @if($loop->first)
-                            <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('po')" style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i> Add</button>
+                            <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('po')" style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i></button>
                             @else
-                            <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('po', {{ $key }})" style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i> Remove</button>
+                            <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('po', {{ $key }})" style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i></button>
                             @endif
-                            <button type="button" class="btn text-white fw-bold po-done-btn" style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i> Lock</button>                        
+                            <button type="button" class="btn text-white fw-bold po-done-btn" style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>                        
                         </div>
                     </div>
                     @endforeach
@@ -254,7 +254,7 @@
                         <h6 class="fw-bold">Deposit Details</h6>
                         <button type="button" class="btn text-white" wire:click="reset_section('deposit')"  style="background:#D4D4D4;"> <i class="fas fa-sync"></i> Reset </button>
                     </div>
-                    @foreach ($deposit_section_array as $key => $deposit_section)
+                    @foreach (array_reverse($deposit_section_array, true) as $key => $deposit_section)
                         <div class="row">
                             <div class="col">
                                 <div class="form-group @error("deposit_section_array.$key.deposit_amount") has-danger @enderror">
@@ -289,11 +289,11 @@
                             </div>
                             <div class="col mt-4">
                                 @if($loop->first)
-                                <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('deposit')" style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i> Add</button>
+                                <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('deposit')" style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i></button>
                                 @else
-                                <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('deposit', {{ $key }})" style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i> Remove</button>
+                                <button type="button" class="btn text-white fw-bold" wire:click="add_or_rm_section_array('deposit', {{ $key }})" style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i></button>
                                 @endif
-                                <button type="button" class="btn text-white fw-bold deposit-done-btn" style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i> Lock</button>                        
+                                <button type="button" class="btn text-white fw-bold deposit-done-btn" style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>                        
                             </div>
                         </div>
                     @endforeach

@@ -9,7 +9,7 @@
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
 <title>{{ $title ?? 'Page' }} | {{ config('app.name') }}</title>
-<link href="{{ asset('assets/node_module_files/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/node_module_files/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
 <!-- Custom CSS -->
 <link href="{{ asset('assets/dist/css/style.min.css') }}" rel="stylesheet">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -31,8 +31,47 @@
         font-size: 18px;
     }
 
-    .sidebar-nav ul li a{
-        background-color:#23618213;
+    .sidebar-nav ul {
+        background-color: #f5fff6;
+        color: #474847;
+
+    }
+
+    .sidebar-nav ul li a {
+        background-color: #f5fff6;
+        color: #474847;
         margin-top: -5px;
+        border-top: 1px solid #e5f8e7;
+    }
+
+    .sidebar-nav > ul > li.active > a {
+        color: #208837;
+        font-weight: 500;
+        border-left: 3px solid #208837;
+    }
+
+    .sidebar-nav ul li a.active, .sidebar-nav ul li a:hover {
+        color: #208837;
+    }
+
+    .sidebar-nav>ul>li.active>a i {
+        color: #208837;
+    }
+
+    .sidebar-nav ul li a.active i, .sidebar-nav ul li a:hover i {
+        color: #208837;
+    }
+    .nav-link {
+        color: #208837;
+    }
+    .btn-primary {
+        color: white;
+        background-color: #208837;
+        border-color: #208837;
+    }
+    .btn-primary:hover {
+        color: white;
+        background-color: rgba(32, 136, 55, 0.85);
+        border-color: #208837;
     }
 </style>

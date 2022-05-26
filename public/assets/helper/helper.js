@@ -1,8 +1,8 @@
 $(document).ready(function () {
     $(".logout-btn").click(function () {
         Swal.fire({
-            title: 'User logout ?',
-            text: "Please remember your credintials",
+            title: 'Logout ?',
+            text: "Please remember your credentials",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#061a6c',

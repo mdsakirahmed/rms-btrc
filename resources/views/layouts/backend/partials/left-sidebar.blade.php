@@ -4,7 +4,7 @@
         <!-- User Profile-->
         <div class="user-profile">
             <div class="user-pro-body">
-                <div><img src="{{ asset('assets/images/users/2.jpg') }}" alt="user-img" class="img-circle"></div>
+                <div><img src="{{ asset(auth()->user()->image ?? 'assets/images/users/2.jpg') }}" width="60" class="img-circle"></div>
                 <div class="dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle u-dropdown link hide-menu" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ auth()->user()->name }}<span class="caret"></span></a>
                     <div class="dropdown-menu animated flipInY">

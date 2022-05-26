@@ -311,7 +311,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body" id="deposit">
-                    <div style=" display: flex; justify-content: space-between; width=100%;">
+                    <div style="display: flex; justify-content: space-between; width=100%;">
                         <h6 class="fw-bold">Deposit Details</h6>
                         <button type="button" class="btn text-white" wire:click="reset_section('deposit')"
                                 style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset

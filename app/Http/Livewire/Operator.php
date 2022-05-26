@@ -80,10 +80,19 @@ class Operator extends Component
         $this->contact_person_email = $operator->contact_person_email;
     }
 
-    public function delete(ModelsOperator $operator)
+    public function select_for_delete(ModelsOperator $operator)
     {
-        $operator->delete();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+        $this->selected_operator_for_delete = $operator;
+    }
+
+    public function delete()
+    {
+        if($this->selected_operator_for_delete){
+            $this->selected_operator_for_delete->delete();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+        }else{
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Not found !']);
+        }
     }
 
     public function chose_category(LicenseCategory $category)

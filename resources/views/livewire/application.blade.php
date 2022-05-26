@@ -100,9 +100,7 @@
                             </form>
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
             <!-- delete modal content -->
@@ -114,9 +112,7 @@
                             <button class="btn btn-danger text-white" data-bs-dismiss="modal" wire:click="delete">Delete</button>
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
             <!-- approve modal content -->
@@ -129,9 +125,7 @@
                             <button class="btn btn-success text-white" data-bs-dismiss="modal" wire:click="change_approval">Approve</button>
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
             <!-- approve modal content -->
@@ -144,9 +138,7 @@
                             <button class="btn btn-danger text-white" data-bs-dismiss="modal" wire:click="change_approval">Reject</button>
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
         </div>

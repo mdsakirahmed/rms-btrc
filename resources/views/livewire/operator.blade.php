@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item active">Operator Page</li>
                 </ol>
-                <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"><i class="fa fa-plus-circle"></i> Create New</button>
+                <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".operator-modal-lg"><i class="fa fa-plus-circle"></i> Create New</button>
             </div>
         </div>
     </div>
@@ -45,8 +45,8 @@
                                     <td>
                                         <a href="{{ route('expiration', $operator->id) }}" class="btn btn-info text-white">Configration</a>
                                         <a href="{{ route('operator-wise-payment', $operator->id) }}" class="btn btn-info text-white">Show Payments</a>
-                                        <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $operator->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
-                                        <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $operator->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
+                                        <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $operator->id }})" data-bs-toggle="modal" data-bs-target=".operator-modal-lg">Edit</button>
+                                        <button type="button" class="btn btn-danger text-white" wire:click="select_for_delete({{ $operator->id }})" data-bs-toggle="modal" data-bs-target=".delete-modal"> Delete </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -62,8 +62,8 @@
             </div>
         </div>
         <div class="col-12">
-            <!-- sample modal content -->
-            <div wire:ignore.self class="modal bs-example-modal-lg fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+            <!-- operator modal content -->
+            <div wire:ignore.self class="modal operator-modal-lg fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
@@ -173,27 +173,22 @@
                             </form>
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- delete modal content -->
+            <div wire:ignore.self class="modal delete-modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt=""> <br>
+                            <button class="btn btn-danger text-white" data-bs-dismiss="modal" wire:click="delete">Delete</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- /.modal -->
         </div>
     </div>
-    @push('foot')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.select2').select2({
-                dropdownParent: $('#operator_form')
-                , theme: "classic"
-            });
-            $('.select2').on('change', function(e) {
-                let elementName = $(this).attr('id');
-                var data = $(this).select2("val");
-                @this.set(elementName, data);
-            });
-        });
 
-    </script>
-    @endpush
 </div>

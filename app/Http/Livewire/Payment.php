@@ -83,6 +83,17 @@ class Payment extends Component
         }
     }
 
+    public function make_as_lock_or_unlock($section, $rm_key)
+    {
+        if ($section == 'receive') {
+            $this->receive_section_array[$rm_key]['lock'] = !($this->receive_section_array[$rm_key]['lock'] ?? false);
+        } elseif ($section == 'po') {
+           $this->po_section_array[$rm_key]['lock'] = !($this->po_section_array[$rm_key]['lock'] ?? false);
+        } elseif ($section == 'deposit') {
+            $this->deposit_section_array[$rm_key]['lock'] = !($this->deposit_section_array[$rm_key]['lock'] ?? false);
+        }
+    }
+
     public function fee_type_change($key)
     {
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
@@ -216,7 +227,7 @@ class Payment extends Component
             'po_section_array.*.po_number' => 'required',
             'po_section_array.*.po_date' => 'required',
             'po_section_array.*.po_bank' => 'required',
-            
+
             'deposit_section_array.*.deposit_amount' => 'required',
             'deposit_section_array.*.deposit_bank' => 'required',
             'deposit_section_array.*.journal_number' => 'required',
@@ -236,7 +247,7 @@ class Payment extends Component
             'po_section_array.*.po_number' => 'PO Number',
             'po_section_array.*.po_date' => 'PO Date',
             'po_section_array.*.po_bank' => 'PO Bank',
-            
+
             'deposit_section_array.*.deposit_amount' => 'Deposit Amount',
             'deposit_section_array.*.deposit_bank' => 'Deposit Bank',
             'deposit_section_array.*.journal_number' => 'Journal Number',

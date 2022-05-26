@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item active">Application Page</li>
                 </ol>
-                <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"><i class="fa fa-plus-circle"></i> Create New</button>
+                <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".application-modal"><i class="fa fa-plus-circle"></i> Create New</button>
             </div>
         </div>
     </div>
@@ -35,13 +35,17 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
                                         {{ $application->name }} &nbsp;
-                                        <button type="button" class="btn waves-effect waves-light btn-xs text-white @if( $application->approved) btn-info @else btn-danger @endif"  wire:click="change_approval({{ $application->id }})" onclick="confirm('Are you sure you want to change approval ?') || event.stopImmediatePropagation()">Approve</button>
+                                        @if( $application->approved)
+                                        <button type="button" class="btn waves-effect waves-light btn-xs text-white btn-info" data-bs-toggle="modal" data-bs-target=".reject-modal" wire:click="select_for_change_approval({{ $application->id }})">Approve</button>
+                                        @else
+                                            <button type="button" class="btn waves-effect waves-light btn-xs text-white btn-danger" data-bs-toggle="modal" data-bs-target=".approve-modal" wire:click="select_for_change_approval({{ $application->id }})">Approve</button>
+                                        @endif
                                     </td>
                                     <td style="text-align: right;">{{ $application->application_fee }} ৳</td>
                                     <td style="text-align: right;">{{ $application->processing_fee }} ৳</td>
                                     <td style="text-align: center;">
-                                        <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $application->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
-                                        <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $application->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
+                                        <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $application->id }})" data-bs-toggle="modal" data-bs-target=".application-modal">Edit</button>
+                                        <button type="button" class="btn btn-danger text-white" wire:click="select_for_delete({{ $application->id }})" data-bs-toggle="modal" data-bs-target=".delete-modal"> Delete </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -52,8 +56,8 @@
             </div>
         </div>
         <div class="col-12">
-            <!-- sample modal content -->
-            <div wire:ignore.self class="modal bs-example-modal-lg fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+            <!-- application modal content -->
+            <div wire:ignore.self class="modal application-modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
@@ -94,6 +98,50 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- delete modal content -->
+            <div wire:ignore.self class="modal delete-modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt=""> <br>
+                            <button class="btn btn-danger text-white" data-bs-dismiss="modal" wire:click="delete">Delete</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- approve modal content -->
+            <div wire:ignore.self class="modal approve-modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('assets/images/approved.png') }}" width="200" alt=""> <br>
+                            <p>*This application is not approved. Click bellow to approve.</p>
+                            <button class="btn btn-success text-white" data-bs-dismiss="modal" wire:click="change_approval">Approve</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- approve modal content -->
+            <div wire:ignore.self class="modal reject-modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('assets/images/reject.png') }}" width="200" alt=""> <br>
+                            <p>*This application is approved. Click bellow to reject.</p>
+                            <button class="btn btn-danger text-white" data-bs-dismiss="modal" wire:click="change_approval">Reject</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->

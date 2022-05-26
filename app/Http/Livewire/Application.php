@@ -36,15 +36,32 @@ class Application extends Component
         $this->application = $application;
     }
 
-    public function change_approval(ModelsApplication $application){
-        $application->approved = !$application->approved;
-        $application->save();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+    public function select_for_change_approval(ModelsApplication $application){
+        $this->selected_application_for_change_approval = $application;
     }
 
-    public function delete(ModelsApplication $application){
-        $application->delete();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+    public function change_approval(){
+        if($this->selected_application_for_change_approval){
+            $this->selected_application_for_change_approval->update([
+                'approved' => !$this->selected_application_for_change_approval->approved
+            ]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+        }else{
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Item not found !']);
+        }
+    }
+
+    public function select_for_delete(ModelsApplication $application){
+        $this->selected_application_for_delete = $application;
+    }
+
+    public function delete(){
+        if($this->selected_application_for_delete){
+            $this->selected_application_for_delete->delete();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+        }else{
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Item not found !']);
+        }
     }
 
     public function render()

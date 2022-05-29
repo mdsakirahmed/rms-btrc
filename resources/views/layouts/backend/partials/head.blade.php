@@ -9,7 +9,7 @@
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
 <title>{{ $title ?? 'Page' }} | {{ config('app.name') }}</title>
-<link href="{{ asset('assets/node_module_files/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('assets/node_module_files/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 <!-- Custom CSS -->
 <link href="{{ asset('assets/dist/css/style.min.css') }}" rel="stylesheet">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -18,7 +18,7 @@
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-<link href="{{ asset('assets/helper/helper.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('assets/helper/helper.css') }}" rel="stylesheet" type="text/css" />
 <!--====== AJAX ======-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @toastr_css
@@ -44,13 +44,14 @@
         border-top: 1px solid #e5f8e7;
     }
 
-    .sidebar-nav > ul > li.active > a {
+    .sidebar-nav>ul>li.active>a {
         color: #208837;
         font-weight: 500;
         border-left: 3px solid #208837;
     }
 
-    .sidebar-nav ul li a.active, .sidebar-nav ul li a:hover {
+    .sidebar-nav ul li a.active,
+    .sidebar-nav ul li a:hover {
         color: #208837;
     }
 
@@ -58,20 +59,49 @@
         color: #208837;
     }
 
-    .sidebar-nav ul li a.active i, .sidebar-nav ul li a:hover i {
+    .sidebar-nav ul li a.active i,
+    .sidebar-nav ul li a:hover i {
         color: #208837;
     }
+
     .nav-link {
         color: #208837;
     }
+
     .btn-primary {
         color: white;
         background-color: #208837;
         border-color: #208837;
     }
+
     .btn-primary:hover {
         color: white;
         background-color: rgba(32, 136, 55, 0.85);
         border-color: #208837;
     }
+
+    /* Scroll bar style start */
+    /* width */
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #2088364a;
+        border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #208837;
+    }
+
+    .left-sidebar {
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+
+    /* Scroll bar style end */
+
 </style>

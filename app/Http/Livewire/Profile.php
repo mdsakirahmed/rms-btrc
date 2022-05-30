@@ -4,17 +4,25 @@ namespace App\Http\Livewire;
 
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Profile extends Component
 {
-    public $user, $name, $email, $old_password, $new_password, $confirm_password;
+    use WithFileUploads;
+    public $user, $image, $name, $email, $old_password, $new_password, $confirm_password;
 
     public function info_update(){
-        $valied_data = $this->validate([
+        $valid_data = $this->validate([
+            'image' => 'nullable|image|max:500',
             'name' => 'required|string|min:3',
             'email' => 'required|email|unique:users,email,'.$this->user->id,
         ]);
-        $this->user->update($valied_data);
+        if($this->image){
+            $valid_data['image'] = 'storage/'.$this->image->store('profile-images', 'public');
+        }else{
+            unset($valid_data['image']);
+        }
+        $this->user->update($valid_data);
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 
@@ -38,7 +46,8 @@ class Profile extends Component
     public function render()
     {
         $this->password_check();
-        return view('livewire.profile')->layout('layouts.backend.app');
+        return view('livewire.profile')->extends('layouts.backend.app', ['title' => 'Profile'])
+        ->section('content');
     }
 
     public function password_check(){

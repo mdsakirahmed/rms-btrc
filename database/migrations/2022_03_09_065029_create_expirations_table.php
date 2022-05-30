@@ -18,9 +18,7 @@ class CreateExpirationsTable extends Migration
             $table->foreignId('operator_id');
             $table->date('issue_date');
             $table->date('expire_date');
-            $table->double('price')->default(0);
-            $table->double('fee')->default(0);
-            $table->double('iteration')->default(1);
+            $table->boolean('all_payment_completed')->default(false);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

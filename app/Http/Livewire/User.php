@@ -81,6 +81,7 @@ class User extends Component
     public function render()
     {
         $this->users =  ModelsUser::latest()->get();
-        return view('livewire.user')->layout('layouts.backend.app');
+        return view('livewire.user')->extends('layouts.backend.app', ['title' => 'User'])
+        ->section('content');
     }
 }

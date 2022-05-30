@@ -51,10 +51,10 @@
             <td style="text-align:center;">{{ $payment->last_date_of_payment->format('d M Y') }}</td>
             <td style="text-align:right;">{{ $payment->payble_amount }} TAKA </td>
             <td style="text-align:center;">
-                @if($payment->paid)
-                <strong style="color: green">PAID</strong>
-                @else
+                @if($payment->due() > 0)
                 <strong style="color: red">DUE</strong>
+                @else
+                <strong style="color: green">PAID</strong>
                 @endif
             </td>
         </tr>

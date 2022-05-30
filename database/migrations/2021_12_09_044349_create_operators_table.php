@@ -18,6 +18,15 @@ class CreateOperatorsTable extends Migration
             $table->foreignId('category_id')->nullable();
             $table->foreignId('sub_category_id')->nullable();
             $table->string('name');
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->text('address')->nullable();
+            $table->text('note')->nullable();
+            $table->string('contact_person_name')->nullable();
+            $table->string('contact_person_designation')->nullable();
+            $table->string('contact_person_phone')->nullable();
+            $table->string('contact_person_email')->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

@@ -23,9 +23,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>License Fee</th>
-                                    <th>Duration</th>
-                                    <th>Payment Iteration</th>
+                                    <th>Duration Year</th>
+                                    <th>Duration Month</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -34,31 +33,18 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $licenseCategory->name }}</td>
-                                    <td>{{ $licenseCategory->license_fee }}</td>
-                                    <td>{{ $licenseCategory->duration_year }} years and {{ $licenseCategory->duration_month }}</td>
-                                    <td>{{ $licenseCategory->payment_iteration }}</td>
+                                    <td>{{ $licenseCategory->duration_year }} year</td>
+                                    <td>{{ $licenseCategory->duration_month }} month</td>
                                     <td>
+                                        <a href="{{ route('licenseCategorywiseFee', $licenseCategory->id) }}" class="btn btn-primary">Fee Types</a>
                                         <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $licenseCategory->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#create_and_edit_modal">Edit</button>
-                                        <button type="button" class="btn btn-danger text-white" wire:click="selectForDelete({{ $licenseCategory->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".delete_modal"> Delete </button>
+                                        <button type="button" class="btn btn-danger text-white confirmation_btn" wire:click="delete({{ $licenseCategory->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Modal -->
-    <div wire:ignore.self class="modal bs-example-modal-lg fade delete_modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt="Delete"> <br>
-                    <button type="button" class="btn btn-danger text-white" wire:click="destroy" data-bs-dismiss="modal" aria-hidden="true"> Confirm Delete </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">Close</button>
                 </div>
             </div>
         </div>
@@ -74,58 +60,24 @@
                 </div>
                 <div class="modal-body">
                     <form wire:submit.prevent="submit">
-                        <div class="form-group">
-                            <label for="name">License category name</label>
-                            <input type="text" class="form-control" id="name" placeholder="License category name" wire:model="name">
-                            @error('name')
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
                         <div class="row">
-                            <div class="form-group col">
-                                <label for="license_fee">License fee</label>
-                                <input type="number" class="form-control" id="license_fee" placeholder="Fee" wire:model="license_fee">
-                                @error('license_fee')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                            <div class="form-group col-md-4">
+                                <label for="name">License Category Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="License Category Name" wire:model="name">
+                                <x-error name="name" />
                             </div>
-                            <div class="form-group col">
-                                <label for="duration_year">Duration year</label>
-                                <input type="number" class="form-control" id="duration_year" placeholder="Year" wire:model="duration_year" wire:change="calculate_iteration">
-                                @error('duration_year')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                            <div class="form-group col-md-4">
+                                <label for="duration_year">Duration Year</label>
+                                <input type="number" class="form-control" id="duration_year" placeholder="Year" wire:model="duration_year">
+                                <x-error name="duration_year" />
                             </div>
-                            <div class="form-group col">
-                                <label for="duration_month">Duration month</label>
-                                <input type="number" class="form-control" id="duration_month" placeholder="Month" wire:model="duration_month" wire:change="calculate_iteration">
-                                @error('duration_month')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="form-group col">
-                                <label for="payment_iteration">Payment iteration ({{ $payment_iteration * 2 }} monthes)</label>
-                                <input type="number" class="form-control" id="payment_iteration" placeholder="Iteration" min="0" step="1" wire:model="payment_iteration">
-                                <small class="form-text text-muted">Only integer number accepted <b># {{ (int)$payment_iteration }}</b></small>
-
-                                @error('payment_iteration')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                            <div class="form-group col-md-4">
+                                <label for="duration_month">Duration Month</label>
+                                <input type="number" class="form-control" id="duration_month" placeholder="Month" wire:model="duration_month">
+                                <x-error name="duration_month" />
                             </div>
                         </div>
-                        <button class="btn btn-lg btn-info" type="submit">Save!</button>
-
-
+                        <button class="btn btn-lg btn-info" type="submit">Submit Now</button>
                     </form>
                 </div>
             </div>

@@ -1,4 +1,9 @@
 <div>
+    <style>
+        .btn {
+            margin-top: 13px;
+        }
+    </style>
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="text-themecolor">Payment Page</h4>
@@ -12,241 +17,375 @@
             </div>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-12">
-            <div class="card" style="border-radius:15px 15px 0px 0px;">
-                <div class="card-body row">
-                    <div class="col-md-4" style="height:3in; overflow:scroll;">
-                        <div class="list-group">
-                            <input type="text" wire:model="category_search_key" class="text-center text-white" placeholder="Search category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                            @if ($categories->count() > 0)
-                            @foreach ($categories as $category)
-                            <a href="javascript:void(0)" wire:click="chose_category({{ $category->id }})" class=" @if ($category->id == $category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $category->name }}</a>
-                            @endforeach
-                            @else
-                            <div class="alert alert-warning text-center" role="alert">
-                                <b>Category Not Found</b>
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-md-4" style="height:3in; overflow:scroll;">
-                        <div class="list-group">
-                            <input type="text" wire:model="sub_category_search_key" class="text-center text-white" placeholder="Search sub category" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                            @if ($sub_categories->count() > 0)
-                            @foreach ($sub_categories as $sub_category)
-                            <a href="javascript:void(0)" wire:click="chose_sub_category({{ $sub_category->id }})" class=" @if ($sub_category->id == $sub_category_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $sub_category->name }}</a>
-                            @endforeach
-                            @else
-                            <div class="alert alert-warning text-center" role="alert">
-                                <b>Sub category Not Found</b>
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-md-4" style="height:3in; overflow:scroll;">
-                        <div class="list-group">
-                            <input type="text" wire:model="operator_search_key" class="text-center text-white" placeholder="Search operator" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                            @if ($operators->count() > 0)
-                            @foreach ($operators as $operator_1)
-                            <a href="javascript:void(0)" wire:click="chose_operator({{ $operator_1->id }})" class=" @if ($operator_1->id == $operator_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $operator_1->name }}</a>
-                            @endforeach
-                            @else
-                            <div class="alert alert-warning text-center" role="alert">
-                                <b>Operator Not Found</b>
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @if ($operator)
-        <div class="col-12">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h4 class="card-title">Operarot Information</h4>
-                    <b>Operator: </b> {{ $operator->name }} <br>
-                    <b>Category: </b> {{ $operator->category->name ?? 'Not Found' }} <br>
-                    <b>Sub Category: </b> {{ $operator->sub_category->name ?? 'Not Found' }}
-                </div>
-            </div>
-        </div>
-        @endif
-
-        @if ($expirations->count() > 0)
-        @foreach ($expirations as $expiration)
-        <div class="col-12 mt-3">
+        <div class="col-md-6">
             <div class="card">
-                <div class="card-header @if ($loop->odd) bg-success @else bg-primary @endif text-white d-flex justify-content-around">
-                    <h4>Start: {{ $expiration->issue_date->format('d M Y') }}</h4>
-                    <h4 style="background: red; border-radius:12px; padding:5px 15px 5px 15px;"><b>**
-                            {{ $loop->iteration }} **</b></h4>
-                    <h4>Expire: {{ $expiration->expire_date->format('d M Y') }}</h4>
-                </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table color-bordered-table  @if($loop->odd) success-bordered-table @else primary-bordered-table @endif">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Amount</th>
-                                    <th>Last date of pay</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($expiration->payments as $payment)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $payment->payble_amount }} ৳</td>
-                                    <td>{{ $payment->last_date_of_payment->format('d M Y') }}</td>
-                                    <td>
-                                        @if ($payment->paid)
-                                        <span class="badge bg-success">PAID</span>
-                                        @else
-                                        <span class="badge bg-danger">DUE</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($payment->paid)
-                                        <button class="btn btn-dark" type="button" wire:click="download_invoice({{ $payment->id }})">INV</button>
-                                        @else
-                                        <button class="btn btn-success" type="button" wire:click="select_payment_for_pay({{ $payment->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#payment_modal">Pay</button>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <h6 class="fw-bold">Operator Details</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">Transaction Number</label>
+                                <input type="text" class="form-control" disabled wire:model="transaction">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group @error('selected_category') has-danger @enderror">
+                                <label class="form-label required">Select Category</label>
+                                <select class="form-control form-select" wire:model="selected_category">
+                                    <option value="">Select Category</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" @if (request()->category == $category->id)
+                                            selected @endif>{{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group @error('selected_sub_category') has-danger @enderror">
+                                <label class="form-label required">Sub-Category</label>
+                                <select class="form-control form-select" wire:model="selected_sub_category">
+                                    <option value="">Select Sub Category</option>
+                                    @foreach ($sub_categories as $sub_category)
+                                        <option value="{{ $sub_category->id }}">
+                                            {{ $sub_category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group @error('selected_operator') has-danger @enderror">
+                                <label class="form-label required">Select Operator</label>
+                                <select class="form-control form-select" wire:model="selected_operator">
+                                    <option value="">Select Operator</option>
+                                    @foreach ($operators as $operator)
+                                        <option value="{{ $operator->id }}">
+                                            {{ $operator->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        @endforeach
-        @else
-        <div class="col-12">
-            <div class="alert alert-danger text-center" role="alert">
-                <h1>Configration Not Found</h1>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="fw-bold">Payment Summary</h6>
+                    <div class="row">
+                        <div class="col-md-4 card text-center"
+                             style="background: #E8F4FA; margin-top:35px; padding:20px 0px 10px 0px;">
+                            <h6 class="fw-bold">{{ array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')) }}</h6>
+                            <p>Receive</p>
+                        </div>
+                        <div class="col-md-4 card text-center"
+                             style="background: #F1FBFF; margin-top:35px; padding:20px 0px 10px 0px;">
+                            <h6 class="fw-bold">{{ array_sum(array_column($po_section_array,'po_amount')) }}</h6>
+                            <p>PO</p>
+                        </div>
+                        <div class="col-md-4 card text-center"
+                             style="background: #E8F4FA; margin-top:35px; padding:20px 0px 10px 0px;">
+                            <h6 class="fw-bold">{{ array_sum(array_column($deposit_section_array,'deposit_amount')) }}</h6>
+                            <p>Deposit</p>
+                        </div>
+                        <div style=" display: flex; justify-content: space-between; width=100%;">
+                            <a href="{{ route('payment') }}" class="btn text-white fw-bold"
+                               style="background: #A9A9A9;  width:45%;">Reset All</a>
+                            <button type="button" class="btn text-white fw-bold"
+                                    style="background: #3BB001;  width:45%;" wire:click="submit">Final Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        @endif
-        <div class="col-12">
-            <!-- sample modal content -->
-            <div wire:ignore.self class="modal bs-example-modal-lg fade" id="payment_modal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-xl modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h4 class="modal-title" id="">Payment Form</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form wire:submit.prevent="submit">
-                                <div class="row">
-                                    @if ($payment_for_pay)
-                                    <div class="col-md-12 text-center m-3">
-                                        <h4 style="background: rgba(20, 5, 88, 0.822); border-radius:25px; margin: 0% 10% 0% 10%; padding: 20px 0px 20px 0px; font-size:30px; color:white; border: 5px solid @if ($payment_for_pay->last_date_of_payment->isPast()) red @else green @endif;">
-                                            <b>
-                                                {{ $payment_for_pay->payble_amount }} TAKA <br>
-                                                {{ $payment_for_pay->last_date_of_payment->format('d M Y') }}
-                                                ({{ $payment_for_pay->last_date_of_payment->diffForHumans() }})
-                                                <br>
-                                                @if ($payment_for_pay->last_date_of_payment->isPast())
-                                                <i class="text-danger">*Late fee include</i> <br>
-                                                @endif
-                                            </b>
-                                        </h4>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <input required type="number" class="form-control bg-success text-white text-center" id="vat" wire:model="vat" placeholder="VAT">
-                                            <label for="vat">VAT</label>
-                                        </div>
-                                        @error('vat')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-6">
-                                        @if ($payment_for_pay->last_date_of_payment->isPast())
-                                        <div class="form-floating mb-3">
-                                            <input required type="number" class="form-control bg-danger text-white text-center" id="late_fee" wire:model="late_fee" placeholder="Late fee">
-                                            <label for="late_fee">Late fee</label>
-                                        </div>
-                                        @error('late_fee')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6">
-                                        @error('bank_id')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                        <div class="list-group">
-                                            <input type="text" wire:model="bank_search_key" class="text-center text-white" placeholder="Search bank" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                                            @if ($banks->count() > 0)
-                                            @foreach ($banks as $bank)
-                                            <a href="javascript:void(0)" wire:click="chose_bank({{ $bank->id }})" class=" @if ($bank->id == $bank_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $bank->name }}</a>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body" id="receive">
+                    <div style="display: flex; justify-content: space-between; width=100%;">
+                        <h6 class="fw-bold">Receive Details</h6>
+                        <button type="button" class="btn text-white" wire:click="reset_section('receive')"
+                                style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset
+                        </button>
+                    </div>
+                    @foreach (array_reverse($receive_section_array, true) as $key => $receive_section)
+                        <div class="receive-row-{{ $key }}">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group @error("receive_section_array.$key.selected_fee_type") has-danger @enderror">
+                                        <label class="form-label required">Fee Type</label>
+                                        <select class="form-control form-select" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
+                                                wire:model="receive_section_array.{{ $key }}.selected_fee_type"
+                                                wire:change="fee_type_change({{ $key }})">
+                                            <option value="">Select Fee Type</option>
+                                            @foreach ($fee_types as $fee_type)
+                                                <option value="{{ $fee_type->id }}">
+                                                    {{ $fee_type->name }}
+                                                </option>
                                             @endforeach
-                                            @else
-                                            <div class="alert alert-warning text-center" role="alert">
-                                                <b>Bank Not Found</b>
-                                            </div>
-                                            @endif
-                                        </div>
+                                        </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        @error('branch_id')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                        @if ($bank_id)
-                                        <div class="list-group">
-                                            <input type="text" wire:model="branch_search_key" class="text-white text-center" placeholder="Search branch" style="height: 60px; background:#3C3176; font-size:20px; border-radius:15px 15px 0px 0px; border: 0px;" />
-                                            @if ($branches->count() > 0)
-                                            @foreach ($branches as $branch)
-                                            <a href="javascript:void(0)" wire:click="chose_branch({{ $branch->id }})" class="  @if ($branch->id == $branch_id) bg-success text-white @endif list-group-item list-group-item-action list-group-item-secondary">{{ $branch->name }}</a>
-                                            @endforeach
-                                            @else
-                                            <div class="alert alert-warning text-center" role="alert">
-                                                <b>Branch Not Found</b>
-                                            </div>
-                                            @endif
-                                        </div>
-                                        @endif
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="d-md-flex align-items-center mt-3">
-                                            <div class="ms-auto mt-3 mt-md-0">
-                                                <button type="submit" class="btn btn-success text-white">Submit</button>
-                                                <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @else
-                                    <div class="col-12">
-                                        <div class="alert alert-success text-center" role="alert">
-                                            <h1><b>Click on another pay</b></h1>
-                                        </div>
-                                    </div>
-                                    @endif
                                 </div>
-                            </form>
+                                <div class="col">
+                                    <div
+                                        class="form-group @error("receive_section_array.$key.selected_period") has-danger @enderror">
+                                        <label class="form-label required">Select Period</label>
+                                        <select class="form-control form-select" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
+                                                wire:model="receive_section_array.{{ $key }}.selected_period"
+                                                wire:change="period_change({{ $key }})">
+                                            <option value="">Select Period</option>
+                                            @isset($receive_section_array[$key]['periods'])
+                                                @foreach ($receive_section_array[$key]['periods'] as $period)
+                                                    <option value="{{ $period['id'] }}">
+                                                        {{ $period['period_label'] }}
+                                                    </option>
+                                                @endforeach
+                                            @endisset
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div
+                                        class="form-group @error("receive_section_array.$key.schedule_date") has-danger @enderror">
+                                        <label class="form-label">Schedule Date</label>
+                                        <input type="text" class="form-control mt-1" disabled
+                                               wire:model="receive_section_array.{{ $key }}.schedule_date">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div
+                                        class="form-group @error("receive_section_array.$key.receive_date") has-danger @enderror">
+                                        <label class="form-label required">Receive Date</label>
+                                        <input type="date" class="form-control" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
+                                               wire:model="receive_section_array.{{ $key }}.receive_date"
+                                               wire:change="receive_date_change({{ $key }})">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div
+                                        class="form-group @error("receive_section_array.$key.receivable") has-danger @enderror">
+                                        <label class="form-label required">Receivable</label>
+                                        <input type="number" class="form-control" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
+                                               @if($receive_section_array[$key]['receivable_field_disabled'] ?? false) disabled
+                                               @endif wire:model="receive_section_array.{{ $key }}.receivable">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div
+                                        class="form-group @error("receive_section_array.$key.receive_amount") has-danger @enderror">
+                                        <label class="form-label required">Receive</label>
+                                        <input type="number" class="form-control" step="0.001" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
+                                               wire:model="receive_section_array.{{ $key }}.receive_amount"
+                                               wire:change="receive_amount_change({{ $key }}, $event.target.value)">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div
+                                        class="form-group @error("receive_section_array.$key.late_fee_receive_amount") has-danger @enderror">
+                                        <label class="form-label required">
+                                            Late Fee( <b class="text-success late_fee_title">@isset($receive_section_array[$key]['late_fee_percentage'])
+                                                    {{ $receive_section_array[$key]['late_fee_percentage'] ?? 0 }} @endisset </b>%
+                                            @isset($receive_section_array[$key]['late_days']) for {{ $receive_section_array[$key]['late_days'] }} days @endisset )
+                                        </label>
+                                        <input type="number" class="form-control" step="0.001" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
+                                               wire:model="receive_section_array.{{ $key }}.late_fee_receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div
+                                        class="form-group @error("receive_section_array.$key.vat_receive_amount") has-danger @enderror">
+                                        <label class="form-label required">VAT (<b
+                                                class="text-success vat_title">@isset($receive_section_array[$key]['vat_percentage'])
+                                                    {{ $receive_section_array[$key]['vat_percentage'] ?? 0 }}
+                                                @endisset</b>%)</label>
+                                        <input type="number" class="form-control" step="0.001" disabled
+                                               wire:model="receive_section_array.{{ $key }}.vat_receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div
+                                        class="form-group @error("receive_section_array.$key.tax_receive_amount") has-danger @enderror">
+                                        <label class="form-label required">TAX (<b
+                                                class="text-success tax_title">@isset($receive_section_array[$key]['tax_percentage'])
+                                                    {{ $receive_section_array[$key]['tax_percentage'] ?? 0 }}
+                                                @endisset</b>%)</label>
+                                        <input type="number" class="form-control" step="0.001" disabled
+                                               wire:model="receive_section_array.{{ $key }}.tax_receive_amount">
+                                    </div>
+                                </div>
+                                <div class="col mt-4">
+                                    @if($loop->first)
+                                        <button type="button" class="btn text-white fw-bold"
+                                                wire:click="add_or_rm_section_array('receive')"
+                                                style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i>
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn text-white fw-bold"
+                                                wire:click="add_or_rm_section_array('receive', {{ $key }})"
+                                                style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i>
+                                        </button>
+                                    @endif
+                                    <button type="button" class="btn text-white fw-bold"
+                                            wire:click="make_as_lock_or_unlock('receive', {{ $key }})"
+                                            style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- /.modal-content -->
+                    @endforeach
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
         </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body" id="po">
+                    <div style=" display: flex; justify-content: space-between; width=100%;">
+                        <h6 class="fw-bold">PO Details</h6>
+                        <button type="button" class="btn text-white" wire:click="reset_section('po')"
+                                style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset
+                        </button>
+                    </div>
+                    @foreach (array_reverse($po_section_array, true) as $key => $po_section)
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group @error("po_section_array.$key.po_amount") has-danger @enderror">
+                                    <label class="form-label required">PO Amount</label>
+                                    <input type="number" class="form-control" step="0.001" @if($po_section_array[$key]['lock'] ?? false) disabled @endif
+                                           wire:model="po_section_array.{{ $key }}.po_amount">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group @error("po_section_array.$key.po_number") has-danger @enderror">
+                                    <label class="form-label required">PO Number</label>
+                                    <input type="text" class="form-control" @if($po_section_array[$key]['lock'] ?? false) disabled @endif
+                                           wire:model="po_section_array.{{ $key }}.po_number">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group @error("po_section_array.$key.po_date") has-danger @enderror">
+                                    <label class="form-label required">PO Date</label>
+                                    <input type="date" class="form-control" @if($po_section_array[$key]['lock'] ?? false) disabled @endif
+                                           wire:model="po_section_array.{{ $key }}.po_date">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group @error("po_section_array.$key.po_bank") has-danger @enderror">
+                                    <label class="form-label required">PO Bank</label>
+                                    <select class="form-control form-select" @if($po_section_array[$key]['lock'] ?? false) disabled @endif
+                                            wire:model="po_section_array.{{ $key }}.po_bank">
+                                        <option value="">Select PO Bank</option>
+                                        @foreach ($banks as $bank)
+                                            <option value="{{ $bank->id }}">
+                                                {{ $bank->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col mt-4">
+                                @if($loop->first)
+                                    <button type="button" class="btn text-white fw-bold"
+                                            wire:click="add_or_rm_section_array('po')"
+                                            style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i></button>
+                                @else
+                                    <button type="button" class="btn text-white fw-bold"
+                                            wire:click="add_or_rm_section_array('po', {{ $key }})"
+                                            style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i></button>
+                                @endif
+                                <button type="button" class="btn text-white fw-bold"
+                                        wire:click="make_as_lock_or_unlock('po', {{ $key }})"
+                                        style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body" id="deposit">
+                    <div style="display: flex; justify-content: space-between; width=100%;">
+                        <h6 class="fw-bold">Deposit Details</h6>
+                        <button type="button" class="btn text-white" wire:click="reset_section('deposit')"
+                                style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset
+                        </button>
+                    </div>
+                    @foreach (array_reverse($deposit_section_array, true) as $key => $deposit_section)
+                        <div class="row">
+                            <div class="col">
+                                <div
+                                    class="form-group @error("deposit_section_array.$key.deposit_amount") has-danger @enderror">
+                                    <label class="form-label required">Deposit Amount</label>
+                                    <input type="number" class="form-control" step="0.001" @if($deposit_section_array[$key]['lock'] ?? false) disabled @endif
+                                           wire:model="deposit_section_array.{{ $key }}.deposit_amount">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div
+                                    class="form-group @error("deposit_section_array.$key.journal_number") has-danger @enderror">
+                                    <label class="form-label required">Journal Number</label>
+                                    <input type="text" class="form-control"  @if($deposit_section_array[$key]['lock'] ?? false) disabled @endif
+                                           wire:model="deposit_section_array.{{ $key }}.journal_number">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div
+                                    class="form-group @error("deposit_section_array.$key.deposit_date") has-danger @enderror">
+                                    <label class="form-label required">Deposit Date</label>
+                                    <input type="date" class="form-control" @if($deposit_section_array[$key]['lock'] ?? false) disabled @endif
+                                           wire:model="deposit_section_array.{{ $key }}.deposit_date">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div
+                                    class="form-group @error("deposit_section_array.$key.deposit_bank") has-danger @enderror">
+                                    <label class="form-label required">Deposit Bank</label>
+                                    <select class="form-control form-select"  @if($deposit_section_array[$key]['lock'] ?? false) disabled @endif
+                                            wire:model="deposit_section_array.{{ $key }}.deposit_bank">
+                                        <option value="">Select Deposit Bank</option>
+                                        @foreach ($banks as $bank)
+                                            <option value="{{ $bank->id }}">
+                                                {{ $bank->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col mt-4">
+                                @if($loop->first)
+                                    <button type="button" class="btn text-white fw-bold"
+                                            wire:click="add_or_rm_section_array('deposit')"
+                                            style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i></button>
+                                @else
+                                    <button type="button" class="btn text-white fw-bold"
+                                            wire:click="add_or_rm_section_array('deposit', {{ $key }})"
+                                            style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i></button>
+                                @endif
+                                <button type="button" class="btn text-white fw-bold"
+                                        wire:click="make_as_lock_or_unlock('deposit', {{ $key }})"
+                                        style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" mb-5" style=" display: flex; justify-content: space-between; width=100%;">
+        <a href="{{ route('payment') }}" class="btn text-white fw-bold" style="background: #A9A9A9;  width:45%;">Reset
+            All</a>
+        {{-- @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
+            == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount'))) --}}
+        <button type="button" class="btn text-white fw-bold" style="background: #3BB001;  width:45%;"
+                wire:click="submit">Final Submit
+        </button>
+        {{-- @endif --}}
     </div>
 </div>

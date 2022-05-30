@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item active">Operator Page</li>
                 </ol>
-                <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"><i class="fa fa-plus-circle"></i> Create New</button>
+                <button type="button" wire:click="create" class="btn btn-dark d-none d-lg-block m-l-15" alt="default" data-bs-toggle="modal" data-bs-target=".operator-modal-lg"><i class="fa fa-plus-circle"></i> Create New</button>
             </div>
         </div>
     </div>
@@ -29,6 +29,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <th>--</th>
+                                    <th><input type="text" class="form-control" placeholder="Name" wire:model="search_for_name"></th>
+                                    <th><input type="text" class="form-control" placeholder="Category" wire:model="search_for_category"></th>
+                                    <th><input type="text" class="form-control" placeholder="Sub Category" wire:model="search_for_sub_category"></th>
+                                    <th>--</th>
+                                </tr>
                                 @foreach ($operators as $operator)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -36,24 +43,27 @@
                                     <td>{{ $operator->category->name ?? 'Non category' }}</td>
                                     <td>{{ $operator->sub_category->name ?? 'Non sub category' }}</td>
                                     <td>
-                                        <a href="{{ route('payment', ['operator' => $operator]) }}" class="btn btn-success text-white">Payments</a>
-                                        <a href="{{ route('expiration', ['operator' => $operator]) }}" class="btn btn-info text-white">Expirations</a>
-                                        <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $operator->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
-                                        {{-- @if($operator->payments) --}}
-                                        <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $operator->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
-                                        {{-- @endif --}}
+                                        <a href="{{ route('expiration', $operator->id) }}" class="btn btn-info text-white">Configration</a>
+                                        <a href="{{ route('operator-wise-payment', $operator->id) }}" class="btn btn-info text-white">Show Payments</a>
+                                        <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $operator->id }})" data-bs-toggle="modal" data-bs-target=".operator-modal-lg">Edit</button>
+                                        <button type="button" class="btn btn-danger text-white" wire:click="select_for_delete({{ $operator->id }})" data-bs-toggle="modal" data-bs-target=".delete-modal"> Delete </button>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        @if ($operators->hasPages())
+                        <div class="pagination-wrapper">
+                            {{ $operators->links('livewire.widget.custom-pagination') }}
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-12">
-            <!-- sample modal content -->
-            <div wire:ignore.self class="modal bs-example-modal-lg fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+            <!-- operator modal content -->
+            <div wire:ignore.self class="modal operator-modal-lg fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
@@ -61,85 +71,124 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
                         <div class="modal-body">
+
                             <form wire:submit.prevent="submit" id="operator_form">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
-                                            <label for="name">Name</label>
+                                    <h4 class="card-title fw-bold">Operator Information</h4>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name Here">
+                                            <label for="name" class="required">Name</label>
                                         </div>
-                                        @error('name')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
+                                        <x-error name="name" />
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3" wire:ignore>
-                                            <select style="width: 100%;" class="form-control select2" id="category_id" wire:model="category_id">
-                                                <option value="">Chose category</option>
-                                                <option value="0">Non category</option>
-                                                @foreach ($categories as $category)
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="phone" wire:model="phone" placeholder="Enter Phone Here">
+                                            <label for="phone">Phone</label>
+                                        </div>
+                                        <x-error name="phone" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="email" wire:model="email" placeholder="Enter Email Here">
+                                            <label for="email">Email</label>
+                                        </div>
+                                        <x-error name="email" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="website" wire:model="website" placeholder="Enter Website Here">
+                                            <label for="website">Website</label>
+                                        </div>
+                                        <x-error name="website" />
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <label for="address">Address</label>
+                                        <textarea cols="30" rows="3" class="form-control" id="address" wire:model="address" placeholder="Enter Address Here"></textarea>
+                                        <x-error name="address" />
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <label for="note">Note</label>
+                                        <textarea cols="30" rows="3" class="form-control" id="note" wire:model="note" placeholder="Enter Note Here"></textarea>
+                                        <x-error name="note" />
+                                    </div>
+                                    {{-- Contact person --}}
+                                    <h4 class="card-title mt-5 fw-bold">Contact Person</h4>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contact_person_name" wire:model="contact_person_name" placeholder="Enter Name Here">
+                                            <label for="contact_person_name" class="required">Name</label>
+                                        </div>
+                                        <x-error name="contact_person_name" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contact_person_designation" wire:model="contact_person_designation" placeholder="Enter Designation Here">
+                                            <label for="contact_person_designation">Designation</label>
+                                        </div>
+                                        <x-error name="contact_person_designation" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contact_person_phone" wire:model="contact_person_phone" placeholder="Enter Phone Here">
+                                            <label for="contact_person_phone">Phone</label>
+                                        </div>
+                                        <x-error name="contact_person_phone" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contact_person_email" wire:model="contact_person_email" placeholder="Enter Email Here">
+                                            <label for="contact_person_email">Email</label>
+                                        </div>
+                                        <x-error name="contact_person_email" />
+                                    </div>
+                                    {{-- License mapping --}}
+                                    <h4 class="card-title mt-5 fw-bold">License Mapping</h4>
+                                    <div class="col-md-3">
+                                        <label for="category_id" class="required">Category</label>
+                                        <select name="" id="category_id" class="form-control" wire:model="category_id">
+                                            <option value="">Select Category</option>
+                                            @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <label for="category_id">Category</label>
-                                        </div>
-                                        @error('category_id')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
+                                            @endforeach
+                                        </select>
+                                        <x-error name="category_id" />
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3" wire:ignore>
-                                            <select style="width: 100%;" class="form-control select2" id="sub_category_id" wire:model="sub_category_id">
-                                                <option value="">Chose sub category</option>
-                                                <option value="0">Non sub category</option>
-                                                @foreach ($sub_categories as $sub_category)
+                                    <div class="col-md-3">
+                                        <label for="sub_category_id" class="required">Sub-Category</label>
+                                        <select name="" id="sub_category_id" class="form-control" wire:model="sub_category_id">
+                                            <option value="">Select Sub Category</option>
+                                            @foreach ($sub_categories as $sub_category)
                                                 <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <label for="sub_category_id">Sub Category</label>
-                                        </div>
-                                        @error('sub_category_id')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
+                                            @endforeach
+                                        </select>
+                                        <x-error name="sub_category_id" />
                                     </div>
-                                    <div class="col-12">
-                                        <div class="d-md-flex align-items-center mt-3">
-                                            <div class="ms-auto mt-3 mt-md-0">
-                                                <button type="submit" class="btn btn-success text-white">Submit</button>
-                                                <button type="button" class="btn btn-danger waves-effect text-start text-white" data-bs-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
+                                    <div class="col-6 mt-4 d-flex justify-content-betwee" style="max-height: 40px;">
+                                        <button type="submit" class="btn waves-effect waves-light w-100 btn-info">Submit</button>
+                                        <button type="button" class="btn waves-effect waves-light w-100 btn-warning" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- delete modal content -->
+            <div wire:ignore.self class="modal delete-modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt=""> <br>
+                            <button class="btn btn-danger text-white" data-bs-dismiss="modal" wire:click="delete">Delete</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- /.modal -->
         </div>
     </div>
-    @push('foot')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.select2').select2({
-                dropdownParent: $('#operator_form'),
-                theme: "classic"
-            });
-            $('.select2').on('change', function (e) {
-                let elementName = $(this).attr('id');
-                var data = $(this).select2("val");
-                @this.set(elementName, data);
-            });
-        });
-    </script>
-    @endpush
+
 </div>

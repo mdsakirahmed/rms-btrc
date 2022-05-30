@@ -12,9 +12,11 @@ class LicenseCategory extends Model
 
     protected $fillable = [
         'name',
-        'license_fee',
         'duration_year',
         'duration_month',
-        'payment_iteration',
     ];
+
+    public function category_wise_fees(){
+        return $this->hasMany(LicenseCategoryWiseFeeType::class, 'category_id', 'id');
+    }
 }

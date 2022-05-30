@@ -11,28 +11,31 @@ class Payment extends Model
     use HasFactory, Userstamps;
 
     protected $fillable = [
-        'expiration_id',
-        'bank_id',
-        'branch_id',
-        'payble_amount',
-        'last_date_of_payment',
-        'payment_date',
-        'vat',
-        'late_fee',
-        'paid',
+        'operator_id',
+        'transaction',
     ];
 
-    protected $dates = ['last_date_of_payment', 'payment_date'];
-
-    public function expiration(){
-        return $this->belongsTo(Expiration::class, 'expiration_id', 'id');
+    public function operator(){
+        return $this->belongsTo(Operator::class, 'operator_id', 'id');
     }
 
-    public function bank(){
-        return $this->belongsTo(Bank::class, 'bank_id', 'id');
+    public function receives(){
+        return $this->hasMany(PaymentWiseReceive::class, 'payment_id', 'id');
+    }
+    public function pay_orders(){
+        return $this->hasMany(PaymentWisePayOrder::class, 'payment_id', 'id');
+    }
+    public function deposits(){
+        return $this->hasMany(PaymentWiseDeposit::class, 'payment_id', 'id');
     }
 
-    public function branch(){
-        return $this->belongsTo(Branch::class, 'branch_id', 'id');
+    // Auto delete depend data
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($model) { // this model
+            $model->receives()->delete(); // depended 1
+            $model->pay_orders()->delete(); // depended 2
+            $model->deposits()->delete(); // depended 3
+        });
     }
 }

@@ -46,7 +46,7 @@ class LicenseSubCategory extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Successfully Deleted!']);
         $this->selected_id = null;
     }
-    
+
     public function mount(){
         $this->licenseSubCategories = ModelsLicenseSubCategory::latest()->get();
     }
@@ -54,6 +54,7 @@ class LicenseSubCategory extends Component
     public function render()
     {
         $this->licenseSubCategories = ModelsLicenseSubCategory::latest()->get();
-        return view('livewire.license-sub-category')->layout('layouts.backend.app');
+        return view('livewire.license-sub-category')->extends('layouts.backend.app', ['title' => 'Sub license category'])
+        ->section('content');
     }
 }

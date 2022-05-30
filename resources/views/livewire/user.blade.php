@@ -66,38 +66,22 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Name</label>
                                 <input type="text" class="form-control" id="name" placeholder="Mr. Example Name" wire:model="name">
-                                @error('name')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="name" />
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" placeholder="example@email.com" wire:model="email">
-                                @error('email')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="email" />
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" id="password" placeholder="Password" wire:model="password">
-                                @error('password')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="password" />
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="password_confirmation">Password</label>
                                 <input type="password" class="form-control" id="password_confirmation" placeholder="Confirm Password" wire:model="password_confirmation">
-                                @error('password_confirmation')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <x-error name="password_confirmation" />
                             </div>
                         </div>
                         @foreach ($roles as $role)
@@ -106,11 +90,7 @@
                             <label class="form-check-label" for="role-{{ $role->id }}">{{ $role->name }}</label>
                         </div>
                         @endforeach
-                        @error('role')
-                        <div class="alert alert-danger" role="role">
-                            {{ $message }}
-                        </div>
-                        @enderror
+                        <x-error name="role" />
                         <br>
                         <button type="submit" class="btn btn-primary col-12">SUBMIT</button>
                     </form>

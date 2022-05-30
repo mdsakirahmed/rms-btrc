@@ -33,11 +33,7 @@
                                     <button class="btn btn-info text-white" type="submit">Import Now!</button>
                                 </div>
                             </div>
-                            @error('file')
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                            @enderror
+                            <x-error name="file" />
                         </div>
                     </div>
                     @endcan

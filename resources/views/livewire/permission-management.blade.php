@@ -16,7 +16,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body p-b-0">
-                    <h4 class="card-title">Role and permission management</h4>
+                    <h4 class="card-title">Role and Permission Management</h4>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs customtab2" role="tablist">
                         <li class="nav-item" wire:click="tabChange('role')"> <a class="nav-link @if($tab == 'role') active @endif" data-bs-toggle="tab" href="#role" role="tab" aria-selected="false"><span class="hidden-sm-up"><i class="ti-role"></i></span> <span class="hidden-xs-down">Role</span></a> </li>
@@ -106,11 +106,7 @@
                                 <button class="btn btn-info" type="submit">Save</button>
                             </div>
                         </div>
-                        @error('role_name')
-                        <div class="alert alert-danger" role="alert">
-                            {{ $message }}
-                        </div>
-                        @enderror
+                        <x-error name="role_name" />
                     </form>
                     @if($selected_role)
                     @foreach ($permissions as $permission)
@@ -118,11 +114,7 @@
                         <input type="checkbox" class="form-check-input" id="permission_no_{{ $permission->id }}" value="{{ $permission->id }}" wire:model="selected_permissions.{{ $permission->id }}" wire:click="checkPermission('{{ $permission->name }}')"> {{ $loop->iteration }}) {{ $permission->name }}
                     </label>
                     @endforeach
-                    @error('selected_permissions.*')
-                    <div class="alert alert-danger" role="alert">
-                        {{ $message }}
-                    </div>
-                    @enderror
+                    <x-error name="'selected_permissions.*" />
                     @endif
                 </div>
                 <div class="modal-footer">

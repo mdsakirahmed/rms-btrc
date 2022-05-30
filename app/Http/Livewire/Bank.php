@@ -41,6 +41,7 @@ class Bank extends Component
     {
         return view('livewire.bank', [
             'banks' => ModelsBank::latest()->get()
-        ])->layout('layouts.backend.app');
+        ])->extends('layouts.backend.app', ['title' => 'Bank'])
+        ->section('content');
     }
 }

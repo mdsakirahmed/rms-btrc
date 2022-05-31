@@ -43,8 +43,7 @@
                                         @endforeach
                                     </td>
                                     <td>
-                                        <b>#@if($fee_type->schedule_include_to_beginning_of_period) B @else E @endif</b>
-                                        {{ $fee_type->schedule_day }} days {{ $fee_type->schedule_month }} months
+                                        {{ $fee_type->schedule_day }} Days & {{ $fee_type->schedule_month }} Months Include with @if($fee_type->schedule_include_to_beginning_of_period) Beginning @else Ending @endif of the Period</b>
                                     </td>
                                     <td>
                                         @if($fee_type->period_format == 1) Jan/2018-19 @elseif($fee_type->period_format == 2) Jan-Feb/2022 @endif

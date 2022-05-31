@@ -79,17 +79,17 @@
                     <div class="row">
                         <div class="col-md-4 card text-center"
                              style="background: #E8F4FA; margin-top:35px; padding:20px 0px 10px 0px;">
-                            <h6 class="fw-bold">{{ array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')) }}</h6>
+                            <h6 class="fw-bold">{{ round(array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount'))) }}</h6>
                             <p>Receive</p>
                         </div>
                         <div class="col-md-4 card text-center"
                              style="background: #F1FBFF; margin-top:35px; padding:20px 0px 10px 0px;">
-                            <h6 class="fw-bold">{{ array_sum(array_column($po_section_array,'po_amount')) }}</h6>
+                            <h6 class="fw-bold">{{ round(array_sum(array_column($po_section_array,'po_amount'))) }}</h6>
                             <p>PO</p>
                         </div>
                         <div class="col-md-4 card text-center"
                              style="background: #E8F4FA; margin-top:35px; padding:20px 0px 10px 0px;">
-                            <h6 class="fw-bold">{{ array_sum(array_column($deposit_section_array,'deposit_amount')) }}</h6>
+                            <h6 class="fw-bold">{{ round(array_sum(array_column($deposit_section_array,'deposit_amount'))) }}</h6>
                             <p>Deposit</p>
                         </div>
                         <div style=" display: flex; justify-content: space-between; width=100%;">
@@ -192,11 +192,10 @@
                                         class="form-group @error("receive_section_array.$key.late_fee_receive_amount") has-danger @enderror">
                                         <label class="form-label required">
                                             Late Fee( <b class="text-success late_fee_title">@isset($receive_section_array[$key]['late_fee_percentage'])
-                                                    {{ $receive_section_array[$key]['late_fee_percentage'] ?? 0 }} @endisset </b>%
-                                            @isset($receive_section_array[$key]['late_days']) for {{ $receive_section_array[$key]['late_days'] }} days @endisset )
+                                                    {{ $receive_section_array[$key]['late_fee_percentage'] ?? 0 }} @endisset </b>%)
                                         </label>
                                         <input type="number" class="form-control" step="0.001" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
-                                               wire:model="receive_section_array.{{ $key }}.late_fee_receive_amount">
+                                               wire:model="receive_section_array.{{ $key }}.late_fee_receive_amount" title="@isset($receive_section_array[$key]['late_days']) for {{ $receive_section_array[$key]['late_days'] }} days @endisset">
                                     </div>
                                 </div>
                                 <div class="col">

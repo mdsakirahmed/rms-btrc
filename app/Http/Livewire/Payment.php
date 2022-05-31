@@ -254,8 +254,10 @@ class Payment extends Component
             'deposit_section_array.*.deposit_date' => 'Deposit Date',
         ]);
 
-        if ((array_sum(array_column($this->receive_section_array, 'receive_amount')) + array_sum(array_column($this->receive_section_array, 'late_fee_receive_amount')) + array_sum(array_column($this->receive_section_array, 'vat_receive_amount')))
-            == array_sum(array_column($this->po_section_array, 'po_amount')) && array_sum(array_column($this->po_section_array, 'po_amount')) == array_sum(array_column($this->deposit_section_array, 'deposit_amount'))
+        if (round(array_sum(array_column($this->receive_section_array, 'receive_amount')) + array_sum(array_column($this->receive_section_array, 'late_fee_receive_amount')) + array_sum(array_column($this->receive_section_array, 'vat_receive_amount')))
+            == round(array_sum(array_column($this->po_section_array, 'po_amount')))
+            && round(array_sum(array_column($this->po_section_array, 'po_amount')))
+            == round(array_sum(array_column($this->deposit_section_array, 'deposit_amount')))
         ) {
 
             // Payment

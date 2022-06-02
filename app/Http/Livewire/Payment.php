@@ -313,14 +313,14 @@ class Payment extends Component
 
             return response()->streamDownload(function () use ($payment) {
                 PDF::loadView('pdf.payment-receipt', [
-                    'file_name' => 'Payment receipt',
+                    'file_name' => 'Collection Receipt',
                     'payment' => $payment
                 ])->download();
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
                 redirect()->to('/payment');
             }, 'Payment receipt generated at ' . date('d-m-Y- h-i-s') . '.pdf');
         } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Receive, PO and Deposit are not equal !']);
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Collection, PO and Deposit are not equal !']);
         }
     }
 }

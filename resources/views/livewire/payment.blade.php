@@ -80,7 +80,7 @@
                         <div class="col-md-4 card text-center"
                              style="background: #E8F4FA; margin-top:35px; padding:20px 0px 10px 0px;">
                             <h6 class="fw-bold">{{ round(array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount'))) }}</h6>
-                            <p>Receive</p>
+                            <p>Collection</p>
                         </div>
                         <div class="col-md-4 card text-center"
                              style="background: #F1FBFF; margin-top:35px; padding:20px 0px 10px 0px;">
@@ -108,8 +108,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body" id="receive">
-                    <div style="display: flex; justify-content: space-between; width=100%;">
-                        <h6 class="fw-bold">Receive Details</h6>
+                    <div style="display: flex; justify-content: space-between; width:100%;">
+                        <h6 class="fw-bold">Collection Details</h6>
                         <button type="button" class="btn text-white" wire:click="reset_section('receive')"
                                 style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset
                         </button>
@@ -161,7 +161,7 @@
                                 <div class="col">
                                     <div
                                         class="form-group @error("receive_section_array.$key.receive_date") has-danger @enderror">
-                                        <label class="form-label required">Receive Date</label>
+                                        <label class="form-label required">Collection Date</label>
                                         <input type="date" class="form-control" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
                                                wire:model="receive_section_array.{{ $key }}.receive_date"
                                                wire:change="receive_date_change({{ $key }})">
@@ -181,7 +181,7 @@
                                 <div class="col">
                                     <div
                                         class="form-group @error("receive_section_array.$key.receive_amount") has-danger @enderror">
-                                        <label class="form-label required">Receive</label>
+                                        <label class="form-label required">Collection</label>
                                         <input type="number" class="form-control" step="0.001" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
                                                wire:model="receive_section_array.{{ $key }}.receive_amount"
                                                wire:change="receive_amount_change({{ $key }}, $event.target.value)">
@@ -245,7 +245,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body" id="po">
-                    <div style=" display: flex; justify-content: space-between; width=100%;">
+                    <div style=" display: flex; justify-content: space-between; width:100%;">
                         <h6 class="fw-bold">PO Details</h6>
                         <button type="button" class="btn text-white" wire:click="reset_section('po')"
                                 style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset

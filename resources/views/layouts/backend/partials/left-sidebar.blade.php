@@ -25,7 +25,7 @@
                     <li class="{{ request()->is('payment*') ? 'active' : '' }}"><a
                             class="waves-effect waves-dark {{ request()->is('payment*') ? 'active' : '' }}"
                             href="{{ route('payment') }}" aria-expanded="false"><i
-                                class="mdi mdi-cash"></i><span class="hide-menu">Payment</span></a></li>
+                                class="mdi mdi-cash"></i><span class="hide-menu">Collection</span></a></li>
                 @endcan
                 @can('document')
                     <li><a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i

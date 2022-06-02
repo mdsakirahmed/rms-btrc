@@ -75,7 +75,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="fw-bold">Payment Summary</h6>
+                    <h6 class="fw-bold">Collection Summary</h6>
                     <div class="row">
                         <div class="col-md-4 card text-center"
                              style="background: #E8F4FA; margin-top:35px; padding:20px 0px 10px 0px;">
@@ -92,7 +92,7 @@
                             <h6 class="fw-bold">{{ round(array_sum(array_column($deposit_section_array,'deposit_amount'))) }}</h6>
                             <p>Deposit</p>
                         </div>
-                        <div style=" display: flex; justify-content: space-between; width=100%;">
+                        <div style=" display: flex; justify-content: space-between; width:100%;">
                             <a href="{{ route('payment') }}" class="btn text-white fw-bold"
                                style="background: #A9A9A9;  width:45%;">Reset All</a>
                             <button type="button" class="btn text-white fw-bold"

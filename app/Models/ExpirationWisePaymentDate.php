@@ -31,4 +31,51 @@ class ExpirationWisePaymentDate extends Model
     public function total_due_amount(){
         return ($this->total_receivable - $this->total_paid_amount());
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            // ... code here;
+        });
+
+        self::created(function ($model) {
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("create")
+                ->log('Create period');
+        });
+
+        self::updating(function ($model) {
+            // ... code here
+        });
+
+        self::updated(function ($model) {
+            $changes = $model->isDirty() ? $model->getDirty() : false;
+            if ($changes) {
+                foreach ($changes as $attr => $value) {
+                    activity()
+                        // ->causedBy($user)
+                        ->performedOn($model)
+                        ->useLog("edit")
+                        ->log("Update period : $attr from {$model->getOriginal($attr)} to {$model->$attr}");
+                }
+            }
+        });
+
+        self::deleting(function ($model) {
+            // ... code here
+        });
+
+        self::deleted(function ($model) {
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("delete")
+                ->withProperties(['record' => $model])
+                ->log('Delete period');
+        });
+    }
 }

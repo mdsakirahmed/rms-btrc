@@ -29,13 +29,52 @@ class Payment extends Model
         return $this->hasMany(PaymentWiseDeposit::class, 'payment_id', 'id');
     }
 
-    // Auto delete depend data
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
-        static::deleting(function($model) { // this model
+
+        self::creating(function ($model) {
+            // ... code here;
+        });
+
+        self::created(function ($model) {
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("create")
+                ->log('Create payment');
+        });
+
+        self::updating(function ($model) {
+            // ... code here
+        });
+
+        self::updated(function ($model) {
+            $changes = $model->isDirty() ? $model->getDirty() : false;
+            if ($changes) {
+                foreach ($changes as $attr => $value) {
+                    activity()
+                        // ->causedBy($user)
+                        ->performedOn($model)
+                        ->useLog("edit")
+                        ->log("Update payment : $attr from {$model->getOriginal($attr)} to {$model->$attr}");
+                }
+            }
+        });
+
+        self::deleting(function ($model) {
             $model->receives()->delete(); // depended 1
             $model->pay_orders()->delete(); // depended 2
             $model->deposits()->delete(); // depended 3
+        });
+
+        self::deleted(function ($model) {
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("delete")
+                ->withProperties(['record' => $model])
+                ->log('Delete payment');
         });
     }
 }

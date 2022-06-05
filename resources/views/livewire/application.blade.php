@@ -19,8 +19,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table color-table success-table">
-                            <thead>
+                        <table class="table color-table">
+                            <thead class="btrc">
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
@@ -35,11 +35,11 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
                                         {{ $application->name }} &nbsp;
-                                        @if( $application->approved)
+                                        {{-- @if( $application->approved)
                                         <button type="button" class="btn waves-effect waves-light btn-xs text-white btn-info" data-bs-toggle="modal" data-bs-target=".reject-modal" wire:click="select_for_change_approval({{ $application->id }})">Approve</button>
                                         @else
                                             <button type="button" class="btn waves-effect waves-light btn-xs text-white btn-danger" data-bs-toggle="modal" data-bs-target=".approve-modal" wire:click="select_for_change_approval({{ $application->id }})">Approve</button>
-                                        @endif
+                                        @endif --}}
                                     </td>
                                     <td style="text-align: right;">{{ $application->application_fee }} ৳</td>
                                     <td style="text-align: right;">{{ $application->processing_fee }} ৳</td>

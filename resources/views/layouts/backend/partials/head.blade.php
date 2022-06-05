@@ -104,4 +104,9 @@
 
     /* Scroll bar style end */
 
+    .btrc{
+        background-color: #5ba8bc;
+        color: white;
+    }
+
 </style>

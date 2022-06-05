@@ -4,12 +4,12 @@
         <!-- Logo -->
         <!-- ============================================================== -->
         <div class="navbar-header">
-
+            {{--Do  not remove this div--}}
         </div>
         <!-- ============================================================== -->
         <!-- End Logo -->
         <!-- ============================================================== -->
-        <div class="navbar-collapse">
+        <div class="navbar-collapse btrc">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link nav-toggler d-block d-md-none waves-effect waves-dark"
                                         href="javascript:void(0)"><i class="ti-menu"></i></a></li>

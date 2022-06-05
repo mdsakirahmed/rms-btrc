@@ -30,8 +30,8 @@
                                 <div class="button-group">
                                     <button type="button" class="btn waves-effect waves-light btn-success" data-bs-toggle="modal" data-bs-target="#role-modal" wire:click="createRole">Add new role</button>
                                 </div>
-                                <table class="table">
-                                    <thead class="thead-dark">
+                                <table class="table color-table">
+                                    <thead class="btrc">
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>
@@ -59,8 +59,8 @@
                         </div>
                         <div class="tab-pane @if($tab == 'permission') active @endif" id="permission" role="tabpanel">
                             <div class="p-20">
-                                <table class="table">
-                                    <thead class="thead-dark">
+                                <table class="table color-table">
+                                    <thead class="btrc">
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>

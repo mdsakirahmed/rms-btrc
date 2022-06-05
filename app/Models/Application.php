@@ -18,8 +18,6 @@ class Application extends Model
         'processing_fee'
     ];
 
-    protected static $logName = 'user';
-
     public static function boot()
     {
         parent::boot();
@@ -61,7 +59,7 @@ class Application extends Model
             activity()
                 // ->causedBy($userModel)
                 ->performedOn($model)
-                ->useLog("create")
+                ->useLog("delete")
                 ->withProperties(['record' => $model])
                 ->log('Delete application');
         });

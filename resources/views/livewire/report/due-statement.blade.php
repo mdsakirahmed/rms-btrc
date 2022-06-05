@@ -16,8 +16,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-success" wire:click="export_as_excel">Export as .xlsx</button>
-                    <button class="btn btn-success" wire:click="export_as_pdf">Export as .pdf</button>
+{{--                    <button class="btn btn-success" wire:click="export_as_excel">Export as .xlsx</button>--}}
+{{--                    <button class="btn btn-success" wire:click="export_as_pdf">Export as .pdf</button>--}}
                 </div>
                 <div class="card-body">
                     <div class="row mb-5">
@@ -60,14 +60,16 @@
                                     <th><input wire:model="search_for_receive_period_end_date" type="text" class="form-control" placeholder="Due Date"></th>
                                 </tr>
                                 @foreach ($operators as $operator)
+                                    @if(!$operator->payment_receives_sum_receive_amount || ($operator->payment_receives_sum_receive_amount ?? 0) < $operator->total_receivable)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $operator->category_name }}</td>
-                                        <td>{{ $operator->sub_category_name }}</td>
-                                        <td>{{ $operator->name }}</td>
-                                        <td>{{ $operator->fee_type_name }}</td>
+                                        <td>{{ $operator->expiration->operator->category->name ?? '' }}</td>
+                                        <td>{{ $operator->expiration->operator->sub_category->name ?? '' }}</td>
+                                        <td>{{ $operator->expiration->operator->name ?? '' }}</td>
+                                        <td>{{ $operator->fee_type->name ?? '' }}</td>
                                         <td title="d-m-Y">{{ date('d-m-Y', strtotime($operator->period_end_date)) }}</td>
                                     </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

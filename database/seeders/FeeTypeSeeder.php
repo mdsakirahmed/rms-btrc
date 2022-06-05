@@ -15,7 +15,13 @@ class FeeTypeSeeder extends Seeder
      */
     public function run()
     {
-        $fee_type = FeeType::create(['name' => 'License Fee', 'schedule_day' => 0, 'schedule_month' => 2, 'period_format' => 1]);
+        $fee_type = FeeType::create([
+            'name' => 'License Fee', 
+            'schedule_day' => 0, 
+            'schedule_month' => 2, 
+            'period_format' => 1,
+            'schedule_include_to_beginning_of_period' => true
+        ]);
         FeeTypeWisePeriod::create([
             'fee_type_id' => $fee_type->id,
             'starting_month' => 1,
@@ -23,7 +29,13 @@ class FeeTypeSeeder extends Seeder
         ]);
 
         //1
-        $fee_type =  FeeType::create(['name' => 'Revenue Sharing', 'schedule_day' => 20, 'schedule_month' => 0, 'period_format' => 2]);
+        $fee_type =  FeeType::create([
+            'name' => 'Revenue Sharing', 
+            'schedule_day' => 20, 
+            'schedule_month' => 0, 
+            'period_format' => 2,
+            'schedule_include_to_beginning_of_period' => false
+        ]);
         FeeTypeWisePeriod::create([
             'fee_type_id' => $fee_type->id,
             'starting_month' => 1,
@@ -65,7 +77,13 @@ class FeeTypeSeeder extends Seeder
             'ending_month' => 12,
         ]);
 
-        $fee_type = FeeType::create(['name' => 'Spectrum Charge', 'schedule_day' => 20, 'schedule_month' => 0, 'period_format' => 2]);
+        $fee_type = FeeType::create([
+            'name' => 'Spectrum Charge', 
+            'schedule_day' => 20, 
+            'schedule_month' => 0, 
+            'period_format' => 2,
+            'schedule_include_to_beginning_of_period' => false
+        ]);
         //1
         FeeTypeWisePeriod::create([
             'fee_type_id' => $fee_type->id,

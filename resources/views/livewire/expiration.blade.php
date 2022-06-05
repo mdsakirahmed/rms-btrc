@@ -29,8 +29,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table color-table success-table">
-                            <thead>
+                        <table class="table color-table">
+                            <thead  class="btrc">
                                 <tr>
                                     <th>#</th>
                                     <th>Issue Date</th>
@@ -46,7 +46,7 @@
                                     <td>{{ $expiration->expire_date->format('d/m/Y') }}</td>
                                     <td style="text-align: center;">
                                         <button type="button" class="btn btn-primary" wire:click="select_for_periods({{ $expiration->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-period-modal-lg">Periods</button>
-                                        <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $expiration->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
+                                        {{-- <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $expiration->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button> --}}
                                         <button type="button" class="btn btn-danger text-white" wire:click="delete({{ $expiration->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
                                     </td>
                                 </tr>
@@ -131,6 +131,9 @@
                                             <th>Period</th>
                                             <th>Schedule Date</th>
                                             <th>Fee type</th>
+                                            <th style="text-align: right;">Receivable</th>
+                                            <th style="text-align: right;">Receive</th>
+                                            <th style="text-align: right;">DUE</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -140,6 +143,9 @@
                                             <td>{{ $period->period_label }}</td>
                                             <td>{{ $period->period_schedule_date->format('d M Y') }}</td>
                                             <td>{{ $period->fee_type->name ?? 'Not found' }}</td>
+                                            <td style="text-align: right;">{{ $period->total_receivable }}</td>
+                                            <td style="text-align: right;">{{ $period->total_paid_amount() }}</td>
+                                            <td style="text-align: right;">{{ $period->total_due_amount() }}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

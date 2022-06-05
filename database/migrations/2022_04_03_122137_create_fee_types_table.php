@@ -22,6 +22,7 @@ class CreateFeeTypesTable extends Migration
             */
             $table->integer('schedule_day')->default(0);
             $table->integer('schedule_month')->default(0);
+            $table->boolean('schedule_include_to_beginning_of_period')->default(true);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

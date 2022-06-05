@@ -19,8 +19,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table color-table success-table">
-                            <thead>
+                        <table class="table color-table">
+                            <thead  class="btrc">
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
@@ -43,7 +43,7 @@
                                         @endforeach
                                     </td>
                                     <td>
-                                        {{ $fee_type->schedule_day }} days {{ $fee_type->schedule_month }} months
+                                        {{ $fee_type->schedule_day }} Days & {{ $fee_type->schedule_month }} Months Include with @if($fee_type->schedule_include_to_beginning_of_period) Beginning @else Ending @endif of the Period</b>
                                     </td>
                                     <td>
                                         @if($fee_type->period_format == 1) Jan/2018-19 @elseif($fee_type->period_format == 2) Jan-Feb/2022 @endif
@@ -90,6 +90,16 @@
                                             <label for="period_format">Period Format</label>
                                         </div>
                                         <x-error name="period_format" />
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <select name="schedule_include_to_beginning_of_period" id="schedule_include_to_beginning_of_period" class="form-control" wire:model="schedule_include_to_beginning_of_period">
+                                                <option value="1">Beginning of the Period</option>
+                                                <option value="0">End of the Period</option>
+                                            </select>
+                                            <label for="schedule_include_to_beginning_of_period">Schedule Beginning/End of Period </label>
+                                        </div>
+                                        <x-error name="schedule_include_to_beginning_of_period" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">

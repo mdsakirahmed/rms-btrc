@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Report;
 
 use App\Exports\DueStatementExport;
+use App\Models\ExpirationWisePaymentDate;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
+use Carbon\Carbon;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Pagination\Paginator;
@@ -14,7 +16,7 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf;
 class DueStatement extends Component
 {
 
-    public $selected_category, $selected_sub_category, 
+    public $selected_category, $selected_sub_category,
     $search_for_category_name, $search_for_sub_category_name, $search_for_operator_name,
     $search_for_receive_fee_type_name, $search_for_receive_period_end_date;
 
@@ -50,34 +52,37 @@ class DueStatement extends Component
 
     public function get_payments()
     {
-        return DB::table('operators')
-        ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
-        ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
-        ->join('expirations', 'operators.id', '=', 'expirations.operator_id')
-        ->join('expiration_wise_payment_dates', 'expirations.id', '=', 'expiration_wise_payment_dates.expiration_id')->where('paid', false)->where('period_end_date', '<', date('Y-m-d'))
-        ->join('fee_types', 'expiration_wise_payment_dates.fee_type_id', '=', 'fee_types.id')
-        ->select(
-            'operators.*',
-            'operators.name as operator_name',
-            'categories.name as category_name',
-            'categories.id as category_id',
-            'sub_categories.name as sub_category_name',
-            'sub_categories.id as sub_category_id',
-            'fee_types.name as fee_type_name',
-            'expiration_wise_payment_dates.period_end_date as period_end_date',
-        )->where(function ($query) {
-            if ($this->selected_category != 'all') {
-                $query->where('categories.id', $this->selected_category);
-            }
-            if ($this->selected_sub_category != 'all') {
-                $query->where('sub_categories.id', $this->selected_sub_category);
-            }
-            $query->where('categories.name', 'like', '%' . $this->search_for_category_name . '%');
-            $query->where('sub_categories.name', 'like', '%' . $this->search_for_sub_category_name . '%');
-            $query->where('operators.name', 'like', '%' . $this->search_for_operator_name . '%');
-            $query->where('fee_types.name', 'like', '%' . $this->search_for_receive_fee_type_name . '%');
-            $query->where('expiration_wise_payment_dates.period_end_date', 'like', '%' . $this->search_for_receive_period_end_date . '%');
-        });
+
+        return ExpirationWisePaymentDate::where('period_end_date', '<', Carbon::today()->toDateString())->withSum('payment_receives', 'receive_amount');
+
+//        return DB::table('operators')
+//        ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
+//        ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
+//        ->join('expirations', 'operators.id', '=', 'expirations.operator_id')
+//        ->join('expiration_wise_payment_dates', 'expirations.id', '=', 'expiration_wise_payment_dates.expiration_id')->where('period_end_date', '<', date('Y-m-d'))
+//        ->join('fee_types', 'expiration_wise_payment_dates.fee_type_id', '=', 'fee_types.id')
+//        ->select(
+//            'operators.*',
+//            'operators.name as operator_name',
+//            'categories.name as category_name',
+//            'categories.id as category_id',
+//            'sub_categories.name as sub_category_name',
+//            'sub_categories.id as sub_category_id',
+//            'fee_types.name as fee_type_name',
+//            'expiration_wise_payment_dates.period_end_date as period_end_date',
+//        )->where(function ($query) {
+//            if ($this->selected_category != 'all') {
+//                $query->where('categories.id', $this->selected_category);
+//            }
+//            if ($this->selected_sub_category != 'all') {
+//                $query->where('sub_categories.id', $this->selected_sub_category);
+//            }
+//            $query->where('categories.name', 'like', '%' . $this->search_for_category_name . '%');
+//            $query->where('sub_categories.name', 'like', '%' . $this->search_for_sub_category_name . '%');
+//            $query->where('operators.name', 'like', '%' . $this->search_for_operator_name . '%');
+//            $query->where('fee_types.name', 'like', '%' . $this->search_for_receive_fee_type_name . '%');
+//            $query->where('expiration_wise_payment_dates.period_end_date', 'like', '%' . $this->search_for_receive_period_end_date . '%');
+//        });
     }
 
     public function export_as_excel()

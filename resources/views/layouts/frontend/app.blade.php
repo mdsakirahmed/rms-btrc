@@ -8,7 +8,7 @@
     <script type='text/javascript' src='{{ asset('assets/frontend/js/jquery.particleground.js') }}'></script>
 </head>
 
-<body style="background-image: url('assets/frontend/images/background.jpg')">
+<body style="background-image: url('assets/frontend/images/background.jpg'); background-repeat: no-repeat; background-size: cover;">
 <div id="particles">
     <div id="intro" style="height: 100%;">
         @yield('content')

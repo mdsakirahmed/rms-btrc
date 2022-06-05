@@ -70,15 +70,21 @@ class Expiration extends Component
                         $period_label = date('M', mktime(0, 0, 0, $period->starting_month, 10)).'-'.date('M', mktime(0, 0, 0, $period->ending_month, 10)).'/'.$issue_y;
                     }
                     
+                    $period_start_date = $issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01';
+                    $period_end_date = Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth();
+                    if($period->fee_type->schedule_include_to_beginning_of_period){
+                        $period_schedule_date = Carbon::parse($issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01')->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month)->subDays(1);
+                    }else{
+                        $period_schedule_date = Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth()->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month);
+                    }
                     ExpirationWisePaymentDate::create([
                         'expiration_id' => $expiration->id,
                         'fee_type_id' => $period->fee_type_id,
-                        'paid' => false,
                         'payment_number' => $counter,
-                        'period_start_date' => $issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01',
-                        'period_end_date' => Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth(),
-                        'period_schedule_date' => Carbon::parse($issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01')->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month)->subDays(1),
-                        'period_label' => $period_label,
+                        'period_start_date' => $period_start_date,
+                        'period_end_date' => $period_end_date,
+                        'period_schedule_date' => $period_schedule_date,
+                        'period_label' => $period_label
                     ]);
                     $counter++;
                 }
@@ -99,7 +105,8 @@ class Expiration extends Component
 
     public function select_for_periods(ModelsExpiration $expiration)
     {
-        $this->periods = ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->get();
+        $this->periods = ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->orderBy('period_schedule_date', 'asc')->get();
+        //$this->periods = ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->orderBy('fee_type_id', 'asc')->get();
     }
 
     public function delete(ModelsExpiration $expiration)

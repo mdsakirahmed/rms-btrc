@@ -19,4 +19,51 @@ class LicenseCategory extends Model
     public function category_wise_fees(){
         return $this->hasMany(LicenseCategoryWiseFeeType::class, 'category_id', 'id');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            // ... code here;
+        });
+
+        self::created(function ($model) {
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("create")
+                ->log('Create license category');
+        });
+
+        self::updating(function ($model) {
+            // ... code here
+        });
+
+        self::updated(function ($model) {
+            $changes = $model->isDirty() ? $model->getDirty() : false;
+            if ($changes) {
+                foreach ($changes as $attr => $value) {
+                    activity()
+                        // ->causedBy($user)
+                        ->performedOn($model)
+                        ->useLog("edit")
+                        ->log("Update license category : $attr from {$model->getOriginal($attr)} to {$model->$attr}");
+                }
+            }
+        });
+
+        self::deleting(function ($model) {
+            // ... code here
+        });
+
+        self::deleted(function ($model) {
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("delete")
+                ->withProperties(['record' => $model])
+                ->log('Delete license category');
+        });
+    }
 }

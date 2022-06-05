@@ -41,12 +41,51 @@ class Operator extends Model
         return $this->hasMany(Payment::class, 'operator_id', 'id')->latest();
     }
 
-    // Auto delete depend data
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
-        static::deleting(function($model) { // this model
+
+        self::creating(function ($model) {
+            // ... code here;
+        });
+
+        self::created(function ($model) {
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("create")
+                ->log('Create operator');
+        });
+
+        self::updating(function ($model) {
+            // ... code here
+        });
+
+        self::updated(function ($model) {
+            $changes = $model->isDirty() ? $model->getDirty() : false;
+            if ($changes) {
+                foreach ($changes as $attr => $value) {
+                    activity()
+                        // ->causedBy($user)
+                        ->performedOn($model)
+                        ->useLog("edit")
+                        ->log("Update operator : $attr from {$model->getOriginal($attr)} to {$model->$attr}");
+                }
+            }
+        });
+
+        self::deleting(function ($model) {
             $model->expirations()->delete(); // depended 1
             $model->payments()->delete(); // depended 2
+        });
+
+        self::deleted(function ($model) {
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("delete")
+                ->withProperties(['record' => $model])
+                ->log('Delete operator');
         });
     }
 

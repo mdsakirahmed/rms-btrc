@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Livewire\Activity;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Document;
 use App\Http\Livewire\LicenseCategory;
@@ -16,9 +16,11 @@ use App\Http\Livewire\Expiration;
 use App\Http\Livewire\FeeType;
 use App\Http\Livewire\LicenseCategorywiseFee;
 use App\Http\Livewire\OperatorWisePayments;
+use App\Http\Livewire\Payment;
 use App\Http\Livewire\Profile;
 use App\Http\Livewire\Report\DueStatement;
 use App\Http\Livewire\Report\OperatorDetail;
+use App\Http\Livewire\Report\Statement;
 use App\Http\Livewire\Report\VatStatement;
 use Illuminate\Support\Facades\Route;
 
@@ -55,12 +57,13 @@ Route::middleware('auth')->group(function () {
     Route::get('license-category-wise-fee/{license_category}', LicenseCategorywiseFee::class)->name('licenseCategorywiseFee')->middleware(['permission:license-category']);
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     
-    Route::get('payment', [PaymentController::class, 'index'])->name('payment')->middleware(['permission:payment']);
-    Route::post('payment', [PaymentController::class, 'store'])->middleware(['permission:payment']);
-    Route::get('payment-receipt/{payment}', [PaymentController::class, 'payment_receipt'])->name('payment_receipt')->middleware(['permission:payment']);
+    Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
+    Route::get('activity', Activity::class)->name('activity')->middleware(['permission:activity']);
 
+    // Reports
     Route::get('operator-wise-file-register', OperatorWiseFileRegister::class)->name('operator-wise-file-register')->middleware(['permission:report']);
     Route::get('operator-detail', OperatorDetail::class)->name('operator-detail')->middleware(['permission:report']);
     Route::get('vat-statement', VatStatement::class)->name('vat-statement')->middleware(['permission:report']);
     Route::get('due-statement', DueStatement::class)->name('due-statement')->middleware(['permission:report']);
+    Route::get('statement', Statement::class)->name('revenue-sharing-statement')->middleware(['permission:report']);
 });

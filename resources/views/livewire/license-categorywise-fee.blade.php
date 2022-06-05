@@ -26,8 +26,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table color-table success-table">
-                            <thead>
+                        <table class="table color-table">
+                            <thead  class="btrc">
                                 <tr>
                                     <th>#</th>
                                     <th>Fee Type Nname</th>

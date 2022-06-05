@@ -25,6 +25,7 @@ class Application extends Component
         }else{
             ModelsApplication::create($validate_data);
         }
+       
         $this->create();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }

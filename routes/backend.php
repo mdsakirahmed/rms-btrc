@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Livewire\Activity;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Document;
 use App\Http\Livewire\LicenseCategory;
@@ -57,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     
     Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
+    Route::get('activity', Activity::class)->name('activity')->middleware(['permission:activity']);
 
     // Reports
     Route::get('operator-wise-file-register', OperatorWiseFileRegister::class)->name('operator-wise-file-register')->middleware(['permission:report']);

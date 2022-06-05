@@ -33,6 +33,10 @@
                     <li><a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i
                                 class="mdi mdi-file-pdf"></i><span class="hide-menu">Document</span></a></li>
                 @endcan
+                @can('activity')
+                    <li><a class="waves-effect waves-dark" href="{{ route('activity') }}" aria-expanded="false"><i
+                                class="mdi mdi-database"></i><span class="hide-menu">Activity</span></a></li>
+                @endcan
                 @canany(['user', 'permission-management'])
                     <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
                                 class="mdi mdi-human-greeting"></i><span class="hide-menu">User Access</span></a>

@@ -33,7 +33,6 @@ class Application extends Model
                 // ->causedBy($userModel)
                 ->performedOn($model)
                 ->useLog("create")
-                ->withProperties(['record' => $model])
                 ->log('Create application');
         });
 
@@ -49,8 +48,7 @@ class Application extends Model
                         // ->causedBy($user)
                         ->performedOn($model)
                         ->useLog("edit")
-                        ->withProperties(['record' => $model])
-                        ->log("Update $attr from {$model->getOriginal($attr)} to {$model->$attr}");
+                        ->log("Update application : $attr from {$model->getOriginal($attr)} to {$model->$attr}");
                 }
             }
         });

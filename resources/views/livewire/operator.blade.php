@@ -120,7 +120,7 @@
                                     <div class="col-md-3">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="contact_person_name" wire:model="contact_person_name" placeholder="Enter Name Here">
-                                            <label for="contact_person_name" class="required">Name</label>
+                                            <label for="contact_person_name" class="">Name</label>
                                         </div>
                                         <x-error name="contact_person_name" />
                                     </div>

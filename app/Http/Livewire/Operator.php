@@ -40,7 +40,7 @@ class Operator extends Component
             'website' => 'nullable|string',
             'address' => 'nullable|string',
             'note' => 'nullable|string',
-            'contact_person_name' => 'required|string',
+            'contact_person_name' => 'nullable|string',
             'contact_person_designation' => 'nullable|string',
             'contact_person_phone' => 'nullable|string',
             'contact_person_email' => 'nullable|string',

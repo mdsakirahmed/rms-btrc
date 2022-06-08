@@ -46,7 +46,7 @@
                                         @can('expiration')
                                         <a href="{{ route('expiration', $operator->id) }}" class="btn btn-info text-white">Configuration</a>
                                         @endcan
-                                        <a href="{{ route('operator-wise-payment', $operator->id) }}" class="btn btn-info text-white">Show Payments</a>
+                                        {{--<a href="{{ route('operator-wise-payment', $operator->id) }}" class="btn btn-info text-white">Show Payments</a>--}}
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $operator->id }})" data-bs-toggle="modal" data-bs-target=".operator-modal-lg">Edit</button>
                                         <button type="button" class="btn btn-danger text-white" wire:click="select_for_delete({{ $operator->id }})" data-bs-toggle="modal" data-bs-target=".delete-modal"> Delete </button>
                                     </td>

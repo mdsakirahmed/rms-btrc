@@ -48,7 +48,7 @@ class Payment extends Component
                     $query->where('sub_category_id', $this->selected_sub_category);
             })->get(),
             'fee_types' => FeeType::where(function ($query) {
-                if ($this->selected_operator && $expiration = Expiration::where('operator_id', $this->selected_operator)->where('all_payment_completed', false)->first()) {
+                if ($this->selected_operator && $expiration = Expiration::where('operator_id', $this->selected_operator)->where('paid', false)->first()) {
                     $query->whereIn('id', $expiration->expiration_wise_payment_dates()->distinct()->pluck('fee_type_id'));
                 } else {
                     $query->whereIn('id', []);
@@ -98,7 +98,7 @@ class Payment extends Component
     {
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
         $this->receive_section_array[$key]['periods'] = ExpirationWisePaymentDate::where(function ($query) use ($fee_type_id) {
-            if ($this->selected_operator && $fee_type_id && $expiration = Expiration::where('operator_id', $this->selected_operator)->where('all_payment_completed', false)->first()) {
+            if ($this->selected_operator && $fee_type_id && $expiration = Expiration::where('operator_id', $this->selected_operator)->where('paid', false)->first()) {
                 $query->where('expiration_id', $expiration->id)->where('fee_type_id', $fee_type_id);
             } else {
                 $query->where('expiration_id', null);
@@ -141,13 +141,13 @@ class Payment extends Component
         $this->receive_section_array[$key]['receive_amount'] = intval($this->receive_section_array[$key]['receive_amount']);
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
         $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)->where('fee_type_id', $fee_type_id)->first();
-        $late_fee_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $category_wise_fee_type->late_fee) ?? 0;
+        $late_fee_receivable_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $category_wise_fee_type->late_fee) ?? 0;
         $schedule_date = ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date;
         $this->receive_section_array[$key]['late_days'] = 0;
         if (Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false) < 0) {
             $this->receive_section_array[$key]['late_days'] =  abs(Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false));
         }
-        $this->receive_section_array[$key]['late_fee_receive_amount'] = round(($late_fee_amount_of_one_year / 365) * $this->receive_section_array[$key]['late_days']);
+        $this->receive_section_array[$key]['late_fee_receive_amount'] = round(($late_fee_receivable_amount_of_one_year / 365) * $this->receive_section_array[$key]['late_days']);
     }
 
     // Late fee effected
@@ -164,13 +164,13 @@ class Payment extends Component
         $this->receive_section_array[$key]['receive_amount'] = intval($receive_amount);
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
         $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)->where('fee_type_id', $fee_type_id)->first();
-        $late_fee_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $category_wise_fee_type->late_fee) ?? 0;
+        $late_fee_receivable_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $category_wise_fee_type->late_fee) ?? 0;
         $schedule_date = ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date;
         $this->receive_section_array[$key]['late_days'] = 0;
         if (Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false) < 0) {
             $this->receive_section_array[$key]['late_days'] =  abs(Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false));
         }
-        $this->receive_section_array[$key]['late_fee_receive_amount'] = round(($late_fee_amount_of_one_year / 365) * $this->receive_section_array[$key]['late_days']);
+        $this->receive_section_array[$key]['late_fee_receive_amount'] = round(($late_fee_receivable_amount_of_one_year / 365) * $this->receive_section_array[$key]['late_days']);
 
         // Vat tax amount update for changing receive amount
         $this->receive_section_array[$key]['vat_receive_amount'] =  (($this->receive_section_array[$key]['receive_amount'] / 100) * $category_wise_fee_type->vat) ?? 0;
@@ -278,7 +278,7 @@ class Payment extends Component
                     'vat_percentage' => $receive['vat_percentage'] ?? 0,
                     'tax_percentage' => $receive['tax_percentage'] ?? 0,
                     'late_days' => $receive['late_days'] ?? 0,
-                    'late_fee_amount' => $receive['late_fee_receive_amount'] ?? 0,
+                    'late_fee_receivable_amount' => $receive['late_fee_receive_amount'] ?? 0,
                 ]);
 
                 //Update expiration wise payment date status

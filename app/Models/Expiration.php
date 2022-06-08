@@ -14,7 +14,7 @@ class Expiration extends Model
         'operator_id',
         'issue_date',
         'expire_date',
-        'all_payment_completed'
+        'paid'
     ];
 
     protected $dates = ['issue_date', 'expire_date'];

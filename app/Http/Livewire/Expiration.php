@@ -29,25 +29,19 @@ class Expiration extends Component
 
     public function submit()
     {
-        $this->validate([
+        $validated_data = $this->validate([
             'issue_date' => 'required|date',
             'expire_date' => 'required|date',
         ]);
+        $validated_data['operator_id'] = $this->operator->id;
         if ($this->expiration) {
-            $this->expiration->update([
-                'operator_id' => $this->operator->id,
-                'issue_date' => $this->issue_date,
-                'expire_date' => $this->expire_date
-            ]);
-            $this->expiration->expiration_wise_payment_dates()->delete();
+            $expiration = $this->expiration;
+            /*Have to work by checking period and payment wise receive table*/
+           /* $expiration->update($validated_data);
+            $expiration->expiration_wise_payment_dates()->delete();*/
         } else {
-            $expiration = ModelsExpiration::create([
-                'operator_id' => $this->operator->id,
-                'issue_date' => $this->issue_date,
-                'expire_date' => $this->expire_date
-            ]);
+            $expiration = ModelsExpiration::create($validated_data);
         }
-
 
         $issue_m = Carbon::create($expiration->issue_date)->format('m');
         $issue_y = Carbon::create($expiration->issue_date)->format('Y');
@@ -69,7 +63,7 @@ class Expiration extends Component
                     }elseif($period->fee_type->period_format == 2){
                         $period_label = date('M', mktime(0, 0, 0, $period->starting_month, 10)).'-'.date('M', mktime(0, 0, 0, $period->ending_month, 10)).'/'.$issue_y;
                     }
-                    
+
                     $period_start_date = $issue_y . '-' . str_pad($period->starting_month, 2, "0", STR_PAD_LEFT) . '-01';
                     $period_end_date = Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth();
                     if($period->fee_type->schedule_include_to_beginning_of_period){
@@ -78,6 +72,7 @@ class Expiration extends Component
                         $period_schedule_date = Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth()->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month);
                     }
                     ExpirationWisePaymentDate::create([
+                        'operator_id' => $expiration->id,
                         'expiration_id' => $expiration->id,
                         'fee_type_id' => $period->fee_type_id,
                         'payment_number' => $counter,

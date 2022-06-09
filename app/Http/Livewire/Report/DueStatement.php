@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Report;
 
 use App\Exports\DueStatementExport;
-use App\Models\ExpirationWisePaymentDate;
+use App\Models\Period;
 use App\Models\LicenseCategory;
 use App\Models\LicenseSubCategory;
 use Carbon\Carbon;
@@ -53,14 +53,14 @@ class DueStatement extends Component
     public function get_payments()
     {
 
-        return ExpirationWisePaymentDate::where('period_end_date', '<', Carbon::today()->toDateString())->withSum('payment_receives', 'receive_amount');
+        return Period::where('period_end_date', '<', Carbon::today()->toDateString())->withSum('payment_receives', 'receive_amount');
 
 //        return DB::table('operators')
 //        ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
 //        ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
 //        ->join('expirations', 'operators.id', '=', 'expirations.operator_id')
-//        ->join('expiration_wise_payment_dates', 'expirations.id', '=', 'expiration_wise_payment_dates.expiration_id')->where('period_end_date', '<', date('Y-m-d'))
-//        ->join('fee_types', 'expiration_wise_payment_dates.fee_type_id', '=', 'fee_types.id')
+//        ->join('periods', 'expirations.id', '=', 'periods.expiration_id')->where('period_end_date', '<', date('Y-m-d'))
+//        ->join('fee_types', 'periods.fee_type_id', '=', 'fee_types.id')
 //        ->select(
 //            'operators.*',
 //            'operators.name as operator_name',
@@ -69,7 +69,7 @@ class DueStatement extends Component
 //            'sub_categories.name as sub_category_name',
 //            'sub_categories.id as sub_category_id',
 //            'fee_types.name as fee_type_name',
-//            'expiration_wise_payment_dates.period_end_date as period_end_date',
+//            'periods.period_end_date as period_end_date',
 //        )->where(function ($query) {
 //            if ($this->selected_category != 'all') {
 //                $query->where('categories.id', $this->selected_category);
@@ -81,7 +81,7 @@ class DueStatement extends Component
 //            $query->where('sub_categories.name', 'like', '%' . $this->search_for_sub_category_name . '%');
 //            $query->where('operators.name', 'like', '%' . $this->search_for_operator_name . '%');
 //            $query->where('fee_types.name', 'like', '%' . $this->search_for_receive_fee_type_name . '%');
-//            $query->where('expiration_wise_payment_dates.period_end_date', 'like', '%' . $this->search_for_receive_period_end_date . '%');
+//            $query->where('periods.period_end_date', 'like', '%' . $this->search_for_receive_period_end_date . '%');
 //        });
     }
 

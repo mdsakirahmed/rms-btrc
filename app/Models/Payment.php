@@ -10,10 +10,7 @@ class Payment extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $fillable = [
-        'operator_id',
-        'transaction',
-    ];
+    protected $guarded = [];
 
     public function operator(){
         return $this->belongsTo(Operator::class, 'operator_id', 'id');

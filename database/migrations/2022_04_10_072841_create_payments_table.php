@@ -15,7 +15,8 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('operator_id');
+            $table->foreignId('operator_id')->nullable();
+            $table->foreignId('expiration_id');
             $table->string('transaction');
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();

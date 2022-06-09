@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Bank;
 use App\Models\Expiration;
-use App\Models\ExpirationWisePaymentDate;
+use App\Models\Period;
 use App\Models\FeeType;
 use App\Models\LicenseCategory;
 use App\Models\LicenseCategoryWiseFeeType;
@@ -20,7 +20,7 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf as PDF;
 
 class Payment extends Component
 {
-    public $transaction, $selected_category, $selected_sub_category, $selected_operator;
+    public $transaction, $selected_category, $selected_sub_category, $selected_operator, $selected_expiration;
     public $receive_section_array = [], $po_section_array = [], $deposit_section_array = [];
 
     public function mount()
@@ -33,6 +33,9 @@ class Payment extends Component
     public function render()
     {
         $this->transaction = date('ym') . '-' . convert_to_initial(auth()->user()->name) . '-' . sprintf("%'.05d\n", (ModelsPayment::latest()->first()->id ?? 0) + 1);
+        if($this->selected_operator){
+            $this->selected_expiration = Expiration::where('operator_id', $this->selected_operator)->where('paid', false)->first()?? null;
+        }
         $data = [
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
@@ -48,13 +51,15 @@ class Payment extends Component
                     $query->where('sub_category_id', $this->selected_sub_category);
             })->get(),
             'fee_types' => FeeType::where(function ($query) {
-                if ($this->selected_operator && $expiration = Expiration::where('operator_id', $this->selected_operator)->where('paid', false)->first()) {
-                    $query->whereIn('id', $expiration->expiration_wise_payment_dates()->distinct()->pluck('fee_type_id'));
+                if ($this->selected_operator && $this->selected_expiration) {
+                    $query->whereIn('id', $this->selected_expiration->periods()->distinct()->pluck('fee_type_id'));
                 } else {
                     $query->whereIn('id', []);
                 }
             })->get()
         ];
+
+
 
         return view('livewire.payment', $data)->extends('layouts.backend.app', ['title' => 'Payment'])
             ->section('content');
@@ -97,13 +102,7 @@ class Payment extends Component
     public function fee_type_change($key)
     {
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
-        $this->receive_section_array[$key]['periods'] = ExpirationWisePaymentDate::where(function ($query) use ($fee_type_id) {
-            if ($this->selected_operator && $fee_type_id && $expiration = Expiration::where('operator_id', $this->selected_operator)->where('paid', false)->first()) {
-                $query->where('expiration_id', $expiration->id)->where('fee_type_id', $fee_type_id);
-            } else {
-                $query->where('expiration_id', null);
-            }
-        })->get();
+        $this->receive_section_array[$key]['periods'] = Period::where('expiration_id', $this->selected_expiration->id ?? null)->where('fee_type_id', $fee_type_id)->get();
 
         $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)->where('fee_type_id', $fee_type_id)->first();
         $this->receive_section_array[$key]['receivable'] =  $category_wise_fee_type->amount ?? 0;
@@ -117,10 +116,10 @@ class Payment extends Component
 
     public function period_change($key)
     {
-        $this->receive_section_array[$key]['schedule_date'] = ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date->format('d-M-Y');
-        if(ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->total_receivable > 0){
+        $this->receive_section_array[$key]['schedule_date'] = Period::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date->format('d-M-Y');
+        if(Period::find($this->receive_section_array[$key]['selected_period'])->total_receivable > 0){
             $this->receive_section_array[$key]['receivable_field_disabled'] = true;
-            $this->receive_section_array[$key]['receivable'] =  ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->total_due_amount();
+            $this->receive_section_array[$key]['receivable'] =  Period::find($this->receive_section_array[$key]['selected_period'])->total_due_amount();
         }else{
             $this->receive_section_array[$key]['receivable_field_disabled'] = false;
             $this->fee_type_change($key);
@@ -142,7 +141,7 @@ class Payment extends Component
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
         $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)->where('fee_type_id', $fee_type_id)->first();
         $late_fee_receivable_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $category_wise_fee_type->late_fee) ?? 0;
-        $schedule_date = ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date;
+        $schedule_date = Period::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date;
         $this->receive_section_array[$key]['late_days'] = 0;
         if (Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false) < 0) {
             $this->receive_section_array[$key]['late_days'] =  abs(Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false));
@@ -165,7 +164,7 @@ class Payment extends Component
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
         $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)->where('fee_type_id', $fee_type_id)->first();
         $late_fee_receivable_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $category_wise_fee_type->late_fee) ?? 0;
-        $schedule_date = ExpirationWisePaymentDate::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date;
+        $schedule_date = Period::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date;
         $this->receive_section_array[$key]['late_days'] = 0;
         if (Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false) < 0) {
             $this->receive_section_array[$key]['late_days'] =  abs(Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false));
@@ -213,6 +212,7 @@ class Payment extends Component
             'selected_category' => 'required',
             'selected_sub_category' => 'required',
             'selected_operator' => 'required',
+            'selected_expiration' => 'required',
             'receive_section_array.*.selected_fee_type' => 'required',
             'receive_section_array.*.selected_period' => 'required',
             'receive_section_array.*.schedule_date' => 'required',
@@ -263,11 +263,19 @@ class Payment extends Component
             // Payment
             $payment = ModelsPayment::create([
                 'operator_id' => $this->selected_operator,
+                'expiration_id' => $this->selected_expiration->id,
                 'transaction' => $this->transaction,
             ]);
 
             // Receive
             foreach ($this->receive_section_array as $receive) {
+                //Update expiration wise payment date status
+                $period = Period::find($receive['selected_period']);
+                if($period->total_receivable == 0){
+                    $period->update([
+                        'total_receivable' => $receive['receivable']
+                    ]);
+                }
                 PaymentWiseReceive::create([
                     'payment_id' => $payment->id,
                     'period_id' => $receive['selected_period'],
@@ -280,14 +288,6 @@ class Payment extends Component
                     'late_days' => $receive['late_days'] ?? 0,
                     'late_fee_receivable_amount' => $receive['late_fee_receive_amount'] ?? 0,
                 ]);
-
-                //Update expiration wise payment date status
-                $expirationWisePaymentDate = ExpirationWisePaymentDate::find($receive['selected_period']);
-                if($expirationWisePaymentDate->total_receivable <= 0){
-                    $expirationWisePaymentDate->update([
-                        'total_receivable' => $receive['receivable']
-                    ]);
-                }
             }
 
             // pay_order

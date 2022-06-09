@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpirationWisePaymentDatesTable extends Migration
+class CreatePeriodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateExpirationWisePaymentDatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('expiration_wise_payment_dates', function (Blueprint $table) {
+        Schema::create('periods', function (Blueprint $table) {
             $table->id();
             $table->foreignId('operator_id')->nullable();
             $table->foreignId('expiration_id');
@@ -39,6 +39,6 @@ class CreateExpirationWisePaymentDatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expiration_wise_payment_dates');
+        Schema::dropIfExists('periods');
     }
 }

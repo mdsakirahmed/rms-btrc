@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Expiration as ModelsExpiration;
-use App\Models\ExpirationWisePaymentDate;
+use App\Models\Period;
 use App\Models\Operator;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -38,7 +38,7 @@ class Expiration extends Component
             $expiration = $this->expiration;
             /*Have to work by checking period and payment wise receive table*/
            /* $expiration->update($validated_data);
-            $expiration->expiration_wise_payment_dates()->delete();*/
+            $expiration->periods()->delete();*/
         } else {
             $expiration = ModelsExpiration::create($validated_data);
         }
@@ -71,7 +71,7 @@ class Expiration extends Component
                     }else{
                         $period_schedule_date = Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth()->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month);
                     }
-                    ExpirationWisePaymentDate::create([
+                    Period::create([
                         'operator_id' => $expiration->id,
                         'expiration_id' => $expiration->id,
                         'fee_type_id' => $period->fee_type_id,
@@ -100,8 +100,8 @@ class Expiration extends Component
 
     public function select_for_periods(ModelsExpiration $expiration)
     {
-        $this->periods = ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->orderBy('period_schedule_date', 'asc')->get();
-        //$this->periods = ExpirationWisePaymentDate::where('expiration_id', $expiration->id)->orderBy('fee_type_id', 'asc')->get();
+        $this->periods = Period::where('expiration_id', $expiration->id)->orderBy('period_schedule_date', 'asc')->get();
+        //$this->periods = Period::where('expiration_id', $expiration->id)->orderBy('fee_type_id', 'asc')->get();
     }
 
     public function delete(ModelsExpiration $expiration)

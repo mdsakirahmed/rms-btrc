@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Report;
 
 use App\Exports\Statement as ExportsStatement;
-use App\Models\ExpirationWisePaymentDate;
+use App\Models\Period;
 use App\Models\FeeType;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -18,11 +18,11 @@ class Statement extends Component
     {
         return view('livewire.report.statement', [
             'fee_types' => FeeType::all(),
-            'period_groups' => DB::table('expiration_wise_payment_dates')->where('fee_type_id', $this->selected_fee_type)->get()->groupBy('period_start_date'),
-            'periods' => ExpirationWisePaymentDate::where('fee_type_id', $this->selected_fee_type)->get()->mapToGroups(function ($item, $key) {
+            'period_groups' => DB::table('periods')->where('fee_type_id', $this->selected_fee_type)->get()->groupBy('period_start_date'),
+            'periods' => Period::where('fee_type_id', $this->selected_fee_type)->get()->mapToGroups(function ($item, $key) {
                 return [$item->period_label];
             })->toArray()[0] ?? [],
-            'exp_wise_payment_dates' => ExpirationWisePaymentDate::where('period_label', $this->selected_period)->get()
+            'exp_wise_payment_dates' => Period::where('period_label', $this->selected_period)->get()
 
         ])->extends('layouts.backend.app', ['title' => 'Revenue Sharing Statement'])
             ->section('content');
@@ -30,7 +30,7 @@ class Statement extends Component
 
     public function export_as_excel(){
         $file_name = FeeType::where('id', $this->selected_fee_type)->first()->name ?? 'No Fee Type';
-        $collection = ExpirationWisePaymentDate::where('period_label', $this->selected_period)->get();
+        $collection = Period::where('period_label', $this->selected_period)->get();
         return Excel::download(new ExportsStatement($collection, $this->selected_fee_type), $file_name.' '.date('d-m-Y h-i-s a').'.xlsx');
     }
 
@@ -41,7 +41,7 @@ class Statement extends Component
             Pdf::loadView('pdf.statement', [
                 'file_name' => 'Statement: '.$file_name,
                 'selected_fee_type' => $this->selected_fee_type,
-                'collections' => ExpirationWisePaymentDate::where('period_label', $this->selected_period)->get()
+                'collections' => Period::where('period_label', $this->selected_period)->get()
             ], [], [
                 'format' => 'A4-L'
             ])->download();

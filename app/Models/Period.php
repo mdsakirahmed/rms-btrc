@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
 
-class ExpirationWisePaymentDate extends Model
+class Period extends Model
 {
     use HasFactory, Userstamps;
     protected $guarded = [];
@@ -15,7 +15,7 @@ class ExpirationWisePaymentDate extends Model
     public function fee_type(){
         return $this->belongsTo(FeeType::class, 'fee_type_id', 'id');
     }
-    
+
     public function expiration(){
         return $this->belongsTo(Expiration::class, 'expiration_id', 'id');
     }
@@ -23,7 +23,7 @@ class ExpirationWisePaymentDate extends Model
     public function payment_receives(){
         return $this->hasMany(PaymentWiseReceive::class, 'period_id', 'id');
     }
-    
+
     public function total_paid_amount(){
         return $this->payment_receives->sum('receive_amount');
     }
@@ -66,7 +66,7 @@ class ExpirationWisePaymentDate extends Model
         });
 
         self::deleting(function ($model) {
-            // ... code here
+            $model->payment_receives()->delete();
         });
 
         self::deleted(function ($model) {

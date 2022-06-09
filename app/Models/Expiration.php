@@ -24,13 +24,17 @@ class Expiration extends Model
         return $this->belongsTo(Operator::class, 'operator_id', 'id');
     }
 
-    public function expiration_wise_payment_dates(){
-        return $this->hasMany(ExpirationWisePaymentDate::class, 'expiration_id', 'id');
+    public function periods(){
+        return $this->hasMany(Period::class, 'expiration_id', 'id');
+    }
+
+    public function payments(){
+        return $this->hasMany(Payment::class, 'expiration_id', 'id');
     }
 
     public function total_due_amount(){
         $due = 0;
-        foreach($this->expiration_wise_payment_dates as $period){
+        foreach($this->periods as $period){
             $due += $period->total_due_amount();
         }
         return $due;
@@ -38,7 +42,7 @@ class Expiration extends Model
 
     public function fee_type_wise_total_due_amount($fee_type_id){
         $due = 0;
-        foreach($this->expiration_wise_payment_dates()->where('fee_type_id', $fee_type_id)->get() as $period){
+        foreach($this->periods()->where('fee_type_id', $fee_type_id)->get() as $period){
             $due += $period->total_due_amount();
         }
         return $due;
@@ -78,7 +82,8 @@ class Expiration extends Model
         });
 
         self::deleting(function ($model) {
-            $model->expiration_wise_payment_dates()->delete(); // depended 1
+            $model->periods()->delete(); // depended 1
+            $model->payments()->delete(); // depended 2
         });
 
         self::deleted(function ($model) {

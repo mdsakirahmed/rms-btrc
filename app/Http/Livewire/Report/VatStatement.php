@@ -54,8 +54,8 @@ class VatStatement extends Component
             ->join('license_categories as categories', 'operators.category_id', '=', 'categories.id')
             ->join('license_sub_categories as sub_categories', 'operators.sub_category_id', '=', 'sub_categories.id')
             ->join('payment_wise_receives', 'payments.id', '=', 'payment_wise_receives.payment_id')
-            ->join('expiration_wise_payment_dates', 'payment_wise_receives.period_id', '=', 'expiration_wise_payment_dates.id')
-            ->join('fee_types', 'expiration_wise_payment_dates.fee_type_id', '=', 'fee_types.id')
+            ->join('periods', 'payment_wise_receives.period_id', '=', 'periods.id')
+            ->join('fee_types', 'periods.fee_type_id', '=', 'fee_types.id')
             ->select(
                 'operators.name as operator_name',
                 'operators.id as operator_id',
@@ -64,7 +64,7 @@ class VatStatement extends Component
                 'sub_categories.name as sub_category_name',
                 'sub_categories.id as sub_category_id',
                 'fee_types.name as fee_type_name',
-                'expiration_wise_payment_dates.period_end_date',
+                'periods.period_end_date',
                 'payment_wise_receives.receive_date',
                 'payment_wise_receives.receive_amount as receive_amount',
                 'payment_wise_receives.vat_percentage as receive_vat',
@@ -80,7 +80,7 @@ class VatStatement extends Component
                 $query->where('operators.name', 'like', '%' . $this->operator_name . '%');
                 $query->where('payment_wise_receives.receive_date', 'like', '%' . $this->receive_date . '%');
                 $query->where('fee_types.name', 'like', '%' . $this->fee_type_name . '%');
-                $query->where('expiration_wise_payment_dates.period_end_date', 'like', '%' . $this->period_end_date . '%');
+                $query->where('periods.period_end_date', 'like', '%' . $this->period_end_date . '%');
                 $query->where('payment_wise_receives.receive_amount', 'like', '%' . $this->receive_amount . '%');
                 $query->where('payment_wise_receives.vat_percentage', 'like', '%' . $this->receive_vat . '%');
             });

@@ -13,7 +13,7 @@ class PaymentWiseReceive extends Model
     protected $guarded = [];
 
     public function period(){
-        return $this->belongsTo(ExpirationWisePaymentDate::class, 'period_id', 'id');
+        return $this->belongsTo(Period::class, 'period_id', 'id');
     }
 
     public static function boot()
@@ -25,6 +25,10 @@ class PaymentWiseReceive extends Model
         });
 
         self::created(function ($model) {
+//            if($model->period->total_due_amount() <= 0){
+//                $model->period()->update(['paid', true]);
+//                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => ' *** PAID *** ']);
+//            }
             activity()
                 // ->causedBy($userModel)
                 ->performedOn($model)

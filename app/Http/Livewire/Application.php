@@ -68,7 +68,7 @@ class Application extends Component
     public function render()
     {
         return view('livewire.application', [
-            'applications' => ModelsApplication::latest()->get()
+            'applications' => ModelsApplication::latest()->paginate(20)
         ])->extends('layouts.backend.app', ['title' => 'Application'])
         ->section('content');
     }

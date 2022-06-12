@@ -18,6 +18,8 @@ use App\Http\Livewire\LicenseCategorywiseFee;
 use App\Http\Livewire\OperatorWisePayments;
 use App\Http\Livewire\Payment;
 use App\Http\Livewire\Profile;
+use App\Http\Livewire\Report\BankDepositWiseStatement;
+use App\Http\Livewire\Report\CategoryWiseStatement;
 use App\Http\Livewire\Report\DueStatement;
 use App\Http\Livewire\Report\OperatorDetail;
 use App\Http\Livewire\Report\Statement;
@@ -66,4 +68,6 @@ Route::middleware('auth')->group(function () {
     Route::get('vat-statement', VatStatement::class)->name('vat-statement')->middleware(['permission:report']);
     Route::get('due-statement', DueStatement::class)->name('due-statement')->middleware(['permission:report']);
     Route::get('statement', Statement::class)->name('revenue-sharing-statement')->middleware(['permission:report']);
+    Route::get('category-wise-statement', CategoryWiseStatement::class)->name('category-wise-statement')->middleware(['permission:report']);
+    Route::get('bank-deposit-statement', BankDepositWiseStatement::class)->name('bank-deposit-statement')->middleware(['permission:report']);
 });

@@ -79,6 +79,8 @@
                             <li><a href="{{ route('vat-statement') }}">VAT Statement</a></li>
                             <li><a href="{{ route('due-statement') }}">Due Statement</a></li>
                             <li><a href="{{ route('revenue-sharing-statement') }}">Statement</a></li>
+                            <li><a href="{{ route('category-wise-statement') }}">Category Wise Statement</a></li>
+                            <li><a href="{{ route('bank-deposit-statement') }}">Bank Deposit Statement</a></li>
                         </ul>
                     </li>
                 @endcan

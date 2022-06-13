@@ -6,6 +6,22 @@
             white-space: nowrap;
             font-size: 12px;
         }
+
+        @media print {
+            .table{
+                border-collapse: collapse;
+            }
+    
+            .table tr td{
+                border: 1px solid #ccc;
+                padding: 5px;
+               
+            }
+    
+            .table tr:last-child td{
+                border: 1px solid white;
+            } 
+        }
     </style>
 </head>
 <body>

@@ -38,8 +38,14 @@ class Payment extends Model
         return $this->receives()->sum('receive_amount');
     }
 
-    public function receive_banks()
+    public function total_receive_spectrum_amount()
     {
+        $return_value = 0;
+        foreach ($this->receives as $value) {
+            if($value->period->fee_type_id == 3)
+            $return_value += $value->receive_amount;
+        }
+        return $return_value;
     }
 
     public function total_receive_vat_amount()
@@ -50,6 +56,7 @@ class Payment extends Model
         }
         return $return_value;
     }
+
     public function total_receive_tax_amount()
     {
         $return_value = 0;
@@ -58,15 +65,49 @@ class Payment extends Model
         }
         return $return_value;
     }
+
     public function total_receive_late_fee_amount()
     {
         return $this->receives()->sum('late_fee_receive_amount');
     }
 
-
-
-    public function total_amount()
+    public function receive_years_as_string()
     {
+        $return_value = "";
+        foreach ($this->receives()->pluck('receive_date') as $key => $value) {
+            if ($key != count($this->receives()->pluck('receive_date')) - 1) {
+                $return_value = $return_value . ' ' . date('Y', strtotime($value)) . ',';
+            } else {
+                $return_value = $return_value . ' ' . date('Y', strtotime($value));
+            }
+        }
+        return  $return_value;
+    }
+
+    public function receive_dates_as_string()
+    {
+        $return_value = "";
+        foreach ($this->receives()->pluck('receive_date') as $key => $value) {
+            if ($key != count($this->receives()->pluck('receive_date')) - 1) {
+                $return_value = $return_value . ' ' . date('d-m-Y', strtotime($value)) . ',';
+            } else {
+                $return_value = $return_value . ' ' . date('d-m-Y', strtotime($value));
+            }
+        }
+        return  $return_value;
+    }
+
+    public function receive_schedule_dates_as_string()
+    {
+        $return_value = "";
+        foreach ($this->receives as $key => $value) {
+            if ($key != $this->receives()->count() - 1) {
+                $return_value = $return_value . ' ' . date('d-m-Y', strtotime($value->period->period_schedule_date)) . ',';
+            } else {
+                $return_value = $return_value . ' ' . date('d-m-Y', strtotime($value->period->period_schedule_date));
+            }
+        }
+        return  $return_value;
     }
 
     // Pay Order
@@ -82,6 +123,7 @@ class Payment extends Model
         }
         return  $return_value;
     }
+
     public function po_dates_as_string()
     {
         $return_value = "";

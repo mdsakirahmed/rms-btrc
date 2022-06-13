@@ -12,18 +12,103 @@ class Payment extends Model
 
     protected $guarded = [];
 
-    public function operator(){
+    public function operator()
+    {
         return $this->belongsTo(Operator::class, 'operator_id', 'id');
     }
 
-    public function receives(){
+    public function receives()
+    {
         return $this->hasMany(PaymentWiseReceive::class, 'payment_id', 'id');
     }
-    public function pay_orders(){
+
+    public function pay_orders()
+    {
         return $this->hasMany(PaymentWisePayOrder::class, 'payment_id', 'id');
     }
-    public function deposits(){
+
+    public function deposits()
+    {
         return $this->hasMany(PaymentWiseDeposit::class, 'payment_id', 'id');
+    }
+
+    // Receives
+    public function total_receive_amount()
+    {
+        return $this->receives()->sum('receive_amount');
+    }
+
+    public function receive_banks()
+    {
+    }
+
+    public function total_receive_vat_amount()
+    {
+        $return_value = 0;
+        foreach ($this->receives as $value) {
+            $return_value += ($value->vat_percentage / 100) * $value->receive_amount;
+        }
+        return $return_value;
+    }
+    public function total_receive_tax_amount()
+    {
+        $return_value = 0;
+        foreach ($this->receives as $value) {
+            $return_value += ($value->tax_percentage / 100) * $value->receive_amount;
+        }
+        return $return_value;
+    }
+    public function total_receive_late_fee_amount()
+    {
+        return $this->receives()->sum('late_fee_receive_amount');
+    }
+
+
+
+    public function total_amount()
+    {
+    }
+
+    // Pay Order
+    public function po_numbers_as_string()
+    {
+        $return_value = "";
+        foreach ($this->pay_orders()->pluck('number') as $key => $value) {
+            if ($key != count($this->pay_orders()->pluck('number')) - 1) {
+                $return_value = $return_value . ' ' . $value . ',';
+            } else {
+                $return_value = $return_value . ' ' . $value;
+            }
+        }
+        return  $return_value;
+    }
+    public function po_dates_as_string()
+    {
+        $return_value = "";
+        foreach ($this->pay_orders()->pluck('date') as $key => $value) {
+            if ($key != count($this->pay_orders()->pluck('number')) - 1) {
+                $return_value = $return_value . ' ' . date('d/m/y', strtotime($value)) . ',';
+            } else {
+                $return_value = $return_value . ' ' . date('d/m/y', strtotime($value));
+            }
+        }
+        return  $return_value;
+    }
+    public function po_banks_as_string()
+    {
+        $return_value = "";
+        foreach ($this->pay_orders()->pluck('bank_id') as $key => $value) {
+            if ($key != count($this->pay_orders()->pluck('number')) - 1) {
+                $return_value = $return_value . ' ' . (Bank::find($value)->name ?? 'Bank not found') . ',';
+            } else {
+                $return_value = $return_value . ' ' . (Bank::find($value)->name ?? 'Bank not found');
+            }
+        }
+        return  $return_value;
+    }
+    public function total_po_amount()
+    {
+        return $this->pay_orders()->sum('amount');
     }
 
     public static function boot()

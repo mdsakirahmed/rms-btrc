@@ -26,24 +26,16 @@
                     <button class="btn btn-success" wire:click="export_as_pdf">Export as .pdf</button>
                 </div>
                 <div class="card-body">
-
-                    {{-- <div class="row mb-5">
+                    <div class="row mb-5">
                         <div class="col-4">
-                            <select name="" id="" class="form-control @error('category') border-danger @endif" wire:model="category">
-                                <option value="">Select Category</option>
-                                @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <select name="" id="" class="form-control @error('deposit_bank') border-danger @endif" wire:model="deposit_bank" title="Deposit Bank">
+                                <option value="">All bank</option>
+                                @foreach ($banks as $bank)
+                                <option value="{{ $bank->id }}">{{ $bank->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-3">
-                            <input type="date" name="" id="" class="form-control @error('starting_date') border-danger @endif" wire:model="starting_date">
-                        </div>
-                        <div class="col-3">
-                            <input type="date" name="" id="" class="form-control @error('ending_date') border-danger @endif" wire:model="ending_date">
-                        </div>
-                        <button class="btn btn-success col-2 text-white" type="button" wire:click="generate">Generate</button>
-                    </div> --}}
+                    </div>
                     <div class="table-responsive">
                         <table class="table color-table primary-table">
                             <thead>
@@ -54,33 +46,27 @@
                                     <th>P.O No</th>
                                     <th>P.O Date</th>
                                     <th>Name of Bank</th>
-                                    <th>Amount</th>
+                                    <th style="text-align: right;">Amount</th>
+                                    <th style="text-align: right;">VAT</th>
+                                    <th style="text-align: right;">TAX</th>
+                                    <th style="text-align: right;">Late Fee</th>
+                                    <th style="text-align: right;">Total PO <sub>(Collection + VAT + Late Fee)</sub> </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($statements as $statement)
-                                {{-- 
-                                     +"category_name": "2G Cellular Mobile Telecom Operator"
-  +"operator_id": 378
-  +"operator_name": "Rickie Herzog"
-  +"expiration_id": 7
-  +"payment_id": 13
-  +"transaction_number": "2206-A-00013"
-  +"receive_id": 12
-  +"po_id": 3
-  +"deposit_id": 3
-  +"po_bank_id": 2
-  +"deposit_bank_id": 3
-   --}}
-                                {{-- @dd($statement) --}}
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $statement->category_name }}</td>                                   
-                                    <td>{{ $statement->operator_name }}</td>                                   
-                                    <td>{{ $statement->po_number }}</td>                                   
-                                    <td>{{ date('d/m/y', strtotime($statement->po_date)) }}</td>   
-                                    <td>{{ $statement->po_bank_name }}</td>                                  
-                                    <td>{{ $statement->po_id }}-{{ $statement->po_amount }}</td>                                  
+                                    <td>{{ $statement->operator->category->name ?? 'Category not found' }}</td>
+                                    <td>{{ $statement->operator->name ?? 'Operator not found' }}</td>
+                                    <td>{{ $statement->po_numbers_as_string() }}</td>
+                                    <td>{{ $statement->po_dates_as_string() }}</td>
+                                    <td>{{ $statement->po_banks_as_string() }}</td>
+                                    <td style="text-align: right;">{{ money_format_india($statement->total_receive_amount()) }}</td>
+                                    <td style="text-align: right;">{{ money_format_india($statement->total_receive_vat_amount()) }}</td>
+                                    <td style="text-align: right;">{{ money_format_india($statement->total_receive_tax_amount()) }}</td>
+                                    <td style="text-align: right;">{{ money_format_india($statement->total_receive_late_fee_amount()) }}</td>
+                                    <td style="text-align: right;">{{ money_format_india($statement->total_po_amount()) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

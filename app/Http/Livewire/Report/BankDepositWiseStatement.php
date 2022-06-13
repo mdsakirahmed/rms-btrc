@@ -2,27 +2,38 @@
 
 namespace App\Http\Livewire\Report;
 
+use App\Models\Bank;
+use App\Models\Payment;
+use App\Models\PaymentWisePayOrder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class BankDepositWiseStatement extends Component
 {
+    public $deposit_bank;
     public function render()
     {
-        $this->statements = DB::table('license_categories')->select('license_categories.name as category_name')
-        ->join('operators', 'license_categories.id', 'operators.category_id')->addSelect('operators.id as operator_id', 'operators.name as operator_name')
-        ->join('expirations', 'operators.id', 'expirations.operator_id')->addSelect('expirations.id as expiration_id')
-        ->join('payments', 'expirations.id', 'payments.expiration_id')->addSelect('payments.id as payment_id', 'transaction as transaction_number')
-        ->join('payment_wise_receives', 'payments.id', 'payment_wise_receives.payment_id')->addSelect('payment_wise_receives.id as receive_id')
-        ->join('payment_wise_pay_orders', 'payments.id', 'payment_wise_pay_orders.payment_id')
-            ->addSelect('payment_wise_pay_orders.id as po_id', 'payment_wise_pay_orders.number as po_number', 'payment_wise_pay_orders.date as po_date', 'payment_wise_pay_orders.amount as po_amount')
-        ->join('payment_wise_deposits', 'payments.id', 'payment_wise_deposits.payment_id')->addSelect('payment_wise_deposits.id as deposit_id')
-        ->join('banks as po_bank', 'payment_wise_pay_orders.bank_id', 'po_bank.id')->addSelect('po_bank.id as po_bank_id', 'po_bank.name as po_bank_name')
-        ->join('banks as deposit_banks', 'payment_wise_deposits.bank_id', 'deposit_banks.id')->addSelect('deposit_banks.id as deposit_bank_id')
-        ->get();
+        $this->statements = Payment::whereHas('deposits', function($query){
+            if($this->deposit_bank)
+            $query->where('bank_id', $this->deposit_bank); 
+        })->latest()->get();
 
-        return view('livewire.report.bank-deposit-wise-statement')
-        ->extends('layouts.backend.app', ['title' => 'Bank Deposit Statement'])
+        return view('livewire.report.bank-deposit-wise-statement',[
+            'banks' => Bank::all(),
+        ])->extends('layouts.backend.app', ['title' => 'Bank Deposit Statement'])
         ->section('content');
+    }
+
+    public function export_as_pdf(){
+        return response()->streamDownload(function () {
+            Pdf::loadView('pdf.bank-deposit-statement', [
+                'file_name' => 'Bank Deposit',
+                'deposit_bank' => Bank::find($this->deposit_bank)->name ?? 'All Bank',
+                'collections' => $this->statements
+            ], [], [
+                'format' => 'A4-L'
+            ])->download();
+        }, 'Bank Deposit download at ' . date('d-m-Y- h-i-s') . '.pdf');
     }
 }

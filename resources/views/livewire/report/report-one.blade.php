@@ -52,7 +52,7 @@
                                 <th>PO Date</th>
                                 <th style="text-align: right">Amount</th>
                                 <th>Deposit Bank</th>
-                                <th>Comment</th>
+                                {{-- <th>Comment</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -68,7 +68,7 @@
                                 <td>{{ $deposit->po->date ?? 'PO Date Not Found' }}</td>
                                 <td style="text-align: right">{{ money_format_india($deposit->amount) }}</td>
                                 <td>{{ $deposit->bank->name ?? 'Bank Not Found' }}</td>
-                                <td> --Comment-- </td>
+                                {{-- <td> --Comment-- </td> --}}
                             </tr>
                             @endforeach
                         </tbody>

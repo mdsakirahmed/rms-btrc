@@ -22,6 +22,7 @@ use App\Http\Livewire\Report\BankDepositWiseStatement;
 use App\Http\Livewire\Report\CategoryWiseStatement;
 use App\Http\Livewire\Report\DueStatement;
 use App\Http\Livewire\Report\OperatorDetail;
+use App\Http\Livewire\Report\ReportOne;
 use App\Http\Livewire\Report\Statement;
 use App\Http\Livewire\Report\VatStatement;
 use Illuminate\Support\Facades\Route;
@@ -70,4 +71,5 @@ Route::middleware('auth')->group(function () {
     Route::get('statement', Statement::class)->name('revenue-sharing-statement')->middleware(['permission:report']);
     Route::get('category-wise-statement', CategoryWiseStatement::class)->name('category-wise-statement')->middleware(['permission:report']);
     Route::get('bank-deposit-statement', BankDepositWiseStatement::class)->name('bank-deposit-statement')->middleware(['permission:report']);
+    Route::get('report-one', ReportOne::class)->name('report-one')->middleware(['permission:report']);
 });

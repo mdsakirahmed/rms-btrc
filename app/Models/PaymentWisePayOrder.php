@@ -10,13 +10,11 @@ class PaymentWisePayOrder extends Model
 {
     use HasFactory, Userstamps;
     
-    protected $fillable = [
-        'payment_id',
-        'bank_id',
-        'amount',
-        'number',
-        'date'
-    ];
+    protected $guarded = [];
+
+    public function payment(){
+        return $this->belongsTo(Payment::class, 'payment_id', 'id');
+    }
 
     public function bank(){
         return $this->belongsTo(Bank::class, 'bank_id', 'id');

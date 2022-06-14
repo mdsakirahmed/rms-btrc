@@ -17,12 +17,12 @@ class CreatePaymentWiseDepositsTable extends Migration
             $table->id();
             $table->foreignId('payment_id');
             $table->foreignId('bank_id');
-            $table->foreignId('deposit_by_user_id');
+            $table->foreignId('deposit_by_user_id')->nullable();
             $table->double('amount')->default(0);
             $table->string('journal_number');
-            $table->string('po_number');
-            $table->text('slip')->nullable();
             $table->date('date');
+            $table->string('po_number')->nullable();
+            $table->text('slip')->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

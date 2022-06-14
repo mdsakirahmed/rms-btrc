@@ -12,8 +12,16 @@ class PaymentWiseDeposit extends Model
 
     protected $guarded = [];
 
+    public function payment(){
+        return $this->belongsTo(Payment::class, 'payment_id', 'id');
+    }
+
     public function bank(){
         return $this->belongsTo(Bank::class, 'bank_id', 'id');
+    }
+
+    public function po(){
+        return $this->belongsTo(PaymentWisePayOrder::class, 'po_number', 'number');
     }
 
     public static function boot()

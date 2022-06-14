@@ -11,6 +11,10 @@ class PaymentWiseReceive extends Model
     use HasFactory, Userstamps;
 
     protected $guarded = [];
+    
+    public function payment(){
+        return $this->belongsTo(Payment::class, 'payment_id', 'id');
+    }
 
     public function period(){
         return $this->belongsTo(Period::class, 'period_id', 'id');

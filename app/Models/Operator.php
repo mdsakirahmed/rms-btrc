@@ -10,20 +10,7 @@ class Operator extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $fillable = [
-        'category_id',
-        'sub_category_id',
-        'name',
-        'phone',
-        'email',
-        'website',
-        'address',
-        'note',
-        'contact_person_name',
-        'contact_person_designation',
-        'contact_person_phone',
-        'contact_person_email',
-    ];
+    protected $guarded = [];
 
     public function category(){
         return $this->belongsTo(LicenseCategory::class, 'category_id', 'id');

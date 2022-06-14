@@ -73,8 +73,8 @@
                     <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
                                 class="mdi mdi-file-find"></i><span class="hide-menu">Report</span></a>
                         <ul aria-expanded="false" class="collapse">
-                            <li><a href="{{ route('operator-wise-file-register') }}">Operator Wise File Register</a>
-                            </li>
+                            <li><a href="{{ route('report-one') }}">Report One</a></li>
+                            <li><a href="{{ route('operator-wise-file-register') }}">Operator Wise File Register</a></li>
                             <li><a href="{{ route('operator-detail') }}">Operator Detail</a></li>
                             <li><a href="{{ route('vat-statement') }}">VAT Statement</a></li>
                             <li><a href="{{ route('due-statement') }}">Due Statement</a></li>

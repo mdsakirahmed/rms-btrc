@@ -232,6 +232,9 @@ class Payment extends Component
             'deposit_section_array.*.deposit_bank' => 'required',
             'deposit_section_array.*.journal_number' => 'required',
             'deposit_section_array.*.deposit_date' => 'required',
+            'deposit_section_array.*.po_number' => 'required',
+            'deposit_section_array.*.deposit_by' => 'required',
+            'deposit_section_array.*.deposit_slip' => 'required',
         ], [], [
             'receive_section_array.*.selected_fee_type' => 'Fee type',
             'receive_section_array.*.selected_period' => 'Period',
@@ -252,6 +255,9 @@ class Payment extends Component
             'deposit_section_array.*.deposit_bank' => 'Deposit Bank',
             'deposit_section_array.*.journal_number' => 'Journal Number',
             'deposit_section_array.*.deposit_date' => 'Deposit Date',
+            'deposit_section_array.*.po_number' => 'PO Number',
+            'deposit_section_array.*.deposit_by' => 'Deposit by',
+            'deposit_section_array.*.deposit_slip' => 'Seposit Slip',
         ]);
 
         if (round(array_sum(array_column($this->receive_section_array, 'receive_amount')) + array_sum(array_column($this->receive_section_array, 'late_fee_receive_amount')) + array_sum(array_column($this->receive_section_array, 'vat_receive_amount')))
@@ -308,6 +314,9 @@ class Payment extends Component
                     'bank_id' => $deposit['deposit_bank'],
                     'journal_number' => $deposit['journal_number'],
                     'date' => $deposit['deposit_date'],
+                    'po_number' => $deposit['po_number'],
+                    'deposit_by_user_id' => $deposit['deposit_by'],
+                    'slip' => $deposit['deposit_slip'],
                 ]);
             }
 

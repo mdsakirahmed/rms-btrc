@@ -318,10 +318,10 @@
                             <div class="form-group @error("deposit_section_array.$key.deposit_by") has-danger @enderror">
                                 <label class="form-label required">Deposit By</label>
                                 <select class="form-control form-select" @if($deposit_section_array[$key]['lock'] ?? false) disabled @endif wire:model="deposit_section_array.{{ $key }}.deposit_by">
-                                    <option value="">Select Deposit Bank</option>
-                                    @foreach ($banks as $bank)
-                                    <option value="{{ $bank->id }}">
-                                        {{ $bank->name }}
+                                    <option value="">Select DEposit by</option>
+                                    @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">
+                                        {{ $user->name }}
                                     </option>
                                     @endforeach
                                 </select>

@@ -14,6 +14,7 @@ use App\Models\Payment as ModelsPayment;
 use App\Models\PaymentWiseDeposit;
 use App\Models\PaymentWisePayOrder;
 use App\Models\PaymentWiseReceive;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 use niklasravnsborg\LaravelPdf\Facades\Pdf as PDF;
@@ -40,6 +41,7 @@ class Payment extends Component
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
             'banks' => Bank::all(),
+            'users' => User::all(),
             'operators' => Operator::where(function ($query) {
                 if ($this->selected_category) {
                     $query->where('category_id', $this->selected_category);
@@ -58,8 +60,6 @@ class Payment extends Component
                 }
             })->get()
         ];
-
-
 
         return view('livewire.payment', $data)->extends('layouts.backend.app', ['title' => 'Payment'])
             ->section('content');

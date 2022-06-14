@@ -17,6 +17,11 @@ class Payment extends Model
         return $this->belongsTo(Operator::class, 'operator_id', 'id');
     }
 
+    public function depositor()
+    {
+        return $this->belongsTo(User::class, 'deposit_by_user_id', 'id');
+    }
+
     public function receives()
     {
         return $this->hasMany(PaymentWiseReceive::class, 'payment_id', 'id');

@@ -1,6 +1,6 @@
 @extends('layouts.pdf.app')
 @section('content')
-<h3># Bank Deposit Statement # Deposit Bank: {{ $deposit_bank }}</h3>
+<h3># Bank Deposit Statement # Deposit Bank: {{ $deposit_bank }} # Category: {{ $category }}</h3>
 <table style="width: 100%;" class="table" cellpading="0" cellspacing="0">
     <thead>
         <tr>

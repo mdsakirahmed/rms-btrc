@@ -50,7 +50,7 @@
                                     <th style="text-align: right;">VAT</th>
                                     <th style="text-align: right;">TAX</th>
                                     <th style="text-align: right;">Late Fee</th>
-                                    <th style="text-align: right;">Total PO <sub>(Collection + VAT + Late Fee)</sub> </th>
+                                    <th style="text-align: right;">Total PO <br> <sub>(Collection + VAT + Late Fee)</sub> </th>
                                 </tr>
                             </thead>
                             <tbody>

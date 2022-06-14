@@ -34,6 +34,14 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="col-4">
+                            <select name="" id="" class="form-control @error('category') border-danger @endif" wire:model="category" title="Operatop Ctegory">
+                                <option value="">All category</option>
+                                @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table color-table primary-table">

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Report;
 
 use App\Models\Bank;
 use App\Models\LicenseCategory;
+use App\Models\LicenseCategoryWiseFeeType;
 use App\Models\Operator;
 use App\Models\PaymentWisePayOrder;
 use Livewire\Component;
@@ -30,6 +31,7 @@ class ReportTwo extends Component
 
         return view('livewire.report.report-two', [
             'banks' => Bank::all(),
+            'fee_types' => LicenseCategoryWiseFeeType::where('category_id', $this->category)->get(),
             'categories' => LicenseCategory::all(),
         ])->extends('layouts.backend.app', ['title' => 'Revenue Sharing Statement'])->section('content');
     }
@@ -40,6 +42,7 @@ class ReportTwo extends Component
             Pdf::loadView('pdf.report-two', [
                 'po_bank' => Bank::find($this->po_bank)->name ?? 'All Bank',
                 'category' => LicenseCategory::find($this->category)->name ?? 'All Category',
+                'fee_types' => LicenseCategoryWiseFeeType::where('category_id', $this->category)->get(),
                 'file_name' => 'Report',
                 'pay_orders' =>  $this->pay_orders,
             ], [], [

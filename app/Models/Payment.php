@@ -43,22 +43,28 @@ class Payment extends Model
         return $this->receives()->sum('receive_amount');
     }
 
-    public function total_receive_spectrum_amount()
+
+    public function total_receive_amount_by_category($fee_type_id)
     {
-        $return_value = 0;
-        foreach ($this->receives as $value) {
-            if($value->period->fee_type_id == 3)
-            $return_value += $value->receive_amount;
-        }
-        return $return_value;
+        return $this->receives()->whereHas('period', function ($query) use ($fee_type_id) {
+            $query->where('fee_type_id', $fee_type_id);
+        })->sum('receive_amount');
     }
 
-    public function total_receive_spectrum_vat_amount()
+    public function total_receive_late_fee_amount_by_category($fee_type_id)
+    {
+        return $this->receives()->whereHas('period', function ($query) use ($fee_type_id) {
+            $query->where('fee_type_id', $fee_type_id);
+        })->sum('late_fee_receive_amount');
+    }
+
+    public function total_receive_vat_amount_by_category($fee_type_id)
     {
         $return_value = 0;
-        foreach ($this->receives as $value) {
-            if($value->period->fee_type_id == 3)
-            $return_value += ($value->vat_percentage / 100) * $value->receive_amount;
+        foreach ($this->receives()->whereHas('period', function ($query) use ($fee_type_id) {
+            $query->where('fee_type_id', $fee_type_id);
+        })->get() as $value) {
+                $return_value +=  ($value->vat_percentage / 100) * $value->receive_amount;
         }
         return $return_value;
     }

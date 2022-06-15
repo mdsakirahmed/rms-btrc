@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Report;
 
 use App\Models\Bank;
-use App\Models\PaymentWiseDeposit;
 use App\Models\PaymentWisePayOrder;
 use Livewire\Component;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;

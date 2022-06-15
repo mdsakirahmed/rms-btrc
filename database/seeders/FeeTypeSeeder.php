@@ -108,5 +108,21 @@ class FeeTypeSeeder extends Seeder
             'starting_month' => 10,
             'ending_month' => 12,
         ]);
+
+        $fee_type = FeeType::create([
+            'name' => 'Admin Fine', 
+            'schedule_day' => 20, 
+            'schedule_month' => 0, 
+            'period_format' => 2,
+            'schedule_include_to_beginning_of_period' => false
+        ]);
+       
+        $fee_type = FeeType::create([
+            'name' => 'Others', 
+            'schedule_day' => 20, 
+            'schedule_month' => 0, 
+            'period_format' => 2,
+            'schedule_include_to_beginning_of_period' => false
+        ]);
     }
 }

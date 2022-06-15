@@ -21,61 +21,53 @@
                 </div>
                 <div class="card-body">
                     <div class="row mb-5">
-                        {{-- <div class="col-3">
-                            <select name="" id="" class="form-control" wire:model="selected_fee_type">
-                                <option value="">Select Fee Type</option>
-                                @foreach ($fee_types as $fee_type)
-                                    <option value="{{ $fee_type->id }}">{{ $fee_type->name }}</option>
-                        @endforeach
-                        </select>
+                        <div class="col-4">
+                            <select name="" id="" class="form-control @error('deposit_bank') border-danger @endif" wire:model="deposit_bank" title="Deposit Bank">
+                                <option value="">All Bank</option>
+                                @foreach ($banks as $bank)
+                                <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-3">
-                        <select name="" id="" class="form-control" wire:model="selected_period">
-                            <option value="">Select Period</option>
-                            @foreach ($periods as $period)
-                            <option value="{{ $period }}">{{ $period }}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
-                </div>
-                <div class="table-responsive">
-                    <table class="table datatable color-table primary-table">
-                        <thead>
-                            <tr>
-                                <th>SL</th>
-                                <th>Operator Name</th>
-                                <th>Category</th>
-                                <th>Joutnal Number</th>
-                                <th>Deposit Date</th>
-                                <th>PO Bank</th>
-                                <th>PO Number</th>
-                                <th>PO Date</th>
-                                <th style="text-align: right">Amount</th>
-                                <th>Deposit Bank</th>
-                                {{-- <th>Comment</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($deposits as $deposit)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $deposit->payment->operator->name ?? 'Operator Not Found' }}</td>
-                                <td>{{ $deposit->payment->operator->category->name ?? 'Category Not Found' }}</td>
-                                <td>{{ $deposit->journal_number }}</td>
-                                <td>{{ $deposit->date }}</td>
-                                <td>{{ $deposit->po->bank->name ?? 'Bank Not Found' }}</td>
-                                <td>{{ $deposit->po->number ?? 'PO Number Not Found' }}</td>
-                                <td>{{ $deposit->po->date ?? 'PO Date Not Found' }}</td>
-                                <td style="text-align: right">{{ money_format_india($deposit->amount) }}</td>
-                                <td>{{ $deposit->bank->name ?? 'Bank Not Found' }}</td>
-                                {{-- <td> --Comment-- </td> --}}
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table datatable color-table primary-table">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Operator Name</th>
+                                    <th>Category</th>
+                                    <th>Joutnal Number</th>
+                                    <th>Deposit Date</th>
+                                    <th>PO Bank</th>
+                                    <th>PO Number</th>
+                                    <th>PO Date</th>
+                                    <th style="text-align: right">Amount</th>
+                                    <th>Deposit Bank</th>
+                                    {{-- <th>Comment</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($deposits as $deposit)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $deposit->payment->operator->name ?? 'Operator Not Found' }}</td>
+                                    <td>{{ $deposit->payment->operator->category->name ?? 'Category Not Found' }}</td>
+                                    <td>{{ $deposit->journal_number }}</td>
+                                    <td>{{ $deposit->date }}</td>
+                                    <td>{{ $deposit->po->bank->name ?? 'Bank Not Found' }}</td>
+                                    <td>{{ $deposit->po->number ?? 'PO Number Not Found' }}</td>
+                                    <td>{{ $deposit->po->date ?? 'PO Date Not Found' }}</td>
+                                    <td style="text-align: right">{{ money_format_india($deposit->amount) }}</td>
+                                    <td>{{ $deposit->bank->name ?? 'Bank Not Found' }}</td>
+                                    {{-- <td> --Comment-- </td> --}}
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>

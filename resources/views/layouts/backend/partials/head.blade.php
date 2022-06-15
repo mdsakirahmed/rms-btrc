@@ -109,4 +109,9 @@
         color: white;
     }
 
+    table {
+            white-space: nowrap;
+            font-size: 12px;
+        }
+
 </style>

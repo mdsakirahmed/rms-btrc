@@ -53,6 +53,16 @@ class Payment extends Model
         return $return_value;
     }
 
+    public function total_receive_spectrum_vat_amount()
+    {
+        $return_value = 0;
+        foreach ($this->receives as $value) {
+            if($value->period->fee_type_id == 3)
+            $return_value += ($value->vat_percentage / 100) * $value->receive_amount;
+        }
+        return $return_value;
+    }
+
     public function total_receive_vat_amount()
     {
         $return_value = 0;

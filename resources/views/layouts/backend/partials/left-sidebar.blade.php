@@ -74,15 +74,20 @@
                                 class="mdi mdi-file-find"></i><span class="hide-menu">Report</span></a>
                         <ul aria-expanded="false" class="collapse">
                             <li><a href="{{ route('report-one') }}">Report One</a></li>
-                            <li><a href="{{ route('operator-wise-file-register') }}">Operator Wise File Register</a></li>
+                            <li><a href="{{ route('report-two') }}">Report Two</a></li>
+                            {{-- <li><a href="{{ route('operator-wise-file-register') }}">Operator Wise File Register</a></li>
                             <li><a href="{{ route('operator-detail') }}">Operator Detail</a></li>
                             <li><a href="{{ route('vat-statement') }}">VAT Statement</a></li>
                             <li><a href="{{ route('due-statement') }}">Due Statement</a></li>
                             <li><a href="{{ route('revenue-sharing-statement') }}">Statement</a></li>
                             <li><a href="{{ route('category-wise-statement') }}">Category Wise Statement</a></li>
-                            <li><a href="{{ route('bank-deposit-statement') }}">Bank Deposit Statement</a></li>
+                            <li><a href="{{ route('bank-deposit-statement') }}">Bank Deposit Statement</a></li> --}}
                         </ul>
                     </li>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                 @endcan
             </ul>
         </nav>

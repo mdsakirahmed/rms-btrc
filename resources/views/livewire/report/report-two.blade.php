@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <div class="row mb-5">
                         <div class="col-4">
-                            <select name="" id="" class="form-control @error('deposit_bank') border-danger @endif" wire:model="deposit_bank" title="Deposit Bank">
+                            <select name="" id="" class="form-control @error('po_bank') border-danger @endif" wire:model="po_bank" title="PO Bank">
                                 <option value="">All Bank</option>
                                 @foreach ($banks as $bank)
                                 <option value="{{ $bank->id }}">{{ $bank->name }}</option>
@@ -35,32 +35,38 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Operator Name</th>
-                                    <th>Category</th>
-                                    <th>Journal Number</th>
-                                    <th>Deposit Date</th>
-                                    <th>PO Bank</th>
+                                    <th>Company Name</th>
+                                    {{-- <th>Category</th> --}}
+                                    <th>P.O SL</th>
+                                    <th>Name of Bank</th>
                                     <th>PO Number</th>
                                     <th>PO Date</th>
-                                    <th style="text-align: right">Amount</th>
-                                    <th>Deposit Bank</th>
-                                    {{-- <th>Comment</th> --}}
+                                    <th>Total Amount</th>
+                                    <th>Spectrum Charge</th>
+                                    <th>Spectrum VAT</th>
+                                    <th>Late Fee</th>
+                                    <th>Year</th>
+                                    <th>Demand Note Issue Date</th>
+                                    <th>Receive Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($deposits as $deposit)
+                                @foreach ($pay_orders as $po)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $deposit->payment->operator->name ?? 'Operator Not Found' }}</td>
-                                    <td>{{ $deposit->payment->operator->category->name ?? 'Category Not Found' }}</td>
-                                    <td>{{ $deposit->journal_number }}</td>
-                                    <td>{{ $deposit->date }}</td>
-                                    <td>{{ $deposit->po->bank->name ?? 'Bank Not Found' }}</td>
-                                    <td>{{ $deposit->po->number ?? 'PO Number Not Found' }}</td>
-                                    <td>{{ $deposit->po->date ?? 'PO Date Not Found' }}</td>
-                                    <td style="text-align: right">{{ money_format_india($deposit->amount) }}</td>
-                                    <td>{{ $deposit->bank->name ?? 'Bank Not Found' }}</td>
-                                    {{-- <td> --Comment-- </td> --}}
+                                    <td>{{ $po->payment->operator->name ?? 'Operator Not Found' }}</td>
+                                    {{-- <td>{{ $po->payment->operator->category->name ?? 'Category Not Found' }}</td> --}}
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $po->bank->name ?? 'Bank Not Found' }}</td>
+                                    <td>{{ $po->number ?? 'PO Number Not Found' }}</td>
+                                    <td>{{ $po->date->format('d-m-Y') ?? 'PO Date Not Found' }}</td>
+                                    <td style="text-align: right">{{ money_format_india($po->amount) }}</td>
+                                    <td style="text-align: right">{{ money_format_india($po->payment->total_receive_spectrum_amount()) }}</td>
+                                    <td style="text-align: right">{{ money_format_india($po->payment->total_receive_spectrum_vat_amount()) }}</td>
+                                    <td style="text-align: right">{{ money_format_india($po->payment->total_receive_late_fee_amount()) }}</td>
+                                    <td>{{ $po->payment->receive_years_as_string() }}</td>
+                                    <td>{{ $po->payment->receive_schedule_dates_as_string() }}</td>
+                                    <td>{{ $po->payment->receive_dates_as_string() }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

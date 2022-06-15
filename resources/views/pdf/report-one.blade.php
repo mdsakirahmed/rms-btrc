@@ -7,7 +7,7 @@
             <th>SL</th>
             <th>Operator Name</th>
             <th>Category</th>
-            <th>Joutnal Number</th>
+            <th>Journal Number</th>
             <th>Deposit Date</th>
             <th>PO Bank</th>
             <th>PO Number</th>

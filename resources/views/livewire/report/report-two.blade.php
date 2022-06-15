@@ -56,6 +56,8 @@
                                     <th>Year</th>
                                     <th>Demand Note Issue Date</th>
                                     <th>Receive Date</th>
+                                    <th>Deposit Date</th>
+                                    <th>Deposit Bank</th>
                                     <th>Journal Number</th>
                                 </tr>
                             </thead>
@@ -76,7 +78,9 @@
                                     <td>{{ $po->payment->receive_years_as_string() }}</td>
                                     <td>{{ $po->payment->receive_schedule_dates_as_string() }}</td>
                                     <td>{{ $po->payment->receive_dates_as_string() }}</td>
-                                    <td>{{ $po->journal->journal_number ?? 'Journal Number Not Found' }}</td>
+                                    <td> @if($po->deposit){{ date('d-n-Y', strtotime($po->deposit->date)) ?? 'Deposit Date Not Found' }} @endif</td>
+                                    <td>{{ $po->deposit->bank->name ?? 'Deposit Bank Not Found' }}</td>
+                                    <td>{{ $po->deposit->journal_number ?? 'Journal Number Not Found' }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

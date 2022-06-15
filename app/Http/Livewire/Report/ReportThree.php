@@ -10,7 +10,7 @@ use App\Models\PaymentWisePayOrder;
 use Livewire\Component;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
-class ReportTwo extends Component
+class ReportThree extends Component
 {
     public $po_bank, $category;
 
@@ -29,7 +29,7 @@ class ReportTwo extends Component
                 $query->whereIn('operator_id', $operator_ids);
         })->latest()->get();
 
-        return view('livewire.report.report-two', [
+        return view('livewire.report.report-three', [
             'banks' => Bank::all(),
             'fee_types' => LicenseCategoryWiseFeeType::where('category_id', $this->category)->get(),
             'categories' => LicenseCategory::all(),
@@ -38,19 +38,14 @@ class ReportTwo extends Component
 
     public function export_as_pdf()
     {
-        $paper_size = 'Legal-L';
-        if($this->category){
-            $paper_size = 'Tabloid-L';
-        }
-        return response()->streamDownload(function () use($paper_size){
-            Pdf::loadView('pdf.report-two', [
+        return response()->streamDownload(function (){
+            Pdf::loadView('pdf.report-three', [
                 'po_bank' => Bank::find($this->po_bank)->name ?? 'All Bank',
                 'category' => LicenseCategory::find($this->category)->name ?? 'All Category',
-                'fee_types' => LicenseCategoryWiseFeeType::where('category_id', $this->category)->get(),
                 'file_name' => 'Report',
                 'pay_orders' =>  $this->pay_orders,
             ], [], [
-                'format' => $paper_size
+                'format' => 'A4-L'
             ])->download();
         }, 'Report download at ' . date('d-m-Y- h-i-s') . '.pdf');
     }

@@ -1,6 +1,6 @@
 @extends('layouts.pdf.app')
 @section('content')
-<h3># Bank Deposit Statement # Deposit Bank: {{ $po_bank }}</h3>
+<h5># Bank Deposit Statement # Deposit Bank: {{ $po_bank }} # Category: {{ $category }}</h5>
 <table style="width: 100%;" class="table" cellpading="0" cellspacing="0">
 
     <thead>
@@ -16,9 +16,11 @@
             <th>Spectrum Charge</th>
             <th>Spectrum VAT</th>
             <th>Late Fee</th>
+            <th>Admin Fine</th>
             <th>Year</th>
             <th>Demand Note Issue Date</th>
             <th>Receive Date</th>
+            <th>Journal Number</th>
         </tr>
     </thead>
     <tbody>
@@ -35,9 +37,11 @@
             <td style="text-align: right">{{ money_format_india($po->payment->total_receive_spectrum_amount()) }}</td>
             <td style="text-align: right">{{ money_format_india($po->payment->total_receive_spectrum_vat_amount()) }}</td>
             <td style="text-align: right">{{ money_format_india($po->payment->total_receive_late_fee_amount()) }}</td>
+            <td></td>
             <td>{{ $po->payment->receive_years_as_string() }}</td>
             <td>{{ $po->payment->receive_schedule_dates_as_string() }}</td>
             <td>{{ $po->payment->receive_dates_as_string() }}</td>
+            <td>{{ $po->journal->journal_number ?? 'Journal Number Not Found' }}</td>
         </tr>
         @endforeach
     </tbody>

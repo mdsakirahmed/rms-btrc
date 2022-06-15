@@ -17,6 +17,10 @@ class PaymentWisePayOrder extends Model
         return $this->belongsTo(Payment::class, 'payment_id', 'id');
     }
 
+    public function journal(){
+        return $this->hasOne(PaymentWiseDeposit::class, 'po_number', 'number');
+    }
+
     public function bank(){
         return $this->belongsTo(Bank::class, 'bank_id', 'id');
     }

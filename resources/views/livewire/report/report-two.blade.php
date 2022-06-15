@@ -29,6 +29,14 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="col-4">
+                            <select name="" id="" class="form-control @error('category') border-danger @endif" wire:model="category" title="License Category">
+                                <option value="">All Categories</option>
+                                @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table datatable color-table primary-table">
@@ -48,6 +56,7 @@
                                     <th>Year</th>
                                     <th>Demand Note Issue Date</th>
                                     <th>Receive Date</th>
+                                    <th>Journal Number</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,6 +76,7 @@
                                     <td>{{ $po->payment->receive_years_as_string() }}</td>
                                     <td>{{ $po->payment->receive_schedule_dates_as_string() }}</td>
                                     <td>{{ $po->payment->receive_dates_as_string() }}</td>
+                                    <td>{{ $po->journal->journal_number ?? 'Journal Number Not Found' }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

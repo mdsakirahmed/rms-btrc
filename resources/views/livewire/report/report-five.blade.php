@@ -81,7 +81,7 @@
                                             @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
                                                 {{ money_format_india($period->total_receivable) }} <br>
                                             @endforeach
-                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total: {{ money_format_india($operator_model->fee_type_wise_periods($fee_type->fee_type_id)->sum('total_receivable')) }}</b>
                                         </td>
                                         <td>
                                             @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)

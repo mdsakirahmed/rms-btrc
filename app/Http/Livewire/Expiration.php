@@ -75,7 +75,7 @@ class Expiration extends Component
                             $period_schedule_date = Carbon::parse($issue_y . '-' . str_pad($period->ending_month, 2, "0", STR_PAD_LEFT) . '-01')->endOfMonth()->addDays($period->fee_type->schedule_day)->addMonths($period->fee_type->schedule_month);
                         }
                         Period::create([
-                            'operator_id' => $expiration->id,
+                            'operator_id' => $this->operator->id,
                             'expiration_id' => $expiration->id,
                             'fee_type_id' => $period->fee_type_id,
                             'payment_number' => $counter,

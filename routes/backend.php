@@ -8,6 +8,8 @@ use App\Http\Livewire\LicenseCategory;
 use App\Http\Livewire\LicenseSubCategory;
 use App\Http\Livewire\Operator;
 use App\Http\Livewire\PermissionManagement;
+use App\Http\Livewire\Report\ReportFive;
+use App\Http\Livewire\Report\ReportSix;
 use App\Http\Livewire\User;
 use App\Http\Livewire\Application;
 use App\Http\Livewire\Report\OperatorWiseFileRegister;
@@ -78,4 +80,6 @@ Route::middleware('auth')->group(function () {
     Route::get('report-two', ReportTwo::class)->name('report-two')->middleware(['permission:report']);
     Route::get('report-three', ReportThree::class)->name('report-three')->middleware(['permission:report']);
     Route::get('report-four', ReportFour::class)->name('report-four')->middleware(['permission:report']);
+    Route::get('report-five', ReportFive::class)->name('report-five')->middleware(['permission:report']);
+    Route::get('report-six', ReportSix::class)->name('report-six')->middleware(['permission:report']);
 });

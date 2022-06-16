@@ -28,6 +28,10 @@ class Operator extends Model
         return $this->hasMany(Payment::class, 'operator_id', 'id')->latest();
     }
 
+    public function fee_type_wise_periods($fee_type_id){
+        return $this->hasMany(Period::class, 'operator_id', 'id')->where('fee_type_id', $fee_type_id)->get();
+    }
+
     public static function boot()
     {
         parent::boot();

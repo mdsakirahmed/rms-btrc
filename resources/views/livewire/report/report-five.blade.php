@@ -22,7 +22,8 @@
                 <div class="card-body">
                     <div class="row mb-5">
                         <div class="col-4">
-                            <select name="" id="" class="form-control @error('category') border-danger @endif" wire:model="category" title="Category">
+                            <select name="" id="" class="form-control @error('category') border-danger @endif"
+                                    wire:model="category" title="Category">
                                 <option value="">Select Category Bank</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -30,7 +31,8 @@
                             </select>
                         </div>
                         <div class="col-4">
-                            <select name="" id="" class="form-control @error('category') border-danger @endif" wire:model="sub_category" title="Sub Category">
+                            <select name="" id="" class="form-control @error('category') border-danger @endif"
+                                    wire:model="sub_category" title="Sub Category">
                                 <option value="">Select Sub Categories</option>
                                 @foreach ($sub_categories as $sub_category)
                                     <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>
@@ -38,7 +40,8 @@
                             </select>
                         </div>
                         <div class="col-4">
-                            <select name="" id="" class="form-control @error('operator') border-danger @endif" wire:model="operator" title="Operator">
+                            <select name="" id="" class="form-control @error('operator') border-danger @endif"
+                                    wire:model="operator" title="Operator">
                                 <option value="">Select Operator</option>
                                 @foreach ($operators as $operator)
                                     <option value="{{ $operator->id }}">{{ $operator->name }}</option>
@@ -47,73 +50,99 @@
                         </div>
                     </div>
                     @if($operator_model)
-                    <div class="table-responsive">
-                        <table class="table datatable color-table primary-table">
-                            <thead>
-                            <tr>
-                                <th>SL</th>
-                                <th>Particulars</th>
-                                <th>Period</th>
-                                <th style="text-align: right;">Receivable</th>
-                                <th>Due Date of Payment</th>
-                                <th>Receive Date</th>
-                                <th>No. of Delay Days</th>
-                                <th style="text-align: right;">Late Fee</th>
-                                <th style="text-align: right;">VAT</th>
-                                <th style="text-align: right;">Total</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($operator_model->category->category_wise_fees as $fee_type)
+                        <div class="table-responsive">
+                            <table class="table datatable color-table primary-table">
+                                <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $fee_type->fee_type->name }}</td>
-                                    <td>
-                                        @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
-                                        {{ $period->period_label }} <br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
-                                        {{ money_format_india($period->total_receivable) }} <br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
-                                        {{ $period->period_schedule_date->format('d/m/Y') }} <br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
-                                        {{ date('d/m/Y') }} <br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
-                                        {{ abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)) }} <br>
-                                        @endforeach
-                                    </td>
-                                    <td style="text-align: right;">
-                                        @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
-                                            {{ money_format_india(round((((($period->total_receivable / 100) * $fee_type->late_fee) ) / 365) * abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)))) }} <br>
-                                        @endforeach
-                                    </td>
-                                    <td style="text-align: right;">
-                                        @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
-                                            {{ money_format_india(round(($period->total_receivable / 100) * $fee_type->vat)) }} <br>
-                                        @endforeach
-                                    </td>
-                                    <td style="text-align: right;">
-                                        @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
-                                            {{ money_format_india($period->total_receivable + round(($period->total_receivable / 100) * $fee_type->vat) + round((((($period->total_receivable / 100) * $fee_type->late_fee) ) / 365) * abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)))) }} <br>
-                                        @endforeach
-                                    </td>
+                                    <th>SL</th>
+                                    <th>Particulars</th>
+                                    <th>Period</th>
+                                    <th style="text-align: right;">Receivable</th>
+                                    <th>Due Date of Payment</th>
+                                    <th>Receive Date</th>
+                                    <th>No. of Delay Days</th>
+                                    <th style="text-align: right;">Late Fee</th>
+                                    <th style="text-align: right;">VAT</th>
+                                    <th style="text-align: right;">Total</th>
                                 </tr>
-                            @endforeach
-                            </tbody>
+                                </thead>
+                                <tbody>
+                                @foreach($operator_model->category->category_wise_fees as $fee_type)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $fee_type->fee_type->name }}</td>
+                                        <td>
+                                            @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                                                {{ $period->period_label }} <br>
+                                            @endforeach
+                                            <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                                                {{ money_format_india($period->total_receivable) }} <br>
+                                            @endforeach
+                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                        </td>
+                                        <td>
+                                            @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                                                {{ $period->period_schedule_date->format('d/m/Y') }} <br>
+                                            @endforeach
+                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                        </td>
+                                        <td>
+                                            @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                                                {{ date('d/m/Y') }} <br>
+                                            @endforeach
+                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                        </td>
+                                        <td>
+                                            @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                                                {{ abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)) }}
+                                                <br>
+                                            @endforeach
+                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                                                {{ money_format_india(round((((($period->total_receivable / 100) * $fee_type->late_fee) ) / 365) * abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)))) }}
+                                                <br>
+                                            @endforeach
+                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                                                {{ money_format_india(round(($period->total_receivable / 100) * $fee_type->vat)) }}
+                                                <br>
+                                            @endforeach
+                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                                                {{ money_format_india($period->total_receivable + round(($period->total_receivable / 100) * $fee_type->vat) + round((((($period->total_receivable / 100) * $fee_type->late_fee) ) / 365) * abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)))) }}
+                                                <br>
+                                            @endforeach
+                                                <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub Total</b>
+                                        </td>
+                                    </tr>
+                                    @if($loop->last)
+                                        <tr>
+                                            <td>123</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                                </tbody>
 
-                        </table>
-                    </div>
+                            </table>
+                        </div>
                     @else
                         <div class="alert alert-danger text-center" role="alert">
                             <h3>Operator is Not Selected</h3>

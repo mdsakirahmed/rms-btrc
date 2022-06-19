@@ -3,23 +3,29 @@
         <!-- ============================================================== -->
         <!-- Logo -->
         <!-- ============================================================== -->
-        <div class="navbar-header">
-            {{--Do  not remove this div--}}
+        <div class="navbar-header text-center" style="margin-bottom: -80px;">
+            {{--<h4 class="text-center fw-bold">RMS</h4>--}}
+            <img src="{{ asset('assets/frontend/images/logo.png') }}" class="mb-1 p-2 bg-white"
+                 style="max-width: 80%; height: auto;">
         </div>
         <!-- ============================================================== -->
         <!-- End Logo -->
         <!-- ============================================================== -->
-        <div class="navbar-collapse btrc">
+        {{--Use btrc class for topbar green--}}
+        <div class="navbar-collapse">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link nav-toggler d-block d-md-none waves-effect waves-dark"
                                         href="javascript:void(0)"><i class="ti-menu"></i></a></li>
                 <li class="nav-item"><a
-                        class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark"
+                        class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark bg-white"
                         href="javascript:void(0)"><i class="icon-menu"></i></a></li>
             </ul>
             <!-- User profile and search -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav my-lg-0">
+                <marquee width="100%" direction="left">
+                    Bangladesh Telecommunication Regulatory Commission (BTRC)
+                </marquee>
+            <ul class="navbar-nav my-lg-0 bg-white">
                 <!-- ============================================================== -->
                 <!-- Comment -->
                 <!-- ============================================================== -->

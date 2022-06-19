@@ -147,7 +147,7 @@ Stylish tooltip
   bottom: 100%;
   border-radius: 50%;
   text-align: center;
-  background: #fb9678;
+  background: #208837;
   color: #fff;
   opacity: 0;
   margin-bottom: 20px;
@@ -269,7 +269,7 @@ Stylish tooltip
     display: block; }
 
 .tooltip-text3 {
-  border-bottom: 10px solid #fb9678;
+  border-bottom: 10px solid #208837;
   overflow: hidden;
   transform: scale3d(0, 1, 1);
   transition: transform 0.3s 0.3s; }
@@ -290,7 +290,7 @@ Stylish tooltip
   position: absolute;
   pointer-events: none;
   border-color: transparent;
-  border-top-color: #fb9678;
+  border-top-color: #208837;
   border-width: 10px;
   margin-left: -10px; }
 
@@ -318,7 +318,7 @@ Stylish tooltip
 
 a.mytooltip {
   font-weight: 500;
-  color: #fb9678; }
+  color: #208837; }
 
 .tooltip-effect-7 .tooltip-content2 {
   transform: translate3d(0, 10px, 0);

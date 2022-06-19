@@ -64,7 +64,11 @@ class User extends Authenticatable
         });
 
         self::created(function ($model) {
-            // ... code here
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("create")
+                ->log('Create user');
         });
 
         self::updating(function ($model) {
@@ -72,7 +76,16 @@ class User extends Authenticatable
         });
 
         self::updated(function ($model) {
-            // ... code here
+            $changes = $model->isDirty() ? $model->getDirty() : false;
+            if ($changes) {
+                foreach ($changes as $attr => $value) {
+                    activity()
+                        // ->causedBy($user)
+                        ->performedOn($model)
+                        ->useLog("edit")
+                        ->log("Update user : $attr from {$model->getOriginal($attr)} to {$model->$attr}");
+                }
+            }
         });
 
         self::deleting(function ($model) {
@@ -80,7 +93,12 @@ class User extends Authenticatable
         });
 
         self::deleted(function ($model) {
-            // ... code here
+            activity()
+                // ->causedBy($userModel)
+                ->performedOn($model)
+                ->useLog("delete")
+                ->withProperties(['record' => $model])
+                ->log('Delete user');
         });
     }
 }

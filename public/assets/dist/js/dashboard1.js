@@ -36,7 +36,7 @@ $(function() {
             //or hide: ['data1', 'data2']
         },
         color: {
-            pattern: ['#eceff1', '#343a40', '#fb9678', '#009efb']
+            pattern: ['#eceff1', '#343a40', '#208837', '#009efb']
         }
     });
     // ============================================================== 
@@ -82,7 +82,7 @@ $(function() {
             height: 290
         },
         color: {
-            pattern: ['#fb9678', '#343a40']
+            pattern: ['#208837', '#343a40']
         }
     });
     // Dashboard 1 Morris-chart
@@ -129,12 +129,12 @@ $(function() {
         labels: ['Ethereum', 'Bitcoin'],
         pointSize: 0,
         fillOpacity: 0,
-        pointStrokeColors: ['#fb9678', '#fb9678', '#343a40'],
+        pointStrokeColors: ['#208837', '#208837', '#343a40'],
         behaveLikeLine: true,
         gridLineColor: '#f6f6f6',
         lineWidth: 1,
         hideHover: 'auto',
-        lineColors: ['#343a40', '#fb9678', '#343a40'],
+        lineColors: ['#343a40', '#208837', '#343a40'],
         resize: true
     });
 

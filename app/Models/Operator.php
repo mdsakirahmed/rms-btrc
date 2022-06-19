@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
@@ -31,6 +32,31 @@ class Operator extends Model
     public function fee_type_wise_periods($fee_type_id){
         return $this->hasMany(Period::class, 'operator_id', 'id')->where('fee_type_id', $fee_type_id)->get();
     }
+
+    public function late_fee_amount_by_fee_type($fee_type_id){
+        $return_value = 0;
+        foreach ($this->fee_type_wise_periods($fee_type_id) as $period){
+            $return_value += round((((($period->total_receivable / 100) * $this->category->category_wise_fees()->where('fee_type_id', $fee_type_id)->first()->late_fee) ) / 365) * (abs(Carbon::now()->diffInDays($period->period_schedule_date, false))));
+        }
+        return $return_value;
+    }
+
+    public function vat_amount_by_fee_type($fee_type_id){
+        $return_value = 0;
+        foreach ($this->fee_type_wise_periods($fee_type_id) as $period){
+            $return_value += round(($period->total_receivable / 100) * $this->category->category_wise_fees()->where('fee_type_id', $fee_type_id)->first()->vat);
+        }
+        return $return_value;
+    }
+
+    public function receivable_vat_late_fee_amount_by_fee_type($fee_type_id){
+        $return_value = 0;
+        foreach ($this->fee_type_wise_periods($fee_type_id) as $period){
+            $return_value += round(($period->total_receivable / 100) * $this->category->category_wise_fees()->where('fee_type_id', $fee_type_id)->first()->vat);
+        }
+        return $return_value;
+    }
+
 
     public static function boot()
     {

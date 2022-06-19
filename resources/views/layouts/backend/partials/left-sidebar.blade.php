@@ -1,16 +1,7 @@
-<aside class="left-sidebar">
-    <!-- Sidebar scroll-->
-    <div style="width: 100%;" class="text-center">
-        <img src="{{ asset('assets/frontend/images/logo.png') }}" class="mb-1 p-2 bg-white"
-             style="max-width: 80%; height: auto;">
-        <a class="navbar-brand" href="{{ route('dashboard') }}"><span>
-                <p style="font-size: 12px; color:black;">Bangladesh Telecommunication <br> Regulatory Commission (BTRC)</p>
-            </span>
-        </a>
-    </div>
+<aside class="left-sidebar mt-5">
     <div class="">
         <!-- Sidebar navigation-->
-        <nav class="sidebar-nav">
+        <nav class="sidebar-nav mt-3">
             <ul id="sidebarnav">
                 @can('my-dashboard')
                     <li><a class="waves-effect waves-dark" href="{{ route('dashboard') }}" aria-expanded="false"><i

@@ -49,14 +49,9 @@ class Operator extends Model
         return $return_value;
     }
 
-    public function receivable_vat_late_fee_amount_by_fee_type($fee_type_id){
-        $return_value = 0;
-        foreach ($this->fee_type_wise_periods($fee_type_id) as $period){
-            $return_value += round(($period->total_receivable / 100) * $this->category->category_wise_fees()->where('fee_type_id', $fee_type_id)->first()->vat);
-        }
-        return $return_value;
+    public function sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type_id){
+        return $this->fee_type_wise_periods($fee_type_id)->sum('total_receivable') + $this->vat_amount_by_fee_type($fee_type_id) + $this->late_fee_amount_by_fee_type($fee_type_id);
     }
-
 
     public static function boot()
     {

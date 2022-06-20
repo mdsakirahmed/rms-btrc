@@ -51,7 +51,7 @@
                     </div>
                     @if($operator_model)
                         <div class="table-responsive">
-                            <table class="table datatable color-table primary-table">
+                            <table class="table datatable color-table primary-table" style="white-space: nowrap;">
                                 <thead>
                                 <tr>
                                     <th>SL</th>
@@ -118,7 +118,7 @@
                                                 {{ money_format_india($period->total_receivable + round(($period->total_receivable / 100) * $fee_type->vat) + round((((($period->total_receivable / 100) * $fee_type->late_fee) ) / 365) * abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)))) }}
                                                 <br>
                                             @endforeach
-                                                <br> <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->receivable_vat_late_fee_amount_by_fee_type($fee_type->fee_type_id))) }} </b>
+                                                <br> <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->fee_type_id))) }} </b>
                                         </td>
                                     </tr>
                                 @endforeach

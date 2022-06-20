@@ -5,32 +5,28 @@
             <ul id="sidebarnav">
                 @can('my-dashboard')
                     <li><a class="waves-effect waves-dark" href="{{ route('dashboard') }}" aria-expanded="false"><i
-                                class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
+                                    class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
                 @endcan
                 @can('application')
                     <li><a class="waves-effect waves-dark" href="{{ route('application') }}" aria-expanded="false">
                             <i class="mdi mdi-file-document"></i><span class="hide-menu">Application</span></a></li>
                 @endcan
-                @can('operator')
-                    <li><a class="waves-effect waves-dark" href="{{ route('operator') }}" aria-expanded="false"><i
-                                class="mdi mdi-clipboard-account"></i><span class="hide-menu">Operator</span></a></li>
-                @endcan
                 @can('payment')
                     <li class="{{ request()->is('payment*') ? 'active' : '' }}">
                         <a class="waves-effect waves-dark" href="{{ route('payment') }}" aria-expanded="false"><i
-                                class="mdi mdi-cash"></i><span class="hide-menu">Collection</span></a></li>
+                                    class="mdi mdi-cash"></i><span class="hide-menu">Collection</span></a></li>
                 @endcan
                 @can('document')
                     <li><a class="waves-effect waves-dark" href="{{ route('document') }}" aria-expanded="false"><i
-                                class="mdi mdi-file-pdf"></i><span class="hide-menu">Document</span></a></li>
+                                    class="mdi mdi-file-pdf"></i><span class="hide-menu">Document</span></a></li>
                 @endcan
                 @can('activity')
                     <li><a class="waves-effect waves-dark" href="{{ route('activity') }}" aria-expanded="false"><i
-                                class="mdi mdi-database"></i><span class="hide-menu">Activity</span></a></li>
+                                    class="mdi mdi-database"></i><span class="hide-menu">Activity</span></a></li>
                 @endcan
                 @canany(['user', 'permission-management'])
                     <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                                class="mdi mdi-human-greeting"></i><span class="hide-menu">User Access</span></a>
+                                    class="mdi mdi-human-greeting"></i><span class="hide-menu">User Access</span></a>
                         <ul aria-expanded="false" class="collapse">
                             @can('user')
                                 <li><a href="{{ route('user') }}">User</a></li>
@@ -41,28 +37,9 @@
                         </ul>
                     </li>
                 @endcanany
-                @canany(['bank', 'fee-type', 'license-category', 'license-sub-category'])
-                    <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                                class="mdi mdi-settings"></i><span class="hide-menu">Setting</span></a>
-                        <ul aria-expanded="false" class="collapse">
-                            @can('bank')
-                                <li><a href="{{ route('bank') }}">Bank</a></li>
-                            @endcan
-                            @can('fee-type')
-                                <li><a href="{{ route('fee-type') }}">Fee Type</a></li>
-                            @endcan
-                            @can('license-category')
-                                <li><a href="{{ route('license-category') }}">Category</a></li>
-                            @endcan
-                            @can('license-sub-category')
-                                <li><a href="{{ route('license-sub-sategory') }}">Sub-Category</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcanany
                 @can('report')
                     <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                                class="mdi mdi-file-find"></i><span class="hide-menu">Report</span></a>
+                                    class="mdi mdi-file-find"></i><span class="hide-menu">Report</span></a>
                         <ul aria-expanded="false" class="collapse">
                             <li><a href="{{ route('report-one') }}">Report One</a></li>
                             <li><a href="{{ route('report-two') }}">Report Two</a></li>
@@ -79,11 +56,34 @@
                             <li><a href="{{ route('bank-deposit-statement') }}">Bank Deposit Statement</a></li> --}}
                         </ul>
                     </li>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
                 @endcan
+                @canany(['bank', 'fee-type', 'license-category', 'license-sub-category'])
+                    <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                                    class="mdi mdi-settings"></i><span class="hide-menu">Setting</span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            @can('bank')
+                                <li><a href="{{ route('bank') }}">Bank</a></li>
+                            @endcan
+                            @can('fee-type')
+                                <li><a href="{{ route('fee-type') }}">Fee Type</a></li>
+                            @endcan
+                            @can('license-category')
+                                <li><a href="{{ route('license-category') }}">Category</a></li>
+                            @endcan
+                            @can('license-sub-category')
+                                <li><a href="{{ route('license-sub-category') }}">Sub-Category</a></li>
+                            @endcan
+                            @can('operator')
+                                <li><a class="waves-effect waves-dark" href="{{ route('operator') }}">Operator</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

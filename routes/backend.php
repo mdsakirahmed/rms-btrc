@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('fee-type', FeeType::class)->name('fee-type')->middleware(['permission:fee-type']);
     Route::get('license-category', LicenseCategory::class)->name('license-category')->middleware(['permission:license-category']);
-    Route::get('license-sub-category', LicenseSubCategory::class)->name('license-sub-sategory')->middleware(['permission:license-sub-category']);
+    Route::get('license-sub-category', LicenseSubCategory::class)->name('license-sub-category')->middleware(['permission:license-sub-category']);
     Route::get('operator', Operator::class)->name('operator')->middleware(['permission:operator']);
     Route::get('operator-wise-payment/{operator}', OperatorWisePayments::class)->name('operator-wise-payment')->middleware(['permission:operator']);
     Route::get('expiration/{operator}', Expiration::class)->name('expiration')->middleware(['permission:expiration']);

@@ -23,7 +23,7 @@
                     <div class="row mb-5">
                         <div class="col-4">
                             <select name="" id="" class="form-control @error('category') border-danger @endif"
-                                    wire:model="category" title="Category">
+                                    wire:model="category" title="Category" wire:change="change_category_and_sub_category">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-4">
                             <select name="" id="" class="form-control @error('category') border-danger @endif"
-                                    wire:model="sub_category" title="Sub Category">
+                                    wire:model="sub_category" title="Sub Category" wire:change="change_category_and_sub_category">
                                 <option value="">Select Sub Categories</option>
                                 @foreach ($sub_categories as $sub_category)
                                     <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>

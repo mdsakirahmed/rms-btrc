@@ -24,21 +24,20 @@ class ReportFive extends Component
         ])->extends('layouts.backend.app', ['title' => 'Revenue Sharing Statement'])->section('content');
     }
 
+    public function change_category_and_sub_category(){
+        $this->operator = null;
+    }
+
     public function export_as_pdf()
     {
-        $paper_size = 'Legal-L';
-        if($this->category){
-            $paper_size = 'Tabloid-L';
-        }
-        return response()->streamDownload(function () use($paper_size){
-            Pdf::loadView('pdf.report-four', [
-                'po_bank' => Bank::find($this->po_bank)->name ?? 'All Bank',
-                'category' => LicenseCategory::find($this->category)->name ?? 'All Category',
-                'fee_types' => LicenseCategoryWiseFeeType::where('category_id', $this->category)->get(),
+        return response()->streamDownload(function () {
+            Pdf::loadView('pdf.report-five', [
+                'category' => LicenseCategory::find($this->category)->name ?? '#',
+                'sub_category' => LicenseSubCategory::find($this->sub_category)->name ?? '#',
+                'operator_model' => Operator::find($this->operator) ?? null,
                 'file_name' => 'Report',
-                'pay_orders' =>  $this->pay_orders,
             ], [], [
-                'format' => $paper_size
+                'format' => 'A4'
             ])->download();
         }, 'Report download at ' . date('d-m-Y- h-i-s') . '.pdf');
     }

@@ -110,10 +110,7 @@
     }
 
     table {
-            white-space: nowrap;
+            /*white-space: nowrap;*/
             font-size: 12px;
     }
-
-
-
 </style>

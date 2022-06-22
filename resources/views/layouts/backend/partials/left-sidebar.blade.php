@@ -24,10 +24,6 @@
                     <li><a class="waves-effect waves-dark" href="{{ route('activity') }}" aria-expanded="false"><i
                                     class="mdi mdi-database"></i><span class="hide-menu">Activity</span></a></li>
                 @endcan
-                @can('dashboard-card')
-                    <li><a class="waves-effect waves-dark" href="{{ route('dashboard-card') }}" aria-expanded="false"><i
-                                    class="mdi mdi-database"></i><span class="hide-menu">Dashboard Card</span></a></li>
-                @endcan
                 @canany(['user', 'permission-management'])
                     <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
                                     class="mdi mdi-human-greeting"></i><span class="hide-menu">User Access</span></a>
@@ -79,6 +75,9 @@
                             @endcan
                             @can('operator')
                                 <li><a class="waves-effect waves-dark" href="{{ route('operator') }}">Operator</a></li>
+                            @endcan
+                            @can('dashboard-card')
+                                <li><a class="waves-effect waves-dark" href="{{ route('dashboard-card') }}">Dashboard Card</a></li>
                             @endcan
                         </ul>
                     </li>

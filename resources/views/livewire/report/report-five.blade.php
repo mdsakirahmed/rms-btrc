@@ -60,7 +60,7 @@
                                     <th style="text-align: right;">Receivable</th>
                                     <th>Due Date of Payment</th>
                                     <th>Receive Date</th>
-                                    <th>No. of Delay Days</th>
+                                    <th style="text-align: right;">No. of Delay Days</th>
                                     <th style="text-align: right;">Late Fee</th>
                                     <th style="text-align: right;">VAT</th>
                                     <th style="text-align: right;">Total</th>
@@ -93,7 +93,7 @@
                                                 {{ date('d/m/Y') }} <br>
                                             @endforeach
                                         </td>
-                                        <td>
+                                        <td style="text-align: right;">
                                             @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
                                                 {{ abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)) }}
                                                 <br>

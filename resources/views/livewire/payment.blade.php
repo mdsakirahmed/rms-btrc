@@ -89,7 +89,7 @@
                 <div class="card-body" id="receive">
                     {{-- <div style="display: flex; justify-content: space-between; width:100%;">
                         <h6 class="fw-bold">Collection Details</h6>
-                        <button type="button" class="btn btn-sm text-white" wire:click="reset_section('receive')" style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset </button>
+                        <button type="button" class="btn btn-circle btn-sm text-white" wire:click="reset_section('receive')" style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset </button>
                     </div> --}}
                     @foreach (array_reverse($receive_section_array, true) as $key => $receive_section)
                         <div class="receive-row-{{ $key }}">
@@ -192,21 +192,21 @@
                                                wire:model="receive_section_array.{{ $key }}.tax_receive_amount" title="TAX" placeholder="TAX">
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col d-flex justify-content-end">
                                     @if($loop->first)
-                                        <button type="button" class="btn btn-sm text-white fw-bold"
+                                        <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('receive')"
-                                                style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i>
+                                                style="background: #0AADD1;"><i class="fa fa-plus"></i>
                                         </button>
                                     @else
-                                        <button type="button" class="btn btn-sm text-white fw-bold"
+                                        <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('receive', {{ $key }})"
-                                                style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i>
+                                                style="background: #eb5858;"><i class="fa fa-minus"></i>
                                         </button>
                                     @endif
-                                    <button type="button" class="btn btn-sm text-white fw-bold"
+                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                             wire:click="make_as_lock_or_unlock('receive', {{ $key }})"
-                                            style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>
+                                            style="background: #A9A9A9;"><i class="fa fa-lock"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
                 <div class="card-body" id="po">
                     {{-- <div style=" display: flex; justify-content: space-between; width:100%;">
                         <h6 class="fw-bold">PO Details</h6>
-                        <button type="button" class="btn btn-sm text-white" wire:click="reset_section('po')" style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset </button>
+                        <button type="button" class="btn btn-circle btn-sm text-white" wire:click="reset_section('po')" style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset </button>
                     </div> --}}
                     @foreach (array_reverse($po_section_array, true) as $key => $po_section)
                         <div class="row">
@@ -262,19 +262,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col d-flex justify-content-end">
                                 @if($loop->first)
-                                    <button type="button" class="btn btn-sm text-white fw-bold"
+                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                             wire:click="add_or_rm_section_array('po')"
-                                            style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i></button>
+                                            style="background: #0AADD1;"><i class="fa fa-plus"></i></button>
                                 @else
-                                    <button type="button" class="btn btn-sm text-white fw-bold"
+                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                             wire:click="add_or_rm_section_array('po', {{ $key }})"
-                                            style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i></button>
+                                            style="background: #eb5858;"><i class="fa fa-minus"></i></button>
                                 @endif
-                                <button type="button" class="btn btn-sm text-white fw-bold"
+                                <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                         wire:click="make_as_lock_or_unlock('po', {{ $key }})"
-                                        style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>
+                                        style="background: #A9A9A9;"><i class="fa fa-lock"></i></button>
                             </div>
                         </div>
                     @endforeach
@@ -286,7 +286,7 @@
                 <div class="card-body" id="deposit">
                     {{-- <div style="display: flex; justify-content: space-between; width=100%;">
                         <h6 class="fw-bold">Deposit Details</h6>
-                        <button type="button" class="btn btn-sm text-white" wire:click="reset_section('deposit')" style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset </button>
+                        <button type="button" class="btn btn-circle btn-sm text-white" wire:click="reset_section('deposit')" style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset </button>
                     </div> --}}
                     @foreach (array_reverse($deposit_section_array, true) as $key => $deposit_section)
                         <div class="row">
@@ -364,26 +364,26 @@
                         </div>
                     </div> --}}
 
-                            <div class="col-md-3">
+                            <div class="col-md-3 d-flex justify-content-end">
                                 @if($loop->first)
-                                    <button type="button" class="btn btn-sm text-white fw-bold"
+                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                             wire:click="add_or_rm_section_array('deposit')"
-                                            style="background: #0AADD1; width:45%;"><i class="fa fa-plus"></i></button>
+                                            style="background: #0AADD1;"><i class="fa fa-plus"></i></button>
                                 @else
-                                    <button type="button" class="btn btn-sm text-white fw-bold"
+                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                             wire:click="add_or_rm_section_array('deposit', {{ $key }})"
-                                            style="background: #eb5858; width:45%;"><i class="fa fa-minus"></i></button>
+                                            style="background: #eb5858;"><i class="fa fa-minus"></i></button>
                                 @endif
-                                <button type="button" class="btn btn-sm text-white fw-bold"
+                                <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                         wire:click="make_as_lock_or_unlock('deposit', {{ $key }})"
-                                        style="background: #A9A9A9; width:45%;"><i class="fa fa-lock"></i></button>
+                                        style="background: #A9A9A9;"><i class="fa fa-lock"></i></button>
                             </div>
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
-        <div class="col-md-6 row">
+        <div class="col-md-6 row mt-3">
             <div class="col-md-4 text-center">
                 <h6 class="fw-bold">{{ round(array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount'))) }}
                     Collection</h6>
@@ -395,16 +395,12 @@
                 <h6 class="fw-bold">{{ round(array_sum(array_column($deposit_section_array,'deposit_amount'))) }} Deposit </h6>
             </div>
         </div>
-        <div class="col-md-6">
-            <div style="display: flex; justify-content: space-between; width:100%;">
-                <a href="{{ route('payment') }}" class="btn btn-sm text-white fw-bold" style="background: #A9A9A9;  width:45%;">Reset All</a>
+        <div class="col-md-6 mt-3 d-flex justify-content-end">
+                <a href="{{ route('payment') }}" class="btn btn-sm text-white fw-bold" style="background: #A9A9A9;">Reset All</a>
                 {{-- @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
                             == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount'))) --}}
-                <button type="button" class="btn btn-sm text-white fw-bold" style="background: #3BB001;  width:45%;"
-                        wire:click="submit">Final Submit
-                </button>
+                <button type="button" class="btn btn-sm text-white fw-bold" style="background: #3BB001;" wire:click="submit"> Final Submit </button>
                 {{-- @endif --}}
-            </div>
         </div>
     </div>
 

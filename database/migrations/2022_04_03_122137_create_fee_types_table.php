@@ -22,6 +22,9 @@ class CreateFeeTypesTable extends Migration
             */
             $table->integer('schedule_day')->default(0);
             $table->integer('schedule_month')->default(0);
+            $table->integer('period_month')->default(0);
+            $table->boolean('period_start_with_issue_date')->default(false);
+            //License fee start with issue date but revenue sharing and others start with calendar year
             $table->boolean('schedule_include_to_beginning_of_period')->default(true);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();

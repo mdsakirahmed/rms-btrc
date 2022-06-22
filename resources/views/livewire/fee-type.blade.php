@@ -24,7 +24,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Periods</th>
+                                    <th>Start With Issue</th>
+                                    <th>Period Month</th>
                                     <th>Schedule</th>
                                     <th>Period Format</th>
                                     <th style="text-align: center;">Action</th>
@@ -37,11 +38,8 @@
                                     <td>
                                         {{ $fee_type->name }}
                                     </td>
-                                    <td>
-                                        @foreach ($fee_type->periods as $period)
-                                        <span class="badge bg-primary">{{ date('M', mktime(0, 0, 0, $period->starting_month, 10)).' - '.date('M', mktime(0, 0, 0, $period->ending_month, 10)) }}</span>
-                                        @endforeach
-                                    </td>
+                                    <td>{{ $fee_type->period_start_with_issue_date ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $fee_type->period_month }}</td>
                                     <td>
                                         {{ $fee_type->schedule_day }} Days & {{ $fee_type->schedule_month }} Months Include with @if($fee_type->schedule_include_to_beginning_of_period) Beginning @else Ending @endif of the Period</b>
                                     </td>
@@ -91,7 +89,7 @@
                                         </div>
                                         <x-error name="period_format" />
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <select name="schedule_include_to_beginning_of_period" id="schedule_include_to_beginning_of_period" class="form-control" wire:model="schedule_include_to_beginning_of_period">
                                                 <option value="1">Beginning of the Period</option>
@@ -103,65 +101,34 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="schedule_day" wire:model="schedule_day" placeholder="Enter Schedule Day Here">
+                                            <select name="period_start_with_issue_date" id="period_start_with_issue_date" class="form-control" wire:model="period_start_with_issue_date">
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                            <label for="period_start_with_issue_date"> Period Start With Issue Date </label>
+                                        </div>
+                                        <x-error name="period_start_with_issue_date" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="schedule_day" wire:model="schedule_day" placeholder="Enter Schedule Day Here">
                                             <label for="schedule_day">Schedule Day</label>
                                         </div>
                                         <x-error name="schedule_day" />
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="schedule_month" wire:model="schedule_month" placeholder="Enter Schedule Month Here">
+                                            <input type="number" class="form-control" id="schedule_month" wire:model="schedule_month" placeholder="Enter Schedule Month Here">
                                             <label for="schedule_month">Schedule Month</label>
                                         </div>
                                         <x-error name="schedule_month" />
                                     </div>
-                                    @foreach ($periods as $key => $period)
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-floating mb-3">
-                                            <select name="periods.{{ $key }}.start_month" id="periods.{{ $key }}.start_month" class="form-control" wire:model="periods.{{ $key }}.start_month">
-                                                <option value="">Chose Period Start Month</option>
-                                                <option value="1">1-Jan</option>
-                                                <option value="2">2-Feb</option>
-                                                <option value="3">3-Mar</option>
-                                                <option value="4">4-Apr</option>
-                                                <option value="5">5-May</option>
-                                                <option value="6">6-Jun</option>
-                                                <option value="7">7-Jul</option>
-                                                <option value="8">8-Aug</option>
-                                                <option value="9">9-Sep</option>
-                                                <option value="10">10-Oct</option>
-                                                <option value="11">11-Nov</option>
-                                                <option value="12">12-Dec</option>
-                                            </select>
-                                            <label for="periods.{{ $key }}.start_month">Period Start Month</label>
+                                            <input type="number" class="form-control" id="period_month" wire:model="period_month" placeholder="Enter Period Month Here">
+                                            <label for="period_month">Period Month</label>
                                         </div>
-                                        <x-error name="periods.{{ $key }}.start_month" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <select name="periods.{{ $key }}.end_month" id="periods.{{ $key }}.end_month" class="form-control" wire:model="periods.{{ $key }}.end_month">
-                                                <option value="">Chose Period End Month</option>
-                                                <option value="1">1-Jan</option>
-                                                <option value="2">2-Feb</option>
-                                                <option value="3">3-Mar</option>
-                                                <option value="4">4-Apr</option>
-                                                <option value="5">5-May</option>
-                                                <option value="6">6-Jun</option>
-                                                <option value="7">7-Jul</option>
-                                                <option value="8">8-Aug</option>
-                                                <option value="9">9-Sep</option>
-                                                <option value="10">10-Oct</option>
-                                                <option value="11">11-Nov</option>
-                                                <option value="12">12-Dec</option>
-                                            </select>
-                                            <label for="periods.{{ $key }}.end_month">Period End Month</label>
-                                        </div>
-                                        <x-error name="periods.{{ $key }}.end_month" />
-                                    </div>
-                                    @endforeach
-                                    <div class="btn-group btn-group-lg col-12" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-info" wire:click="add_or_remove_period('add')">+</button>
-                                        <button type="button" class="btn btn-warning" wire:click="add_or_remove_period()">-</button>
+                                        <x-error name="period_month" />
                                     </div>
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">

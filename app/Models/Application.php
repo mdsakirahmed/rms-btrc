@@ -11,12 +11,7 @@ class Application extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $fillable = [
-        'name',
-        'approved',
-        'application_fee',
-        'processing_fee'
-    ];
+    protected $guarded = [];
 
     public static function boot()
     {

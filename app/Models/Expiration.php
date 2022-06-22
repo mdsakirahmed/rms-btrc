@@ -10,12 +10,7 @@ class Expiration extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $fillable = [
-        'operator_id',
-        'issue_date',
-        'expire_date',
-        'paid'
-    ];
+    protected $guarded = [];
 
     protected $dates = ['issue_date', 'expire_date'];
 

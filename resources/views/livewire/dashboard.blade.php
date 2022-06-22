@@ -13,60 +13,16 @@
         </div>
     </div>
     <div class="row">
-        <!-- Column -->
+        @foreach($cards as $card)
         <div class="col-md-6 col-lg-4 col-xlg-2">
             <div class="card">
-                <div class="box bg-info text-center">
-                    <h1 class="font-light text-white">2,064</h1>
-                    <h6 class="text-white">Sessions</h6>
+                <div class="box text-center" style="background-color: {{ $card->color }};">
+                    <h1 class="font-light text-white">{{ $card->value }}</h1>
+                    <h6 class="text-white">{{ $card->title }}</h6>
                 </div>
             </div>
         </div>
-        <!-- Column -->
-        <div class="col-md-6 col-lg-4 col-xlg-2">
-            <div class="card">
-                <div class="box bg-primary text-center">
-                    <h1 class="font-light text-white">1,738</h1>
-                    <h6 class="text-white">Users</h6>
-                </div>
-            </div>
-        </div>
-        <!-- Column -->
-        <div class="col-md-6 col-lg-4 col-xlg-2">
-            <div class="card">
-                <div class="box bg-success text-center">
-                    <h1 class="font-light text-white">5963</h1>
-                    <h6 class="text-white">Page Views</h6>
-                </div>
-            </div>
-        </div>
-        <!-- Column -->
-        <div class="col-md-6 col-lg-4 col-xlg-2">
-            <div class="card">
-                <div class="box bg-dark text-center">
-                    <h1 class="font-light text-white">2.9s</h1>
-                    <h6 class="text-white">Pages/Session</h6>
-                </div>
-            </div>
-        </div>
-        <!-- Column -->
-        <div class="col-md-6 col-lg-4 col-xlg-2">
-            <div class="card">
-                <div class="box bg-megna text-center">
-                    <h1 class="font-light text-white">1.5s</h1>
-                    <h6 class="text-white">Avg. Session</h6>
-                </div>
-            </div>
-        </div>
-        <!-- Column -->
-        <div class="col-md-6 col-lg-4 col-xlg-2">
-            <div class="card">
-                <div class="box bg-warning text-center">
-                    <h1 class="font-light text-white">10%</h1>
-                    <h6 class="text-white">Bounce Rate</h6>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
     <div class="row">
         @livewire('widget.chart1')

@@ -10,10 +10,7 @@ class Document extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $fillable = [
-        'name',
-        'file',
-    ];
+    protected $guarded = [];
 
     public static function boot()
     {

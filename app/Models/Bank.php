@@ -10,9 +10,7 @@ class Bank extends Model
 {
     use HasFactory, Userstamps;
 
-    protected $fillable = [
-        'name'
-    ];
+    protected $guarded = [];
 
     public function branches(){
         return $this->hasMany(Branch::class, 'bank_id', 'id');

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LicenseCategorySeeder::class);
         $this->call(LicenseSubCategorySeeder::class);
         $this->call(BankSeeder::class);
+        $this->call(DashboardCardSeeder::class);
 
     }
 }

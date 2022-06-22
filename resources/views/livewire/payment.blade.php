@@ -1,7 +1,7 @@
 <div>
     <style>
         .btn {
-            margin-top: 13px;
+            /*margin-top: 13px;*/
         }
 
         .form-group {
@@ -25,22 +25,7 @@
         }
 
     </style>
-
-    <div class="row page-titles">
-        <div class="col-md-4 card text-center">
-            <h6 class="fw-bold">{{ round(array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount'))) }}
-                Collection</h6>
-        </div>
-        <div class="col-md-4 card text-center">
-            <h6 class="fw-bold">{{ round(array_sum(array_column($po_section_array,'po_amount'))) }} PO</h6>
-        </div>
-        <div class="col-md-4 card text-center">
-            <h6 class="fw-bold">{{ round(array_sum(array_column($deposit_section_array,'deposit_amount'))) }}
-                Deposit</h6>
-        </div>
-    </div>
-
-
+    <div class="row page-titles"></div>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -48,17 +33,17 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label required">Transaction Number</label>
-                                <input type="text"
+                                {{--<label class="form-label required">Transaction Number</label>--}}
+                                <input type="text" title="Transaction Number"
                                        class="form-control form-control-sm  @error('transaction') has-danger @enderror"
                                        disabled wire:model="transaction">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label required">Select Category</label>
+                                {{--<label class="form-label required">Select Category</label>--}}
                                 <select class="form-select form-select-sm  @error('selected_category') bg-danger @enderror"
-                                        wire:model="selected_category">
+                                        wire:model="selected_category" title="Select Category">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}" @if (request()->category == $category->id)
@@ -70,9 +55,9 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label required">Sub-Category</label>
+                                {{--<label class="form-label required">Sub-Category</label>--}}
                                 <select class="form-select form-select-sm @error('selected_sub_category') bg-danger @enderror"
-                                        wire:model="selected_sub_category">
+                                        wire:model="selected_sub_category" title="Sub-Category">
                                     <option value="">Select Sub Category</option>
                                     @foreach ($sub_categories as $sub_category)
                                         <option value="{{ $sub_category->id }}">
@@ -83,9 +68,9 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label required">Select Operator</label>
-                                <select class="form-select form-select-sm  @error('selected_operator') bg-danger @enderror"
-                                        wire:model="selected_operator">
+                                {{--<label class="form-label required">Select Operator</label>--}}
+                                <select class="form-select form-select-sm @error('selected_operator') bg-danger @enderror"
+                                        wire:model="selected_operator" title="Select Operator">
                                     <option value="">Select Operator</option>
                                     @foreach ($operators as $operator)
                                         <option value="{{ $operator->id }}">
@@ -111,11 +96,11 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label class="form-label required">Fee Type</label>
+                                        {{--<label class="form-label required">Fee Type</label>--}}
                                         <select class="form-select form-select-sm @error("receive_section_array.$key.selected_fee_type") bg-danger @enderror"
                                                 @if($receive_section_array[$key]['lock'] ?? false) disabled
                                                 @endif wire:model="receive_section_array.{{ $key }}.selected_fee_type"
-                                                wire:change="fee_type_change({{ $key }})">
+                                                wire:change="fee_type_change({{ $key }})" title="Fee Type">
                                             <option value="">Select Fee Type</option>
                                             @foreach ($fee_types as $fee_type)
                                                 <option value="{{ $fee_type->id }}">
@@ -127,11 +112,10 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label class="form-label required">Select Period</label>
+                                        {{--<label class="form-label required">Select Period</label>--}}
                                         <select class="form-select form-select-sm @error("receive_section_array.$key.selected_period") bg-danger @enderror"
-                                                @if($receive_section_array[$key]['lock'] ?? false) disabled
-                                                @endif wire:model="receive_section_array.{{ $key }}.selected_period"
-                                                wire:change="period_change({{ $key }})">
+                                                @if($receive_section_array[$key]['lock'] ?? false) disabled @endif wire:model="receive_section_array.{{ $key }}.selected_period"
+                                                wire:change="period_change({{ $key }})" title="Select Period">
                                             <option value="">Select Period</option>
                                             @isset($receive_section_array[$key]['periods'])
                                                 @foreach ($receive_section_array[$key]['periods'] as $period)
@@ -145,75 +129,70 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group @error("receive_section_array.$key.schedule_date") has-danger @enderror">
-                                        <label class="form-label">Schedule Date</label>
-                                        <input type="text" class="form-control form-control-sm mt-1" disabled
+                                        {{--<label class="form-label">Schedule Date</label>--}}
+                                        <input type="text" class="form-control form-control-sm mt-1" disabled title="Schedule Date" placeholder="Schedule Date"
                                                wire:model="receive_section_array.{{ $key }}.schedule_date">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group @error("receive_section_array.$key.receive_date") has-danger @enderror">
-                                        <label class="form-label required">Collection Date</label>
-                                        <input type="date" class="form-control form-control-sm"
-                                               @if($receive_section_array[$key]['lock'] ?? false) disabled
-                                               @endif wire:model="receive_section_array.{{ $key }}.receive_date"
-                                               wire:change="receive_date_change({{ $key }})">
+                                        {{--<label class="form-label required">Collection Date</label>--}}
+                                        <input type="date" class="form-control form-control-sm" title="Collection Date" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif wire:model="receive_section_array.{{ $key }}.receive_date"  wire:change="receive_date_change({{ $key }})">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group @error("receive_section_array.$key.receivable") has-danger @enderror">
-                                        <label class="form-label required">Receivable</label>
-                                        <input type="number" class="form-control form-control-sm"
-                                               @if($receive_section_array[$key]['lock'] ?? false) disabled
-                                               @endif @if($receive_section_array[$key]['receivable_field_disabled'] ?? false) disabled
-                                               @endif wire:model="receive_section_array.{{ $key }}.receivable">
+                                        {{--<label class="form-label required">Receivable</label>--}}
+                                        <input type="number" class="form-control form-control-sm" @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
+                                        @if($receive_section_array[$key]['receivable_field_disabled'] ?? false) disabled @endif wire:model="receive_section_array.{{ $key }}.receivable" title="Receivable" placeholder="Receivable">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group @error("receive_section_array.$key.receive_amount") has-danger @enderror">
-                                        <label class="form-label required">Collection</label>
+                                        {{--<label class="form-label required">Collection</label>--}}
                                         <input type="number" class="form-control form-control-sm" step="0.001"
                                                @if($receive_section_array[$key]['lock'] ?? false) disabled
                                                @endif wire:model="receive_section_array.{{ $key }}.receive_amount"
-                                               wire:change="receive_amount_change({{ $key }}, $event.target.value)">
+                                               wire:change="receive_amount_change({{ $key }}, $event.target.value)" title="Collection" placeholder="Collection">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group @error("receive_section_array.$key.late_fee_receive_amount") has-danger @enderror">
-                                        <label class="form-label required">
+                                       {{-- <label class="form-label required">
                                             Late Fee( <b
                                                     class="text-success late_fee_title">@isset($receive_section_array[$key]['late_fee_percentage'])
                                                     {{ $receive_section_array[$key]['late_fee_percentage'] ?? 0 }}
                                                 @endisset </b>%)
-                                        </label>
+                                        </label>--}}
                                         <input type="number" class="form-control form-control-sm" step="0.001"
                                                @if($receive_section_array[$key]['lock'] ?? false) disabled
                                                @endif wire:model="receive_section_array.{{ $key }}.late_fee_receive_amount"
-                                               title="@isset($receive_section_array[$key]['late_days']) for {{ $receive_section_array[$key]['late_days'] }} days @endisset">
+                                               title="@isset($receive_section_array[$key]['late_days']) for {{ $receive_section_array[$key]['late_days'] }} days @else Late Fee @endisset" placeholder="Late Fee">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group @error("receive_section_array.$key.vat_receive_amount") has-danger @enderror">
-                                        <label class="form-label required">VAT (<b
+                                        {{--<label class="form-label required">VAT (<b
                                                     class="text-success vat_title">@isset($receive_section_array[$key]['vat_percentage'])
                                                     {{ $receive_section_array[$key]['vat_percentage'] ?? 0 }}
-                                                @endisset</b>%)</label>
+                                                @endisset</b>%)</label>--}}
                                         <input type="number" class="form-control form-control-sm" step="0.001" disabled
-                                               wire:model="receive_section_array.{{ $key }}.vat_receive_amount">
+                                               wire:model="receive_section_array.{{ $key }}.vat_receive_amount" title="VAT" placeholder="VAT">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group @error("receive_section_array.$key.tax_receive_amount") has-danger @enderror">
-                                        <label class="form-label required">TAX (<b
+                                        {{--<label class="form-label required">TAX (<b
                                                     class="text-success tax_title">@isset($receive_section_array[$key]['tax_percentage'])
                                                     {{ $receive_section_array[$key]['tax_percentage'] ?? 0 }}
-                                                @endisset</b>%)</label>
+                                                @endisset</b>%)</label>--}}
                                         <input type="number" class="form-control form-control-sm" step="0.001" disabled
-                                               wire:model="receive_section_array.{{ $key }}.tax_receive_amount">
+                                               wire:model="receive_section_array.{{ $key }}.tax_receive_amount" title="TAX" placeholder="TAX">
                                     </div>
                                 </div>
-                                <div class="col mt-4">
+                                <div class="col">
                                     @if($loop->first)
                                         <button type="button" class="btn btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('receive')"
@@ -246,27 +225,34 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group @error("po_section_array.$key.po_amount") has-danger @enderror">
-                                    <label class="form-label required">PO Amount</label>
+                                    {{--<label class="form-label required">PO Amount</label>--}}
                                     <input type="number" class="form-control form-control-sm" step="0.001"
                                            @if($po_section_array[$key]['lock'] ?? false) disabled
-                                           @endif wire:model="po_section_array.{{ $key }}.po_amount">
+                                           @endif wire:model="po_section_array.{{ $key }}.po_amount" title="PO Amount" placeholder="PO Amount">
                                 </div>
                             </div>
-
+                            <div class="col">
+                                <div class="form-group @error("po_section_array.$key.po_number") has-danger @enderror">
+                                    {{--<label class="form-label required">PO Number</label>--}}
+                                    <input type="text" class="form-control form-control-sm"
+                                           @if($po_section_array[$key]['lock'] ?? false) disabled
+                                           @endif wire:model="po_section_array.{{ $key }}.po_number" title="PO Number" placeholder="PO Number">
+                                </div>
+                            </div>
                             <div class="col">
                                 <div class="form-group @error("po_section_array.$key.po_date") has-danger @enderror">
-                                    <label class="form-label required">PO Date</label>
+                                    {{--<label class="form-label required">PO Date</label>--}}
                                     <input type="date" class="form-control form-control-sm"
                                            @if($po_section_array[$key]['lock'] ?? false) disabled
-                                           @endif wire:model="po_section_array.{{ $key }}.po_date">
+                                           @endif wire:model="po_section_array.{{ $key }}.po_date" title="PO Date" placeholder="PO Date">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label class="form-label required">PO Bank</label>
+                                    {{--<label class="form-label required">PO Bank</label>--}}
                                     <select class="form-select form-select-sm @error("po_section_array.$key.po_bank") bg-danger @enderror"
                                             @if($po_section_array[$key]['lock'] ?? false) disabled
-                                            @endif wire:model="po_section_array.{{ $key }}.po_bank">
+                                            @endif wire:model="po_section_array.{{ $key }}.po_bank" title="PO Bank">
                                         <option value="">Select PO Bank</option>
                                         @foreach ($banks as $bank)
                                             <option value="{{ $bank->id }}">
@@ -277,14 +263,6 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-group @error("po_section_array.$key.po_number") has-danger @enderror">
-                                    <label class="form-label required">PO Number</label>
-                                    <input type="text" class="form-control form-control-sm"
-                                           @if($po_section_array[$key]['lock'] ?? false) disabled
-                                           @endif wire:model="po_section_array.{{ $key }}.po_number">
-                                </div>
-                            </div>
-                            <div class="col mt-4">
                                 @if($loop->first)
                                     <button type="button" class="btn btn-sm text-white fw-bold"
                                             wire:click="add_or_rm_section_array('po')"
@@ -314,37 +292,37 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group @error("deposit_section_array.$key.po_number") has-danger @enderror">
-                                    <label class="form-label required">PO Number</label>
+                                    {{--<label class="form-label required">PO Number</label>--}}
                                     <input type="text" class="form-control form-control-sm"
                                            @if($deposit_section_array[$key]['lock'] ?? false) disabled
-                                           @endif wire:model="deposit_section_array.{{ $key }}.po_number">
+                                           @endif wire:model="deposit_section_array.{{ $key }}.po_number" title="PO Number" placeholder="PO Number">
                                 </div>
                             </div>
 
                             <div class="col">
                                 <div class="form-group @error("deposit_section_array.$key.deposit_amount") has-danger @enderror">
-                                    <label class="form-label required">Deposit Amount</label>
+                                    {{--<label class="form-label required">Deposit Amount</label>--}}
                                     <input type="number" class="form-control form-control-sm" step="0.001"
                                            @if($deposit_section_array[$key]['lock'] ?? false) disabled
-                                           @endif wire:model="deposit_section_array.{{ $key }}.deposit_amount">
+                                           @endif wire:model="deposit_section_array.{{ $key }}.deposit_amount" title="Deposit Amount" placeholder="Deposit Amount">
                                 </div>
                             </div>
 
                             <div class="col">
                                 <div class="form-group @error("deposit_section_array.$key.deposit_date") has-danger @enderror">
-                                    <label class="form-label required">Deposit Date</label>
+                                    {{--<label class="form-label required">Deposit Date</label>--}}
                                     <input type="date" class="form-control form-control-sm"
                                            @if($deposit_section_array[$key]['lock'] ?? false) disabled
-                                           @endif wire:model="deposit_section_array.{{ $key }}.deposit_date">
+                                           @endif wire:model="deposit_section_array.{{ $key }}.deposit_date" title="Deposit Date">
                                 </div>
                             </div>
 
                             <div class="col">
                                 <div class="form-group">
-                                    <label class="form-label required">Deposit Bank</label>
+                                    {{--<label class="form-label required">Deposit Bank</label>--}}
                                     <select class="form-select form-select-sm @error("deposit_section_array.$key.deposit_bank") bg-danger @enderror"
                                             @if($deposit_section_array[$key]['lock'] ?? false) disabled
-                                            @endif wire:model="deposit_section_array.{{ $key }}.deposit_bank">
+                                            @endif wire:model="deposit_section_array.{{ $key }}.deposit_bank" title="Deposit Bank">
                                         <option value="">Select Deposit Bank</option>
                                         @foreach ($banks as $bank)
                                             <option value="{{ $bank->id }}">
@@ -357,10 +335,10 @@
 
                             <div class="col">
                                 <div class="form-group @error("deposit_section_array.$key.journal_number") has-danger @enderror">
-                                    <label class="form-label required">Journal Number</label>
+                                    {{--<label class="form-label required">Journal Number</label>--}}
                                     <input type="text" class="form-control form-control-sm"
                                            @if($deposit_section_array[$key]['lock'] ?? false) disabled
-                                           @endif wire:model="deposit_section_array.{{ $key }}.journal_number">
+                                           @endif wire:model="deposit_section_array.{{ $key }}.journal_number" title="Journal Number" placeholder="Journal Number">
                                 </div>
                             </div>
 
@@ -386,7 +364,7 @@
                         </div>
                     </div> --}}
 
-                            <div class="col-md-3 mt-4">
+                            <div class="col-md-3">
                                 @if($loop->first)
                                     <button type="button" class="btn btn-sm text-white fw-bold"
                                             wire:click="add_or_rm_section_array('deposit')"
@@ -405,18 +383,32 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6 row">
+            <div class="col-md-4 text-center">
+                <h6 class="fw-bold">{{ round(array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount'))) }}
+                    Collection</h6>
+            </div>
+            <div class="col-md-4 text-center">
+                <h6 class="fw-bold">{{ round(array_sum(array_column($po_section_array,'po_amount'))) }} PO </h6>
+            </div>
+            <div class="col-md-4 text-center">
+                <h6 class="fw-bold">{{ round(array_sum(array_column($deposit_section_array,'deposit_amount'))) }} Deposit </h6>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div style="display: flex; justify-content: space-between; width:100%;">
+                <a href="{{ route('payment') }}" class="btn btn-sm text-white fw-bold" style="background: #A9A9A9;  width:45%;">Reset All</a>
+                {{-- @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
+                            == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount'))) --}}
+                <button type="button" class="btn btn-sm text-white fw-bold" style="background: #3BB001;  width:45%;"
+                        wire:click="submit">Final Submit
+                </button>
+                {{-- @endif --}}
+            </div>
+        </div>
     </div>
 
-    <div class=" mb-5" style=" display: flex; justify-content: space-between; width=100%;">
-        <a href="{{ route('payment') }}" class="btn btn-sm text-white fw-bold" style="background: #A9A9A9;  width:45%;">Reset
-            All</a>
-        {{-- @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
-                    == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount'))) --}}
-        <button type="button" class="btn btn-sm text-white fw-bold" style="background: #3BB001;  width:45%;"
-                wire:click="submit">Final Submit
-        </button>
-        {{-- @endif --}}
-    </div>
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <h1 class="text-danger">Error messages:</h1>

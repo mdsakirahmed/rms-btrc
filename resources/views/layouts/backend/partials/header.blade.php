@@ -22,7 +22,7 @@
             </ul>
             <!-- User profile and search -->
             <!-- ============================================================== -->
-                <marquee width="100%" direction="left">
+                <marquee width="100%" direction="left" class="fw-bold">
                     Bangladesh Telecommunication Regulatory Commission (BTRC)
                 </marquee>
             <ul class="navbar-nav my-lg-0 bg-white">

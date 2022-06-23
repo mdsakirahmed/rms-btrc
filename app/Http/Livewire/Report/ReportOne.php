@@ -9,12 +9,12 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class ReportOne extends Component
 {
-    public $deposit_bank;
+    public $starting_date, $ending_date, $deposit_bank;
     public function render()
     {
         return view('livewire.report.report-one',[
             'banks' => Bank::all(),
-            'deposits' => PaymentWiseDeposit::where(function($query){
+            'deposits' => PaymentWiseDeposit::whereBetween('date', [$this->starting_date, $this->ending_date])->where(function($query){
                 if($this->deposit_bank)
                 $query->where('bank_id', $this->deposit_bank);
             })->latest()->get()
@@ -26,7 +26,7 @@ class ReportOne extends Component
             Pdf::loadView('pdf.report-one', [
                 'deposit_bank' => Bank::find($this->deposit_bank)->name ?? 'All Bank',
                 'file_name' => 'Report',
-                'deposits' => PaymentWiseDeposit::where(function($query){
+                'deposits' => PaymentWiseDeposit::whereBetween('date', [$this->starting_date, $this->ending_date])->where(function($query){
                     if($this->deposit_bank)
                     $query->where('bank_id', $this->deposit_bank);
                 })->latest()->get()

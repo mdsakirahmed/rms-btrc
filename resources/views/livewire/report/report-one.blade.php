@@ -22,6 +22,12 @@
                 <div class="card-body">
                     <div class="row mb-5">
                         <div class="col-4">
+                            <input type="date" class="form-control @error('starting_date') border-danger @endif" wire:model="starting_date" title="Deposit Starting Date">
+                        </div>
+                        <div class="col-4">
+                            <input type="date" class="form-control @error('ending_date') border-danger @endif" wire:model="ending_date" title="Deposit Ending Date">
+                        </div>
+                        <div class="col-4">
                             <select name="" id="" class="form-control @error('deposit_bank') border-danger @endif" wire:model="deposit_bank" title="Deposit Bank">
                                 <option value="">All Bank</option>
                                 @foreach ($banks as $bank)

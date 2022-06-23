@@ -67,6 +67,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @php $total_receivable = 0; $total_late_fee = 0; $total_vat = 0; $total_of_total = 0; @endphp
                                 @foreach($operator_model->category->category_wise_fees as $fee_type)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
@@ -82,6 +83,7 @@
                                                 {{ money_format_india($period->total_receivable) }} <br>
                                             @endforeach
                                                 <br> <b style="border: 2px solid green; padding: 3%;">{{ money_format_india($operator_model->fee_type_wise_periods($fee_type->fee_type_id)->sum('total_receivable')) }}</b>
+                                                @php $total_receivable += $operator_model->fee_type_wise_periods($fee_type->fee_type_id)->sum('total_receivable'); @endphp
                                         </td>
                                         <td>
                                             @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
@@ -105,6 +107,7 @@
                                                 <br>
                                             @endforeach
                                                 <br> <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->late_fee_amount_by_fee_type($fee_type->fee_type_id))) }} </b>
+                                                @php $total_late_fee += round($operator_model->late_fee_amount_by_fee_type($fee_type->fee_type_id)); @endphp
                                         </td>
                                         <td style="text-align: right;">
                                             @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
@@ -112,6 +115,7 @@
                                                 <br>
                                             @endforeach
                                                 <br> <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->vat_amount_by_fee_type($fee_type->fee_type_id))) }} </b>
+                                                @php $total_vat += round($operator_model->vat_amount_by_fee_type($fee_type->fee_type_id)); @endphp
                                         </td>
                                         <td style="text-align: right;">
                                             @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
@@ -119,9 +123,22 @@
                                                 <br>
                                             @endforeach
                                                 <br> <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->fee_type_id))) }} </b>
+                                                @php $total_of_total += round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->fee_type_id)); @endphp
                                         </td>
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <th>---</th>
+                                    <th>---</th>
+                                    <th>Total</th>
+                                    <th style="text-align: right;"> {{ money_format_india($total_receivable) }} </th>
+                                    <th>----</th>
+                                    <th>----</th>
+                                    <th>----</th>
+                                    <th style="text-align: right;">{{ money_format_india($total_late_fee) }}</th>
+                                    <th style="text-align: right;">{{ money_format_india($total_vat) }}</th>
+                                    <th style="text-align: right;">{{ money_format_india($total_of_total) }}</th>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

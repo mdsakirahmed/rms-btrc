@@ -12,16 +12,15 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class ReportThree extends Component
 {
-    public $po_bank, $category;
+    public $starting_date, $ending_date, $po_bank, $category;
 
     public function render()
     {
         $operator_ids = [];
         if ($this->category)
             $operator_ids = Operator::where('category_id', $this->category)->pluck('id');
-
-
-        $this->pay_orders = PaymentWisePayOrder::where(function ($query) {
+        
+        $this->pay_orders = PaymentWisePayOrder::whereBetween('date', [$this->starting_date, $this->ending_date])->where(function ($query) {
             if ($this->po_bank)
                 $query->where('bank_id', $this->po_bank);
         })->whereHas('payment', function ($query) use ($operator_ids) {

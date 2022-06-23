@@ -99,6 +99,34 @@ class Payment extends Component
         }
     }
 
+    public function make_as_reset($section, $key)
+    {
+        if ($section == 'receive') {
+            $this->receive_section_array[$key]['selected_fee_type'] = '';
+            $this->receive_section_array[$key]['selected_period'] = '';
+            $this->receive_section_array[$key]['schedule_date'] = null;
+            $this->receive_section_array[$key]['receive_date'] = null;
+            $this->receive_section_array[$key]['receive_amount'] = 0;
+            $this->receive_section_array[$key]['late_fee_receive_amount'] = 0;
+            $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Reset']);
+        } elseif ($section == 'po') {
+            $this->po_section_array[$key]['po_amount'] = 0;
+            $this->po_section_array[$key]['po_number'] = null;
+            $this->po_section_array[$key]['po_date'] = null;
+            $this->po_section_array[$key]['po_bank'] = '';
+            $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Reset']);
+
+        } elseif ($section == 'deposit') {
+            $this->deposit_section_array[$key]['po_number'] = null;
+            $this->deposit_section_array[$key]['deposit_amount'] = 0;
+            $this->deposit_section_array[$key]['deposit_bank'] = '';
+            $this->deposit_section_array[$key]['journal_number'] = null;
+            $this->deposit_section_array[$key]['deposit_date'] = null;
+            $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Reset']);
+
+        }
+    }
+
     public function fee_type_change($key)
     {
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];

@@ -12,11 +12,6 @@ class FeeType extends Model
 
     protected $guarded = [];
 
-    public function periods()
-    {
-        return $this->hasMany(FeeTypeWisePeriod::class, 'fee_type_id', 'id');
-    }
-
     public static function boot()
     {
         parent::boot();

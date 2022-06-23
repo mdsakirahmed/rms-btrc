@@ -106,6 +106,7 @@ class Expiration extends Component
 
     public function select_for_periods(ModelsExpiration $expiration)
     {
+        $this->expiration = $expiration;
         $this->periods = Period::where('expiration_id', $expiration->id)->orderBy('period_schedule_date', 'asc')->get();
         //$this->periods = Period::where('expiration_id', $expiration->id)->orderBy('fee_type_id', 'asc')->get();
     }
@@ -114,13 +115,6 @@ class Expiration extends Component
     {
         $expiration->delete();
         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Success !']);
-    }
-
-
-    public function calculate_iteration()
-    {
-        $this->iteration = Carbon::parse($this->issue_date)->diffInMonths(Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)) / 2;
-        $this->expire_date = Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)->subDays(1)->format('Y-m-d');
     }
 
     public function render()

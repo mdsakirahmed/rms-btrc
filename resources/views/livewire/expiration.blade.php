@@ -1,4 +1,6 @@
 <div>
+    <link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
+
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="text-themecolor">Expiration Page</h4>
@@ -123,7 +125,9 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="table-responsive">
+                            <button type="button" class="btn btn-success" onclick="printJS('period_table', 'html')">Print Now</button>
+                            <div class="table-responsive" id="period_table">
+                                <h3>Issue date: {{ $expiration->issue_date->format('d/m/Y') }} & Expire date: {{ $expiration->expire_date->format('d/m/Y') }}</h3>
                                 <table class="table color-table success-table table-striped">
                                     <thead>
                                         <tr>
@@ -160,4 +164,5 @@
             <!-- /.modal -->
         </div>
     </div>
+    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
 </div>

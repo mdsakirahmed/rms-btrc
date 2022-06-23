@@ -127,7 +127,7 @@
                         <div class="modal-body">
                             <button type="button" class="btn btn-success" onclick="printJS('period_table', 'html')">Print Now</button>
                             <div class="table-responsive" id="period_table">
-                                <h3>Issue date: {{ $expiration->issue_date->format('d/m/Y') }} & Expire date: {{ $expiration->expire_date->format('d/m/Y') }}</h3>
+                                @if($expiration)<h3>Issue date: {{ $expiration->issue_date->format('d/m/Y') }} & Expire date: {{ $expiration->expire_date->format('d/m/Y') }}</h3>@endif
                                 <table class="table color-table success-table table-striped">
                                     <thead>
                                         <tr>

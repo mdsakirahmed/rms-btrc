@@ -116,6 +116,12 @@ class Expiration extends Component
         $expiration->delete();
         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Success !']);
     }
+    
+    public function calculate_iteration()
+    {
+        $this->iteration = Carbon::parse($this->issue_date)->diffInMonths(Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)) / 2;
+        $this->expire_date = Carbon::parse($this->issue_date)->addYears($this->duration_year ?? 0)->addMonths($this->duration_month ?? 0)->subDays(1)->format('Y-m-d');
+    }
 
     public function render()
     {

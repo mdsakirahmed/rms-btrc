@@ -12,7 +12,7 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class ReportTwo extends Component
 {
-    public $po_bank, $category;
+    public $starting_date, $ending_date, $po_bank, $category;
 
     public function render()
     {
@@ -20,8 +20,7 @@ class ReportTwo extends Component
         if ($this->category)
             $operator_ids = Operator::where('category_id', $this->category)->pluck('id');
 
-
-        $this->pay_orders = PaymentWisePayOrder::where(function ($query) {
+        $this->pay_orders = PaymentWisePayOrder::whereBetween('date', [$this->starting_date, $this->ending_date])->where(function ($query) {
             if ($this->po_bank)
                 $query->where('bank_id', $this->po_bank);
         })->whereHas('payment', function ($query) use ($operator_ids) {
@@ -39,16 +38,16 @@ class ReportTwo extends Component
     public function export_as_pdf()
     {
         $paper_size = 'Legal-L';
-        if($this->category){
+        if ($this->category) {
             $paper_size = 'Tabloid-L';
         }
-        return response()->streamDownload(function () use($paper_size){
+        return response()->streamDownload(function () use ($paper_size) {
             Pdf::loadView('pdf.report-two', [
                 'po_bank' => Bank::find($this->po_bank)->name ?? 'All Bank',
                 'category' => LicenseCategory::find($this->category)->name ?? 'All Category',
                 'fee_types' => LicenseCategoryWiseFeeType::where('category_id', $this->category)->get(),
                 'file_name' => 'Report',
-                'pay_orders' =>  $this->pay_orders,
+                'pay_orders' => $this->pay_orders,
             ], [], [
                 'format' => $paper_size
             ])->download();

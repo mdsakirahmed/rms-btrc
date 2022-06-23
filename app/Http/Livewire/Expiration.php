@@ -49,44 +49,47 @@ class Expiration extends Component
             $period_data_set = [];
 
             foreach ($this->operator->category->category_wise_fees as $category_wise_fee_type) {
-                if ($category_wise_fee_type->category->period_start_with_issue_date) {
+                if ($category_wise_fee_type->fee_type->period_start_with_issue_date) {
                     $period_start_date = $expiration->issue_date;
                 } else {
                     $period_start_date = Carbon::create($expiration->issue_date)->firstOfYear();
-                    while ($period_start_date <= Carbon::create($expiration->expire_date)) {
-                        $this_period_start_date = $period_start_date->format('Y-m-d');
-                        $this_period_end_date = Carbon::create($this_period_start_date)->addMonths($category_wise_fee_type->fee_type->period_month)->subDays(1)->format('Y-m-d');
-
-                        /*Generate period schedule date base on type*/
-                        if ($category_wise_fee_type->fee_type->schedule_include_to_beginning_of_period) {
-                            $this_period_schedule_date = Carbon::create($this_period_start_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->subDays(1)->format('Y-m-d');
-                        } else {
-                            $this_period_schedule_date = Carbon::create($this_period_end_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->format('Y-m-d');
-                        }
-
-                        /*Generate period format base on type*/
-                        if ($category_wise_fee_type->fee_type->period_format == 1) {
-                            $period_label = Carbon::create($this_period_start_date)->format('M/') . Carbon::create($this_period_start_date)->format('Y-') . Carbon::create($this_period_end_date)->addDays(1)->format('Y');
-                        } elseif ($category_wise_fee_type->fee_type->period_format == 2) {
-                            $period_label = Carbon::create($this_period_start_date)->format('M-') . Carbon::create($this_period_end_date)->format('M') . Carbon::create($this_period_end_date)->format('/Y');
-                        }
-
-                        /*Make data collection set for insert*/
-                        array_push($period_data_set, [
-                            'operator_id' => $this->operator->id,
-                            'expiration_id' => $expiration->id,
-                            'fee_type_id' => $category_wise_fee_type->fee_type_id,
-                            'payment_number' => 0,
-                            'period_start_date' => $this_period_start_date,
-                            'period_end_date' => $this_period_end_date,
-                            'period_schedule_date' => $this_period_schedule_date,
-                            'period_label' => $period_label,
-                            'total_receivable' => 0,
-                            'paid' => 0,
-                        ]);
+                    while ($period_start_date <= $expiration->issue_date){
                         $period_start_date->addMonths($category_wise_fee_type->fee_type->period_month);
-                    };
+                    }
                 }
+                while ($period_start_date <= Carbon::create($expiration->expire_date)) {
+                    $this_period_start_date = $period_start_date->format('Y-m-d');
+                    $this_period_end_date = Carbon::create($this_period_start_date)->addMonths($category_wise_fee_type->fee_type->period_month)->subDays(1)->format('Y-m-d');
+
+                    /*Generate period schedule date base on type*/
+                    if ($category_wise_fee_type->fee_type->schedule_include_to_beginning_of_period) {
+                        $this_period_schedule_date = Carbon::create($this_period_start_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->subDays(1)->format('Y-m-d');
+                    } else {
+                        $this_period_schedule_date = Carbon::create($this_period_end_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->format('Y-m-d');
+                    }
+
+                    /*Generate period format base on type*/
+                    if ($category_wise_fee_type->fee_type->period_format == 1) {
+                        $period_label = Carbon::create($this_period_start_date)->format('M/') . Carbon::create($this_period_start_date)->format('Y-') . Carbon::create($this_period_end_date)->addDays(1)->format('Y');
+                    } elseif ($category_wise_fee_type->fee_type->period_format == 2) {
+                        $period_label = Carbon::create($this_period_start_date)->format('M-') . Carbon::create($this_period_end_date)->format('M') . Carbon::create($this_period_end_date)->format('/Y');
+                    }
+
+                    /*Make data collection set for insert*/
+                    array_push($period_data_set, [
+                        'operator_id' => $this->operator->id,
+                        'expiration_id' => $expiration->id,
+                        'fee_type_id' => $category_wise_fee_type->fee_type_id,
+                        'payment_number' => 0,
+                        'period_start_date' => $this_period_start_date,
+                        'period_end_date' => $this_period_end_date,
+                        'period_schedule_date' => $this_period_schedule_date,
+                        'period_label' => $period_label,
+                        'total_receivable' => 0,
+                        'paid' => 0,
+                    ]);
+                    $period_start_date->addMonths($category_wise_fee_type->fee_type->period_month);
+                };
             }
             Period::insert($period_data_set);
             $this->create();

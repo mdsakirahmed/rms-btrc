@@ -24,8 +24,9 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Start With Issue</th>
+                                    <th>Period Start From Issue</th>
                                     <th>Period Month</th>
+                                    <th>Schedule Add to Begining</th>
                                     <th>Schedule</th>
                                     <th>Period Format</th>
                                     <th style="text-align: center;">Action</th>
@@ -40,6 +41,7 @@
                                     </td>
                                     <td>{{ $fee_type->period_start_with_issue_date ? 'Yes' : 'No' }}</td>
                                     <td>{{ $fee_type->period_month }}</td>
+                                    <td>{{ $fee_type->schedule_include_to_beginning_of_period ? 'Yes' : 'No' }}</td>
                                     <td>
                                         {{ $fee_type->schedule_day }} Days & {{ $fee_type->schedule_month }} Months Include with @if($fee_type->schedule_include_to_beginning_of_period) Beginning @else Ending @endif of the Period</b>
                                     </td>

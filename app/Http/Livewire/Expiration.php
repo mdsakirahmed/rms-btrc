@@ -3,8 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Expiration as ModelsExpiration;
-use App\Models\Period;
 use App\Models\Operator;
+use App\Models\Period;
 use Carbon\Carbon;
 use Livewire\Component;
 use PDF;
@@ -33,59 +33,65 @@ class Expiration extends Component
             'issue_date' => 'required|date',
             'expire_date' => 'required|date',
         ]);
-        if(ModelsExpiration::where('operator_id', $this->operator->id)->whereDate('expire_date', '>=', $this->issue_date)->first()){
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Issue date already in a period !']);
-        }else{
+        if (ModelsExpiration::where('operator_id', $this->operator->id)->whereDate('expire_date', '>=', $this->issue_date)->first()) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => 'Issue date already in a period !']);
+        } else {
             $validated_data['operator_id'] = $this->operator->id;
             if ($this->expiration) {
                 $expiration = $this->expiration;
                 /*Have to work by checking period and payment wise receive table*/
-               /* $expiration->update($validated_data);
-                $expiration->periods()->delete();*/
+                /* $expiration->update($validated_data);
+                 $expiration->periods()->delete();*/
             } else {
                 $expiration = ModelsExpiration::create($validated_data);
             }
 
-            $ar = [];
+            $period_data_set = [];
 
             foreach ($this->operator->category->category_wise_fees as $category_wise_fee_type) {
-                if($category_wise_fee_type->category->period_start_with_issue_date){
+                if ($category_wise_fee_type->category->period_start_with_issue_date) {
                     $period_start_date = $expiration->issue_date;
-                }else{
+                } else {
                     $period_start_date = Carbon::create($expiration->issue_date)->firstOfYear();
-                    do{
-                        $period_end_date = $period_start_date->addMonths($category_wise_fee_type->fee_type->period_month);
-//                        dd(Carbon::create($expiration->issue_date)->firstOfYear()->format('Y-m-d'), $period_start_date->format('Y-m-d'), $period_temp_end_date->format('Y-m-d'));
-                        if($category_wise_fee_type->fee_type->schedule_include_to_beginning_of_period){
-                            $period_schedule_date = Carbon::create( $period_start_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->format('Y-m-d');
-                        }else{
-                            $period_schedule_date = Carbon::create($period_end_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->format('Y-m-d');
+                    while ($period_start_date <= Carbon::create($expiration->expire_date)) {
+                        $this_period_start_date = $period_start_date->format('Y-m-d');
+                        $this_period_end_date = Carbon::create($this_period_start_date)->addMonths($category_wise_fee_type->fee_type->period_month)->subDays(1)->format('Y-m-d');
+
+                        /*Generate period schedule date base on type*/
+                        if ($category_wise_fee_type->fee_type->schedule_include_to_beginning_of_period) {
+                            $this_period_schedule_date = Carbon::create($this_period_start_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->subDays(1)->format('Y-m-d');
+                        } else {
+                            $this_period_schedule_date = Carbon::create($this_period_end_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->format('Y-m-d');
                         }
 
-                        array_push($ar, [
-                            [
-                                'operator_id' => $this->operator->id,
-                                'expiration_id' => $expiration->id,
-                                'fee_type_id' => $category_wise_fee_type->fee_type_id,
-                                'payment_number' => 0,
-                                'period_start_date' => $period_start_date->format('Y-m-d'),
-                                'period_end_date' => $period_end_date->format('Y-m-d'),
-                                'period_schedule_date' => $period_schedule_date,
-                                'period_label' => '123',
-                                'total_receivable' => 0,
-                                'paid' => 0,
+                        /*Generate period format base on type*/
+                        if ($category_wise_fee_type->fee_type->period_format == 1) {
+                            $period_label = Carbon::create($this_period_start_date)->format('M/') . Carbon::create($this_period_start_date)->format('Y-') . Carbon::create($this_period_end_date)->addDays(1)->format('Y');
+                        } elseif ($category_wise_fee_type->fee_type->period_format == 2) {
+                            $period_label = Carbon::create($this_period_start_date)->format('M-') . Carbon::create($this_period_end_date)->format('M') . Carbon::create($this_period_end_date)->format('/Y');
+                        }
 
-                            ]
+                        /*Make data collection set for insert*/
+                        array_push($period_data_set, [
+                            'operator_id' => $this->operator->id,
+                            'expiration_id' => $expiration->id,
+                            'fee_type_id' => $category_wise_fee_type->fee_type_id,
+                            'payment_number' => 0,
+                            'period_start_date' => $this_period_start_date,
+                            'period_end_date' => $this_period_end_date,
+                            'period_schedule_date' => $this_period_schedule_date,
+                            'period_label' => $period_label,
+                            'total_receivable' => 0,
+                            'paid' => 0,
                         ]);
-                        $period_start_date = $period_start_date->addMonths($category_wise_fee_type->fee_type->period_month);
-                    }while($period_start_date <= Carbon::create($expiration->expire_date));
+                        $period_start_date->addMonths($category_wise_fee_type->fee_type->period_month);
+                    };
                 }
             }
-
+            Period::insert($period_data_set);
             $this->create();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Success !']);
         }
-        dd($ar, 'sakir');
     }
 
     public function select_for_edit(ModelsExpiration $expiration)
@@ -104,7 +110,7 @@ class Expiration extends Component
     public function delete(ModelsExpiration $expiration)
     {
         $expiration->delete();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Success !']);
     }
 
 

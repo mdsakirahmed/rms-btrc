@@ -240,7 +240,7 @@
                                                     style="background: #eb5858;"><i class="fa fa-minus"></i>
                                             </button>
                                         @endif
-                                        <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
+                                        <button type="button" class="btn btn-circle btn-sm text-white fw-bold @if($receive_section_array[$key]['lock'] ?? false) bg-danger @endif"
                                                 wire:click="make_as_lock_or_unlock('receive', {{ $key }})"
                                                 style="background: #A9A9A9;"><i class="fa fa-lock"></i></button>
                                         <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
@@ -315,7 +315,7 @@
                                                 wire:click="add_or_rm_section_array('po', {{ $key }})"
                                                 style="background: #eb5858;"><i class="fa fa-minus"></i></button>
                                     @endif
-                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
+                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold @if($po_section_array[$key]['lock'] ?? false) bg-danger @endif"
                                             wire:click="make_as_lock_or_unlock('po', {{ $key }})"
                                             style="background: #A9A9A9;"><i class="fa fa-lock"></i></button>
                                     <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
@@ -428,7 +428,7 @@
                                                 wire:click="add_or_rm_section_array('deposit', {{ $key }})"
                                                 style="background: #eb5858;"><i class="fa fa-minus"></i></button>
                                     @endif
-                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
+                                    <button type="button" class="btn btn-circle btn-sm text-white fw-bold @if($deposit_section_array[$key]['lock'] ?? false) bg-danger @endif"
                                             wire:click="make_as_lock_or_unlock('deposit', {{ $key }})"
                                             style="background: #A9A9A9;"><i class="fa fa-lock"></i></button>
                                     <button type="button" class="btn btn-circle btn-sm text-white fw-bold"

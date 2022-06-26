@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
-
+use Spatie\Activitylog\Models\Activity;
 
 if (!function_exists('random_code')) {
     function set_static_option($key, $value)
@@ -103,5 +103,13 @@ if (!function_exists('random_code')) {
             $thecash = $num;
         }
         return $thecash; // writes the final format where $currency is the currency symbol.
+    }
+
+    function delete_activity_count(){
+        return Activity::where('log_name', 'delete')->where('read', false)->count();
+    }
+
+    function edit_activity_count(){
+        return Activity::where('log_name', 'edit')->where('read', false)->count();
     }
 }

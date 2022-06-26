@@ -26,9 +26,16 @@
                     Bangladesh Telecommunication Regulatory Commission (BTRC)
                 </marquee>
             <ul class="navbar-nav my-lg-0 bg-white">
-                <!-- ============================================================== -->
-                <!-- Comment -->
-                <!-- ============================================================== -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link waves-effect dropdown-toggle waves-dark text-warning" href="{{ route('activity') }}?type=edit"> <i class="far fa-edit"></i> @if(edit_activity_count() > 0) {{ edit_activity_count() }}
+                        <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div> @endif
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link waves-effect dropdown-toggle waves-dark text-danger" href="{{ route('activity') }}?type=delete"> <i class="fas fa-prescription-bottle-alt"></i> @if(delete_activity_count() > 0) {{ delete_activity_count() }}
+                        <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div> @endif
+                    </a>
+                </li>
                 <li class="nav-item dropdown" style="margin-right: 20px;">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false"> <i class="ti-user"></i>

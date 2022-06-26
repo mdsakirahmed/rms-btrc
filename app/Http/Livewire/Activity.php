@@ -13,7 +13,15 @@ class Activity extends Component
     public function render()
     {
         return view('livewire.activity',[
-            'activities' => ModelsActivity::latest()->paginate(10)
+            'activities' => ModelsActivity::where(function($query){
+                if(request()->type == 'delete'){
+                    $query->where('log_name', 'delete');
+                    ModelsActivity::where('log_name', 'delete')->update(['read' => true]);
+                }else if(request()->type == 'edit'){
+                    $query->where('log_name', 'edit');
+                    ModelsActivity::where('log_name', 'edit')->update(['read' => true]);
+                }
+            })->latest()->paginate(10)
         ])->extends('layouts.backend.app', ['title' => 'Activity'])
         ->section('content');
     }
@@ -30,7 +38,13 @@ class Activity extends Component
     }
 
     public function export_as_excel(){
-        $collection = ModelsActivity::latest()->get();
+        $collection = ModelsActivity::where(function($query){
+            if(request()->type == 'delete'){
+                $query->where('log_name', 'delete');
+            }else if(request()->type == 'edit'){
+                $query->where('log_name', 'edit');
+            }
+        })->latest()->get();
         return Excel::download(new ActivityExport($collection), 'Activity history ' . date('d-m-Y h-i-s a') . '.xlsx');
     }
 }

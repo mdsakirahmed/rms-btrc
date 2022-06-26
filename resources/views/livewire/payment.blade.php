@@ -34,30 +34,9 @@
             padding: 0 10px;
         }
 
-        .action_col {
-            width: 140px;
-            padding: 0 10px;
-            display: inline-block;
-        }
-
-        .custom_row_inner {
-            display: flex;
-            flex: 0 0 calc(100% - 140px);
-            max-width: calc(100% - 140px);
-            padding: 0 10px;
-            margin-left: -10px;
-            margin-right: -10px;
-        }
-
-        .custom_row_inner > div.col {
-            flex: 0 0 25%;
-            max-width: 25%;
-            padding: 0 10px;
-        }
-
-        .custom_row_inner.has_five_col > div {
-            flex: 0 0 20%;
-            max-width: 20%;
+        .custom_col_has_five {
+            flex: 0 0 16%;
+            max-width: 16%;
             padding: 0 10px;
         }
 
@@ -68,11 +47,11 @@
     <div class="row page-titles"></div>
     <div class="form_container">
         <div class="row">
-            <div class="col-md-12" style="border-left: red solid 5px;">
-                <div class="card">
+            <div class="col-md-12" style="border-left: red solid 5px; background-color:rgba(255, 0, 0, 0.19);">
+                <div class="">
                     <div class="card-body">
-                        <div class="row ">
-                            <div class="col-md-3">
+                        <div class="custom_row">
+                            <div class="custom_col">
                                 <div class="form-group">
                                     {{--<label class="form-label required">Transaction Number</label>--}}
                                     <input type="text" title="Transaction Number"
@@ -80,7 +59,7 @@
                                            disabled wire:model="transaction">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="custom_col">
                                 <div class="form-group">
                                     {{--<label class="form-label required">Select Category</label>--}}
                                     <select class="form-select form-select-sm  @error('selected_category') bg-danger @enderror"
@@ -95,7 +74,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="custom_col">
                                 <div class="form-group">
                                     {{--<label class="form-label required">Sub-Category</label>--}}
                                     <select class="form-select form-select-sm @error('selected_sub_category') bg-danger @enderror"
@@ -108,7 +87,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="custom_col">
                                 <div class="form-group">
                                     {{--<label class="form-label required">Select Operator</label>--}}
                                     <select class="form-select form-select-sm @error('selected_operator') bg-danger @enderror"
@@ -126,16 +105,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="border-left: rgb(28, 114, 1) solid 5px;">
-                <div class="card">
+            <div class="col-md-12" style="border-left: rgb(28, 114, 1) solid 5px; background-color:rgba(27, 114, 1, 0.187);">
+                <div class="">
                     <div class="card-body" id="receive">
                         {{-- <div style="display: flex; justify-content: space-between; width:100%;">
                             <h6 class="fw-bold">Collection Details</h6>
                             <button type="button" class="btn btn-circle btn-sm text-white" wire:click="reset_section('receive')" style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset </button>
                         </div> --}}
                         @foreach (array_reverse($receive_section_array, true) as $key => $receive_section)
-                            <div class="receive-row-{{ $key }}"
-                                 @if($loop->odd) style="background-color: rgba(152,148,148,0.09)" @endif>
+                            <div class="receive-row-{{ $key }}">
                                 <div class="custom_row">
                                     <div class="custom_col">
                                         <div class="form-group">
@@ -201,9 +179,7 @@
                                     </div>
                                 </div>
                                 <div class="custom_row">
-
-                                    <div class="custom_row_inner">
-                                        <div class="col">
+                                        <div class="custom_col">
                                             <div class="form-group @error("receive_section_array.$key.receive_amount") has-danger @enderror">
                                                 {{--<label class="form-label required">Collection</label>--}}
                                                 <input type="number" class="form-control form-control-sm" step="0.001"
@@ -213,7 +189,7 @@
                                                        title="Collection" placeholder="Collection">
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="custom_col">
                                             <div class="form-group @error("receive_section_array.$key.late_fee_receive_amount") has-danger @enderror">
                                                 {{-- <label class="form-label required">
                                                      Late Fee( <b
@@ -228,7 +204,7 @@
                                                        placeholder="Late Fee">
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="custom_col">
                                             <div class="form-group @error("receive_section_array.$key.vat_receive_amount") has-danger @enderror">
                                                 {{--<label class="form-label required">VAT (<b
                                                             class="text-success vat_title">@isset($receive_section_array[$key]['vat_percentage'])
@@ -240,7 +216,7 @@
                                                        title="VAT" placeholder="VAT">
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="custom_col">
                                             <div class="form-group @error("receive_section_array.$key.tax_receive_amount") has-danger @enderror">
                                                 {{--<label class="form-label required">TAX (<b
                                                             class="text-success tax_title">@isset($receive_section_array[$key]['tax_percentage'])
@@ -252,8 +228,7 @@
                                                        title="TAX" placeholder="TAX">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="action_col">
+                                    <div class="custom_col">
                                         @if($loop->first)
                                             <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                     wire:click="add_or_rm_section_array('receive')"
@@ -278,8 +253,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="border-left: rgb(62, 2, 160) solid 5px;">
-                <div class="card">
+            <div class="col-md-12" style="border-left: rgb(62, 2, 160) solid 5px; background-color:rgba(62, 2, 160, 0.223);">
+                <div class="">
                     <div class="card-body" id="po">
                         {{-- <div style=" display: flex; justify-content: space-between; width:100%;">
                             <h6 class="fw-bold">PO Details</h6>
@@ -287,8 +262,7 @@
                         </div> --}}
                         @foreach (array_reverse($po_section_array, true) as $key => $po_section)
                             <div class="custom_row">
-                                <div class="custom_row_inner">
-                                    <div class="col">
+                                    <div class="custom_col">
                                         <div class="form-group @error("po_section_array.$key.po_amount") has-danger @enderror">
                                             {{--<label class="form-label required">PO Amount</label>--}}
                                             <input type="number" class="form-control form-control-sm" step="0.001"
@@ -297,7 +271,7 @@
                                                    title="PO Amount" placeholder="PO Amount">
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="custom_col">
                                         <div class="form-group @error("po_section_array.$key.po_number") has-danger @enderror">
                                             {{--<label class="form-label required">PO Number</label>--}}
                                             <input type="text" class="form-control form-control-sm"
@@ -306,7 +280,7 @@
                                                    title="PO Number" placeholder="PO Number">
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="custom_col">
                                         <div class="form-group @error("po_section_array.$key.po_date") has-danger @enderror">
                                             {{--<label class="form-label required">PO Date</label>--}}
                                             <input type="date" class="form-control form-control-sm"
@@ -315,7 +289,7 @@
                                                    title="PO Date" placeholder="PO Date">
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="custom_col">
                                         <div class="form-group">
                                             {{--<label class="form-label required">PO Bank</label>--}}
                                             <select class="form-select form-select-sm @error("po_section_array.$key.po_bank") bg-danger @enderror"
@@ -331,8 +305,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="action_col">
+                                <div class="custom_col">
                                     @if($loop->first)
                                         <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('po')"
@@ -354,8 +327,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="border-left: rgb(1, 150, 142) solid 5px;">
-                <div class="card">
+            <div class="col-md-12" style="border-left: rgb(1, 150, 142) solid 5px; background-color:rgba(1, 150, 142, 0.193);">
+                <div class="">
                     <div class="card-body" id="deposit">
                         {{-- <div style="display: flex; justify-content: space-between; width=100%;">
                             <h6 class="fw-bold">Deposit Details</h6>
@@ -363,8 +336,7 @@
                         </div> --}}
                         @foreach (array_reverse($deposit_section_array, true) as $key => $deposit_section)
                             <div class="custom_row">
-                                <div class="custom_row_inner has_five_col">
-                                    <div class="col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group @error("deposit_section_array.$key.po_number") has-danger @enderror">
                                             {{--<label class="form-label required">PO Number</label>--}}
                                             <input type="text" class="form-control form-control-sm"
@@ -374,7 +346,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group @error("deposit_section_array.$key.deposit_amount") has-danger @enderror">
                                             {{--<label class="form-label required">Deposit Amount</label>--}}
                                             <input type="number" class="form-control form-control-sm" step="0.001"
@@ -384,7 +356,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group @error("deposit_section_array.$key.deposit_date") has-danger @enderror">
                                             {{--<label class="form-label required">Deposit Date</label>--}}
                                             <input type="date" class="form-control form-control-sm"
@@ -394,7 +366,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group">
                                             {{--<label class="form-label required">Deposit Bank</label>--}}
                                             <select class="form-select form-select-sm @error("deposit_section_array.$key.deposit_bank") bg-danger @enderror"
@@ -411,7 +383,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group @error("deposit_section_array.$key.journal_number") has-danger @enderror">
                                             {{--<label class="form-label required">Journal Number</label>--}}
                                             <input type="text" class="form-control form-control-sm"
@@ -421,7 +393,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="col">
+                                    {{-- <div class="custom_col_has_five">
                                          <div class="form-group">
                                              <label class="form-label required">Deposit By</label>
                                              <select class="form-select form-select-sm @error("deposit_section_array.$key.deposit_by") bg-danger @enderror"
@@ -437,7 +409,7 @@
                                          </div>
                                      </div>
 
-                                     <div class="col">
+                                     <div class="custom_col_has_five">
                                          <div class="form-group @error("deposit_section_array.$key.deposit_slip") has-danger @enderror">
                                              <label class="form-label required">Deposit Slip</label>
                                              <input type="text" class="form-control form-control-sm"
@@ -445,9 +417,8 @@
                                                     @endif wire:model="deposit_section_array.{{ $key }}.deposit_slip">
                                          </div>
                                      </div>--}}
-                                </div>
 
-                                <div class="action_col">
+                                <div class="custom_col_has_five">
                                     @if($loop->first)
                                         <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('deposit')"
@@ -487,7 +458,7 @@
                     All</a>
                 {{-- @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
                             == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount'))) --}}
-                <button type="button" class="btn btn-sm text-white fw-bold" style="background: #3BB001;"
+                <button type="button" class="btn btn-sm text-white fw-bold" style="background: #3BB001; margin-left:20px;"
                         wire:click="submit"> Final Submit
                 </button>
                 {{-- @endif --}}

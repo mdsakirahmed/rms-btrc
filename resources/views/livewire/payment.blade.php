@@ -68,7 +68,7 @@
     <div class="row page-titles"></div>
     <div class="form_container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" style="border-left: red solid 5px;">
                 <div class="card">
                     <div class="card-body">
                         <div class="row ">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="border-left: rgb(28, 114, 1) solid 5px;">
                 <div class="card">
                     <div class="card-body" id="receive">
                         {{-- <div style="display: flex; justify-content: space-between; width:100%;">
@@ -278,7 +278,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="border-left: rgb(62, 2, 160) solid 5px;">
                 <div class="card">
                     <div class="card-body" id="po">
                         {{-- <div style=" display: flex; justify-content: space-between; width:100%;">
@@ -354,7 +354,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="border-left: rgb(1, 150, 142) solid 5px;">
                 <div class="card">
                     <div class="card-body" id="deposit">
                         {{-- <div style="display: flex; justify-content: space-between; width=100%;">

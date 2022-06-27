@@ -454,8 +454,8 @@
                 </div>
             </div>
             <div class="col-md-6 mt-3 d-flex justify-content-end">
-                <a href="{{ route('payment') }}" class="btn btn-sm text-white fw-bold" style="background: #A9A9A9;">Reset
-                    All</a>
+                <a href="{{ route('payment-history') }}" class="btn btn-sm text-white fw-bold" style="background: #a9a9a983; margin-left:20px;">Histry</a>
+                <a href="{{ route('payment') }}" class="btn btn-sm text-white fw-bold" style="background: #A9A9A9; margin-left:20px;">Reset All</a>
                 {{-- @if((array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))
                             == array_sum(array_column($po_section_array,'po_amount')) && array_sum(array_column($po_section_array,'po_amount')) == array_sum(array_column($deposit_section_array,'deposit_amount'))) --}}
                 <button type="button" class="btn btn-sm text-white fw-bold" style="background: #3BB001; margin-left:20px;"

@@ -20,6 +20,7 @@ use App\Http\Livewire\FeeType;
 use App\Http\Livewire\LicenseCategorywiseFee;
 use App\Http\Livewire\OperatorWisePayments;
 use App\Http\Livewire\Payment;
+use App\Http\Livewire\PaymentHistry;
 use App\Http\Livewire\Profile;
 use App\Http\Livewire\Report\BankDepositWiseStatement;
 use App\Http\Livewire\Report\CategoryWiseStatement;
@@ -67,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     
     Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
+    Route::get('payment-history', PaymentHistry::class)->name('payment-history')->middleware(['permission:payment']);
     Route::get('activity', Activity::class)->name('activity')->middleware(['permission:activity']);
     Route::get('dashboard-card', DashboardCard::class)->name('dashboard-card')->middleware(['permission:dashboard-card']);
 

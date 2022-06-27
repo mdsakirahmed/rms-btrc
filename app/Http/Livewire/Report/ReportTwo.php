@@ -19,7 +19,6 @@ class ReportTwo extends Component
         $operator_ids = [];
         if ($this->category)
             $operator_ids = Operator::where('category_id', $this->category)->pluck('id');
-
         $this->pay_orders = PaymentWisePayOrder::whereBetween('date', [$this->starting_date, $this->ending_date])->where(function ($query) {
             if ($this->po_bank)
                 $query->where('bank_id', $this->po_bank);
@@ -37,11 +36,7 @@ class ReportTwo extends Component
 
     public function export_as_pdf()
     {
-        $paper_size = 'Legal-L';
-        if ($this->category) {
-            $paper_size = 'Tabloid-L';
-        }
-        return response()->streamDownload(function () use ($paper_size) {
+        return response()->streamDownload(function () {
             Pdf::loadView('pdf.report-two', [
                 'po_bank' => Bank::find($this->po_bank)->name ?? 'All Bank',
                 'category' => LicenseCategory::find($this->category)->name ?? 'All Category',
@@ -49,7 +44,7 @@ class ReportTwo extends Component
                 'file_name' => 'Report',
                 'pay_orders' => $this->pay_orders,
             ], [], [
-                'format' => $paper_size
+                'format' => 'A4-L'
             ])->download();
         }, 'Report download at ' . date('d-m-Y- h-i-s') . '.pdf');
     }

@@ -10,16 +10,18 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class Activity extends Component
 {
+    public function mount(){
+        $this->type = request()->type;
+    }
+
     public function render()
     {
         return view('livewire.activity',[
             'activities' => ModelsActivity::where(function($query){
-                if(request()->type == 'delete'){
-                    $query->where('log_name', 'delete');
-                    ModelsActivity::where('log_name', 'delete')->update(['read' => true]);
-                }else if(request()->type == 'edit'){
-                    $query->where('log_name', 'edit');
-                    ModelsActivity::where('log_name', 'edit')->update(['read' => true]);
+                if($this->type == 'delete'){
+                    $query->where('log_name', 'delete')->where('read', false);
+                }else if($this->type == 'edit'){
+                    $query->where('log_name', 'edit')->where('read', false);
                 }
             })->latest()->paginate(10)
         ])->extends('layouts.backend.app', ['title' => 'Activity'])
@@ -30,7 +32,13 @@ class Activity extends Component
         return response()->streamDownload(function () {
             Pdf::loadView('pdf.activity-history', [
                 'file_name' => 'Activity History',
-                'collections' =>  ModelsActivity::all()
+                'collections' =>  ModelsActivity::where(function($query){
+                    if($this->type == 'delete'){
+                        $query->where('log_name', 'delete')->where('read', false);
+                    }else if($this->type == 'edit'){
+                        $query->where('log_name', 'edit')->where('read', false);
+                    }
+                })->latest()->get()
             ], [], [
                 'format' => 'A4-L'
             ])->download();
@@ -39,12 +47,23 @@ class Activity extends Component
 
     public function export_as_excel(){
         $collection = ModelsActivity::where(function($query){
-            if(request()->type == 'delete'){
-                $query->where('log_name', 'delete');
-            }else if(request()->type == 'edit'){
-                $query->where('log_name', 'edit');
+            if($this->type == 'delete'){
+                $query->where('log_name', 'delete')->where('read', false);
+            }else if($this->type == 'edit'){
+                $query->where('log_name', 'edit')->where('read', false);
             }
         })->latest()->get();
         return Excel::download(new ActivityExport($collection), 'Activity history ' . date('d-m-Y h-i-s a') . '.xlsx');
+    }
+
+    public function all_make_as_read(){
+        ModelsActivity::where(function($query){
+            if($this->type == 'delete'){
+                $query->where('log_name', 'delete');
+            }else if($this->type == 'edit'){
+                $query->where('log_name', 'edit');
+            }
+        })->update(['read' => true]);
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
     }
 }

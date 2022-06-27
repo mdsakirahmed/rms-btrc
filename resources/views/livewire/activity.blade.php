@@ -15,6 +15,7 @@
 
     <div class="row">
         <p align="right">
+            <button type="button" class="btn btrc" wire:click="all_make_as_read()">All Read</button>
             <button type="button" class="btn btrc" wire:click="export_as_pdf">Export as PDF</button>
             <button type="button" class="btn btrc" wire:click="export_as_excel">Export as EXCEL</button>
           </p>

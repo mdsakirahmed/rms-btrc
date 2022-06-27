@@ -25,9 +25,7 @@
                 <th>Type</th>
                 <th>Period</th>
                 <th>Receive Date</th>
-                <th>Receive</th>
-                <th>Receivable</th>
-                <th>Due</th>
+                <th>Received</th>
                 <th>Late Fee</th>
                 <th>VAT</th>
                 <th>TAX</th>
@@ -39,8 +37,6 @@
                     <td>{{ $receive->period->period_label ?? 'Not Found' }}</td>
                     <td>{{ date('d-m-Y', strtotime($receive->receive_date)) }}</td>
                     <td>{{ $receive->receive_amount }}</td>
-                    <td>{{ $receive->period->total_receivable ?? 0 }}</td>
-                    <td>{{ $receive->period->total_due_amount() }}</td>
                     <td>{{ round($receive->late_fee_receive_amount) }}</td>
                     <td>{{ round(($receive->vat_percentage/100) * $receive->receive_amount) }}</td>
                     <td>{{ round(($receive->tax_percentage/100) * $receive->receive_amount) }}</td>

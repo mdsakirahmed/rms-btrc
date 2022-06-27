@@ -12,7 +12,7 @@ class LicenseCategory extends Component
 
     public function create()
     {
-        $this->name = $this->duration_year = $this->duration_month = null;
+        $this->name = $this->duration_year = $this->duration_month = $this->selected_license_category = null;
     }
 
     public function submit()

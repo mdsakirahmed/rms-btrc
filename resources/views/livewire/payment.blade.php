@@ -41,7 +41,7 @@
         }
 
         .form_container {
-            max-width: 900px;
+            max-width: 1000px;
         }
     </style>
     <div class="row page-titles"></div>
@@ -306,7 +306,17 @@
                                         </div>
                                     </div>
                                 <div class="custom_col">
-                                    @if($loop->first)
+                                    <div class="btn-group me-2 w-100" role="group" aria-label="First group">
+                                        @if($loop->first)
+                                        <button type="button" class="btn btn-secondary" style="background: #0AADD1;" wire:click="add_or_rm_section_array('po')"><i class="fa fa-plus"></i></button>
+                                        @else
+                                        <button type="button" class="btn btn-secondary" style="background: #eb5858;" wire:click="add_or_rm_section_array('po', {{ $key }})"><i class="fa fa-minus"></i></button>
+                                        @endif
+                                        <button type="button" class="btn btn-secondary" style="background: #A9A9A9;" wire:click="make_as_lock_or_unlock('po', {{ $key }})"><i class="fa fa-lock"></i></button>
+                                        <button type="button" class="btn btn-secondary" style="background: #A9A9A9;" wire:click="make_as_reset('po', {{ $key }})"><i class="fas fa-sync-alt"></i></button>
+                                    </div>
+
+                                    {{-- @if($loop->first)
                                         <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('po')"
                                                 style="background: #0AADD1;"><i class="fa fa-plus"></i></button>
@@ -320,7 +330,7 @@
                                             style="background: #A9A9A9;"><i class="fa fa-lock"></i></button>
                                     <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                             wire:click="make_as_reset('po', {{ $key }})"
-                                            style="background: #A9A9A9;"><i class="fas fa-sync-alt"></i></button>
+                                            style="background: #A9A9A9;"><i class="fas fa-sync-alt"></i></button> --}}
                                 </div>
                             </div>
                         @endforeach
@@ -334,14 +344,15 @@
                             <h6 class="fw-bold">Deposit Details</h6>
                             <button type="button" class="btn btn-circle btn-sm text-white" wire:click="reset_section('deposit')" style="background:#D4D4D4;"><i class="fas fa-sync"></i> Reset </button>
                         </div> --}}
-                        @foreach (array_reverse($deposit_section_array, true) as $key => $deposit_section)
+                        @foreach (array_reverse($po_section_array, true) as $key => $deposit_section)
                             <div class="custom_row">
                                     <div class="custom_col">
                                         <div class="form-group @error("deposit_section_array.$key.po_number") has-danger @enderror">
-                                           <p style="font-size:10px;">
+                                            <input type="text" class="form-control form-control-sm" value="P: PO123456, T: PO123456" disabled/>
+                                            {{-- <p style="font-size:10px;">
                                             PO: PO123456 <br>
                                             TK: PO123456
-                                           </p>
+                                           </p> --}}
                                             {{--<label class="form-label required">PO Number</label>--}}
                                             {{-- <input type="text" class="form-control form-control-sm"
                                                    @if($deposit_section_array[$key]['lock'] ?? false) disabled
@@ -423,7 +434,7 @@
                                      </div>--}}
 
                                 <div class="custom_col">
-                                    @if($loop->first)
+                                    {{-- @if($loop->first)
                                         <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('deposit')"
                                                 style="background: #0AADD1;"><i class="fa fa-plus"></i></button>
@@ -431,7 +442,7 @@
                                         <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('deposit', {{ $key }})"
                                                 style="background: #eb5858;"><i class="fa fa-minus"></i></button>
-                                    @endif
+                                    @endif --}}
                                     <button type="button" class="btn btn-circle btn-sm text-white fw-bold @if($deposit_section_array[$key]['lock'] ?? false) bg-danger @endif"
                                             wire:click="make_as_lock_or_unlock('deposit', {{ $key }})"
                                             style="background: #A9A9A9;"><i class="fa fa-lock"></i></button>

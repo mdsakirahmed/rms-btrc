@@ -89,7 +89,7 @@
                             <td> 
                                 <a href="#" target="_blank" wire:click.prevent="downloadFile('{{ $file['path'] }}')"><img src="{{ asset('assets/images/zipicon.jpg') }}" width="30" alt=""></a>
                             </td>
-                            <td>{{ date('d M Y H:i:s A', strtotime($file['date'])) }}</td>
+                            <td>{{ date('d M Y h:i:s A', strtotime($file['date'])) }}</td>
                             <td>{{ $file['size'] }}</td>
                             <td class="text-right pr-3">
                                 <a class="action-button mr-2" href="#" target="_blank" wire:click.prevent="downloadFile('{{ $file['path'] }}')">

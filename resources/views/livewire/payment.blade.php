@@ -336,31 +336,31 @@
                         </div> --}}
                         @foreach (array_reverse($deposit_section_array, true) as $key => $deposit_section)
                             <div class="custom_row">
-                                    <div class="custom_col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group @error("deposit_section_array.$key.po_number") has-danger @enderror">
-                                           <p style="font-size:10px;">
+                                           {{-- <p style="font-size:10px;">
                                             PO: PO123456 <br>
                                             TK: PO123456
-                                           </p>
+                                           </p> --}}
                                             {{--<label class="form-label required">PO Number</label>--}}
-                                            {{-- <input type="text" class="form-control form-control-sm"
+                                            <input type="text" class="form-control form-control-sm"
                                                    @if($deposit_section_array[$key]['lock'] ?? false) disabled
                                                    @endif wire:model="deposit_section_array.{{ $key }}.po_number"
-                                                   title="PO Number" placeholder="PO Number"> --}}
+                                                   title="PO Number" placeholder="PO Number">
                                         </div>
                                     </div>
 
-                                    {{-- <div class="custom_col"> --}}
-                                        {{-- <div class="form-group @error("deposit_section_array.$key.deposit_amount") has-danger @enderror"> --}}
+                                    <div class="custom_col_has_five">
+                                        <div class="form-group @error("deposit_section_array.$key.deposit_amount") has-danger @enderror">
                                             {{--<label class="form-label required">Deposit Amount</label>--}}
-                                            {{-- <input type="number" class="form-control form-control-sm" step="0.001"
+                                            <input type="number" class="form-control form-control-sm" step="0.001"
                                                    @if($deposit_section_array[$key]['lock'] ?? false) disabled
                                                    @endif wire:model="deposit_section_array.{{ $key }}.deposit_amount"
-                                                   title="Deposit Amount" placeholder="Deposit Amount"> --}}
-                                        {{-- </div> --}}
-                                    {{-- </div> --}}
+                                                   title="Deposit Amount" placeholder="Deposit Amount">
+                                        </div>
+                                    </div>
 
-                                    <div class="custom_col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group @error("deposit_section_array.$key.deposit_date") has-danger @enderror">
                                             {{--<label class="form-label required">Deposit Date</label>--}}
                                             <input type="date" class="form-control form-control-sm"
@@ -370,7 +370,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="custom_col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group">
                                             {{--<label class="form-label required">Deposit Bank</label>--}}
                                             <select class="form-select form-select-sm @error("deposit_section_array.$key.deposit_bank") bg-danger @enderror"
@@ -387,7 +387,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="custom_col">
+                                    <div class="custom_col_has_five">
                                         <div class="form-group @error("deposit_section_array.$key.journal_number") has-danger @enderror">
                                             {{--<label class="form-label required">Journal Number</label>--}}
                                             <input type="text" class="form-control form-control-sm"
@@ -397,7 +397,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="custom_col">
+                                    {{-- <div class="custom_col_has_five">
                                          <div class="form-group">
                                              <label class="form-label required">Deposit By</label>
                                              <select class="form-select form-select-sm @error("deposit_section_array.$key.deposit_by") bg-danger @enderror"
@@ -413,7 +413,7 @@
                                          </div>
                                      </div>
 
-                                     <div class="custom_col">
+                                     <div class="custom_col_has_five">
                                          <div class="form-group @error("deposit_section_array.$key.deposit_slip") has-danger @enderror">
                                              <label class="form-label required">Deposit Slip</label>
                                              <input type="text" class="form-control form-control-sm"
@@ -422,7 +422,7 @@
                                          </div>
                                      </div>--}}
 
-                                <div class="custom_col">
+                                <div class="custom_col_has_five">
                                     @if($loop->first)
                                         <button type="button" class="btn btn-circle btn-sm text-white fw-bold"
                                                 wire:click="add_or_rm_section_array('deposit')"

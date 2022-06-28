@@ -85,7 +85,6 @@
                                                 <option value="">Chose Period Format</option>
                                                 <option value="1">Jan/2022-2023</option>
                                                 <option value="2">Jan-Feb/2022</option>
-                                                <option value="2">Jan-Mar/2022</option>
                                             </select>
                                             <label for="period_format">Period Format</label>
                                         </div>
@@ -94,6 +93,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <select name="schedule_include_to_beginning_of_period" id="schedule_include_to_beginning_of_period" class="form-control" wire:model="schedule_include_to_beginning_of_period">
+                                                <option value="">Chose</option>
                                                 <option value="1">Beginning of the Period</option>
                                                 <option value="0">End of the Period</option>
                                             </select>
@@ -104,6 +104,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <select name="period_start_with_issue_date" id="period_start_with_issue_date" class="form-control" wire:model="period_start_with_issue_date">
+                                                <option value="">Chose</option>
                                                 <option value="1">Yes</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -126,6 +127,14 @@
                                         <x-error name="schedule_month" />
                                     </div>
                                     <div class="col-md-4">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="schedule_substract_day" wire:model="schedule_substract_day" placeholder="Enter Schedule Substract Day Here">
+                                            <label for="schedule_substract_day">Schedule Substract Day</label>
+                                        </div>
+                                        <x-error name="schedule_substract_day" />
+                                        <p style="font-size: 7px;">0 for license and 1 for spectrum charge</p>
+                                    </div>
+                                    <div class="col-md-12">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="period_month" wire:model="period_month" placeholder="Enter Period Month Here">
                                             <label for="period_month">Period Month</label>

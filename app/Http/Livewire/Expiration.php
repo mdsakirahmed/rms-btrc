@@ -63,7 +63,7 @@ class Expiration extends Component
 
                     /*Generate period schedule date base on type*/
                     if ($category_wise_fee_type->fee_type->schedule_include_to_beginning_of_period) {
-                        $this_period_schedule_date = Carbon::create($this_period_start_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->subDays(1)->format('Y-m-d');
+                        $this_period_schedule_date = Carbon::create($this_period_start_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->subDays($category_wise_fee_type->fee_type->schedule_substract_day)->format('Y-m-d');
                     } else {
                         $this_period_schedule_date = Carbon::create($this_period_end_date)->addDays($category_wise_fee_type->fee_type->schedule_day)->addMonths($category_wise_fee_type->fee_type->schedule_month)->format('Y-m-d');
                     }

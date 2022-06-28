@@ -32,7 +32,9 @@
                                 @foreach ($payments as $payment)
                                 <tr>
                                     <td>{{ $payment->id }}</td>
-                                    <td>{{ $payment->transaction }}</td>
+                                    <td>
+                                        <a href="{{ route('payment_receipt', $payment) }}" target="_blank">{{ $payment->transaction }}</a>
+                                    </td>
                                     <td>{{ $payment->operator->name ?? 'Not Found' }}</td>
                                     <td>{{ $payment->created_at->format('d-m-Y') }}</td>
                                     <td>

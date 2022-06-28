@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\PrintController;
 use App\Http\Livewire\Activity;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\DashboardCard;
@@ -86,4 +87,6 @@ Route::middleware('auth')->group(function () {
     Route::get('report-four', ReportFour::class)->name('report-four')->middleware(['permission:report']);
     Route::get('report-five', ReportFive::class)->name('report-five')->middleware(['permission:report']);
     Route::get('report-six', ReportSix::class)->name('report-six')->middleware(['permission:report']);
+
+    Route::get('payment_receipt/{payment}', [PrintController::class, 'payment_receipt'])->name('payment_receipt');
 });

@@ -57,7 +57,7 @@
                         </ul>
                     </li>
                 @endcan
-                @canany(['bank', 'fee-type', 'license-category', 'license-sub-category'])
+                @canany(['bank', 'fee-type', 'license-category', 'license-sub-category', 'backup'])
                     <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
                                     class="mdi mdi-settings"></i><span class="hide-menu">Setting</span></a>
                         <ul aria-expanded="false" class="collapse">
@@ -79,15 +79,8 @@
                             @can('dashboard-card')
                                 <li><a class="waves-effect waves-dark" href="{{ route('dashboard-card') }}">Dashboard Card</a></li>
                             @endcan
-                        </ul>
-                    </li>
-                @endcanany
-                @canany(['backup'])
-                    <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                                    class="fas fa-folder"></i><span class="hide-menu">Backup</span></a>
-                        <ul aria-expanded="false" class="collapse">
                             @can('backup')
-                                <li><a class="waves-effect waves-dark" href="{{ url('/backup') }}" target="_blank">All History</a></li>
+                                <li><a class="waves-effect waves-dark" href="{{ url('/backup') }}" target="_blank">Backup</a></li>
                             @endcan
                         </ul>
                     </li>

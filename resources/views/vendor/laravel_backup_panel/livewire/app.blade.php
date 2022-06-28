@@ -77,7 +77,7 @@
                 <table class="table table-hover mb-0">
                     <thead>
                     <tr>
-                        <th scope="col">Path</th>
+                        <th scope="col">File</th>
                         <th scope="col">Created at</th>
                         <th scope="col">Size</th>
                         <th scope="col"></th>

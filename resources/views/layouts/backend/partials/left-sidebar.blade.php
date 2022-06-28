@@ -82,6 +82,16 @@
                         </ul>
                     </li>
                 @endcanany
+                @canany(['backup'])
+                    <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                                    class="fas fa-folder"></i><span class="hide-menu">Backup</span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            @can('backup')
+                                <li><a class="waves-effect waves-dark" href="{{ url('/backup') }}" target="_blank">All History</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
                     <br>
                     <br>
                     <br>

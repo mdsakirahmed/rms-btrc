@@ -446,15 +446,13 @@
             </div>
             <div class="col-md-6 row mt-3">
                 <div class="col-md-4 text-center">
-                    <h6 class="fw-bold">{{ round(array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount'))) }}
-                        Collection</h6>
+                    <h6 class="fw-bold"> C: {{ money_format_india(round(array_sum(array_column($receive_section_array,'receive_amount')) + array_sum(array_column($receive_section_array,'late_fee_receive_amount')) + array_sum(array_column($receive_section_array,'vat_receive_amount')))) }} </h6>
                 </div>
                 <div class="col-md-4 text-center">
-                    <h6 class="fw-bold">{{ round(array_sum(array_column($po_section_array,'po_amount'))) }} PO </h6>
+                    <h6 class="fw-bold"> P: {{ money_format_india(round(array_sum(array_column($po_section_array,'po_amount')))) }} </h6>
                 </div>
                 <div class="col-md-4 text-center">
-                    <h6 class="fw-bold">{{ round(array_sum(array_column($deposit_section_array,'deposit_amount'))) }}
-                        Deposit </h6>
+                    <h6 class="fw-bold"> D: {{ money_format_india(round(array_sum(array_column($deposit_section_array,'deposit_amount')))) }} </h6>
                 </div>
             </div>
             <div class="col-md-6 mt-3 d-flex justify-content-end">

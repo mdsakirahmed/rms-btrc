@@ -24,7 +24,7 @@ class FeeType extends Component
             'schedule_month' => 'required|numeric|min:0|max:12',
             'schedule_substract_day' => 'required|numeric|min:0|max:30',
             'period_start_with_issue_date' => 'required|boolean',
-            'period_month' => 'required|numeric|min:0|max:12',
+            'period_month' => 'required|numeric|min:1|max:12',
             'schedule_include_to_beginning_of_period' => 'required|boolean'
         ]);
         if ($this->fee_type) {

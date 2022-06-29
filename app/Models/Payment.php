@@ -174,6 +174,21 @@ class Payment extends Model
         return $this->pay_orders()->sum('amount');
     }
 
+    //Deposits
+    public function total_deposit_amount()
+    {
+        return $this->deposits()->sum('amount');
+    }
+
+    // All
+    public function total_receive_late_fee_vat_tax(){
+        $return_value = 0;
+        foreach ($this->receives as $receive) {
+                $return_value += $receive->total();
+        }
+        return  $return_value;
+    }
+
     public static function boot()
     {
         parent::boot();

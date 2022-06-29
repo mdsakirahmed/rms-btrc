@@ -21,6 +21,10 @@ class PaymentWiseReceive extends Model
         return $this->belongsTo(Period::class, 'period_id', 'id');
     }
 
+    public function total(){
+        return round($this->receive_amount +  $this->late_fee_receive_amount + (($this->vat_percentage/100) * $this->receive_amount) + (($this->tax_percentage/100) * $this->receive_amount));
+    }
+
     public static function boot()
     {
         parent::boot();

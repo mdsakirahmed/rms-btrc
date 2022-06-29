@@ -35,11 +35,11 @@
                     <td>{{ $receive->period->fee_type->name ?? 'Not Found' }}</td>
                     <td>{{ $receive->period->period_label ?? 'Not Found' }}</td>
                     <td>{{ date('d-m-Y', strtotime($receive->receive_date)) }}</td>
-                    <td>{{ money_format_india($receive->receive_amount) }}</td>
-                    <td>{{ money_format_india(round($receive->late_fee_receive_amount)) }}</td>
-                    <td>{{ money_format_india(round(($receive->vat_percentage/100) * $receive->receive_amount)) }}</td>
-                    <td>{{ money_format_india(round(($receive->tax_percentage/100) * $receive->receive_amount)) }}</td>
-                    <td>{{ money_format_india($receive->total()) }}</td>
+                    <td style="text-align: right;">{{ money_format_india($receive->receive_amount) }}</td>
+                    <td style="text-align: right;">{{ money_format_india(round($receive->late_fee_receive_amount)) }}</td>
+                    <td style="text-align: right;">{{ money_format_india(round(($receive->vat_percentage/100) * $receive->receive_amount)) }}</td>
+                    <td style="text-align: right;">{{ money_format_india(round(($receive->tax_percentage/100) * $receive->receive_amount)) }}</td>
+                    <td style="text-align: right;">{{ money_format_india($receive->total()) }}</td>
                 </tr>
             @endforeach
         </table>
@@ -55,7 +55,7 @@
             </tr>
             @foreach($payment->pay_orders as $pay_order)
             <tr>
-                <td>{{ money_format_india($pay_order->amount) }}</td>
+                <td style="text-align: right;">{{ money_format_india($pay_order->amount) }}</td>
                 <td>{{ $pay_order->number }}</td>
                 <td>{{ date('d-m-Y', strtotime($pay_order->date)) }}</td>
                 <td>{{ $pay_order->bank->name ?? 'Not Found' }}</td>
@@ -74,7 +74,7 @@
             </tr>
             @foreach($payment->deposits as $deposit)
                 <tr>
-                    <td>{{ money_format_india($deposit->amount) }}</td>
+                    <td style="text-align: right;">{{ money_format_india($deposit->amount) }}</td>
                     <td>{{ $deposit->journal_number }}</td>
                     <td>{{ date('d-m-Y', strtotime($deposit->date)) }}</td>
                     <td>{{ $deposit->bank->name ?? 'Not Found' }}</td>

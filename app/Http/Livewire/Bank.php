@@ -7,8 +7,7 @@ use Livewire\Component;
 
 class Bank extends Component
 {
-    public $name;
-    public $bank;
+    public $name, $type, $bank;
 
     public function create(){
         $this->name = $this->bank = null;
@@ -16,7 +15,8 @@ class Bank extends Component
 
     public function submit(){
         $validate_data = $this->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'type' => 'required'
         ]);
         if($this->bank){
             $this->bank->update($validate_data);
@@ -29,6 +29,7 @@ class Bank extends Component
 
     public function select_for_edit(ModelsBank $bank){
         $this->name = $bank->name;
+        $this->type = $bank->type;
         $this->bank = $bank;
     }
 

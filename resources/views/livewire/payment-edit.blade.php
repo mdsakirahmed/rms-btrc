@@ -17,13 +17,13 @@
             padding: 0.25rem 0.25rem;
         }
 
-        .page-data-toggle="tooltip" titles {
-                                        background: #fff;
-                                        padding: 5px 5px;
-                                        box-shadow: 1px 0 20 pxrgba(0, 0, 0, .08);
-                                        margin: 0 -25px 10px -25px;
-                                    }
-
+        .page-titles {
+            background: #fff;
+            padding: 5px 5px;
+            box-shadow: 1px 0 20 pxrgba(0, 0, 0, .08);
+            margin: 0 -25px 10px -25px;
+        }
+        
         .custom_row {
             display: flex;
         }
@@ -44,7 +44,7 @@
             max-width: 900px;
         }
     </style>
-    <div class="row page-data-toggle="tooltip" titles"></div>
+    <div class="row page-titles"></div>
 <div class="form_container">
     <div class="row">
         <div class="col-md-12" style="border-left: red solid 5px; background-color:rgba(255, 0, 0, 0.19);">
@@ -56,7 +56,7 @@
                                 {{--<label class="form-label required">Transaction Number</label>--}}
                                 <input type="text" data-toggle="tooltip" title="Transaction Number"
                                        class="form-control form-control-sm  @error('transaction') has-danger @enderror"
-                                       disabled wire:model="transaction">
+                                       readonly wire:model="transaction">
                             </div>
                         </div>
                         <div class="custom_col">
@@ -119,7 +119,7 @@
                                     <div class="form-group">
                                         {{--<label class="form-label required">Fee Type</label>--}}
                                         <select class="form-select form-select-sm @error("receive_section_array.$key.selected_fee_type") bg-danger @enderror"
-                                                @if($receive_section_array[$key]['lock'] ?? false) disabled
+                                                @if($receive_section_array[$key]['lock'] ?? false) readonly
                                                 @endif wire:model="receive_section_array.{{ $key }}.selected_fee_type"
                                                 wire:change="fee_type_change({{ $key }})" data-toggle="tooltip" title="Fee Type">
                                             <option value="">Select Fee Type</option>
@@ -135,7 +135,7 @@
                                     <div class="form-group">
                                         {{--<label class="form-label required">Select Period</label>--}}
                                         <select class="form-select form-select-sm @error("receive_section_array.$key.selected_period") bg-danger @enderror"
-                                                @if($receive_section_array[$key]['lock'] ?? false) disabled
+                                                @if($receive_section_array[$key]['lock'] ?? false) readonly
                                                 @endif wire:model="receive_section_array.{{ $key }}.selected_period"
                                                 wire:change="period_change({{ $key }})" data-toggle="tooltip" title="Select Period">
                                             <option value="">Select Period</option>
@@ -152,7 +152,7 @@
                                 <div class="custom_col">
                                     <div class="form-group @error("receive_section_array.$key.schedule_date") has-danger @enderror">
                                         {{--<label class="form-label">Schedule Date</label>--}}
-                                        <input type="text" class="form-control form-control-sm mt-1" disabled
+                                        <input type="text" class="form-control form-control-sm mt-1" readonly
                                                data-toggle="tooltip" title="Schedule Date" placeholder="Schedule Date"
                                                wire:model="receive_section_array.{{ $key }}.schedule_date">
                                     </div>
@@ -162,7 +162,7 @@
                                         {{--<label class="form-label required">Collection Date</label>--}}
                                         <input type="date" class="form-control form-control-sm"
                                                data-toggle="tooltip" title="Collection Date"
-                                               @if($receive_section_array[$key]['lock'] ?? false) disabled
+                                               @if($receive_section_array[$key]['lock'] ?? false) readonly
                                                @endif wire:model="receive_section_array.{{ $key }}.receive_date"
                                                wire:change="receive_date_change({{ $key }})">
                                     </div>
@@ -171,8 +171,8 @@
                                     <div class="form-group @error("receive_section_array.$key.receivable") has-danger @enderror">
                                         {{--<label class="form-label required">Receivable</label>--}}
                                         <input type="number" class="form-control form-control-sm"
-                                               @if($receive_section_array[$key]['lock'] ?? false) disabled @endif
-                                               @if($receive_section_array[$key]['receivable_field_disabled'] ?? false) disabled
+                                               @if($receive_section_array[$key]['lock'] ?? false) readonly @endif
+                                               @if($receive_section_array[$key]['receivable_field_readonly'] ?? false) readonly
                                                @endif wire:model="receive_section_array.{{ $key }}.receivable"
                                                data-toggle="tooltip" title="Receivable" placeholder="Receivable">
                                     </div>
@@ -183,7 +183,7 @@
                                     <div class="form-group @error("receive_section_array.$key.receive_amount") has-danger @enderror">
                                         {{--<label class="form-label required">Collection</label>--}}
                                         <input type="number" class="form-control form-control-sm" step="0.001"
-                                               @if($receive_section_array[$key]['lock'] ?? false) disabled
+                                               @if($receive_section_array[$key]['lock'] ?? false) readonly
                                                @endif wire:model="receive_section_array.{{ $key }}.receive_amount"
                                                wire:change="receive_amount_change({{ $key }}, $event.target.value)"
                                                data-toggle="tooltip" title="Collection" placeholder="Collection">
@@ -198,7 +198,7 @@
                                                  @endisset </b>%)
                                          </label>--}}
                                         <input type="number" class="form-control form-control-sm" step="0.001"
-                                               @if($receive_section_array[$key]['lock'] ?? false) disabled
+                                               @if($receive_section_array[$key]['lock'] ?? false) readonly
                                                @endif wire:model="receive_section_array.{{ $key }}.late_fee_receive_amount"
                                                data-toggle="tooltip" title="@isset($receive_section_array[$key]['late_days']) for {{ $receive_section_array[$key]['late_days'] }} days @else Late Fee @endisset"
                                                placeholder="Late Fee">
@@ -211,7 +211,7 @@
                                                     {{ $receive_section_array[$key]['vat_percentage'] ?? 0 }}
                                                 @endisset</b>%)</label>--}}
                                         <input type="number" class="form-control form-control-sm" step="0.001"
-                                               disabled
+                                               readonly
                                                wire:model="receive_section_array.{{ $key }}.vat_receive_amount"
                                                data-toggle="tooltip" title="VAT" placeholder="VAT">
                                     </div>
@@ -223,7 +223,7 @@
                                                     {{ $receive_section_array[$key]['tax_percentage'] ?? 0 }}
                                                 @endisset</b>%)</label>--}}
                                         <input type="number" class="form-control form-control-sm" step="0.001"
-                                               disabled
+                                               readonly
                                                wire:model="receive_section_array.{{ $key }}.tax_receive_amount"
                                                data-toggle="tooltip" title="TAX" placeholder="TAX">
                                     </div>
@@ -266,7 +266,7 @@
                                 <div class="form-group @error("po_section_array.$key.po_amount") has-danger @enderror">
                                     {{--<label class="form-label required">PO Amount</label>--}}
                                     <input type="number" class="form-control form-control-sm" step="0.001"
-                                           @if($po_section_array[$key]['lock'] ?? false) disabled
+                                           @if($po_section_array[$key]['lock'] ?? false) readonly
                                            @endif wire:model="po_section_array.{{ $key }}.po_amount"
                                            data-toggle="tooltip" title="PO Amount" placeholder="PO Amount">
                                 </div>
@@ -275,7 +275,7 @@
                                 <div class="form-group @error("po_section_array.$key.po_number") has-danger @enderror">
                                     {{--<label class="form-label required">PO Number</label>--}}
                                     <input type="text" class="form-control form-control-sm"
-                                           @if($po_section_array[$key]['lock'] ?? false) disabled
+                                           @if($po_section_array[$key]['lock'] ?? false) readonly
                                            @endif wire:model="po_section_array.{{ $key }}.po_number"
                                            data-toggle="tooltip" title="PO Number" placeholder="PO Number">
                                 </div>
@@ -284,7 +284,7 @@
                                 <div class="form-group @error("po_section_array.$key.po_date") has-danger @enderror">
                                     {{--<label class="form-label required">PO Date</label>--}}
                                     <input type="date" class="form-control form-control-sm"
-                                           @if($po_section_array[$key]['lock'] ?? false) disabled
+                                           @if($po_section_array[$key]['lock'] ?? false) readonly
                                            @endif wire:model="po_section_array.{{ $key }}.po_date"
                                            data-toggle="tooltip" title="PO Date" placeholder="PO Date">
                                 </div>
@@ -293,11 +293,11 @@
                                 <div class="form-group">
                                     {{--<label class="form-label required">PO Bank</label>--}}
                                     <select class="form-select form-select-sm @error("po_section_array.$key.po_bank") bg-danger @enderror"
-                                            @if($po_section_array[$key]['lock'] ?? false) disabled
+                                            @if($po_section_array[$key]['lock'] ?? false) readonly
                                             @endif wire:model="po_section_array.{{ $key }}.po_bank"
                                             data-toggle="tooltip" title="PO Bank">
                                         <option value="">Select PO Bank</option>
-                                        @foreach ($banks as $bank)
+                                        @foreach ($po_banks as $bank)
                                             <option value="{{ $bank->id }}">
                                                 {{ $bank->name }}
                                             </option>
@@ -344,7 +344,7 @@
                                     </p> --}}
                                     {{--<label class="form-label required">PO Number</label>--}}
                                     <input type="text" class="form-control form-control-sm"
-                                           @if($deposit_section_array[$key]['lock'] ?? false) disabled
+                                           @if($deposit_section_array[$key]['lock'] ?? false) readonly
                                            @endif wire:model="deposit_section_array.{{ $key }}.po_number"
                                            data-toggle="tooltip" title="PO Number" placeholder="PO Number">
                                 </div>
@@ -354,7 +354,7 @@
                                 <div class="form-group @error("deposit_section_array.$key.deposit_amount") has-danger @enderror">
                                     {{--<label class="form-label required">Deposit Amount</label>--}}
                                     <input type="number" class="form-control form-control-sm" step="0.001"
-                                           @if($deposit_section_array[$key]['lock'] ?? false) disabled
+                                           @if($deposit_section_array[$key]['lock'] ?? false) readonly
                                            @endif wire:model="deposit_section_array.{{ $key }}.deposit_amount"
                                            data-toggle="tooltip" title="Deposit Amount" placeholder="Deposit Amount">
                                 </div>
@@ -364,7 +364,7 @@
                                 <div class="form-group @error("deposit_section_array.$key.deposit_date") has-danger @enderror">
                                     {{--<label class="form-label required">Deposit Date</label>--}}
                                     <input type="date" class="form-control form-control-sm"
-                                           @if($deposit_section_array[$key]['lock'] ?? false) disabled
+                                           @if($deposit_section_array[$key]['lock'] ?? false) readonly
                                            @endif wire:model="deposit_section_array.{{ $key }}.deposit_date"
                                            data-toggle="tooltip" title="Deposit Date">
                                 </div>
@@ -374,11 +374,11 @@
                                 <div class="form-group">
                                     {{--<label class="form-label required">Deposit Bank</label>--}}
                                     <select class="form-select form-select-sm @error("deposit_section_array.$key.deposit_bank") bg-danger @enderror"
-                                            @if($deposit_section_array[$key]['lock'] ?? false) disabled
+                                            @if($deposit_section_array[$key]['lock'] ?? false) readonly
                                             @endif wire:model="deposit_section_array.{{ $key }}.deposit_bank"
                                             data-toggle="tooltip" title="Deposit Bank">
                                         <option value="">Select Deposit Bank</option>
-                                        @foreach ($banks as $bank)
+                                        @foreach ($deposit_banks as $bank)
                                             <option value="{{ $bank->id }}">
                                                 {{ $bank->name }}
                                             </option>
@@ -391,7 +391,7 @@
                                 <div class="form-group @error("deposit_section_array.$key.journal_number") has-danger @enderror">
                                     {{--<label class="form-label required">Journal Number</label>--}}
                                     <input type="text" class="form-control form-control-sm"
-                                           @if($deposit_section_array[$key]['lock'] ?? false) disabled
+                                           @if($deposit_section_array[$key]['lock'] ?? false) readonly
                                            @endif wire:model="deposit_section_array.{{ $key }}.journal_number"
                                            data-toggle="tooltip" title="Journal Number" placeholder="Journal Number">
                                 </div>
@@ -401,7 +401,7 @@
                                  <div class="form-group">
                                      <label class="form-label required">Deposit By</label>
                                      <select class="form-select form-select-sm @error("deposit_section_array.$key.deposit_by") bg-danger @enderror"
-                                             @if($deposit_section_array[$key]['lock'] ?? false) disabled
+                                             @if($deposit_section_array[$key]['lock'] ?? false) readonly
                                              @endif wire:model="deposit_section_array.{{ $key }}.deposit_by">
                                          <option value="">Select Deposit by</option>
                                          @foreach ($users as $user)
@@ -417,7 +417,7 @@
                                  <div class="form-group @error("deposit_section_array.$key.deposit_slip") has-danger @enderror">
                                      <label class="form-label required">Deposit Slip</label>
                                      <input type="text" class="form-control form-control-sm"
-                                            @if($deposit_section_array[$key]['lock'] ?? false) disabled
+                                            @if($deposit_section_array[$key]['lock'] ?? false) readonly
                                             @endif wire:model="deposit_section_array.{{ $key }}.deposit_slip">
                                  </div>
                              </div>--}}

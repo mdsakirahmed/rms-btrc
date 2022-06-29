@@ -31,35 +31,55 @@ class PaymentEdit extends Component
         $this->selected_category = $this->payment->operator->category_id;
         $this->selected_sub_category = $this->payment->operator->sub_category_id;
         $this->selected_operator = $this->payment->operator_id;
+        $this->selected_expiration = Expiration::where('operator_id', $this->selected_operator)->where('paid', false)->first() ?? null;
 
         //Receive data bind
-        foreach ($payment->receives as $receive){
+        foreach ($payment->receives as $key => $receive){
             array_push($this->receive_section_array, [
-                'selected_fee_type' => 1,
-                'selected_period' => 1,
-                'schedule_date' => 1,
-                'receive_date' => 1,
-                'receivable' => 1,
-                'receive_amount' => 1,
-                'late_fee_receive_amount' => 1,
-                'vat_receive_amount' => 1,
-                'tax_receive_amount' => 1,
+                'selected_fee_type' =>  $receive->period->fee_type_id,
+                'selected_period' => $receive->period_id,
+                'schedule_date' => $receive->period->period_schedule_date->format('d-M-Y'),
+                'receive_date' => $receive->receive_date->format('Y-m-d'),
+                'receivable' => $receive->period->total_receivable,
+                'receive_amount' => $receive->receive_amount,
+                'late_fee_receive_amount' => $receive->late_fee_receive_amount,
+                'vat_receive_amount' => round(($receive->vat_percentage/100) * $receive->receive_amount),
+                'tax_receive_amount' => round(($receive->tax_percentage/100) * $receive->receive_amount),
+            ]);
+            $this->receive_section_array[$key]['periods'] = Period::where('expiration_id', $this->selected_expiration->id ?? null)->where('fee_type_id', $receive->period->fee_type_id)->get();
+        }
+
+        //PO data bind
+        foreach ($payment->pay_orders as $key => $pay_order){
+            array_push($this->po_section_array, [
+                'po_amount' =>  $pay_order->amount,
+                'po_number' => $pay_order->number,
+                'po_date' => $pay_order->date->format('Y-m-d'),
+                'po_bank' => $pay_order->bank_id,
             ]);
         }
 
-        array_push($this->po_section_array, null);
-        array_push($this->deposit_section_array, null);
+        //Deposit data bind
+        foreach ($payment->deposits as $key => $deposit){
+            array_push($this->deposit_section_array, [
+                'po_number' =>  $deposit->po_number,
+                'deposit_amount' => $deposit->amount,
+                'deposit_date' => $deposit->date->format('Y-m-d'),
+                'deposit_bank' => $deposit->bank_id,
+                'journal_number' => $deposit->journal_number,
+            ]);
+        }
     }
 
     public function render()
     {
-        if($this->selected_operator){
-            $this->selected_expiration = Expiration::where('operator_id', $this->selected_operator)->where('paid', false)->first()?? null;
-        }
+        $this->selected_expiration = Expiration::where('operator_id', $this->selected_operator)->where('paid', false)->first() ?? null;
+
         $data = [
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
-            'banks' => Bank::all(),
+            'po_banks' => Bank::where('type', 'po')->get(),
+            'deposit_banks' => Bank::where('type', 'deposit')->get(),
             'users' => User::all(),
             'operators' => Operator::where(function ($query) {
                 if ($this->selected_category) {

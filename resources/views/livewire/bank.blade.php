@@ -24,6 +24,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Type</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
@@ -33,6 +34,9 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
                                         {{ $bank->name }} &nbsp;
+                                    </td>
+                                    <td>
+                                        {{ $bank->type }} &nbsp;
                                     </td>
                                     <td style="text-align: center;">
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $bank->id }})" alt="default" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit</button>
@@ -58,12 +62,23 @@
                         <div class="modal-body">
                             <form wire:submit.prevent="submit">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="name" wire:model="name" placeholder="Enter Name here">
                                             <label for="name">Name</label>
                                         </div>
                                         <x-error name="name" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select type="text" class="form-control" id="type" wire:model="type">
+                                                <option value="">Select Type</option>
+                                                <option value="po">Pay Order</option>
+                                                <option value="deposit">Deposit</option>
+                                            </select>
+                                            <label for="name">Type</label>
+                                        </div>
+                                        <x-error name="type" />
                                     </div>
                                     <div class="col-12">
                                         <div class="d-md-flex align-items-center mt-3">

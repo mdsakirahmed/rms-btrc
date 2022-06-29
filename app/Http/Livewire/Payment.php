@@ -40,7 +40,8 @@ class Payment extends Component
         $data = [
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
-            'banks' => Bank::all(),
+            'po_banks' => Bank::where('type', 'po')->get(),
+            'deposit_banks' => Bank::where('type', 'deposit')->get(),
             'users' => User::all(),
             'operators' => Operator::where(function ($query) {
                 if ($this->selected_category) {

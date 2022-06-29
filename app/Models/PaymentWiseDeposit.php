@@ -12,6 +12,7 @@ class PaymentWiseDeposit extends Model
     use HasFactory, Userstamps, SoftDeletes;
 
     protected $guarded = [];
+    protected $dates = ['date'];
 
     public function payment(){
         return $this->belongsTo(Payment::class, 'payment_id', 'id');

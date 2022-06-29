@@ -21,7 +21,6 @@
         <h3>Collection Details</h3>
         <table>
             <tr>
-                <th>#</th>
                 <th>Type</th>
                 <th>Period</th>
                 <th>Receive Date</th>
@@ -33,7 +32,6 @@
             </tr>
             @foreach ($payment->receives as $receive)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $receive->period->fee_type->name ?? 'Not Found' }}</td>
                     <td>{{ $receive->period->period_label ?? 'Not Found' }}</td>
                     <td>{{ date('d-m-Y', strtotime($receive->receive_date)) }}</td>

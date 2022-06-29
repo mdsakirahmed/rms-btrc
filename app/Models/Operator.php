@@ -5,11 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
 
 class Operator extends Model
 {
-    use HasFactory, Userstamps;
+    use HasFactory, Userstamps, SoftDeletes;
 
     protected $guarded = [];
 

@@ -7,6 +7,7 @@ use Livewire\Component;
 
 class PaymentHistry extends Component
 {
+    public $selected_payment_for_delete;
     public function render()
     {
         return view('livewire.payment-histry',[
@@ -14,5 +15,18 @@ class PaymentHistry extends Component
         ])
         ->extends('layouts.backend.app', ['title' => 'Payment History'])
         ->section('content');
+    }
+
+    public function select_for_delete(Payment $payment){
+        $this->selected_payment_for_delete = $payment;
+    }
+
+    public function delete(){
+        if($this->selected_payment_for_delete){
+            $this->selected_payment_for_delete->delete();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+        }else{
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Selected payment not found !']);
+        }
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Livewire\Document;
 use App\Http\Livewire\LicenseCategory;
 use App\Http\Livewire\LicenseSubCategory;
 use App\Http\Livewire\Operator;
+use App\Http\Livewire\PaymentEdit;
 use App\Http\Livewire\PermissionManagement;
 use App\Http\Livewire\Report\ReportFive;
 use App\Http\Livewire\Report\ReportSix;
@@ -69,6 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     
     Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);
+    Route::get('payment/{payment}', PaymentEdit::class)->name('payment-edit')->middleware(['permission:payment']);
     Route::get('payment-history', PaymentHistry::class)->name('payment-history')->middleware(['permission:payment']);
     Route::get('activity', Activity::class)->name('activity')->middleware(['permission:activity']);
     Route::get('dashboard-card', DashboardCard::class)->name('dashboard-card')->middleware(['permission:dashboard-card']);

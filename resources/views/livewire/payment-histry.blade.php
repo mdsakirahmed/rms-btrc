@@ -38,12 +38,12 @@
                                     <td>{{ $payment->operator->name ?? 'Not Found' }}</td>
                                     <td>{{ $payment->created_at->format('d-m-Y') }}</td>
                                     <td>
-                                        @if($payment->created_at->diffInDays()>3)
+                                       {{-- @if($payment->created_at->diffInDays()>3)--}}
                                         <p class="text-danger">Action Disabled 
-                                            @else
-                                        <a href="#" class="btn btn-warning">Edit</a>
-                                        <button class="btn btn-danger text-white">Delete</button>
-                                        @endif
+                                           {{-- @else--}}
+                                        <a href="{{ route('payment-edit', $payment) }}" class="btn btn-warning">Edit</a>
+                                                <button type="button" class="btn btn-danger text-white" wire:click="select_for_delete({{ $payment->id }})" data-bs-toggle="modal" data-bs-target=".delete-modal"> Delete </button>
+                                        {{--@endif--}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -57,6 +57,18 @@
                     </div>
                 </div>
             </div>
+            <!-- delete modal content -->
+            <div wire:ignore.self class="modal delete-modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt=""> <br>
+                            <button class="btn btn-danger text-white" data-bs-dismiss="modal" wire:click="delete">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal -->
         </div>
     </div>
 </div>

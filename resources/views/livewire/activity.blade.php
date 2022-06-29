@@ -39,7 +39,7 @@
                                     <td>{{ $activity->id }}</td>
                                     <td>{{ $activity->causer->name ?? 'Not Found' }}</td>
                                     <td>{{ $activity->log_name }}</td>
-                                    <td>{{ $activity->description }}</td>
+                                    <td>{{ $activity->description }} @if($activity->log_name == 'delete') <i class="fas fa-caret-square-up" data-toggle="tooltip" title="{{ collect($activity->getExtraProperty('record')) }}"></i> @endif</td>
                                     {{-- <td>{{ $activity->subject ?? collect($activity->getExtraProperty('record') ?? 'Not Found') }}</td> --}}
                                 </tr>
                                 @endforeach

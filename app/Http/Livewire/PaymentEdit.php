@@ -279,149 +279,150 @@ class PaymentEdit extends Component
 
     public function submit()
     {
-        $this->validate([
-            'transaction' => 'required',
-            'selected_category' => 'required',
-            'selected_sub_category' => 'required',
-            'selected_operator' => 'required',
-            'selected_expiration' => 'required',
-            'receive_section_array.*.selected_fee_type' => 'required',
-            'receive_section_array.*.selected_period' => 'required',
-            'receive_section_array.*.schedule_date' => 'required',
-            'receive_section_array.*.receive_date' => 'required',
-            'receive_section_array.*.receivable' => 'required',
-            'receive_section_array.*.receive_amount' => 'required',
-            'receive_section_array.*.late_fee_receive_amount' => 'required',
-            'receive_section_array.*.vat_receive_amount' => 'required',
-            'receive_section_array.*.tax_receive_amount' => 'required',
+        if($this->payment->created_at->diffInDays()<=3 || auth()->user()->can('master')) {
+            $this->validate([
+                'transaction' => 'required',
+                'selected_category' => 'required',
+                'selected_sub_category' => 'required',
+                'selected_operator' => 'required',
+                'selected_expiration' => 'required',
+                'receive_section_array.*.selected_fee_type' => 'required',
+                'receive_section_array.*.selected_period' => 'required',
+                'receive_section_array.*.schedule_date' => 'required',
+                'receive_section_array.*.receive_date' => 'required',
+                'receive_section_array.*.receivable' => 'required',
+                'receive_section_array.*.receive_amount' => 'required',
+                'receive_section_array.*.late_fee_receive_amount' => 'required',
+                'receive_section_array.*.vat_receive_amount' => 'required',
+                'receive_section_array.*.tax_receive_amount' => 'required',
 
-            'po_section_array.*.po_amount' => 'required',
-            'po_section_array.*.po_number' => 'required',
-            'po_section_array.*.po_date' => 'required',
-            'po_section_array.*.po_bank' => 'required',
+                'po_section_array.*.po_amount' => 'required',
+                'po_section_array.*.po_number' => 'required',
+                'po_section_array.*.po_date' => 'required',
+                'po_section_array.*.po_bank' => 'required',
 
-            'deposit_section_array.*.deposit_amount' => 'required',
-            'deposit_section_array.*.deposit_bank' => 'required',
-            'deposit_section_array.*.journal_number' => 'required',
-            'deposit_section_array.*.deposit_date' => 'required',
-            'deposit_section_array.*.po_number' => 'required',
-            // 'deposit_section_array.*.deposit_by' => 'required',
-            // 'deposit_section_array.*.deposit_slip' => 'required',
-        ], [], [
-            'receive_section_array.*.selected_fee_type' => 'Fee type',
-            'receive_section_array.*.selected_period' => 'Period',
-            'receive_section_array.*.schedule_date' => 'Schedule date',
-            'receive_section_array.*.receive_date' => 'Receive date',
-            'receive_section_array.*.receivable' => 'Receivable amount',
-            'receive_section_array.*.receive_amount' => 'Receive amount',
-            'receive_section_array.*.late_fee_receive_amount' => 'Late fee',
-            'receive_section_array.*.vat_receive_amount' => 'VAT amount',
-            'receive_section_array.*.tax_receive_amount' => 'TAX amount',
+                'deposit_section_array.*.deposit_amount' => 'required',
+                'deposit_section_array.*.deposit_bank' => 'required',
+                'deposit_section_array.*.journal_number' => 'required',
+                'deposit_section_array.*.deposit_date' => 'required',
+                'deposit_section_array.*.po_number' => 'required',
+                // 'deposit_section_array.*.deposit_by' => 'required',
+                // 'deposit_section_array.*.deposit_slip' => 'required',
+            ], [], [
+                'receive_section_array.*.selected_fee_type' => 'Fee type',
+                'receive_section_array.*.selected_period' => 'Period',
+                'receive_section_array.*.schedule_date' => 'Schedule date',
+                'receive_section_array.*.receive_date' => 'Receive date',
+                'receive_section_array.*.receivable' => 'Receivable amount',
+                'receive_section_array.*.receive_amount' => 'Receive amount',
+                'receive_section_array.*.late_fee_receive_amount' => 'Late fee',
+                'receive_section_array.*.vat_receive_amount' => 'VAT amount',
+                'receive_section_array.*.tax_receive_amount' => 'TAX amount',
 
-            'po_section_array.*.po_amount' => 'PO Amount',
-            'po_section_array.*.po_number' => 'PO Number',
-            'po_section_array.*.po_date' => 'PO Date',
-            'po_section_array.*.po_bank' => 'PO Bank',
+                'po_section_array.*.po_amount' => 'PO Amount',
+                'po_section_array.*.po_number' => 'PO Number',
+                'po_section_array.*.po_date' => 'PO Date',
+                'po_section_array.*.po_bank' => 'PO Bank',
 
-            'deposit_section_array.*.deposit_amount' => 'Deposit Amount',
-            'deposit_section_array.*.deposit_bank' => 'Deposit Bank',
-            'deposit_section_array.*.journal_number' => 'Journal Number',
-            'deposit_section_array.*.deposit_date' => 'Deposit Date',
-            'deposit_section_array.*.po_number' => 'PO Number',
-            // 'deposit_section_array.*.deposit_by' => 'Deposit by',
-            // 'deposit_section_array.*.deposit_slip' => 'Seposit Slip',
-        ]);
-
-        if (round(array_sum(array_column($this->receive_section_array, 'receive_amount')) + array_sum(array_column($this->receive_section_array, 'late_fee_receive_amount')) + array_sum(array_column($this->receive_section_array, 'vat_receive_amount')))
-            == round(array_sum(array_column($this->po_section_array, 'po_amount')))
-            && round(array_sum(array_column($this->po_section_array, 'po_amount')))
-            == round(array_sum(array_column($this->deposit_section_array, 'deposit_amount')))
-        ) {
-
-            // Payment
-            $payment = $this->payment;
-            $this->payment->update([
-                'operator_id' => $this->selected_operator,
-                'expiration_id' => $this->selected_expiration->id,
-                'transaction' => $this->transaction,
+                'deposit_section_array.*.deposit_amount' => 'Deposit Amount',
+                'deposit_section_array.*.deposit_bank' => 'Deposit Bank',
+                'deposit_section_array.*.journal_number' => 'Journal Number',
+                'deposit_section_array.*.deposit_date' => 'Deposit Date',
+                'deposit_section_array.*.po_number' => 'PO Number',
+                // 'deposit_section_array.*.deposit_by' => 'Deposit by',
+                // 'deposit_section_array.*.deposit_slip' => 'Seposit Slip',
             ]);
+            if (round(array_sum(array_column($this->receive_section_array, 'receive_amount')) + array_sum(array_column($this->receive_section_array, 'late_fee_receive_amount')) + array_sum(array_column($this->receive_section_array, 'vat_receive_amount')))
+                == round(array_sum(array_column($this->po_section_array, 'po_amount')))
+                && round(array_sum(array_column($this->po_section_array, 'po_amount')))
+                == round(array_sum(array_column($this->deposit_section_array, 'deposit_amount')))
+            ) {
+
+                // Payment
+                $payment = $this->payment;
+                $this->payment->update([
+                    'operator_id' => $this->selected_operator,
+                    'expiration_id' => $this->selected_expiration->id,
+                    'transaction' => $this->transaction,
+                ]);
 
 
-            // Delete all payment_wise_receives from db
-            $this->payment->receives()->whereNotIn('id', array_column($this->receive_section_array, 'payment_wise_receive_id'))->delete();
+                // Delete all payment_wise_receives from db
+                $this->payment->receives()->whereNotIn('id', array_column($this->receive_section_array, 'payment_wise_receive_id'))->delete();
 
-            // Receive
-            foreach ($this->receive_section_array as $receive) {
-                // Set receivable amount at first time only
-                $period = Period::find($receive['selected_period']);
-                if($period->total_receivable == 0){
-                    $period->update([
-                        'total_receivable' => $receive['receivable']
-                    ]);
+                // Receive
+                foreach ($this->receive_section_array as $receive) {
+                    // Set receivable amount at first time only
+                    $period = Period::find($receive['selected_period']);
+                    if ($period->total_receivable == 0) {
+                        $period->update([
+                            'total_receivable' => $receive['receivable']
+                        ]);
+                    }
+                    if (isset($receive['payment_wise_receive_id'])) {
+                        $paymentWiseReceive = PaymentWiseReceive::find($receive['payment_wise_receive_id']);
+                    } else {
+                        $paymentWiseReceive = new PaymentWiseReceive();
+                    }
+                    $paymentWiseReceive->payment_id = $payment->id;
+                    $paymentWiseReceive->period_id = $receive['selected_period'];
+                    $paymentWiseReceive->receive_date = $receive['receive_date'];
+                    $paymentWiseReceive->receive_amount = $receive['receive_amount'] ?? 0;
+                    $paymentWiseReceive->late_fee_percentage = $receive['late_fee_percentage'] ?? 0;
+                    $paymentWiseReceive->late_fee_receive_amount = $receive['late_fee_receive_amount'] ?? 0;
+                    $paymentWiseReceive->vat_percentage = $receive['vat_percentage'] ?? 0;
+                    $paymentWiseReceive->tax_percentage = $receive['tax_percentage'] ?? 0;
+                    $paymentWiseReceive->late_days = $receive['late_days'] ?? 0;
+                    $paymentWiseReceive->late_fee_receivable_amount = $receive['late_fee_receive_amount'] ?? 0;
+                    $paymentWiseReceive->save();
                 }
-                if(isset($receive['payment_wise_receive_id'])){
-                    $paymentWiseReceive = PaymentWiseReceive::find($receive['payment_wise_receive_id']);
-                }else{
-                    $paymentWiseReceive = new PaymentWiseReceive();
+
+                // Delete all payment_wise_pay_orders from db
+                $this->payment->pay_orders()->whereNotIn('id', array_column($this->po_section_array, 'payment_wise_po_id'))->delete();
+
+                // pay_order
+                foreach ($this->po_section_array as $pay_order) {
+                    if (isset($pay_order['payment_wise_po_id'])) {
+                        $paymentWisePayOrder = PaymentWisePayOrder::find($pay_order['payment_wise_po_id']);
+                    } else {
+                        $paymentWisePayOrder = new PaymentWisePayOrder();
+                    }
+                    $paymentWisePayOrder->payment_id = $payment->id;
+                    $paymentWisePayOrder->amount = $pay_order['po_amount'] ?? 0;
+                    $paymentWisePayOrder->number = $pay_order['po_number'];
+                    $paymentWisePayOrder->date = $pay_order['po_date'];
+                    $paymentWisePayOrder->bank_id = $pay_order['po_bank'];
+                    $paymentWisePayOrder->save();
                 }
-                $paymentWiseReceive->payment_id =  $payment->id;
-                $paymentWiseReceive->period_id =  $receive['selected_period'];
-                $paymentWiseReceive->receive_date =  $receive['receive_date'];
-                $paymentWiseReceive->receive_amount =  $receive['receive_amount'] ?? 0;
-                $paymentWiseReceive->late_fee_percentage =  $receive['late_fee_percentage'] ?? 0;
-                $paymentWiseReceive->late_fee_receive_amount =  $receive['late_fee_receive_amount'] ?? 0;
-                $paymentWiseReceive->vat_percentage =  $receive['vat_percentage'] ?? 0;
-                $paymentWiseReceive->tax_percentage =  $receive['tax_percentage'] ?? 0;
-                $paymentWiseReceive->late_days =  $receive['late_days'] ?? 0;
-                $paymentWiseReceive->late_fee_receivable_amount =  $receive['late_fee_receive_amount'] ?? 0;
-                $paymentWiseReceive->save();
+
+                // Delete all payment_wise_deposits from db
+                $this->payment->deposits()->whereNotIn('id', array_column($this->deposit_section_array, 'payment_wise_deposit_id'))->delete();
+
+                // Deposit
+                foreach ($this->deposit_section_array as $deposit) {
+                    if (isset($deposit['payment_wise_deposit_id'])) {
+                        $paymentWiseDeposit = PaymentWiseDeposit::find($deposit['payment_wise_deposit_id']);
+                    } else {
+                        $paymentWiseDeposit = new PaymentWiseDeposit();
+                    }
+                    $paymentWiseDeposit->payment_id = $payment->id;
+                    $paymentWiseDeposit->amount = $deposit['deposit_amount'];
+                    $paymentWiseDeposit->bank_id = $deposit['deposit_bank'];
+                    $paymentWiseDeposit->journal_number = $deposit['journal_number'];
+                    $paymentWiseDeposit->date = $deposit['deposit_date'];
+                    $paymentWiseDeposit->po_number = $deposit['po_number'];
+                    $paymentWiseDeposit->deposit_by_user_id = $deposit['deposit_by'] ?? null;
+                    $paymentWiseDeposit->slip = $deposit['deposit_slip'] ?? null;
+                    $paymentWiseDeposit->save();
+                }
+
+                $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Success !']);
+
+            } else {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => 'Collection, PO and Deposit are not equal !']);
             }
-
-            // Delete all payment_wise_pay_orders from db
-            $this->payment->pay_orders()->whereNotIn('id', array_column($this->po_section_array, 'payment_wise_po_id'))->delete();
-
-            // pay_order
-            foreach ($this->po_section_array as $pay_order) {
-                if(isset($pay_order['payment_wise_po_id'])){
-                    $paymentWisePayOrder = PaymentWisePayOrder::find($pay_order['payment_wise_po_id']);
-                }else{
-                    $paymentWisePayOrder = new PaymentWisePayOrder();
-                }
-                $paymentWisePayOrder->payment_id = $payment->id;
-                $paymentWisePayOrder->amount = $pay_order['po_amount'] ?? 0;
-                $paymentWisePayOrder->number = $pay_order['po_number'];
-                $paymentWisePayOrder->date = $pay_order['po_date'];
-                $paymentWisePayOrder->bank_id = $pay_order['po_bank'];
-                $paymentWisePayOrder->save();
-            }
-
-            // Delete all payment_wise_deposits from db
-            $this->payment->deposits()->whereNotIn('id', array_column($this->deposit_section_array, 'payment_wise_deposit_id'))->delete();
-
-            // Deposit
-            foreach ($this->deposit_section_array as $deposit) {
-                if(isset($deposit['payment_wise_deposit_id'])){
-                    $paymentWiseDeposit = PaymentWiseDeposit::find($deposit['payment_wise_deposit_id']);
-                }else{
-                    $paymentWiseDeposit = new PaymentWiseDeposit();
-                }
-                $paymentWiseDeposit->payment_id = $payment->id;
-                $paymentWiseDeposit->amount = $deposit['deposit_amount'];
-                $paymentWiseDeposit->bank_id = $deposit['deposit_bank'];
-                $paymentWiseDeposit->journal_number = $deposit['journal_number'];
-                $paymentWiseDeposit->date = $deposit['deposit_date'];
-                $paymentWiseDeposit->po_number = $deposit['po_number'];
-                $paymentWiseDeposit->deposit_by_user_id = $deposit['deposit_by'] ?? null;
-                $paymentWiseDeposit->slip = $deposit['deposit_slip'] ?? null;
-                $paymentWiseDeposit->save();
-            }
-
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
-
-        } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Collection, PO and Deposit are not equal !']);
+        }else{
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => 'Action Disabled !']);
         }
     }
-
-
 }

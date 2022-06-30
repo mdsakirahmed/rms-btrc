@@ -38,11 +38,11 @@
                                     <td>{{ $payment->operator->name ?? 'Not Found' }}</td>
                                     <td>{{ $payment->created_at->format('d-m-Y') }}</td>
                                     <td>
-                                        @if($payment->created_at->diffInDays()>3)
-                                        <p class="text-danger">Action Disabled 
+                                        @if($payment->created_at->diffInDays()<=3 || auth()->user()->can('master'))
+                                            <a href="{{ route('payment-edit', $payment) }}" class="btn btn-warning">Edit</a>
+                                            <button type="button" class="btn btn-danger text-white" wire:click="select_for_delete({{ $payment->id }})" data-bs-toggle="modal" data-bs-target=".delete-modal"> Delete </button>
                                             @else
-                                        <a href="{{ route('payment-edit', $payment) }}" class="btn btn-warning">Edit</a>
-                                                <button type="button" class="btn btn-danger text-white" wire:click="select_for_delete({{ $payment->id }})" data-bs-toggle="modal" data-bs-target=".delete-modal"> Delete </button>
+                                            <p class="text-danger">Action Disabled </p>
                                         @endif
                                     </td>
                                 </tr>

@@ -22,11 +22,15 @@ class PaymentHistry extends Component
     }
 
     public function delete(){
-        if($this->selected_payment_for_delete){
-            $this->selected_payment_for_delete->delete();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+        if($this->payment->created_at->diffInDays()<=3 || auth()->user()->can('master')) {
+            if($this->selected_payment_for_delete){
+                $this->selected_payment_for_delete->delete();
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+            }else{
+                $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Selected payment not found !']);
+            }
         }else{
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Selected payment not found !']);
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => 'Action Disabled !']);
         }
     }
 }

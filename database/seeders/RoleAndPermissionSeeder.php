@@ -38,6 +38,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'activity']);
         Permission::create(['name' => 'dashboard-card']);
         Permission::create(['name' => 'backup']);
+        Permission::create(['name' => 'master']); //Can edit and delete payment all time & all payments
 
 
         //Role

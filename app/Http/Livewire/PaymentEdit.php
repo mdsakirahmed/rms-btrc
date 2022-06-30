@@ -21,7 +21,7 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf as PDF;
 
 class PaymentEdit extends Component
 {
-    public $payment, $selected_payment_for_delete;
+    public $payment;
     public $transaction, $selected_category, $selected_sub_category, $selected_operator, $selected_expiration;
     public $receive_section_array = [], $po_section_array = [], $deposit_section_array = [];
 
@@ -45,6 +45,7 @@ class PaymentEdit extends Component
                 'late_fee_receive_amount' => $receive->late_fee_receive_amount,
                 'vat_receive_amount' => round(($receive->vat_percentage/100) * $receive->receive_amount),
                 'tax_receive_amount' => round(($receive->tax_percentage/100) * $receive->receive_amount),
+                'payment_wise_receive_id' => $receive->id,
             ]);
             $this->receive_section_array[$key]['periods'] = Period::where('expiration_id', $this->selected_expiration->id ?? null)->where('fee_type_id', $receive->period->fee_type_id)->get();
         }
@@ -56,6 +57,7 @@ class PaymentEdit extends Component
                 'po_number' => $pay_order->number,
                 'po_date' => $pay_order->date->format('Y-m-d'),
                 'po_bank' => $pay_order->bank_id,
+                'payment_wise_po_id' => $pay_order->id,
             ]);
         }
 
@@ -67,6 +69,7 @@ class PaymentEdit extends Component
                 'deposit_date' => $deposit->date->format('Y-m-d'),
                 'deposit_bank' => $deposit->bank_id,
                 'journal_number' => $deposit->journal_number,
+                'payment_wise_deposit_id' => $deposit->id,
             ]);
         }
     }
@@ -336,68 +339,85 @@ class PaymentEdit extends Component
         ) {
 
             // Payment
-            // Payment
-            $payment = ModelsPayment::create([
+            $payment = $this->payment;
+            $this->payment->update([
                 'operator_id' => $this->selected_operator,
                 'expiration_id' => $this->selected_expiration->id,
                 'transaction' => $this->transaction,
             ]);
 
+
+            // Delete all payment_wise_receives from db
+            $this->payment->receives()->whereNotIn('id', array_column($this->receive_section_array, 'payment_wise_receive_id'))->delete();
+
             // Receive
             foreach ($this->receive_section_array as $receive) {
-                //Update expiration wise payment date status
+                // Set receivable amount at first time only
                 $period = Period::find($receive['selected_period']);
                 if($period->total_receivable == 0){
                     $period->update([
                         'total_receivable' => $receive['receivable']
                     ]);
                 }
-                PaymentWiseReceive::create([
-                    'payment_id' => $payment->id,
-                    'period_id' => $receive['selected_period'],
-                    'receive_date' => $receive['receive_date'],
-                    'receive_amount' => $receive['receive_amount'] ?? 0,
-                    'late_fee_percentage' => $receive['late_fee_percentage'] ?? 0,
-                    'late_fee_receive_amount' => $receive['late_fee_receive_amount'] ?? 0,
-                    'vat_percentage' => $receive['vat_percentage'] ?? 0,
-                    'tax_percentage' => $receive['tax_percentage'] ?? 0,
-                    'late_days' => $receive['late_days'] ?? 0,
-                    'late_fee_receivable_amount' => $receive['late_fee_receive_amount'] ?? 0,
-                ]);
+                if(isset($receive['payment_wise_receive_id'])){
+                    $paymentWiseReceive = PaymentWiseReceive::find($receive['payment_wise_receive_id']);
+                }else{
+                    $paymentWiseReceive = new PaymentWiseReceive();
+                }
+                $paymentWiseReceive->payment_id =  $payment->id;
+                $paymentWiseReceive->period_id =  $receive['selected_period'];
+                $paymentWiseReceive->receive_date =  $receive['receive_date'];
+                $paymentWiseReceive->receive_amount =  $receive['receive_amount'] ?? 0;
+                $paymentWiseReceive->late_fee_percentage =  $receive['late_fee_percentage'] ?? 0;
+                $paymentWiseReceive->late_fee_receive_amount =  $receive['late_fee_receive_amount'] ?? 0;
+                $paymentWiseReceive->vat_percentage =  $receive['vat_percentage'] ?? 0;
+                $paymentWiseReceive->tax_percentage =  $receive['tax_percentage'] ?? 0;
+                $paymentWiseReceive->late_days =  $receive['late_days'] ?? 0;
+                $paymentWiseReceive->late_fee_receivable_amount =  $receive['late_fee_receive_amount'] ?? 0;
+                $paymentWiseReceive->save();
             }
+
+            // Delete all payment_wise_pay_orders from db
+            $this->payment->pay_orders()->whereNotIn('id', array_column($this->po_section_array, 'payment_wise_po_id'))->delete();
 
             // pay_order
             foreach ($this->po_section_array as $pay_order) {
-                PaymentWisePayOrder::create([
-                    'payment_id' => $payment->id,
-                    'amount' => $pay_order['po_amount'] ?? 0,
-                    'number' => $pay_order['po_number'],
-                    'date' => $pay_order['po_date'],
-                    'bank_id' => $pay_order['po_bank'],
-                ]);
+                if(isset($pay_order['payment_wise_po_id'])){
+                    $paymentWisePayOrder = PaymentWisePayOrder::find($pay_order['payment_wise_po_id']);
+                }else{
+                    $paymentWisePayOrder = new PaymentWisePayOrder();
+                }
+                $paymentWisePayOrder->payment_id = $payment->id;
+                $paymentWisePayOrder->amount = $pay_order['po_amount'] ?? 0;
+                $paymentWisePayOrder->number = $pay_order['po_number'];
+                $paymentWisePayOrder->date = $pay_order['po_date'];
+                $paymentWisePayOrder->bank_id = $pay_order['po_bank'];
+                $paymentWisePayOrder->save();
             }
 
+            // Delete all payment_wise_deposits from db
+            $this->payment->deposits()->whereNotIn('id', array_column($this->deposit_section_array, 'payment_wise_deposit_id'))->delete();
+
+            // Deposit
             foreach ($this->deposit_section_array as $deposit) {
-                PaymentWiseDeposit::create([
-                    'payment_id' => $payment->id,
-                    'amount' => $deposit['deposit_amount'],
-                    'bank_id' => $deposit['deposit_bank'],
-                    'journal_number' => $deposit['journal_number'],
-                    'date' => $deposit['deposit_date'],
-                    'po_number' => $deposit['po_number'],
-                    'deposit_by_user_id' => $deposit['deposit_by'] ?? null,
-                    'slip' => $deposit['deposit_slip'] ?? null,
-                ]);
+                if(isset($deposit['payment_wise_deposit_id'])){
+                    $paymentWiseDeposit = PaymentWiseDeposit::find($deposit['payment_wise_deposit_id']);
+                }else{
+                    $paymentWiseDeposit = new PaymentWiseDeposit();
+                }
+                $paymentWiseDeposit->payment_id = $payment->id;
+                $paymentWiseDeposit->amount = $deposit['deposit_amount'];
+                $paymentWiseDeposit->bank_id = $deposit['deposit_bank'];
+                $paymentWiseDeposit->journal_number = $deposit['journal_number'];
+                $paymentWiseDeposit->date = $deposit['deposit_date'];
+                $paymentWiseDeposit->po_number = $deposit['po_number'];
+                $paymentWiseDeposit->deposit_by_user_id = $deposit['deposit_by'] ?? null;
+                $paymentWiseDeposit->slip = $deposit['deposit_slip'] ?? null;
+                $paymentWiseDeposit->save();
             }
 
-            return response()->streamDownload(function () use ($payment) {
-                PDF::loadView('pdf.payment-receipt', [
-                    'file_name' => 'Collection Receipt',
-                    'payment' => $payment
-                ])->download();
-                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
-                redirect()->to('/payment');
-            }, 'Payment receipt generated at ' . date('d-m-Y- h-i-s') . '.pdf');
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Success !']);
+
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => 'Collection, PO and Deposit are not equal !']);
         }

@@ -23,7 +23,7 @@
             box-shadow: 1px 0 20 pxrgba(0, 0, 0, .08);
             margin: 0 -25px 10px -25px;
         }
-        
+
         .custom_row {
             display: flex;
         }

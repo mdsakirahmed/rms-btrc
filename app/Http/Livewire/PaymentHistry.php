@@ -11,7 +11,11 @@ class PaymentHistry extends Component
     public function render()
     {
         return view('livewire.payment-histry',[
-            'payments' => Payment::where('created_by', auth()->user()->id)->latest()->paginate(10)
+            'payments' => Payment::where(function($query){
+                if(!auth()->user()->can('master')){
+                    $query->where('created_by', auth()->user()->id);
+                }
+            })->latest()->paginate(10)
         ])
         ->extends('layouts.backend.app', ['title' => 'Payment History'])
         ->section('content');

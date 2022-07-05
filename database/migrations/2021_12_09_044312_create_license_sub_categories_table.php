@@ -15,6 +15,7 @@ class CreateLicenseSubCategoriesTable extends Migration
     {
         Schema::create('license_sub_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id');
             $table->string('name');
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();

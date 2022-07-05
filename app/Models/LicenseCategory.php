@@ -11,13 +11,12 @@ class LicenseCategory extends Model
 {
     use HasFactory, Userstamps, SoftDeletes;
 
-    protected $fillable = [
-        'name',
-        'duration_year',
-        'duration_month',
-    ];
+    protected $guarded = [];
 
-    public function category_wise_fees(){
+    public function sub_categories(){
+        return $this->hasMany(LicenseSubCategory::class, 'category_id', 'id');
+    }
+    public function fee_types(){
         return $this->hasMany(LicenseCategoryWiseFeeType::class, 'category_id', 'id');
     }
 

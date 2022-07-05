@@ -10,10 +10,8 @@ use Wildside\Userstamps\Userstamps;
 class LicenseSubCategory extends Model
 {
     use HasFactory, Userstamps, SoftDeletes;
-    
-    protected $fillable = [
-        'name'
-    ];
+
+    protected $guarded = [];
 
     public static function boot()
     {

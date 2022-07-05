@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('operator', Operator::class)->name('operator')->middleware(['permission:operator']);
     Route::get('operator-wise-payment/{operator}', OperatorWisePayments::class)->name('operator-wise-payment')->middleware(['permission:operator']);
     Route::get('expiration/{operator}', Expiration::class)->name('expiration')->middleware(['permission:expiration']);
-    Route::get('license-category-wise-fee/{license_category}', LicenseCategorywiseFee::class)->name('licenseCategorywiseFee')->middleware(['permission:license-category']);
+    Route::get('license-category-details/{license_category}', \App\Http\Livewire\LicenseCategoryDetails::class)->name('licenseCategoryDetails')->middleware(['permission:license-category']);
     Route::get('bank', Bank::class)->name('bank')->middleware(['permission:bank']);
     
     Route::get('payment', Payment::class)->name('payment')->middleware(['permission:payment']);

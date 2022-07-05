@@ -72,6 +72,33 @@ class LicenseCategoryDetails extends Component
         $this->create_fee_type();
     }
 
+    public function select_fee_type(\App\Models\FeeType $feeType){
+        $this->selected_fee_type = $feeType;
+        $this->name = $feeType->name;
+        $this->schedule_day = $feeType->schedule_day;
+        $this->schedule_month = $feeType->schedule_month;
+        $this->schedule_subtract_day = $feeType->schedule_subtract_day;
+        $this->period_month = $feeType->period_month;
+        $this->free_month_at_start = $feeType->free_month_at_start;
+        $this->period_format = $feeType->period_format;
+        $this->schedule_include_to_beginning_of_period = $feeType->schedule_include_to_beginning_of_period;
+        $this->period_start_with_issue_date = $feeType->period_start_with_issue_date;
+        $this->sub_category_id = $feeType->sub_category_id;
+        $this->amount = $feeType->amount;
+        $this->late_fee = $feeType->late_fee;
+        $this->vat = $feeType->vat;
+        $this->tax = $feeType->tax;
+    }
+
+    public function delete_fee_type(){
+        if( $this->selected_fee_type){
+            $this->selected_fee_type->delete();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Deleted !']);
+        }else{
+            $this->dispatchBrowserEvent('alert', ['type' => 'warning',  'message' => 'Item is not selected !']);
+        }
+    }
+
     /*  SUB CATEGORY  */
     public $sub_category_name, $selected_sub_category;
     public function create_sub_category(){

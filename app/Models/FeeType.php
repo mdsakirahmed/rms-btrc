@@ -59,7 +59,7 @@ class FeeType extends Model
         });
 
         self::deleting(function ($model) {
-            $model->periods()->delete(); // depended 1
+            // ... code here
         });
 
         self::deleted(function ($model) {

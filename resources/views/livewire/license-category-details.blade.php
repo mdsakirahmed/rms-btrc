@@ -40,12 +40,11 @@
                                     <td>{{ $fee_type->sub_category->name ?? 'N/A' }}</td>
                                     <td style="text-align: center;">
                                         <button type="button" class="btn btn-primary btn-xs"
-                                                wire:click="select_for_edit({{ $fee_type->id }})" alt="default"
+                                                wire:click="select_fee_type({{ $fee_type->id }})" alt="default"
                                                 data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">Edit
                                         </button>
                                         <button type="button" class="btn btn-danger btn-xs text-white"
-                                                wire:click="delete({{ $fee_type->id }})"
-                                                onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()">
+                                                wire:click="select_fee_type({{ $fee_type->id }})" data-bs-toggle="modal" data-bs-target="#delete_fee_type_modal">
                                             Delete
                                         </button>
                                     </td>
@@ -100,7 +99,7 @@
         </div>
 
         <div class="col-12">
-            <!-- sample modal content -->
+            <!-- fee_type modal content -->
             <div wire:ignore.self class="modal bs-example-modal-lg fade" id="fee_type_modal" tabindex="-1"
                  data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -242,7 +241,22 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
+            <!-- /. fee_type modal -->
+            <!-- fee_type delete modal content -->
+            <div wire:ignore.self class="modal delete-modal fade" tabindex="-1" id="delete_fee_type_modal"
+                 data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt=""> <br>
+                            <button class="btn btn-danger text-white" data-bs-dismiss="modal"
+                                    wire:click="delete_fee_type">Delete Fee Type
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.fee_type modal -->
             <!-- sub_category_modal modal content -->
             <div wire:ignore.self class="modal bs-example-modal-lg fade" id="sub_category_modal" tabindex="-1"
                  data-backdrop="static" role="dialog" aria-labelledby="" aria-hidden="true" style="display: none;">
@@ -292,7 +306,7 @@
                         <div class="modal-body text-center">
                             <img src="{{ asset('assets/images/delete-animation.gif') }}" width="200" alt=""> <br>
                             <button class="btn btn-danger text-white" data-bs-dismiss="modal"
-                                    wire:click="delete_sub_category">Delete
+                                    wire:click="delete_sub_category">Delete Sub Category
                             </button>
                         </div>
                     </div>

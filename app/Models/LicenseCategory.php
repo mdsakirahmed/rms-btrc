@@ -17,7 +17,7 @@ class LicenseCategory extends Model
         return $this->hasMany(LicenseSubCategory::class, 'category_id', 'id');
     }
     public function fee_types(){
-        return $this->hasMany(LicenseCategoryWiseFeeType::class, 'category_id', 'id');
+        return $this->hasMany(FeeType::class, 'category_id', 'id');
     }
 
     public static function boot()

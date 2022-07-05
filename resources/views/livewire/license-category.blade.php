@@ -36,7 +36,7 @@
                                     <td>{{ $licenseCategory->duration_year }} year</td>
                                     <td>{{ $licenseCategory->duration_month }} month</td>
                                     <td>
-                                        <a href="{{ route('licenseCategoryDetails', $licenseCategory) }}" class="btn btn-primary">Configuration</a>
+                                        <a href="{{ route('licenseCategoryDetails', $licenseCategory) }}" class="btn btn-primary">Fee ({{ $licenseCategory->fee_types->count() }})</a>
                                         <button type="button" class="btn btn-primary" wire:click="selectForEdit({{ $licenseCategory->id }})" alt="default" data-bs-toggle="modal" data-bs-target="#create_and_edit_modal">Edit</button>
                                         <button type="button" class="btn btn-danger text-white confirmation_btn" wire:click="delete({{ $licenseCategory->id }})" onclick="confirm('Are you sure you want to remove ?') || event.stopImmediatePropagation()"> Delete </button>
                                     </td>

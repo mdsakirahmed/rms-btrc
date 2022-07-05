@@ -32,8 +32,20 @@
                                 <tr>
                                     <th>--</th>
                                     <th><input type="text" class="form-control" placeholder="Name" wire:model="search_for_name"></th>
-                                    <th><input type="text" class="form-control" placeholder="Category" wire:model="search_for_category"></th>
-                                    <th><input type="text" class="form-control" placeholder="Sub Category" wire:model="search_for_sub_category"></th>
+                                    <th> <select name="" id="category_id" class="form-control" wire:model="category_id">
+                                            <option value="">Select Category</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+                                    <th><select name="" id="sub_category_id" class="form-control" wire:model="sub_category_id">
+                                            <option value="">Select Sub Category</option>
+                                            @foreach ($sub_categories as $sub_category)
+                                                <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </th>
                                     <th>--</th>
                                 </tr>
                                 @foreach ($operators as $operator)
@@ -44,7 +56,11 @@
                                     <td>{{ $operator->sub_category->name ?? 'Non sub category' }}</td>
                                     <td>
                                         @can('expiration')
+                                            @if($operator->category->fee_types->count() > 0)
                                         <a href="{{ route('expiration', $operator->id) }}" class="btn btn-info text-white">Configuration</a>
+                                            @else
+                                                <b>Category Not Ready Yet</b>
+                                                @endif
                                         @endcan
                                         {{--<a href="{{ route('operator-wise-payment', $operator->id) }}" class="btn btn-info text-white">Show Payments</a>--}}
                                         <button type="button" class="btn btn-primary" wire:click="select_for_edit({{ $operator->id }})" data-bs-toggle="modal" data-bs-target=".operator-modal-lg">Edit</button>

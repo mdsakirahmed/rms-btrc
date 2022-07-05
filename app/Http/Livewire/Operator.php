@@ -11,9 +11,7 @@ use Illuminate\Pagination\Paginator;
 class Operator extends Component
 {
     public $category_id, $sub_category_id, $name, $phone, $email, $website, $address, $note, $contact_person_name, $contact_person_designation, $contact_person_phone, $contact_person_email;
-    public $category_search_key, $sub_category_search_key;
-    public $operator;
-    public $search_for_name, $search_for_category, $search_for_sub_category;
+    public $operator, $search_for_name;
 
 
     public function setPage($url)
@@ -26,15 +24,27 @@ class Operator extends Component
 
     public function create()
     {
-        $this->category_id = $this->sub_category_id = $this->name = $this->phone = $this->email = $this->website = $this->address = $this->note = $this->contact_person_name = $this->contact_person_designation = $this->contact_person_phone = $this->contact_person_email = null;
+        $this->category_id =
+        $this->sub_category_id =
+        $this->name =
+        $this->phone =
+        $this->email =
+        $this->website =
+        $this->address =
+        $this->note =
+        $this->contact_person_name =
+        $this->contact_person_designation =
+        $this->contact_person_phone =
+        $this->operator =
+        $this->contact_person_email = null;
     }
 
     public function submit()
     {
         $validate_data = $this->validate([
             'category_id' => 'required|exists:license_categories,id',
-            'sub_category_id' => 'required|exists:license_sub_categories,id',
-            'name' => 'required|string',
+            'sub_category_id' => 'nullable|exists:license_sub_categories,id',
+            'name' => 'required|unique:operators,name,' . ($this->operator ? $this->operator->id : null),
             'phone' => 'nullable|string',
             'email' => 'nullable|string',
             'website' => 'nullable|string',
@@ -49,14 +59,8 @@ class Operator extends Component
             'sub_category_id' => 'Sub category',
         ]);
         if ($this->operator) {
-            $this->validate([
-                'name' => 'required|unique:operators,name,' . $this->operator->id,
-            ]);
             $this->operator->update($validate_data);
         } else {
-            $this->validate([
-                'name' => 'required|unique:operators,name'
-            ]);
             ModelsOperator::create($validate_data);
         }
         $this->create();
@@ -117,8 +121,8 @@ class Operator extends Component
     {
         return view('livewire.operator', [
             'operators' => $this->get_operators()->paginate(20),
-            'categories' => LicenseCategory::where('name', 'like', '%' . $this->category_search_key . '%')->latest()->get(),
-            'sub_categories' => LicenseSubCategory::where('name', 'like', '%' . $this->sub_category_search_key . '%')->latest()->get(),
+            'categories' => LicenseCategory::latest()->get(),
+            'sub_categories' => LicenseSubCategory::where('category_id', $this->category_id)->latest()->get(),
         ])->extends('layouts.backend.app', ['title' => 'Operator'])
             ->section('content');
     }
@@ -126,13 +130,12 @@ class Operator extends Component
     public function get_operators()
     {
         return  ModelsOperator::where('name', 'like', '%' . $this->search_for_name . '%')
-            ->with(['category', 'sub_category'])
-            ->whereHas('category', function ($category) {
-                $category->where('name', 'like', '%' . $this->search_for_category . '%');
-            })
-            ->whereHas('sub_category', function ($sub_category) {
-                $sub_category->where('name', 'like', '%' . $this->search_for_sub_category . '%');
-            })
-            ->latest();
+            ->where(function($query) {
+                if($this->category_id)
+                $query->where('category_id', $this->category_id);
+            })->where(function($query) {
+                if($this->sub_category_id)
+                $query->where('sub_category_id', $this->sub_category_id);
+            })->latest();
     }
 }

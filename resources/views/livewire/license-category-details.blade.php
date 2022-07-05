@@ -112,35 +112,54 @@
                         <div class="modal-body">
                             <form wire:submit.prevent="submit_fee_type">
                                 <div class="row mb-4">
-                                    <div class="col">
+                                    <div class="col-4">
                                         <label for="name">Fee Name</label>
-                                        <input type="text" class="form-control @error("name") border-danger @enderror" id="name" wire:model="name" >
+                                        <input type="text" class="form-control @error("name") border-danger @enderror"
+                                               id="name" wire:model="name">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <label for="schedule_day">Schedule Day</label>
-                                        <input type="number" class="form-control @error("schedule_day") border-danger @enderror" id="schedule_day"
+                                        <input type="number"
+                                               class="form-control @error("schedule_day") border-danger @enderror"
+                                               id="schedule_day"
                                                wire:model="schedule_day">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <label for="schedule_month">Schedule Month</label>
-                                        <input type="number" class="form-control @error("schedule_month") border-danger @enderror" id="schedule_month"
+                                        <input type="number"
+                                               class="form-control @error("schedule_month") border-danger @enderror"
+                                               id="schedule_month"
                                                wire:model="schedule_month">
                                     </div>
-                                    <div class="col">
-                                        <label for="schedule_subtract_day">Schedule -Day</label>
-                                        <input type="number" class="form-control @error("schedule_subtract_day") border-danger @enderror" id="schedule_subtract_day"
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-4">
+                                        <label for="schedule_subtract_day">Schedule (-)Day</label>
+                                        <input type="number"
+                                               class="form-control @error("schedule_subtract_day") border-danger @enderror"
+                                               id="schedule_subtract_day"
                                                wire:model="schedule_subtract_day">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <label for="period_month">Period Month</label>
-                                        <input type="number" class="form-control @error("period_month") border-danger @enderror" id="period_month"
+                                        <input type="number"
+                                               class="form-control @error("period_month") border-danger @enderror"
+                                               id="period_month"
                                                wire:model="period_month">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="free_month_at_start">Free Month at Start</label>
+                                        <input type="number"
+                                               class="form-control @error("free_month_at_start") border-danger @enderror"
+                                               id="free_month_at_start"
+                                               wire:model="free_month_at_start">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <label for="period_format">Period Format</label>
-                                        <select name="period_format" id="period_format" class="form-control @error("period_format") border-danger @enderror"
+                                        <select name="period_format" id="period_format"
+                                                class="form-control @error("period_format") border-danger @enderror"
                                                 wire:model="period_format">
                                             <option value="">Chose Period Format</option>
                                             <option value="1">Jan/2022-2023</option>
@@ -149,8 +168,10 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="schedule_include_to_beginning_of_period">Beginning/End</label>
-                                        <select name="schedule_include_to_beginning_of_period" title="Schedule Beginning/End of Period"
-                                                id="schedule_include_to_beginning_of_period" class="form-control @error("schedule_include_to_beginning_of_period") border-danger @enderror"
+                                        <select name="schedule_include_to_beginning_of_period"
+                                                title="Schedule Beginning/End of Period"
+                                                id="schedule_include_to_beginning_of_period"
+                                                class="form-control @error("schedule_include_to_beginning_of_period") border-danger @enderror"
                                                 wire:model="schedule_include_to_beginning_of_period">
                                             <option value="">Chose</option>
                                             <option value="1">Beginning of the Period</option>
@@ -160,7 +181,8 @@
                                     <div class="col-md-3">
                                         <label for="period_start_with_issue_date"> Start at Issue </label>
                                         <select name="period_start_with_issue_date" id="period_start_with_issue_date"
-                                                class="form-control @error("period_start_with_issue_date") border-danger @enderror" wire:model="period_start_with_issue_date">
+                                                class="form-control @error("period_start_with_issue_date") border-danger @enderror"
+                                                wire:model="period_start_with_issue_date">
                                             <option value="">Chose</option>
                                             <option value="1">Yes</option>
                                             <option value="0">No</option>
@@ -169,7 +191,8 @@
                                     <div class="col-md-3">
                                         <label for="period_start_with_issue_date"> Sub Category </label>
                                         <select name="period_start_with_issue_date" id="sub_category_id"
-                                                class="form-control @error("sub_category_id") border-danger @enderror" wire:model="sub_category_id">
+                                                class="form-control @error("sub_category_id") border-danger @enderror"
+                                                wire:model="sub_category_id">
                                             <option value="">Chose</option>
                                             @foreach ($sub_categories as $sub_category)
                                                 <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>

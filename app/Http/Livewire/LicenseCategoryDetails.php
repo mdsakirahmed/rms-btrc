@@ -25,14 +25,15 @@ class LicenseCategoryDetails extends Component
     /*  FEE TYPE  */
     public function create_fee_type(){
         $this->name =
-        $this->period_format =
-        $this->schedule_include_to_beginning_of_period =
         $this->schedule_day =
         $this->schedule_month =
         $this->schedule_subtract_day =
+        $this->period_month =
+        $this->free_month_at_start =
+        $this->period_format =
+        $this->schedule_include_to_beginning_of_period =
         $this->period_start_with_issue_date =
         $this->sub_category_id =
-        $this->period_month =
         $this->amount =
         $this->late_fee =
         $this->vat =
@@ -43,13 +44,14 @@ class LicenseCategoryDetails extends Component
     public function submit_fee_type(){
         $validate_data = $this->validate([
             'name' => 'required',
-            'period_format' => 'required',
             'schedule_day' => 'required|numeric|min:0|max:30',
             'schedule_month' => 'required|numeric|min:0|max:12',
             'schedule_subtract_day' => 'required|numeric|min:0|max:30',
-            'period_start_with_issue_date' => 'required|boolean',
             'period_month' => 'required|numeric|min:1|max:12',
+            'free_month_at_start' => 'required|numeric|min:0',
+            'period_format' => 'required',
             'schedule_include_to_beginning_of_period' => 'required|boolean',
+            'period_start_with_issue_date' => 'required|boolean',
             'sub_category_id' => 'nullable|exists:license_sub_categories,id',
             'amount' => 'required|numeric',
             'late_fee' => 'required|numeric',

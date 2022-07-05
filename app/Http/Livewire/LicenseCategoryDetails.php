@@ -33,7 +33,11 @@ class LicenseCategoryDetails extends Component
         $this->period_start_with_issue_date =
         $this->sub_category_id =
         $this->period_month =
-        $this->selected_fee_type =null;
+        $this->amount =
+        $this->late_fee =
+        $this->vat =
+        $this->tax =
+        $this->selected_fee_type = null;
     }
 
     public function submit_fee_type(){
@@ -46,10 +50,16 @@ class LicenseCategoryDetails extends Component
             'period_start_with_issue_date' => 'required|boolean',
             'period_month' => 'required|numeric|min:1|max:12',
             'schedule_include_to_beginning_of_period' => 'required|boolean',
-            'sub_category_id' => 'nullable|exists:license_sub_categories,id'
+            'sub_category_id' => 'nullable|exists:license_sub_categories,id',
+            'amount' => 'required|numeric',
+            'late_fee' => 'required|numeric',
+            'vat' => 'required|numeric',
+            'tax' => 'required|numeric',
         ]);
         $validate_data['category_id'] = $this->license_category->id;
-        $validate_data['sub_category_id'] = $validate_data['sub_category_id'] ? "" : null;
+        if(!is_numeric($validate_data['sub_category_id'])){
+            $validate_data['sub_category_id'] = null;
+        }
         if ($this->selected_fee_type) {
             $this->selected_fee_type->update($validate_data);
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => 'Updated !']);

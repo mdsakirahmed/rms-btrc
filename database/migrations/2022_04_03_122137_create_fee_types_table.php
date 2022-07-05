@@ -34,6 +34,7 @@ class CreateFeeTypesTable extends Migration
             $table->double('late_fee')->default(0)->comment('in percentage');
             $table->double('vat')->default(0)->comment('in percentage');
             $table->double('tax')->default(0)->comment('in percentage');
+
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();
             $table->foreignId('deleted_by')->nullable();

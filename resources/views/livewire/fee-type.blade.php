@@ -79,6 +79,7 @@
                                         </div>
                                         <x-error name="name" />
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <select name="period_format" id="period_format" class="form-control" wire:model="period_format">

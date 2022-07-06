@@ -48,7 +48,7 @@ class Expiration extends Component
 
             $period_data_set = [];
 
-            foreach ($this->operator->category->fee_types as $fee_type) {
+            foreach ($this->operator->category->fee_types()->where('sub_category_id', $this->operator->sub_category_id)->get() as $fee_type) {
                 $period_start_date = $issue_date = Carbon::create($expiration->issue_date)->addMonths($fee_type->free_month_at_start);;
                 if (!$fee_type->period_start_with_issue_date) {
                     $period_start_date = Carbon::create($issue_date)->firstOfYear();

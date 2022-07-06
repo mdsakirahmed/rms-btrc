@@ -131,7 +131,6 @@
                                 <table class="table color-table success-table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Serial</th>
                                             <th>Period</th>
                                             <th>Schedule Date</th>
                                             <th>Fee type</th>
@@ -143,7 +142,6 @@
                                     <tbody>
                                         @foreach ($periods as $period)
                                         <tr>
-                                            <td>{{ $period->payment_number }}</td>
                                             <td>{{ $period->period_label }}</td>
                                             <td>{{ $period->period_schedule_date->format('d M Y') }}</td>
                                             <td>{{ $period->fee_type->name ?? 'Not found' }}</td>

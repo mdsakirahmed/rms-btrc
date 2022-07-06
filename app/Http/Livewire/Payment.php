@@ -39,7 +39,7 @@ class Payment extends Component
         }
         $data = [
             'categories' => LicenseCategory::all(),
-            'sub_categories' => LicenseSubCategory::all(),
+            'sub_categories' => LicenseSubCategory::where('category_id', $this->selected_category)->get(),
             'po_banks' => Bank::where('type', 'po')->get(),
             'deposit_banks' => Bank::where('type', 'deposit')->get(),
             'users' => User::all(),
@@ -134,14 +134,14 @@ class Payment extends Component
         $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
         $this->receive_section_array[$key]['periods'] = Period::where('expiration_id', $this->selected_expiration->id ?? null)->where('fee_type_id', $fee_type_id)->get();
 
-        $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)->where('fee_type_id', $fee_type_id)->first();
-        $this->receive_section_array[$key]['receivable'] =  $category_wise_fee_type->amount ?? 0;
-        $this->receive_section_array[$key]['receive_amount'] =  $category_wise_fee_type->amount ?? 0;
-        $this->receive_section_array[$key]['late_fee_percentage'] =  $category_wise_fee_type->late_fee ?? 0;
-        $this->receive_section_array[$key]['vat_percentage'] =  $category_wise_fee_type->vat ?? 0;
-        $this->receive_section_array[$key]['tax_percentage'] =  $category_wise_fee_type->tax ?? 0;
-        $this->receive_section_array[$key]['vat_receive_amount'] =  round((($category_wise_fee_type->amount / 100) * $category_wise_fee_type->vat), 2) ?? 0;
-        $this->receive_section_array[$key]['tax_receive_amount'] =  round((($category_wise_fee_type->amount / 100) * $category_wise_fee_type->tax), 2) ?? 0;
+        $fee_type = FeeType::find($fee_type_id);
+        $this->receive_section_array[$key]['receivable'] =  $fee_type->amount ?? 0;
+        $this->receive_section_array[$key]['receive_amount'] =  $fee_type->amount ?? 0;
+        $this->receive_section_array[$key]['late_fee_percentage'] =  $fee_type->late_fee ?? 0;
+        $this->receive_section_array[$key]['vat_percentage'] =  $fee_type->vat ?? 0;
+        $this->receive_section_array[$key]['tax_percentage'] =  $fee_type->tax ?? 0;
+        $this->receive_section_array[$key]['vat_receive_amount'] =  round((($fee_type->amount / 100) * $fee_type->vat), 2) ?? 0;
+        $this->receive_section_array[$key]['tax_receive_amount'] =  round((($fee_type->amount / 100) * $fee_type->tax), 2) ?? 0;
     }
 
     public function period_change($key)
@@ -168,9 +168,8 @@ class Payment extends Component
         ]);
         // If receive amount if empty or not integer input than integer value auto fill
         $this->receive_section_array[$key]['receive_amount'] = intval($this->receive_section_array[$key]['receive_amount']);
-        $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
-        $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)->where('fee_type_id', $fee_type_id)->first();
-        $late_fee_receivable_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $category_wise_fee_type->late_fee) ?? 0;
+        $fee_type = FeeType::find($this->receive_section_array[$key]['selected_fee_type']);
+        $late_fee_receivable_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $fee_type->late_fee) ?? 0;
         $schedule_date = Period::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date;
         $this->receive_section_array[$key]['late_days'] = 0;
         if (Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false) < 0) {
@@ -191,9 +190,8 @@ class Payment extends Component
         ]);
         // If receive amount if empty or not integer input than integer value auto fill
         $this->receive_section_array[$key]['receive_amount'] = intval($receive_amount);
-        $fee_type_id = $this->receive_section_array[$key]['selected_fee_type'];
-        $category_wise_fee_type = LicenseCategoryWiseFeeType::where('category_id', $this->selected_category)->where('fee_type_id', $fee_type_id)->first();
-        $late_fee_receivable_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $category_wise_fee_type->late_fee) ?? 0;
+        $fee_type = FeeType::find($this->receive_section_array[$key]['selected_fee_type']);
+        $late_fee_receivable_amount_of_one_year = ((($this->receive_section_array[$key]['receive_amount'] ?? 0) / 100) * $fee_type->late_fee) ?? 0;
         $schedule_date = Period::find($this->receive_section_array[$key]['selected_period'])->period_schedule_date;
         $this->receive_section_array[$key]['late_days'] = 0;
         if (Carbon::parse($this->receive_section_array[$key]['receive_date'])->diffInDays($schedule_date, false) < 0) {
@@ -202,8 +200,8 @@ class Payment extends Component
         $this->receive_section_array[$key]['late_fee_receive_amount'] = round(($late_fee_receivable_amount_of_one_year / 365) * $this->receive_section_array[$key]['late_days']);
 
         // Vat tax amount update for changing receive amount
-        $this->receive_section_array[$key]['vat_receive_amount'] =  (($this->receive_section_array[$key]['receive_amount'] / 100) * $category_wise_fee_type->vat) ?? 0;
-        $this->receive_section_array[$key]['tax_receive_amount'] =  (($this->receive_section_array[$key]['receive_amount'] / 100) * $category_wise_fee_type->tax) ?? 0;
+        $this->receive_section_array[$key]['vat_receive_amount'] =  (($this->receive_section_array[$key]['receive_amount'] / 100) * $fee_type->vat) ?? 0;
+        $this->receive_section_array[$key]['tax_receive_amount'] =  (($this->receive_section_array[$key]['receive_amount'] / 100) * $fee_type->tax) ?? 0;
     }
 
     public function reset_section($section){
@@ -239,31 +237,31 @@ class Payment extends Component
     public function submit()
     {
         $this->validate([
-            'transaction' => 'required',
-            'selected_category' => 'required',
-            'selected_sub_category' => 'required',
-            'selected_operator' => 'required',
+            'transaction' => 'required|unique:payments,transaction',
+            'selected_category' => 'required|exists:license_categories,id',
+            'selected_sub_category' => 'nullable',
+            'selected_operator' => 'required|exists:operators,id',
             'selected_expiration' => 'required',
-            'receive_section_array.*.selected_fee_type' => 'required',
-            'receive_section_array.*.selected_period' => 'required',
+            'receive_section_array.*.selected_fee_type' => 'required|exists:fee_types,id',
+            'receive_section_array.*.selected_period' => 'required|exists:periods,id',
             'receive_section_array.*.schedule_date' => 'required',
             'receive_section_array.*.receive_date' => 'required',
-            'receive_section_array.*.receivable' => 'required',
-            'receive_section_array.*.receive_amount' => 'required',
-            'receive_section_array.*.late_fee_receive_amount' => 'required',
-            'receive_section_array.*.vat_receive_amount' => 'required',
-            'receive_section_array.*.tax_receive_amount' => 'required',
+            'receive_section_array.*.receivable' => 'required|numeric',
+            'receive_section_array.*.receive_amount' => 'required|numeric',
+            'receive_section_array.*.late_fee_receive_amount' => 'required|numeric',
+            'receive_section_array.*.vat_receive_amount' => 'required|numeric',
+            'receive_section_array.*.tax_receive_amount' => 'required|numeric',
 
-            'po_section_array.*.po_amount' => 'required',
-            'po_section_array.*.po_number' => 'required',
+            'po_section_array.*.po_amount' => 'required|numeric',
+            'po_section_array.*.po_number' => 'required|string',
             'po_section_array.*.po_date' => 'required',
-            'po_section_array.*.po_bank' => 'required',
+            'po_section_array.*.po_bank' => 'required|exists:banks,id',
 
-            'deposit_section_array.*.deposit_amount' => 'required',
-            'deposit_section_array.*.deposit_bank' => 'required',
-            'deposit_section_array.*.journal_number' => 'required',
+            'deposit_section_array.*.deposit_amount' => 'required|numeric',
+            'deposit_section_array.*.deposit_bank' => 'required|exists:banks,id',
+            'deposit_section_array.*.journal_number' => 'required|string',
             'deposit_section_array.*.deposit_date' => 'required',
-            'deposit_section_array.*.po_number' => 'required',
+            'deposit_section_array.*.po_number' => 'required|string',
             // 'deposit_section_array.*.deposit_by' => 'required',
             // 'deposit_section_array.*.deposit_slip' => 'required',
         ], [], [

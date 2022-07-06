@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Report;
 
 use App\Models\Bank;
+use App\Models\FeeType;
 use App\Models\LicenseCategory;
 use App\Models\LicenseCategoryWiseFeeType;
 use App\Models\Operator;
@@ -30,7 +31,7 @@ class ReportThree extends Component
 
         return view('livewire.report.report-three', [
             'banks' => Bank::all(),
-            'fee_types' => LicenseCategoryWiseFeeType::where('category_id', $this->category)->get(),
+            'fee_types' => FeeType::where('category_id', $this->category)->get(),
             'categories' => LicenseCategory::all(),
         ])->extends('layouts.backend.app', ['title' => 'Revenue Sharing Statement'])->section('content');
     }

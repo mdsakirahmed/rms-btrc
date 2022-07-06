@@ -18,7 +18,6 @@ class CreatePeriodsTable extends Migration
             $table->foreignId('operator_id')->nullable();
             $table->foreignId('expiration_id');
             $table->foreignId('fee_type_id');
-            $table->integer('payment_number');
             $table->date('period_start_date');
             $table->date('period_end_date');
             $table->date('period_schedule_date');

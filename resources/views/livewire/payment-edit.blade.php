@@ -119,7 +119,7 @@
                                     <div class="form-group">
                                         {{--<label class="form-label required">Fee Type</label>--}}
                                         <select class="form-select form-select-sm @error("receive_section_array.$key.selected_fee_type") bg-danger @enderror"
-                                                @if($receive_section_array[$key]['lock'] ?? false) readonly
+                                                @if($receive_section_array[$key]['lock'] ?? false) disabled
                                                 @endif wire:model="receive_section_array.{{ $key }}.selected_fee_type"
                                                 wire:change="fee_type_change({{ $key }})" data-toggle="tooltip" title="Fee Type">
                                             <option value="">Select Fee Type</option>
@@ -135,7 +135,7 @@
                                     <div class="form-group">
                                         {{--<label class="form-label required">Select Period</label>--}}
                                         <select class="form-select form-select-sm @error("receive_section_array.$key.selected_period") bg-danger @enderror"
-                                                @if($receive_section_array[$key]['lock'] ?? false) readonly
+                                                @if($receive_section_array[$key]['lock'] ?? false) disabled
                                                 @endif wire:model="receive_section_array.{{ $key }}.selected_period"
                                                 wire:change="period_change({{ $key }})" data-toggle="tooltip" title="Select Period">
                                             <option value="">Select Period</option>
@@ -293,7 +293,7 @@
                                 <div class="form-group">
                                     {{--<label class="form-label required">PO Bank</label>--}}
                                     <select class="form-select form-select-sm @error("po_section_array.$key.po_bank") bg-danger @enderror"
-                                            @if($po_section_array[$key]['lock'] ?? false) readonly
+                                            @if($po_section_array[$key]['lock'] ?? false) disabled
                                             @endif wire:model="po_section_array.{{ $key }}.po_bank"
                                             data-toggle="tooltip" title="PO Bank">
                                         <option value="">Select PO Bank</option>
@@ -374,7 +374,7 @@
                                 <div class="form-group">
                                     {{--<label class="form-label required">Deposit Bank</label>--}}
                                     <select class="form-select form-select-sm @error("deposit_section_array.$key.deposit_bank") bg-danger @enderror"
-                                            @if($deposit_section_array[$key]['lock'] ?? false) readonly
+                                            @if($deposit_section_array[$key]['lock'] ?? false) disabled
                                             @endif wire:model="deposit_section_array.{{ $key }}.deposit_bank"
                                             data-toggle="tooltip" title="Deposit Bank">
                                         <option value="">Select Deposit Bank</option>
@@ -467,8 +467,8 @@
         </div>
     </div>
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <h1 class="text-danger">Error messages:</h1>
+    <div class="alert alert-danger mt-5">
+        <h4 class="text-danger">Error messages:</h4>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>

@@ -64,15 +64,15 @@
                             @can('bank')
                                 <li><a href="{{ route('bank') }}">Bank</a></li>
                             @endcan
-                            @can('fee-type')
+                            {{-- @can('fee-type')
                                 <li><a href="{{ route('fee-type') }}">Fee Type</a></li>
-                            @endcan
+                            @endcan --}}
                             @can('license-category')
                                 <li><a href="{{ route('license-category') }}">Category</a></li>
                             @endcan
-                            @can('license-sub-category')
+                            {{-- @can('license-sub-category')
                                 <li><a href="{{ route('license-sub-category') }}">Sub-Category</a></li>
-                            @endcan
+                            @endcan --}}
                             @can('operator')
                                 <li><a class="waves-effect waves-dark" href="{{ route('operator') }}">Operator</a></li>
                             @endcan

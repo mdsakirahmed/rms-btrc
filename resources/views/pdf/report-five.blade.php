@@ -26,14 +26,14 @@
                     @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ $period->period_label }} <br>
                     @endforeach
-                    <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub-Total</b>
+                    <br> <b style="padding: 3%;">{{ $loop->iteration }}. Sub-Total</b>
                 </td>
                 <td style="text-align: right;">
                     @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ money_format_india($period->total_receivable) }} <br>
                     @endforeach
                     <br>
-                   <b style="border: 2px solid green; padding: 3%;">{{ round(collect($operator_model->fee_type_wise_periods($fee_type->id))->sum('total_receivable')) }}</b>
+                   <b style="padding: 3%;">{{ round(collect($operator_model->fee_type_wise_periods($fee_type->id))->sum('total_receivable')) }}</b>
                         @php $total_receivable += $operator_model->fee_type_wise_periods($fee_type->id)->sum('total_receivable'); @endphp
                 </td>
                 <td>
@@ -64,7 +64,7 @@
                         <br>
                     @endforeach
                     <br>
-                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->late_fee_amount_by_fee_type($fee_type->id))) }} </b>
+                    <b style="padding: 3%;"> {{ money_format_india(round($operator_model->late_fee_amount_by_fee_type($fee_type->id))) }} </b>
                         @php $total_late_fee += round($operator_model->late_fee_amount_by_fee_type($fee_type->id)); @endphp
                 </td>
                 <td style="text-align: right;">
@@ -73,7 +73,7 @@
                         <br>
                     @endforeach
                     <br>
-                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->vat_amount_by_fee_type($fee_type->id))) }} </b>
+                    <b style="padding: 3%;"> {{ money_format_india(round($operator_model->vat_amount_by_fee_type($fee_type->id))) }} </b>
                         @php $total_vat += round($operator_model->vat_amount_by_fee_type($fee_type->id)); @endphp
                 </td>
                 <td style="text-align: right;">
@@ -82,7 +82,7 @@
                         <br>
                     @endforeach
                     <br>
-                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->id))) }} </b>
+                    <b style="padding: 3%;"> {{ money_format_india(round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->id))) }} </b>
                         @php $total_of_total += round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->id)); @endphp
                 </td>
             </tr>

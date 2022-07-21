@@ -45,7 +45,7 @@
                             <li><a href="{{ route('report-two') }}">Report Two</a></li>
                             <li><a href="{{ route('report-three') }}">Report Three</a></li>
                             <li><a href="{{ route('report-four') }}">Report Four</a></li>
-                            {{-- <li><a href="{{ route('report-five') }}">Report Five</a></li> --}}
+                            <li><a href="{{ route('report-five') }}">Report Five</a></li>
                             {{-- <li><a href="{{ route('report-six') }}">Report Six</a></li> --}}
                             {{-- <li><a href="{{ route('operator-wise-file-register') }}">Operator Wise File Register</a></li>
                             <li><a href="{{ route('operator-detail') }}">Operator Detail</a></li>

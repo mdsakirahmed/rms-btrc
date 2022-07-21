@@ -18,7 +18,7 @@
         </thead>
         <tbody>
         @php $total_receivable = 0; $total_late_fee = 0; $total_vat = 0; $total_of_total = 0; @endphp
-        @foreach($operator_model->category->fee_types as $fee_type)
+        @foreach($fee_types as $fee_type)
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $fee_type->name }}</td>
@@ -33,7 +33,7 @@
                         {{ money_format_india($period->total_receivable) }} <br>
                     @endforeach
                     <br>
-                   <b style="border: 2px solid green; padding: 3%;">{{ collect(round($operator_model->fee_type_wise_periods($fee_type->id)->sum('total_receivable'))) }}</b>
+                   <b style="border: 2px solid green; padding: 3%;">{{ round(collect($operator_model->fee_type_wise_periods($fee_type->id))->sum('total_receivable')) }}</b>
                         @php $total_receivable += $operator_model->fee_type_wise_periods($fee_type->id)->sum('total_receivable'); @endphp
                 </td>
                 <td>

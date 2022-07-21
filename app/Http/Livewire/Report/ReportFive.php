@@ -44,6 +44,13 @@ class ReportFive extends Component
                 'sub_category' => LicenseSubCategory::find($this->sub_category)->name ?? '#',
                 'operator_model' => Operator::find($this->operator) ?? null,
                 'file_name' => 'Report',
+                'fee_types' => FeeType::where(function ($query) {
+                    if ($this->category && $this->sub_category) {
+                        $query->where('category_id', $this->category)->where('sub_category_id', $this->sub_category)->get();
+                    } else {
+                        $query->where('id', 0);
+                    }
+                })->get()
             ], [], [
                 'format' => 'A4'
             ])->download();

@@ -19,7 +19,6 @@ use App\Http\Livewire\Report\OperatorWiseFileRegister;
 use App\Http\Livewire\Bank;
 use App\Http\Livewire\Expiration;
 use App\Http\Livewire\FeeType;
-use App\Http\Livewire\LicenseCategorywiseFee;
 use App\Http\Livewire\OperatorWisePayments;
 use App\Http\Livewire\Payment;
 use App\Http\Livewire\PaymentHistry;

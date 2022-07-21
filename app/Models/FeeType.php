@@ -21,10 +21,6 @@ class FeeType extends Model
         return $this->belongsTo(LicenseSubCategory::class, 'sub_category_id', 'id');
     }
 
-    public function fee_type(){
-        return $this->belongsTo(FeeType::class, 'fee_type_id', 'id');
-    }
-
     public static function boot()
     {
         parent::boot();

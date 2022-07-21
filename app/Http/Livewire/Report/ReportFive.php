@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Report;
 
 use App\Models\Bank;
+use App\Models\FeeType;
 use App\Models\LicenseCategory;
 use App\Models\LicenseCategoryWiseFeeType;
 use App\Models\LicenseSubCategory;
@@ -20,7 +21,14 @@ class ReportFive extends Component
             'categories' => LicenseCategory::all(),
             'sub_categories' => LicenseSubCategory::all(),
             'operators' => Operator::where('category_id', $this->category)->where('sub_category_id', $this->sub_category)->get(),
-            'operator_model' => Operator::find($this->operator) ?? null
+            'operator_model' => Operator::find($this->operator) ?? null,
+            'fee_types' => FeeType::where(function ($query) {
+                if ($this->category && $this->sub_category) {
+                    $query->where('category_id', $this->category)->where('sub_category_id', $this->sub_category)->get();
+                } else {
+                    $query->where('id', 0);
+                }
+            })->get()
         ])->extends('layouts.backend.app', ['title' => 'Revenue Sharing Statement'])->section('content');
     }
 

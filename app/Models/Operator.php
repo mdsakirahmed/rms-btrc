@@ -37,7 +37,7 @@ class Operator extends Model
     public function late_fee_amount_by_fee_type($fee_type_id){
         $return_value = 0;
         foreach ($this->fee_type_wise_periods($fee_type_id) as $period){
-            $return_value += round((((($period->total_receivable / 100) * $this->category->category_wise_fees()->where('fee_type_id', $fee_type_id)->first()->late_fee) ) / 365) * (abs(Carbon::now()->diffInDays($period->period_schedule_date, false))));
+            $return_value += round((((($period->total_receivable / 100) * $this->category->fee_types()->find($fee_type_id)->late_fee) ) / 365) * (abs(Carbon::now()->diffInDays($period->period_schedule_date, false))));
         }
         return $return_value;
     }
@@ -45,7 +45,7 @@ class Operator extends Model
     public function vat_amount_by_fee_type($fee_type_id){
         $return_value = 0;
         foreach ($this->fee_type_wise_periods($fee_type_id) as $period){
-            $return_value += round(($period->total_receivable / 100) * $this->category->category_wise_fees()->where('fee_type_id', $fee_type_id)->first()->vat);
+            $return_value += round(($period->total_receivable / 100) * $this->category->fee_types()->find($fee_type_id)->vat);
         }
         return $return_value;
     }

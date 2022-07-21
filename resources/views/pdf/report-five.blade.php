@@ -18,40 +18,40 @@
         </thead>
         <tbody>
         @php $total_receivable = 0; $total_late_fee = 0; $total_vat = 0; $total_of_total = 0; @endphp
-        @foreach($operator_model->category->category_wise_fees as $fee_type)
+        @foreach($operator_model->category->fee_types as $fee_type)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $fee_type->fee_type->name }}</td>
+                <td>{{ $fee_type->name }}</td>
                 <td>
-                    @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                    @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ $period->period_label }} <br>
                     @endforeach
                     <br> <b style="border: 2px solid green; padding: 3%;">{{ $loop->iteration }}. Sub-Total</b>
                 </td>
                 <td style="text-align: right;">
-                    @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                    @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ money_format_india($period->total_receivable) }} <br>
                     @endforeach
                     <br>
-                   <b style="border: 2px solid green; padding: 3%;">{{ collect(round($operator_model->fee_type_wise_periods($fee_type->fee_type_id)->sum('total_receivable'))) }}</b>
-                        @php $total_receivable += $operator_model->fee_type_wise_periods($fee_type->fee_type_id)->sum('total_receivable'); @endphp
+                   <b style="border: 2px solid green; padding: 3%;">{{ collect(round($operator_model->fee_type_wise_periods($fee_type->id)->sum('total_receivable'))) }}</b>
+                        @php $total_receivable += $operator_model->fee_type_wise_periods($fee_type->id)->sum('total_receivable'); @endphp
                 </td>
                 <td>
-                    @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                    @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{  date('d-n-Y', strtotime($period->period_schedule_date)) ?? 'Date Not Found'  }} <br>
                     @endforeach
                     <br>
                     <b style="padding: 3%;">---</b>
                 </td>
                 <td>
-                    @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                    @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ date('d/m/Y') }} <br>
                     @endforeach
                     <br>
                     <b style="padding: 3%;">---</b>
                 </td>
                 <td style="text-align: right;">
-                    @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                    @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)) }}
                         <br>
                     @endforeach
@@ -59,31 +59,31 @@
                     <b style="padding: 3%;">---</b>
                 </td>
                 <td style="text-align: right;">
-                    @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                    @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ money_format_india(round((((($period->total_receivable / 100) * $fee_type->late_fee) ) / 365) * abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)))) }}
                         <br>
                     @endforeach
                     <br>
-                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->late_fee_amount_by_fee_type($fee_type->fee_type_id))) }} </b>
-                        @php $total_late_fee += round($operator_model->late_fee_amount_by_fee_type($fee_type->fee_type_id)); @endphp
+                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->late_fee_amount_by_fee_type($fee_type->id))) }} </b>
+                        @php $total_late_fee += round($operator_model->late_fee_amount_by_fee_type($fee_type->id)); @endphp
                 </td>
                 <td style="text-align: right;">
-                    @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                    @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ money_format_india(round(($period->total_receivable / 100) * $fee_type->vat)) }}
                         <br>
                     @endforeach
                     <br>
-                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->vat_amount_by_fee_type($fee_type->fee_type_id))) }} </b>
-                        @php $total_vat += round($operator_model->vat_amount_by_fee_type($fee_type->fee_type_id)); @endphp
+                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->vat_amount_by_fee_type($fee_type->id))) }} </b>
+                        @php $total_vat += round($operator_model->vat_amount_by_fee_type($fee_type->id)); @endphp
                 </td>
                 <td style="text-align: right;">
-                    @foreach($operator_model->fee_type_wise_periods($fee_type->fee_type_id) as $period)
+                    @foreach($operator_model->fee_type_wise_periods($fee_type->id) as $period)
                         {{ money_format_india($period->total_receivable + round(($period->total_receivable / 100) * $fee_type->vat) + round((((($period->total_receivable / 100) * $fee_type->late_fee) ) / 365) * abs(Carbon\Carbon::now()->diffInDays($period->period_schedule_date, false)))) }}
                         <br>
                     @endforeach
                     <br>
-                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->fee_type_id))) }} </b>
-                        @php $total_of_total += round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->fee_type_id)); @endphp
+                    <b style="border: 2px solid green; padding: 3%;"> {{ money_format_india(round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->id))) }} </b>
+                        @php $total_of_total += round($operator_model->sum_of_receivable_vat_late_fee_amount_by_fee_type($fee_type->id)); @endphp
                 </td>
             </tr>
         @endforeach

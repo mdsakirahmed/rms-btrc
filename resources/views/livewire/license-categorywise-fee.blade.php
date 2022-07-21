@@ -39,7 +39,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($category_wise_fees as $category_wise_fee)
+                                @foreach ($fee_types as $category_wise_fee)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category_wise_fee->fee_type->name ?? 'Not found' }}</td>
